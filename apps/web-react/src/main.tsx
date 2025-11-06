@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import App from "./App";
@@ -36,9 +37,11 @@ async function bootstrap() {
   await enableMocksIfPossible();
 
   ReactDOM.createRoot(document.getElementById("root")!).render(
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   );
 }
 
