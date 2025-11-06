@@ -1,7 +1,0 @@
-{
-  "eslint.workingDirectories": [
-    { "directory": "apps/web-react", "changeProcessCWD": true },
-    { "directory": "apps/docs", "changeProcessCWD": true },
-    { "directory": ".", "changeProcessCWD": true }
-  ]
-}

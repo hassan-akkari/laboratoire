@@ -1,0 +1,16 @@
+{
+  "eslint.useFlatConfig": false,
+  "eslint.workingDirectories": [
+    { "pattern": "apps/*", "changeProcessCWD": true },
+    { "directory": ".", "changeProcessCWD": true }
+  ],
+  "eslint.options": {
+    "overrideConfigFile": "${workspaceFolder}/.eslintrc.cjs"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}

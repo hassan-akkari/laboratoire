@@ -2,11 +2,11 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  // ⬇️ NIENTE "project" QUI AL ROOT
+  // ⬇️ niente "project" qui al root
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
-    tsconfigRootDir: __dirname, // sicurezza a livello root
+    tsconfigRootDir: __dirname,
   },
   plugins: ["@typescript-eslint", "react"],
   extends: [
@@ -18,9 +18,8 @@ module.exports = {
   overrides: [
     // WEB-REACT (type-aware)
     {
-      "files": ["apps/web-react/**/*.{ts,tsx}"],
+      files: ["apps/web-react/**/*.{ts,tsx}"],
       parserOptions: {
-        // ⬇️ qui sì: progetto specifico dell’app
         project: [
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
@@ -28,25 +27,33 @@ module.exports = {
         tsconfigRootDir: __dirname,
       },
       settings: { react: { version: "detect" } },
-      rules: {},
+      rules: {
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+      },
     },
     // DOCS (type-aware)
     {
-      "files": ["apps/docs/**/*.{ts,tsx}"],
+      files: ["apps/docs/**/*.{ts,tsx}"],
       parserOptions: {
         project: ["apps/docs/tsconfig.json"],
         tsconfigRootDir: __dirname,
       },
       settings: { react: { version: "detect" } },
-      rules: {},
-    },
-    // opzionale: se hai file TS “di root” (scripts, ecc.)
-    {
-      "files": ["*.ts", "*.tsx"],
-      parserOptions: {
-        project: null, // lint “non type-aware” per i TS sparsi al root
-        tsconfigRootDir: __dirname,
+      rules: {
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
       },
+    },
+    // opzionale: TS “di root” (non type-aware, nessun `project`)
+    {
+      files: ["*.ts", "*.tsx"],
+    },
+    // opzionale: Node per config/scripts
+    {
+      files: ["**/*.{cjs,js,ts,mjs}"],
+      excludedFiles: ["apps/**/*"],
+      env: { node: true, es2022: true },
     },
   ],
 };

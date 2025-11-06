@@ -1,0 +1,462 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #080808;
+    color: #decbc6;
+}
+
+#header {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    padding: 10px 10%;
+    /*(10px) per sopra e sotto, mentre (10%) per destra e sinistra*/
+}
+
+nav {
+    display: flex;
+    /* flex per averli accanto, che in default sta a capo */
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.logo {
+    width: 140px;
+}
+
+nav ul li {
+    display: inline-block;
+    /* per averli nella stessa riga */
+    list-style: none;
+    margin: 10px 20px;
+    /* (10px) per sopra e sotto, mentre (20px) per destra e sinistra */
+}
+
+nav ul li a {
+    color: #decbc6;
+    text-decoration: none;
+    font-size: 18px;
+    position: relative;
+}
+
+nav ul li a::after {
+    content: "";
+    width: 0%;
+    /* questo serve per dopo, quando l'hover si attiva, entra in funtione dopo */
+    height: 3px;
+    background: #4a4e69;
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    transition: 0.6s;
+    border-radius: 15px;
+}
+
+nav ul li a:hover::after {
+    /* qua richiama quel che deve succedere appena fa l'hover */
+    width: 100%;
+}
+
+.header-text {
+    margin-top: 20%;
+    font-size: 30px;
+}
+
+.header-text h1 {
+    font-size: 60px;
+    margin-top: 20px;
+}
+
+span {
+    color: #4a4e69;
+}
+
+/*---------------- ABOUT ----------------*/
+
+#about {
+    padding: 80px 0;
+    color: #decbc6;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.about-col-1 {
+    flex-basis: 30%;
+}
+
+.about-col-1 img {
+    width: 80%;
+    border-radius: 20px;
+    align-content: center;
+    align-items: center;
+
+}
+
+.about-col-2 {
+    flex-basis: 50%;
+    /* cosi questa colonna prende il 60% di spazio della riga, mentre l'altra prende 35%, come scritto sopra */
+}
+
+.sub-title {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+.tab-title {
+    display: flex;
+    margin: 20px 0 40px;
+}
+
+.tab-links {
+    margin-right: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab-links::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    background: #4a4e69;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    border-radius: 20px;
+    transition: 0.6s;
+}
+
+.tab-links.active-link::after {
+    width: 50%;
+}
+
+.tab-contents ul li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.tab-contents ul li span {
+    color: #726d81;
+    font-size: 14px;
+}
+
+.tab-contents {
+    display: none;
+    /* Per renderlo invisibile*/
+}
+
+.tab-contents.active-tab {
+    display: block;
+    /* Per renderlo visibile */
+}
+
+/*---------------- SERVIZI ----------------*/
+
+#services {
+    padding: 100px 0;
+}
+
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 40px;
+    margin-top: 50px;
+}
+
+.services-list div {
+    background: #262626;
+    padding: 40px;
+    font-size: 13px;
+    font-weight: 300;
+    border-radius: 15px;
+    transition: 0.6s;
+}
+
+.services-list div i {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.services-list div h2 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.services-list a {
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 15px;
+    display: inline-block;
+    color: #decbc6;
+}
+
+.services-list div:hover {
+    background: #4a4e69;
+    transform: translateY(-10px);
+}
+
+/*------------- Portfolio -------------*/
+
+#portfolio {
+    padding: 50px 0;
+}
+
+.work-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 40px;
+    margin-top: 50px;
+}
+
+.work {
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.layer {
+    width: 100%;
+    height: 0;
+    background: linear-gradient(#4a4e693d, #4a4e69);
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    transition: ease-in-out 0.6s;
+}
+
+
+.layer h3 {
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.layer a {
+    margin-top: 20px;
+    color: #4a4e69;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 35px;
+    background: #decbc6;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.work img {
+    transition: 0.7s;
+    width: 100%;
+    border-radius: 20px;
+    display: block;
+}
+
+.work:hover img {
+    transform: scale(1.1);
+}
+
+.work:hover .layer {
+    height: 100%;
+}
+
+.btn {
+    display: block;
+    margin: 50px auto;
+    width: fit-content;
+    border: 1px solid #4a4e69;
+    padding: 14px 50px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #decbc6;
+    transition: 0.7s;
+}
+
+.btn:hover {
+    background: #4a4e69;
+}
+
+/*------------- Contact -------------*/
+
+
+.contact-left {
+    flex-basis: 35%;
+}
+
+.contact-right {
+    flex-basis: 60%;
+}
+
+.contact-left p {
+    margin-top: 30px;
+}
+
+.contact-left p i {
+    color: #4a4e69;
+    margin-right: 15px;
+    font-size: 25px;
+}
+
+.social-icons {
+    margin-top: 30px;
+}
+
+.social-icons a {
+    text-decoration: none;
+    font-size: 30px;
+    margin-right: 15px;
+    color: #ababab;
+    display: inline-block;
+    transition: 0.6s;
+}
+
+.social-icons a:hover {
+    color: #4a4e69;
+    transform: translateY(-5px);
+}
+
+.btn.btn2 {
+    display: inline-block;
+    background: #4a4e69;
+    /*FORSE LO LEVO CHE PRIMA AVEVA L HOVER EFFECT*/
+}
+
+.contact-right form {
+    width: 100%;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: #262626;
+    padding: 16px;
+    margin: 15px 0;
+    color: #decbc6;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+form .btn2 {
+    padding: 14px 60px;
+    font-size: 18px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.copyright {
+    width: 100%;
+    text-align: center;
+    padding: 25px 0;
+    background: #262626;
+    font-weight: 300;
+    margin-top: 20px;
+}
+
+/*------------- css per schermi piccoli -------------*/
+
+nav .fa-solid {
+    display: none;
+}
+
+@media only screen and (max-width: 639px) {
+    .header-text {
+        margin-top: 100%;
+        font-size: 16px;
+    }
+
+    .header-text h1 {
+        font-size: 30px;
+    }
+
+    nav .fa-solid {
+        display: block;
+        font-size: 25px;
+    }
+
+    nav ul {
+        background: #4a4e69;
+        position: fixed;
+        top: 0;
+        right: -200px;
+        width: 200px;
+        height: 100vh;
+        padding-top: 50px;
+        z-index: 2;
+        transition: 0.6s;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 25px;
+    }
+
+    nav ul .fa-solid {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        cursor: pointer;
+    }
+
+    .sub-title {
+        font-size: 40px;
+    }
+
+    .about-col-1,
+    .about-col-2 {
+        flex-basis: 100%;
+    }
+
+    .about-col-1 {
+        margin-bottom: 30px;
+    }
+
+    .about-col-2 {
+        font-size: 14px;
+    }
+
+    .tab-links {
+        font-size: 16px;
+        margin-right: 20px;
+    }
+
+    .contact-left,
+    .contact-right {
+        flex-basis: 100%;
+    }
+}
+
+#msg {
+    color: #61b752;
+    margin-top: -40px;
+    display: block;
+}
