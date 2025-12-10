@@ -44,7 +44,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
-          external_repository: Dark-Ill-Demon/Dark-Ill-Demon.github.io
+          external_repository: Dark-lIl-Demon/Dark-lIl-Demon.github.io
           publish_branch: master
           publish_dir: dist-pages
           commit_message: "publish from laboratoire @ ${{ github.sha }}"
