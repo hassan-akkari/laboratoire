@@ -1,22 +1,26 @@
 {
   "name": "laboratoire",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "pnpm -F docs dev",
+    "dev:docs": "pnpm -F docs dev",
+    "dev:react": "pnpm -F web-react dev",
+    "dev:all": "concurrently -n DOCS,REACT -c green,cyan \"pnpm -F docs dev\" \"pnpm -F web-react dev\"",
+    "build": "pnpm -F docs build && pnpm -F web-react build",
+    "build:docs": "pnpm -F docs build",
+    "build:react": "pnpm -F web-react build",
+    "preview": "pnpm -F docs preview",
+    "preview:docs": "pnpm -F docs preview",
+    "preview:react": "pnpm -F web-react preview"
+  },
   "devDependencies": {
     "@types/node": "^24.10.0",
     "turbo": "^2.6.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "concurrently": "^9.0.0"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@types/react-router-dom": "^5.3.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.5"
   }

@@ -1,0 +1,50 @@
+name: Deploy to user-site (docs=/, react=/react)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm -w install
+      - run: pnpm -F docs build
+      - run: pnpm -F web-react build
+
+      - name: Stage dist (docs → /, react → /react)
+        run: |
+          rm -rf dist-pages
+          mkdir -p dist-pages
+          cp -r apps/docs/dist/* dist-pages/
+          # SPA fallback per docs
+          cp dist-pages/index.html dist-pages/404.html || true
+
+          mkdir -p dist-pages/react
+          cp -r apps/web-react/dist/* dist-pages/react/
+          # SPA fallback per /react
+          cp dist-pages/react/index.html dist-pages/react/404.html || true
+
+          # Evita problemi Jekyll (cartelle con underscore)
+          echo > dist-pages/.nojekyll
+
+      - name: Publish to user-site repository
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+          external_repository: Dark-Ill-Demon/Dark-Ill-Demon.github.io
+          publish_branch: master
+          publish_dir: dist-pages
+          commit_message: "publish from laboratoire @ ${{ github.sha }}"
