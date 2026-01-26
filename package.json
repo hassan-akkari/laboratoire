@@ -2,6 +2,10 @@
   "name": "laboratoire",
   "private": true,
   "type": "commonjs",
+  "engines": {
+    "node": ">=24 <25",
+    "pnpm": ">=10"
+  },
   "scripts": {
     "dev": "pnpm -F docs dev",
     "dev:docs": "pnpm -F docs dev",

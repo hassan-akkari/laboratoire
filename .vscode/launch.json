@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Dev: docs (Vite)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm -F docs dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Dev: web-react (Vite)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm -F web-react dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Dev: all",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm dev:all",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

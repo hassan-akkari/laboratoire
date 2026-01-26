@@ -36,7 +36,10 @@ module.exports = {
     {
       files: ["apps/docs/**/*.{ts,tsx}"],
       parserOptions: {
-        project: ["apps/docs/tsconfig.json"],
+        project: [
+          "apps/docs/tsconfig.app.json",
+          "apps/docs/tsconfig.node.json",
+        ],
         tsconfigRootDir: __dirname,
       },
       settings: { react: { version: "detect" } },
