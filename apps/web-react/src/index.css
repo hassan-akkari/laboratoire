@@ -1,2 +1,32 @@
-﻿@import 'tailwindcss';
-html,body,#root{height:100%}
+@import "tailwindcss";
+@plugin "./hero.ts";
+@source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --app-bg: #f8f7f4;
+    --app-fg: #1b1a17;
+    --app-muted: #6b6b6b;
+    --app-card: #ffffff;
+    --app-border: #e6e3df;
+    --app-accent: #1f6feb;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --app-bg: #0f1115;
+    --app-fg: #eceff4;
+    --app-muted: #9aa0a6;
+    --app-card: #151922;
+    --app-border: #2a2f3a;
+    --app-accent: #7aa2ff;
+  }
+}

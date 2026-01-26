@@ -1,0 +1,7 @@
+**/node_modules/
+**/.pnpm-store/
+**/.turbo/
+**/.vite/
+**/dist/
+**/dist-pages/
+*.log
