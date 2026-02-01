@@ -4,7 +4,7 @@ export type AppInputProps = InputProps;
 
 export function AppInput({
   color = "primary",
-  radius = "lg",
+  radius = "sm",
   variant = "bordered",
   labelPlacement = "inside",
   fullWidth = true,

@@ -4,7 +4,7 @@ export type AppTextareaProps = TextAreaProps;
 
 export function AppTextarea({
   color = "primary",
-  radius = "lg",
+  radius = "sm",
   variant = "bordered",
   labelPlacement = "inside",
   fullWidth = true,
