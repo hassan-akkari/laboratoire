@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+@plugin "./hero.ts";
+@source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/ui/src/**/*.{js,ts,jsx,tsx}";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
+  }
+
+  :root[data-theme="light"],
+  .light {
+    color-scheme: light;
+    --app-bg: #f8f7f4;
+    --app-fg: #1b1a17;
+    --app-muted: #6b6b6b;
+    --app-card: #ffffff;
+    --app-border: #e6e3df;
+    --app-accent: #1f6feb;
+    --app-accent-soft: rgba(31, 111, 235, 0.2);
+  }
+
+  :root[data-theme="dark"],
+  .dark {
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
+  }
+}

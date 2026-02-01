@@ -19,14 +19,14 @@
     "preview:react": "pnpm -F web-react preview"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.9",
     "concurrently": "^9.2.1",
-    "turbo": "^2.6.0",
+    "turbo": "^2.8.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.9.5"
+    "react-router-dom": "^7.13.0"
   },
   "packageManager": "pnpm@10.0.0"
 }

@@ -3,8 +3,8 @@
 Monorepo pnpm/turbo con due app Vite React (docs e web-react).
 
 ## Stato attuale (2026-01-26)
-- `apps/docs`: portfolio statico con assets in `public/image` e `public/pdf`
-- `apps/web-react`: Tailwind v4 + HeroUI + Redux Toolkit/RTK Query + MSW (mock `/api/ping`), tema light/dark
+- `apps/docs`: portfolio statico (Tailwind v4 + HeroUI wiring pronto, preflight off)
+- `apps/web-react`: Tailwind v4 + HeroUI v2 + Redux Toolkit/RTK Query + MSW (mock `/api/ping`), tema light/dark
 - Deploy: workflow GitHub Pages pubblica `docs` su `/` e `web-react` su `/react`
 
 ## Struttura

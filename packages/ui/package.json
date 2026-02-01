@@ -1,0 +1,25 @@
+{
+  "name": "@laboratoire/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "clsx": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@heroui/react": "^2.8.8",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

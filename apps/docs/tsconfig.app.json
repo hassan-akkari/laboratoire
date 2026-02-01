@@ -5,8 +5,12 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "types": ["vite/client"],
+    "types": ["react", "react-dom"],
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@laboratoire/ui": ["../../packages/ui/src/index.ts"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
