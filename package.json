@@ -10,23 +10,34 @@
     "dev": "pnpm -F docs dev",
     "dev:docs": "pnpm -F docs dev",
     "dev:react": "pnpm -F web-react dev",
-    "dev:all": "concurrently -n DOCS,REACT -c green,cyan \"pnpm -F docs dev\" \"pnpm -F web-react dev\"",
-    "build": "pnpm -F docs build && pnpm -F web-react build",
+    "dev:all": "concurrently -n UI,SB,DOCS,REACT -c magenta,yellow,green,cyan \"pnpm -F @laboratoire/ui dev\" \"pnpm -F @laboratoire/ui storybook\" \"pnpm -F docs dev\" \"pnpm -F web-react dev\"",
+    "build": "pnpm -F @laboratoire/ui build && pnpm -F docs build && pnpm -F web-react build",
     "build:docs": "pnpm -F docs build",
     "build:react": "pnpm -F web-react build",
+    "lint": "pnpm -F @laboratoire/ui lint && pnpm -F docs lint && pnpm -F web-react lint",
     "preview": "pnpm -F docs preview",
     "preview:docs": "pnpm -F docs preview",
     "preview:react": "pnpm -F web-react preview"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/node": "^24.10.9",
     "concurrently": "^9.2.1",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.0",
+    "globals": "^17.3.0",
     "turbo": "^2.8.1",
+    "typescript-eslint": "^8.54.0",
     "typescript": "^5.9.3"
   },
-  "dependencies": {
-    "react-redux": "^9.2.0",
-    "react-router-dom": "^7.13.0"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@heroui/shared-utils",
+      "esbuild",
+      "msw"
+    ]
   },
   "packageManager": "pnpm@10.0.0"
 }

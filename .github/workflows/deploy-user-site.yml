@@ -21,7 +21,8 @@ jobs:
           node-version: 24
           cache: pnpm
 
-      - run: pnpm -w install --no-frozen-lockfile
+      - run: pnpm -w install --frozen-lockfile
+      - run: pnpm -F @laboratoire/ui build
       - run: pnpm -F docs build
       - run: pnpm -F web-react build
       - run: pnpm -v

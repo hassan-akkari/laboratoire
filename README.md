@@ -10,6 +10,7 @@ Monorepo pnpm/turbo con due app Vite React (docs e web-react).
 ## Struttura
 - `apps/docs` (sito/portfolio)
 - `apps/web-react` (app base con store + mock API)
+- `packages/ui` (libreria componenti + Storybook)
 
 ## Requisiti
 - Node 24+
@@ -25,9 +26,26 @@ pnpm install
 pnpm dev        # alias di docs
 pnpm dev:docs   # solo docs
 pnpm dev:react  # solo web-react
-pnpm dev:all    # entrambi
+pnpm dev:all    # UI watch + Storybook + docs + web-react
 ```
 Di default Vite parte su `http://localhost:5173` (se occupata usa la successiva).
+
+## UI (package-first) e Storybook
+- `packages/ui` è un pacchetto vero: builda in `dist/` e le app lo importano come dipendenza.
+- Storybook vive in `packages/ui`:
+  - `pnpm -F @laboratoire/ui storybook`
+  - `pnpm -F @laboratoire/ui build-storybook`
+
+### Soft-link in dev (per velocità)
+In sviluppo locale, le app possono risolvere `@laboratoire/ui` direttamente da `src` per avere HMR.
+Questo è automatico quando si avvia Vite in dev.
+
+Se vuoi forzarlo manualmente:
+```bash
+VITE_UI_SOURCE=1 pnpm dev:docs
+VITE_UI_SOURCE=1 pnpm dev:react
+```
+In produzione (`pnpm build`) l'alias viene ignorato e si usa sempre `dist/`.
 
 ## Build / Preview
 ```bash
