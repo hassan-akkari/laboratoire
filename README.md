@@ -16,8 +16,14 @@ Monorepo pnpm/turbo con due app Vite React (docs e web-react).
 - Node 24+
 - pnpm 10+
 
+## Note Windows (best practice)
+- Usa un volume **NTFS**. Su exFAT i symlink non sono supportati e pnpm/workspaces può fallire.
+- Se vedi `Debugger attached`, apri un terminale normale (non Debug Terminal) oppure rimuovi `NODE_OPTIONS=--inspect`.
+
 ## Installazione
 ```bash
+corepack enable
+corepack prepare pnpm@10.0.0 --activate
 pnpm install
 ```
 
