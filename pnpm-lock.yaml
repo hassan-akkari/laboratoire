@@ -218,6 +218,9 @@ importers:
       '@storybook/react-vite':
         specifier: 10.2.4
         version: 10.2.4(esbuild@0.27.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@4.57.1)(storybook@10.2.4(@testing-library/dom@10.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2))
+      '@tailwindcss/postcss':
+        specifier: ^4.1.18
+        version: 4.1.18
       '@types/react':
         specifier: ^19.2.10
         version: 19.2.10
@@ -239,6 +242,9 @@ importers:
       storybook:
         specifier: 10.2.4
         version: 10.2.4(@testing-library/dom@10.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      tailwindcss:
+        specifier: ^4.1.18
+        version: 4.1.18
 
 packages:
 
