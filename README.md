@@ -24,7 +24,7 @@ Monorepo pnpm/turbo con due app Vite React (docs e web-react).
 ```bash
 corepack enable
 corepack prepare pnpm@10.0.0 --activate
-pnpm install
+pnpm -w install --frozen-lockfile
 ```
 
 ## Avvio rapido
@@ -51,7 +51,16 @@ Se vuoi forzarlo manualmente:
 VITE_UI_SOURCE=1 pnpm dev:docs
 VITE_UI_SOURCE=1 pnpm dev:react
 ```
-In produzione (`pnpm build`) l'alias viene ignorato e si usa sempre `dist/`.
+In produzione (`pnpm build`) si usa sempre `packages/ui/dist` (package-first).
+Se `dist` manca, Vite mostra un errore esplicito con il comando da eseguire.
+
+## Quality gates
+```bash
+pnpm check      # lint + typecheck + test
+pnpm lint
+pnpm typecheck
+pnpm test
+```
 
 ## Build / Preview
 ```bash
@@ -67,4 +76,5 @@ pnpm preview:react
 ## Deploy GitHub Pages
 Workflow: `.github/workflows/deploy-user-site.yml`
 - richiede il secret `GH_PAGES_TOKEN`
+- esegue `pnpm check` prima della build/deploy
 - pubblica su `Dark-lIl-Demon/Dark-lIl-Demon.github.io`

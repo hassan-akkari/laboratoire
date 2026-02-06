@@ -1,23 +1,13 @@
 import { useMemo, useState } from "react";
-import { z } from "zod";
 import { AppButton, AppInput, AppTextarea } from "@laboratoire/ui";
-
-const contactSchema = z.object({
-  name: z.string().min(2, "Name is too short."),
-  email: z.string().email("Email is not valid."),
-  message: z.string().min(10, "Message should be at least 10 characters."),
-});
-
-type ContactValues = z.infer<typeof contactSchema>;
-
-const initialValues: ContactValues = {
-  name: "",
-  email: "",
-  message: "",
-};
+import {
+  contactSchema,
+  initialContactValues,
+  type ContactValues,
+} from "./contactForm.schema";
 
 export default function ContactForm() {
-  const [values, setValues] = useState<ContactValues>(initialValues);
+  const [values, setValues] = useState<ContactValues>(initialContactValues);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>(
     {}
   );
@@ -52,7 +42,7 @@ export default function ContactForm() {
 
     setErrors({});
     setStatus("Thanks! I will get back to you.");
-    setValues(initialValues);
+    setValues(initialContactValues);
   };
 
   return (

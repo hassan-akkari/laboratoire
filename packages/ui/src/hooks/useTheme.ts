@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-
-export type ThemeMode = "dark" | "light";
-
-const THEME_KEY = "laboratoire-theme";
+import {
+  THEME_KEY,
+  resolveThemeMode,
+  type ThemeMode,
+} from "./themeUtils";
 
 export function useTheme(defaultTheme: ThemeMode = "dark") {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window === "undefined") {
       return defaultTheme;
     }
-    const stored = localStorage.getItem(THEME_KEY);
-    return stored === "dark" || stored === "light" ? stored : defaultTheme;
+
+    return resolveThemeMode(localStorage.getItem(THEME_KEY), defaultTheme);
   });
 
   useEffect(() => {

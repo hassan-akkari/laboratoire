@@ -22,9 +22,8 @@ jobs:
           cache: pnpm
 
       - run: pnpm -w install --frozen-lockfile
-      - run: pnpm -F @laboratoire/ui build
-      - run: pnpm -F docs build
-      - run: pnpm -F web-react build
+      - run: pnpm check
+      - run: pnpm build
       - run: pnpm -v
 
       - name: Stage dist (docs → /, react → /react)

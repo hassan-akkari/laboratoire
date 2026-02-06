@@ -1,7 +1,8 @@
 export { default as ThemeToggle } from "./components/ThemeToggle";
 export { MoonIcon, SunIcon } from "./icons/ThemeIcons";
 export { useTheme } from "./hooks/useTheme";
-export type { ThemeMode } from "./hooks/useTheme";
+export { resolveThemeMode } from "./hooks/themeUtils";
+export type { ThemeMode } from "./hooks/themeUtils";
 export { Input, InputGroup } from "./components/tw-ui/input";
 export { Textarea } from "./components/tw-ui/textarea";
 export { AppButton } from "./components/heroui/AppButton";

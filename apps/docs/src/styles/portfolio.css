@@ -47,6 +47,23 @@ nav ul {
     gap: 16px;
 }
 
+.nav-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--app-fg);
+    cursor: pointer;
+}
+
+.nav-icon-button:focus-visible {
+    outline: 2px solid var(--app-accent);
+    outline-offset: 4px;
+    border-radius: 6px;
+}
+
 .nav-theme-toggle {
     color: var(--app-fg);
 }
@@ -118,7 +135,7 @@ nav ul li a:hover::after {
     margin-top: 20px;
 }
 
-span {
+.header-text span {
     color: var(--app-accent);
 }
 

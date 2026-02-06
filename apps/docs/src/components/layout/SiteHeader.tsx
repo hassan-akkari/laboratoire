@@ -11,7 +11,7 @@ export default function SiteHeader() {
     <div id="header">
       <Container>
         <nav>
-          <img className="logo" src="favicon.png" alt="" />
+          <img className="logo" src="favicon.png" alt="Laboratoire logo" />
           <ul
             id="sidemenu"
             className={menuOpen ? "open" : ""}
@@ -32,15 +32,27 @@ export default function SiteHeader() {
             <li>
               <a href="#contact">Contact me</a>
             </li>
-            <i className="fa-solid fa-xmark">
+            <button
+              type="button"
+              className="fa-solid fa-xmark nav-icon-button"
+              onClick={() => toggleMenu(false)}
+              aria-label="Close navigation menu"
+            >
               <FaTimes />
-            </i>
+            </button>
           </ul>
           <div className="nav-actions">
             <ThemeToggle />
-            <i className="fa-solid fa-bars" onClick={() => toggleMenu(true)}>
+            <button
+              type="button"
+              className="fa-solid fa-bars nav-icon-button"
+              onClick={() => toggleMenu(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={menuOpen}
+              aria-controls="sidemenu"
+            >
               <FaBars />
-            </i>
+            </button>
           </div>
         </nav>
 
