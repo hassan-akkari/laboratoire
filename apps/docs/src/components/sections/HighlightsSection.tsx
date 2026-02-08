@@ -3,11 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { Messages } from "../../i18n/messages";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
-import {
-  fadeUpVariants,
-  getInViewReveal,
-  staggerChildrenVariants,
-} from "../ui/motionPresets";
+import { easeOutQuart } from "../ui/motionPresets";
 
 type HighlightsSectionProps = {
   highlights: string[];
@@ -19,14 +15,24 @@ export default function HighlightsSection({
   labels,
 }: HighlightsSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
+  const revealTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.42, ease: easeOutQuart };
+  const revealProps = reduceMotion
+    ? { initial: false as const }
+    : {
+        initial: { y: 12 },
+        whileInView: { y: 0 },
+        viewport: { once: true, amount: 0.12 },
+      };
 
   return (
     <Section id="highlights">
       <Container>
         <motion.div
           className="section-heading"
-          variants={fadeUpVariants}
-          {...getInViewReveal(reduceMotion, 0.28)}
+          {...revealProps}
+          transition={revealTransition}
         >
           <h2 className="sub-title">{labels.title}</h2>
           <p className="section-subtitle">{labels.subtitle}</p>
@@ -34,15 +40,22 @@ export default function HighlightsSection({
 
         <motion.div
           className="highlights-grid"
-          variants={staggerChildrenVariants}
-          {...getInViewReveal(reduceMotion, 0.16)}
+          {...revealProps}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: 0.48, delay: 0.05, ease: easeOutQuart }
+          }
         >
           {highlights.map((item, index) => (
             <motion.article
-              key={item}
+              key={`${index}-${item.slice(0, 24)}`}
               className="highlight-card"
-              variants={fadeUpVariants}
               whileHover={reduceMotion ? undefined : { y: -4 }}
+              initial={reduceMotion ? false : { y: 10 }}
+              whileInView={reduceMotion ? undefined : { y: 0 }}
+              viewport={reduceMotion ? undefined : { once: true, amount: 0.12 }}
+              transition={revealTransition}
             >
               <span className="highlight-icon" aria-hidden="true">
                 {index % 2 === 0 ? <FaBolt /> : <FaCheckCircle />}
