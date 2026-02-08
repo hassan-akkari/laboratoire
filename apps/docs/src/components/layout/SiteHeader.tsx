@@ -1,16 +1,47 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { motion, useReducedMotion } from "framer-motion";
 import Container from "./Container";
-import { ThemeToggle } from "@laboratoire/ui";
+import { AppButton, ThemeToggle } from "@laboratoire/ui";
+import type { ProfileContact, PortfolioContent } from "../../content/portfolioContent";
+import type { Locale } from "../../i18n/locale";
+import type { Messages } from "../../i18n/messages";
+import LocaleSwitcher from "../ui/LocaleSwitcher";
+import { Link } from "react-router-dom";
+import {
+  fadeUpVariants,
+  getMountReveal,
+  staggerChildrenVariants,
+} from "../ui/motionPresets";
 
-export default function SiteHeader() {
+type SiteHeaderProps = {
+  profile: PortfolioContent["profile"];
+  contact: ProfileContact;
+  baseUrl: string;
+  locale: Locale;
+  onLocaleChange: (locale: Locale) => void;
+  labels: Messages;
+};
+
+export default function SiteHeader({
+  profile,
+  contact,
+  baseUrl,
+  locale,
+  onLocaleChange,
+  labels,
+}: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const reduceMotion = Boolean(useReducedMotion());
   const toggleMenu = (open: boolean) => setMenuOpen(open);
 
   return (
     <div id="header">
       <Container>
-        <nav>
+        <motion.nav
+          variants={fadeUpVariants}
+          {...getMountReveal(reduceMotion)}
+        >
           <img className="logo" src="favicon.png" alt="Laboratoire logo" />
           <ul
             id="sidemenu"
@@ -18,19 +49,22 @@ export default function SiteHeader() {
             onClick={() => toggleMenu(false)}
           >
             <li>
-              <a href="#header">Home</a>
+              <a href="#header">{labels.nav.home}</a>
             </li>
             <li>
-              <a href="#about">About me</a>
+              <a href="#about">{labels.nav.about}</a>
             </li>
             <li>
-              <a href="#services">Services</a>
+              <a href="#highlights">{labels.nav.highlights}</a>
             </li>
             <li>
-              <a href="#portfolio">Projects</a>
+              <a href="#portfolio">{labels.nav.projects}</a>
             </li>
             <li>
-              <a href="#contact">Contact me</a>
+              <a href="#contact">{labels.nav.contact}</a>
+            </li>
+            <li>
+              <Link to="/cv">{labels.nav.cv}</Link>
             </li>
             <button
               type="button"
@@ -53,17 +87,55 @@ export default function SiteHeader() {
             >
               <FaBars />
             </button>
+            <LocaleSwitcher
+              locale={locale}
+              onChange={onLocaleChange}
+              labels={labels.locale}
+              className="nav-locale-switcher"
+            />
+            <AppButton
+              as="a"
+              href={`${baseUrl}cv`}
+              size="sm"
+              className="nav-cv-button"
+            >
+              {labels.nav.cv}
+            </AppButton>
           </div>
-        </nav>
+        </motion.nav>
 
-        <div className="header-text">
-          <p>Web Developer</p>
-          <h1>
-            Hi, I'm <span> Hassan </span>
-            <br />
-            Welcome to my website
-          </h1>
-        </div>
+        <motion.div
+          className="header-content"
+          variants={staggerChildrenVariants}
+          {...getMountReveal(reduceMotion)}
+        >
+          <motion.div className="header-text" variants={fadeUpVariants}>
+            <p>{profile.role}</p>
+            <h1>
+              {labels.header.greetingPrefix} <span>{profile.name}</span>
+              <br />
+              {labels.header.headlineSuffix}
+            </h1>
+            <p className="header-lead">{profile.focus}</p>
+            <div className="header-actions">
+              <AppButton as="a" href="#portfolio">
+                {labels.header.viewProjects}
+              </AppButton>
+              <AppButton as="a" href={`mailto:${contact.email}`} variant="bordered">
+                {labels.header.emailMe}
+              </AppButton>
+              <AppButton as="a" href={`${baseUrl}cv`} variant="flat">
+                {labels.nav.cv}
+              </AppButton>
+            </div>
+          </motion.div>
+          <motion.aside className="header-proof" variants={fadeUpVariants}>
+            <p className="header-proof-title">{labels.header.quickProfile}</p>
+            <p>{profile.metric}</p>
+            <p>{profile.location}</p>
+            <p>{profile.philosophy}</p>
+          </motion.aside>
+        </motion.div>
       </Container>
     </div>
   );

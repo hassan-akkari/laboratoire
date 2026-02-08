@@ -53,6 +53,9 @@ importers:
       '@laboratoire/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@reduxjs/toolkit':
+        specifier: ^2.11.2
+        version: 2.11.2(react-redux@9.2.0(@types/react@19.2.10)(react@19.2.4)(redux@5.0.1))(react@19.2.4)
       framer-motion:
         specifier: ^12.29.2
         version: 12.29.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -65,6 +68,12 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.4)
+      react-redux:
+        specifier: ^9.2.0
+        version: 9.2.0(@types/react@19.2.10)(react@19.2.4)(redux@5.0.1)
+      react-router-dom:
+        specifier: ^7.13.0
+        version: 7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       zod:
         specifier: ^4.3.6
         version: 4.3.6

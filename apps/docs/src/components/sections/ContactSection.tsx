@@ -1,58 +1,146 @@
-import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import type { ReactNode } from "react";
+import {
+  FaEnvelope,
+  FaFacebook,
+  FaGithub,
+  FaInstagram,
+  FaLinkedin,
+} from "react-icons/fa";
+import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import ContactForm from "./ContactForm";
+import type { ProfileContact } from "../../content/portfolioContent";
+import type { Messages } from "../../i18n/messages";
+import {
+  fadeUpVariants,
+  getInViewReveal,
+  staggerChildrenVariants,
+} from "../ui/motionPresets";
 
 type ContactSectionProps = {
   baseUrl: string;
+  contact: ProfileContact;
+  labels: Messages["contact"];
 };
 
-export default function ContactSection({ baseUrl }: ContactSectionProps) {
+type SocialLink = {
+  href: string;
+  label: string;
+  icon: ReactNode;
+};
+
+export default function ContactSection({
+  baseUrl,
+  contact,
+  labels,
+}: ContactSectionProps) {
+  const reduceMotion = Boolean(useReducedMotion());
+
+  const socialLinks: SocialLink[] = [
+    {
+      href: contact.github,
+      label: "GitHub",
+      icon: <FaGithub />,
+    },
+    {
+      href: contact.linkedin,
+      label: "LinkedIn",
+      icon: <FaLinkedin />,
+    },
+  ];
+
+  if (contact.instagram) {
+    socialLinks.push({
+      href: contact.instagram,
+      label: "Instagram",
+      icon: <FaInstagram />,
+    });
+  }
+
+  if (contact.facebook) {
+    socialLinks.push({
+      href: contact.facebook,
+      label: "Facebook",
+      icon: <FaFacebook />,
+    });
+  }
+
   return (
     <Section id="contact">
       <Container>
-        <div className="row">
-          <div className="contact-left">
-            <h1 className="sub-title">Contact me</h1>
+        <motion.div
+          className="row"
+          variants={staggerChildrenVariants}
+          {...getInViewReveal(reduceMotion, 0.15)}
+        >
+          <motion.div className="contact-left" variants={fadeUpVariants}>
+            <h1 className="sub-title">{labels.title}</h1>
             <p>
-              <FaEnvelope /> hassan.akkari01@gmail.com
+              <FaEnvelope /> {contact.email}
             </p>
-            <p style={{ fontSize: 13 }}>Number shared when getting emailed.</p>
+            <p className="contact-note">{labels.note}</p>
             <div className="social-icons">
-              <a
-                href="https://www.facebook.com/hassan.akkari.714"
-                aria-label="Facebook"
+              {socialLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  aria-label={item.label}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {item.icon}
+                </a>
+              ))}
+            </div>
+            <div className="contact-cta">
+              <AppButton as="a" href={`mailto:${contact.email}`}>
+                {labels.emailMe}
+              </AppButton>
+              <AppButton
+                as="a"
+                href={contact.github}
+                target="_blank"
+                rel="noreferrer"
+                variant="bordered"
               >
-                <FaFacebook />
-              </a>
-              <a
-                href="https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA=="
-                aria-label="Instagram"
+                {labels.github}
+              </AppButton>
+              <AppButton
+                as="a"
+                href={contact.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                variant="bordered"
               >
-                <FaInstagram />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/hassan-akkari"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedin />
-              </a>
+                {labels.linkedin}
+              </AppButton>
+              {contact.bookCall ? (
+                <AppButton
+                  as="a"
+                  href={contact.bookCall}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="flat"
+                >
+                  {labels.bookCall}
+                </AppButton>
+              ) : null}
             </div>
             <AppButton
               as="a"
-              href={`${baseUrl}pdf/CV-ENG-102025.pdf`}
-              download
-              className="mt-6 w-fit"
+              href={`${baseUrl}cv`}
+              className="contact-resume"
             >
-              Download CV
+              {labels.downloadCv}
             </AppButton>
-          </div>
+          </motion.div>
 
-          <div className="contact-right">
+          <motion.div className="contact-right" variants={fadeUpVariants}>
             <ContactForm />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </Container>
     </Section>
   );

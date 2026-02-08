@@ -1,92 +1,257 @@
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AppButton } from "@laboratoire/ui";
+import {
+  type GithubProfile,
+  type PortfolioContent,
+} from "../../content/portfolioContent";
+import type { Messages } from "../../i18n/messages";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import {
+  fadeUpVariants,
+  getInViewReveal,
+  softFadeVariants,
+  staggerChildrenVariants,
+  tabSwitchVariants,
+} from "../ui/motionPresets";
 
 type AboutSectionProps = {
   baseUrl: string;
+  content: PortfolioContent;
+  githubProfile: GithubProfile | null;
+  isFallbackData: boolean;
+  isRefreshing: boolean;
+  hasGithubError: boolean;
+  labels: Messages;
 };
 
-export default function AboutSection({ baseUrl }: AboutSectionProps) {
+type AboutTab = "stack" | "experience" | "education" | "general";
+
+export default function AboutSection({
+  baseUrl,
+  content,
+  githubProfile,
+  isFallbackData,
+  isRefreshing,
+  hasGithubError,
+  labels,
+}: AboutSectionProps) {
+  const [activeTab, setActiveTab] = useState<AboutTab>("stack");
+  const reduceMotion = Boolean(useReducedMotion());
+  const pillTransition = reduceMotion
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 520, damping: 40, mass: 0.68 };
+
+  const tabLabels: Record<AboutTab, string> = {
+    stack: labels.about.techStack,
+    experience: labels.about.experience,
+    education: labels.about.education,
+    general: labels.about.general,
+  };
+
+  const githubMeta = useMemo(() => {
+    if (!githubProfile) return null;
+
+    const lastUpdate = new Date(githubProfile.updated_at).toLocaleDateString(
+      "en-GB",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+
+    return `${githubProfile.public_repos} repos, ${githubProfile.followers} followers, updated ${lastUpdate}`;
+  }, [githubProfile]);
+
+  const renderTab = () => {
+    switch (activeTab) {
+      case "stack":
+        return (
+          <div className="stack-grid">
+            <article className="stack-card">
+              <h3>{labels.about.daily}</h3>
+              <p>{content.stack.daily.join(" / ")}</p>
+            </article>
+            <article className="stack-card">
+              <h3>{labels.about.comfortable}</h3>
+              <p>{content.stack.comfortable.join(" / ")}</p>
+            </article>
+            <article className="stack-card">
+              <h3>{labels.about.exploring}</h3>
+              <p>{content.stack.exploring.join(" / ")}</p>
+            </article>
+          </div>
+        );
+      case "experience":
+        return (
+          <div className="detail-list">
+            {content.experience.map((item) => (
+              <article key={`${item.company}-${item.start}`} className="detail-card">
+                <h3>{item.role}</h3>
+                <p className="detail-meta">
+                  {item.company} / {item.location} / {item.start} - {item.end}
+                </p>
+                <ul>
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        );
+      case "education":
+        return (
+          <div className="detail-list">
+            {content.education.map((item) => (
+              <article key={`${item.school}-${item.start}`} className="detail-card">
+                <h3>{item.qualification}</h3>
+                <p className="detail-meta">
+                  {item.school} / {item.location} / {item.start} - {item.end}
+                </p>
+                {item.focus ? <p>{item.focus}</p> : null}
+              </article>
+            ))}
+          </div>
+        );
+      case "general":
+        return (
+          <div className="general-grid">
+            {content.general.map((item) => (
+              <article key={item.title} className="stack-card">
+                <h3>{item.title}</h3>
+                <p>{item.items.join(" / ")}</p>
+              </article>
+            ))}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Section id="about">
       <Container>
-        <div className="row">
-          <div className="about-col-1">
-            <img src={`${baseUrl}image/mePNG.png`} alt="Hassan portrait" />
-          </div>
-          <div className="about-col-2">
-            <h1 className="sub-title">About me</h1>
-            <p>
-              Hi there,
-              <br />I am quite curious, and I like to connect dots in patterns.
-              <br />
-              Technology is interesting, and I enjoy finding creative
-              <br />
-              solutions to make things work.
+        <motion.div
+          className="row about-layout"
+          variants={staggerChildrenVariants}
+          {...getInViewReveal(reduceMotion, 0.16)}
+        >
+          <motion.div className="about-col-1" variants={fadeUpVariants}>
+            <motion.img
+              src={`${baseUrl}image/mePNG.png`}
+              alt="Hassan portrait"
+              whileHover={reduceMotion ? undefined : { y: -3, scale: 1.015 }}
+              transition={{ duration: 0.26 }}
+            />
+            <motion.aside className="micro-card" variants={softFadeVariants}>
+              <h3>{content.profile.role}</h3>
+              <p>{content.profile.focus}</p>
+              <p>{content.profile.location}</p>
+              <p className="micro-proof">{content.profile.metric}</p>
+              {githubMeta ? <p className="micro-github">{githubMeta}</p> : null}
+              {hasGithubError ? (
+                <p className="micro-warning">
+                  {labels.system.githubUnavailable}
+                </p>
+              ) : null}
+              {isFallbackData ? (
+                <p className="micro-warning">
+                  {labels.system.fallbackData}
+                </p>
+              ) : null}
+              {isRefreshing ? (
+                <p className="micro-refresh">{labels.system.refreshing}</p>
+              ) : null}
+            </motion.aside>
+          </motion.div>
+          <motion.div className="about-col-2" variants={fadeUpVariants}>
+            <h1 className="sub-title">{labels.about.title}</h1>
+            <div className="about-copy">
+              {content.profile.about.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
+            <p className="about-now">
+              <strong>{labels.about.now}:</strong> {content.profile.now}
+            </p>
+            <p className="about-now">
+              <strong>{labels.about.philosophy}:</strong> {content.profile.philosophy}
             </p>
 
-            <div className="tab-title">
-              <p className="tab-links active-link">Skills</p>
-              <p className="tab-links">Exp</p>
-              <p className="tab-links">Edu</p>
-              <p className="tab-links">General</p>
+            <div className="about-cta">
+              <AppButton as="a" href={`mailto:${content.contact.email}`}>
+                {labels.contact.emailMe}
+              </AppButton>
+              <AppButton
+                as="a"
+                href={content.contact.github}
+                variant="bordered"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {labels.contact.github}
+              </AppButton>
+              <AppButton
+                as="a"
+                href={content.contact.linkedin}
+                variant="bordered"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {labels.contact.linkedin}
+              </AppButton>
+              <AppButton
+                as="a"
+                href={`${baseUrl}cv`}
+                variant="flat"
+              >
+                {labels.nav.cv}
+              </AppButton>
             </div>
 
-            <div className="tab-contents active-tab" id="skills">
-              <ul>
-                <li>
-                  <span>Front-End</span>
-                  <br />
-                  CSS, Javascript, HTML, Bootstrap
-                </li>
-                <li>
-                  <span>Back-End</span>
-                  <br />
-                  .NET, C#
-                </li>
-                <li>
-                  <span>Others</span>
-                  <br />
-                  SQL Server, REST API, GitHub Pages
-                </li>
-              </ul>
+            <div className="tab-title" role="tablist" aria-label={labels.about.title}>
+              {(Object.keys(tabLabels) as AboutTab[]).map((tab) => (
+                <motion.button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === tab}
+                  aria-controls={tab}
+                  className={`tab-links ${activeTab === tab ? "active-link" : ""}`}
+                  onClick={() => setActiveTab(tab)}
+                  layout
+                >
+                  {activeTab === tab ? (
+                    <motion.span
+                      layoutId="about-tab-pill"
+                      className="tab-links__indicator"
+                      transition={pillTransition}
+                    />
+                  ) : null}
+                  <span className="tab-links__label">{tabLabels[tab]}</span>
+                </motion.button>
+              ))}
             </div>
 
-            <div className="tab-contents" id="exp">
-              <ul>
-                <li>
-                  <span>October 2022 - June 2023 (BetterTogether - Rome)</span>
-                  <br />
-                  Junior Developer - Stage
-                </li>
-              </ul>
+            <div className="tab-contents active-tab" id={activeTab} aria-live="polite">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeTab}
+                  variants={tabSwitchVariants}
+                  initial={reduceMotion ? false : "hidden"}
+                  animate="visible"
+                  exit={reduceMotion ? "visible" : "exit"}
+                >
+                  {renderTab()}
+                </motion.div>
+              </AnimatePresence>
             </div>
-
-            <div className="tab-contents" id="edu">
-              <ul>
-                <li>
-                  <span>September 2019 - June 2021 (Uxbridge College - London)</span>
-                  <br />
-                  Diploma in Computer Science
-                </li>
-              </ul>
-            </div>
-
-            <div className="tab-contents" id="general">
-              <ul>
-                <li>
-                  <span>Languages</span>
-                  <br />
-                  Italian, English, Arabic (Darija)
-                </li>
-                <li>
-                  <span>Microsoft</span>
-                  <br />
-                  Excel, Word
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </Container>
     </Section>
   );

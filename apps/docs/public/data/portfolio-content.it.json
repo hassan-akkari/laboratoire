@@ -1,0 +1,157 @@
+{
+  "profile": {
+    "name": "Hassan Akkari",
+    "role": "Software Developer orientato al frontend",
+    "focus": "Sviluppatore orientato al frontend: modernizzo architetture UI, standardizzo componenti e riduco attrito nel team.",
+    "location": "Roma, Italia",
+    "metric": "Lead frontend su moduli Sibylla Network e TTC",
+    "about": [
+      "Sono uno sviluppatore frontend che porta miglioramenti concreti modernizzando architettura UI e flussi di lavoro.",
+      "Su Sibylla Network e sui flussi TTC guido la delivery frontend tra stays, experiences, products, services e payments.",
+      "Di recente ho contribuito al passaggio da Bootstrap e pacchetti vendor a un approccio Tailwind, migliorando consistenza e riuso."
+    ],
+    "now": "Sto guidando miglioramenti su Sibylla Network e TTC con pattern React e Redux Toolkit riutilizzabili e delivery piu veloce.",
+    "philosophy": "Porto cambiamento pratico: prima standardizzo, poi accelero la delivery.",
+    "githubUsername": "Dark-lIl-Demon"
+  },
+  "contact": {
+    "email": "hassan.akkari01@gmail.com",
+    "resumePath": "pdf/CV-ITA-102025.pdf",
+    "github": "https://github.com/Dark-lIl-Demon",
+    "linkedin": "https://www.linkedin.com/in/hassan-akkari",
+    "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
+    "facebook": "https://www.facebook.com/hassan.akkari.714"
+  },
+  "highlights": [
+    "Lead frontend su Sibylla Network, con ownership su architettura, standard e delivery tra stays, experiences, products, services e payments.",
+    "Ho impostato struttura React e Redux Toolkit per rendere la gestione stato scalabile e consistente.",
+    "Ho definito standard UI/UX con componenti, layout e logica riutilizzabile per ridurre inconsistenza.",
+    "Ho spinto il passaggio da Bootstrap e pacchetti vendor a workflow Tailwind.",
+    "Sblocco velocemente il team risolvendo edge case e semplificando UI complesse senza fermare la delivery.",
+    "Connetto frontend e backend quando serve: integrazione REST e supporto su .NET MVC e SQL."
+  ],
+  "stack": {
+    "daily": [
+      "React (TSX)",
+      "Redux Toolkit",
+      "TypeScript",
+      "JavaScript",
+      "jQuery",
+      "HTML5/CSS3",
+      "Tailwind CSS"
+    ],
+    "comfortable": [
+      "ASP.NET MVC",
+      "C#",
+      "SQL Server",
+      "REST APIs",
+      "UI standardization",
+      "Cross-domain feature delivery"
+    ],
+    "exploring": [
+      "Angular",
+      "GraphQL",
+      "Design tokens e governance componenti"
+    ]
+  },
+  "experience": [
+    {
+      "company": "Sibylla Network / TTC",
+      "location": "Italia",
+      "role": "Frontend Developer (Architecture and Delivery)",
+      "start": "Attuale",
+      "end": "In corso",
+      "bullets": [
+        "Guido implementazione frontend su moduli stays, experiences, products, services e payments.",
+        "Ho costruito pattern React e Redux Toolkit per uno stato prevedibile e delivery piu rapida.",
+        "Ho guidato la migrazione da Bootstrap e pacchetti vendor a Tailwind per ridurre frammentazione UI."
+      ]
+    },
+    {
+      "company": "BetterTogether",
+      "location": "Roma, Italia",
+      "role": "Junior Developer Intern",
+      "start": "Ott 2022",
+      "end": "Giu 2023",
+      "bullets": [
+        "Sviluppo e manutenzione di feature interne con attenzione a form e validazione dati.",
+        "Integrazione flussi frontend con servizi .NET e dati SQL Server.",
+        "Fix e refactor su workflow critici prima del rilascio."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Uxbridge College",
+      "location": "Londra, UK",
+      "qualification": "Diploma in Computer Science",
+      "start": "Set 2019",
+      "end": "Giu 2021",
+      "focus": "Fondamenti software, concetti dati e basi di sviluppo web."
+    }
+  ],
+  "general": [
+    {
+      "title": "Lingue",
+      "items": ["Italiano", "Inglese", "Arabo (Darija)"]
+    },
+    {
+      "title": "Collaborazione",
+      "items": ["Code review", "Handoff di team", "Iterazione agile"]
+    },
+    {
+      "title": "Tooling",
+      "items": ["GitHub", "CI basics", "Figma handoff"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "sibylla-network-ui-system",
+      "title": "Sibylla Network - Frontend Architecture and UI System",
+      "summary": "Ownership frontend su ecosistema multi-dominio, con pattern React e RTK scalabili e standard UI riutilizzabili.",
+      "image": "image/WorkBetterTgter.png",
+      "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
+      "impact": [
+        "Leadership su architettura e delivery frontend nelle aree business principali.",
+        "Standardizzazione componenti e regole layout per aumentare coerenza UI.",
+        "Onboarding piu rapido e delivery piu fluida grazie a pattern riutilizzabili."
+      ],
+      "links": [
+        {
+          "label": "Case Study",
+          "href": "#contact",
+          "kind": "caseStudy"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/Dark-lIl-Demon",
+          "kind": "github"
+        }
+      ]
+    },
+    {
+      "id": "bootstrap-tailwind-modernization",
+      "title": "Bootstrap to Tailwind Modernization",
+      "summary": "Migrazione da Bootstrap e pacchetti vendor a workflow Tailwind orientato a consistenza, velocita e manutenzione.",
+      "image": "image/LaBrochure.png",
+      "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
+      "impact": [
+        "Ridotta dipendenza da vendor e comportamento UI frammentato.",
+        "Migliorata velocita di iterazione su layout e componenti.",
+        "Creati pattern utility riutilizzabili e piu scalabili tra moduli."
+      ],
+      "links": [
+        {
+          "label": "Case Study",
+          "href": "#contact",
+          "kind": "caseStudy"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/Dark-lIl-Demon",
+          "kind": "github"
+        }
+      ]
+    }
+  ]
+}
