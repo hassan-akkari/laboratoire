@@ -153,5 +153,57 @@
         }
       ]
     }
+  ],
+  "roadmap": [
+    {
+      "id": "next-booking-checkout-engine",
+      "title": "Next.js Booking and Checkout Engine",
+      "summary": "Flux booking style production: recherche, detail, panier, checkout et confirmation avec limites API robustes.",
+      "status": "MVP planifie",
+      "targetApp": "apps/web-next",
+      "stack": [
+        "Next.js App Router",
+        "TypeScript",
+        "Server Actions et Route Handlers",
+        "Zod",
+        "Playwright"
+      ],
+      "recruiterSignals": [
+        "Montre une bonne maitrise SSR et caching entre listing et detail.",
+        "Demontre auth avec checkout protege et redirection post-login.",
+        "Inclut moteur de regles prix et promos avec tests unitaires."
+      ],
+      "mvpScope": [
+        "Construire le flux listing -> detail -> cart -> checkout.",
+        "Implementer moteur de prix et decomposition promo code.",
+        "Ajouter gate login sur checkout et confirmation paiement simulee.",
+        "Publier une preview deploy-ready avec CI lint, typecheck et tests."
+      ]
+    },
+    {
+      "id": "angular-experiences-admin-console",
+      "title": "Angular Experiences Admin Console",
+      "summary": "Console admin orientee enterprise pour creer, reviser et publier des experiences avec roles et audit visibles.",
+      "status": "MVP planifie",
+      "targetApp": "apps/admin-angular",
+      "stack": [
+        "Angular",
+        "RxJS",
+        "Reactive Forms",
+        "Angular Router Guards",
+        "Jest ou Karma"
+      ],
+      "recruiterSignals": [
+        "Prouve une architecture enterprise avec frontieres fonctionnelles claires.",
+        "Met en avant des workflows formulaires complexes et validation robuste.",
+        "Demontre acces par role et cycle draft-vers-published."
+      ],
+      "mvpScope": [
+        "Creer roles admin: viewer, editor, admin avec route guards.",
+        "Construire wizard experience avec champs conditionnels et validations.",
+        "Ajouter workflow review: draft, review, published avec audit trail.",
+        "Implementer table filtrable avec export CSV et couverture de tests."
+      ]
+    }
   ]
 }

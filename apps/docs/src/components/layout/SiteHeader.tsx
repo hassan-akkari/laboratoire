@@ -61,6 +61,9 @@ export default function SiteHeader({
               <a href="#portfolio">{labels.nav.projects}</a>
             </li>
             <li>
+              <a href="#roadmap">{labels.nav.roadmap}</a>
+            </li>
+            <li>
               <a href="#contact">{labels.nav.contact}</a>
             </li>
             <li>

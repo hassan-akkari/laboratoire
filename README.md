@@ -1,15 +1,17 @@
 # laboratoire
 
-Monorepo pnpm/turbo con due app Vite React (docs e web-react).
+Monorepo pnpm/turbo con tre app frontend: `docs`, `web-react`, `web-next`.
 
 ## Stato attuale (2026-01-26)
 - `apps/docs`: portfolio statico (Tailwind v4 + HeroUI wiring pronto, preflight off)
 - `apps/web-react`: Tailwind v4 + HeroUI v2 + Redux Toolkit/RTK Query + MSW (mock `/api/ping`), tema light/dark
+- `apps/web-next`: Next.js App Router con MVP booking/checkout (auth gate, pricing engine, API routes)
 - Deploy: workflow GitHub Pages pubblica `docs` su `/` e `web-react` su `/react`
 
 ## Struttura
 - `apps/docs` (sito/portfolio)
 - `apps/web-react` (app base con store + mock API)
+- `apps/web-next` (booking-checkout engine in Next.js)
 - `packages/ui` (libreria componenti + Storybook)
 
 ## Requisiti
@@ -32,7 +34,8 @@ pnpm -w install --frozen-lockfile
 pnpm dev        # alias di docs
 pnpm dev:docs   # solo docs
 pnpm dev:react  # solo web-react
-pnpm dev:all    # UI watch + Storybook + docs + web-react
+pnpm dev:next   # solo web-next
+pnpm dev:all    # UI watch + Storybook + docs + web-react + web-next
 ```
 Di default Vite parte su `http://localhost:5173` (se occupata usa la successiva).
 
@@ -67,10 +70,12 @@ pnpm test
 pnpm build
 pnpm build:docs
 pnpm build:react
+pnpm build:next
 
 pnpm preview
 pnpm preview:docs
 pnpm preview:react
+pnpm start:next
 ```
 
 ## Deploy GitHub Pages
