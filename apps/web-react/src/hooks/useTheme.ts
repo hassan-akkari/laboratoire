@@ -4,15 +4,23 @@ export type ThemeMode = "dark" | "light";
 
 const THEME_KEY = "laboratoire-theme";
 
-export function useTheme(defaultTheme: ThemeMode = "dark") {
-  const [theme, setTheme] = useState<ThemeMode>(defaultTheme);
+function resolveInitialTheme(defaultTheme: ThemeMode) {
+  if (typeof window === "undefined") {
+    return defaultTheme;
+  }
 
-  useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY);
-    if (stored === "dark" || stored === "light") {
-      setTheme(stored);
-    }
-  }, []);
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === "dark" || stored === "light") {
+    return stored;
+  }
+
+  return defaultTheme;
+}
+
+export function useTheme(defaultTheme: ThemeMode = "dark") {
+  const [theme, setTheme] = useState<ThemeMode>(() =>
+    resolveInitialTheme(defaultTheme),
+  );
 
   useEffect(() => {
     const root = document.documentElement;

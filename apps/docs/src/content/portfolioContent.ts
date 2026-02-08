@@ -16,6 +16,17 @@ const projectSchema = z.object({
   links: z.array(projectLinkSchema).max(3),
 });
 
+const roadmapProjectSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  summary: z.string().min(1),
+  status: z.string().min(1),
+  targetApp: z.string().min(1),
+  stack: z.array(z.string().min(1)).min(2),
+  recruiterSignals: z.array(z.string().min(1)).min(2).max(4),
+  mvpScope: z.array(z.string().min(1)).min(3).max(6),
+});
+
 const experienceSchema = z.object({
   company: z.string().min(1),
   location: z.string().min(1),
@@ -76,10 +87,12 @@ export const portfolioContentSchema = z.object({
   education: z.array(educationSchema).min(1),
   general: z.array(generalInfoSchema).min(1),
   projects: z.array(projectSchema).min(2).max(4),
+  roadmap: z.array(roadmapProjectSchema).min(2).max(3),
 });
 
 export type PortfolioContent = z.infer<typeof portfolioContentSchema>;
 export type PortfolioProject = PortfolioContent["projects"][number];
+export type RoadmapProject = PortfolioContent["roadmap"][number];
 export type ProfileContact = PortfolioContent["contact"];
 
 export const githubProfileSchema = z.object({
@@ -248,6 +261,60 @@ export const fallbackPortfolioContent: PortfolioContent = {
           href: "https://github.com/Dark-lIl-Demon",
           kind: "github",
         },
+      ],
+    },
+  ],
+  roadmap: [
+    {
+      id: "next-booking-checkout-engine",
+      title: "Next.js Booking and Checkout Engine",
+      summary:
+        "Production-style booking flow: search, detail, cart, checkout, and confirmation with resilient API boundaries.",
+      status: "Planned MVP",
+      targetApp: "apps/web-next",
+      stack: [
+        "Next.js App Router",
+        "TypeScript",
+        "Server Actions and Route Handlers",
+        "Zod",
+        "Playwright",
+      ],
+      recruiterSignals: [
+        "Shows SSR and caching awareness with listing and detail pages.",
+        "Demonstrates auth and protected checkout routes with redirect handling.",
+        "Includes pricing rules engine and promo logic with unit test coverage.",
+      ],
+      mvpScope: [
+        "Build listing to detail to cart to checkout user flow.",
+        "Implement price rules engine plus promo code breakdown.",
+        "Add login gate for checkout and mock payment confirmation.",
+        "Ship deploy-ready preview with CI lint, typecheck, and tests.",
+      ],
+    },
+    {
+      id: "angular-experiences-admin-console",
+      title: "Angular Experiences Admin Console",
+      summary:
+        "Enterprise-focused admin panel for creating, reviewing, and publishing experiences with roles and audit visibility.",
+      status: "Planned MVP",
+      targetApp: "apps/admin-angular",
+      stack: [
+        "Angular",
+        "RxJS",
+        "Reactive Forms",
+        "Angular Router Guards",
+        "Jest or Karma",
+      ],
+      recruiterSignals: [
+        "Proves enterprise app architecture with clear feature boundaries.",
+        "Highlights form-heavy workflows and robust validation strategy.",
+        "Demonstrates role-based access and review-to-publish lifecycle.",
+      ],
+      mvpScope: [
+        "Create admin roles: viewer, editor, admin with route guards.",
+        "Build experience wizard with conditional fields and validation.",
+        "Add review workflow: draft, review, published with audit trail.",
+        "Implement filterable table plus CSV export and test coverage.",
       ],
     },
   ],

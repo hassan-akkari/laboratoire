@@ -17,7 +17,15 @@ const reactRecommended =
 
 export default [
   {
-    ignores: ["**/dist/**", "**/node_modules/**", "**/.turbo/**", ".pnpm/**"],
+    ignores: [
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/.turbo/**",
+      "**/.next/**",
+      "**/next-env.d.ts",
+      "**/public/mockServiceWorker.js",
+      ".pnpm/**",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -40,7 +48,17 @@ export default [
     },
   },
   {
-    files: ["apps/docs/**/*.{ts,tsx}", "apps/web-react/**/*.{ts,tsx}"],
+    files: ["apps/web-next/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
+  {
+    files: [
+      "apps/docs/**/*.{ts,tsx}",
+      "apps/web-react/**/*.{ts,tsx}",
+      "apps/web-next/**/*.{ts,tsx}",
+    ],
     languageOptions: {
       parserOptions: {
         project: [
@@ -48,6 +66,7 @@ export default [
           "apps/docs/tsconfig.node.json",
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
+          "apps/web-next/tsconfig.json",
         ],
         tsconfigRootDir: __dirname,
       },

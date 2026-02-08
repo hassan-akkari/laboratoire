@@ -6,6 +6,7 @@ export type Messages = {
     about: string;
     highlights: string;
     projects: string;
+    roadmap: string;
     contact: string;
     cv: string;
     downloadCv: string;
@@ -44,6 +45,14 @@ export type Messages = {
     subtitle: string;
     requestCaseStudy: string;
   };
+  roadmap: {
+    title: string;
+    subtitle: string;
+    recruiterSignals: string;
+    mvpScope: string;
+    targetApp: string;
+    cta: string;
+  };
   contact: {
     title: string;
     note: string;
@@ -81,6 +90,7 @@ export const messages: Record<Locale, Messages> = {
       about: "About me",
       highlights: "Highlights",
       projects: "Featured projects",
+      roadmap: "Next builds",
       contact: "Contact",
       cv: "CV",
       downloadCv: "Download CV",
@@ -120,6 +130,15 @@ export const messages: Record<Locale, Messages> = {
       subtitle: "Selected work with stack details and impact-oriented outcomes.",
       requestCaseStudy: "Request full case study",
     },
+    roadmap: {
+      title: "Next builds",
+      subtitle:
+        "Two production-oriented projects planned to increase recruiter signal beyond static portfolio pages.",
+      recruiterSignals: "Recruiter signal",
+      mvpScope: "MVP scope",
+      targetApp: "Target app",
+      cta: "Want me to prioritize one first? Email me",
+    },
     contact: {
       title: "Contact me",
       note: "Phone number shared by email request.",
@@ -158,6 +177,7 @@ export const messages: Record<Locale, Messages> = {
       about: "Chi sono",
       highlights: "Risultati",
       projects: "Progetti in evidenza",
+      roadmap: "Prossimi build",
       contact: "Contatti",
       cv: "CV",
       downloadCv: "Scarica CV",
@@ -197,6 +217,15 @@ export const messages: Record<Locale, Messages> = {
       subtitle: "Selezione di lavori con stack e risultati misurabili.",
       requestCaseStudy: "Richiedi case study completo",
     },
+    roadmap: {
+      title: "Prossimi build",
+      subtitle:
+        "Due progetti orientati produzione per aumentare il segnale recruiter oltre il portfolio statico.",
+      recruiterSignals: "Segnale recruiter",
+      mvpScope: "Scope MVP",
+      targetApp: "App target",
+      cta: "Vuoi che ne priorizzi uno? Scrivimi",
+    },
     contact: {
       title: "Contattami",
       note: "Numero di telefono condiviso su richiesta via email.",
@@ -235,6 +264,7 @@ export const messages: Record<Locale, Messages> = {
       about: "A propos",
       highlights: "Impact",
       projects: "Projets a la une",
+      roadmap: "Prochains builds",
       contact: "Contact",
       cv: "CV",
       downloadCv: "Telecharger CV",
@@ -274,6 +304,15 @@ export const messages: Record<Locale, Messages> = {
       subtitle:
         "Selection de travaux avec details techniques et resultats orientes impact.",
       requestCaseStudy: "Demander l'etude de cas complete",
+    },
+    roadmap: {
+      title: "Prochains builds",
+      subtitle:
+        "Deux projets orientes production pour renforcer le signal recruteur au-dela du portfolio statique.",
+      recruiterSignals: "Signal recruteur",
+      mvpScope: "Scope MVP",
+      targetApp: "App cible",
+      cta: "Vous voulez en prioriser un? Ecrivez-moi",
     },
     contact: {
       title: "Contactez-moi",

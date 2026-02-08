@@ -5,6 +5,7 @@ import AboutSection from "./components/sections/AboutSection";
 import ContactSection from "./components/sections/ContactSection";
 import HighlightsSection from "./components/sections/HighlightsSection";
 import PortfolioSection from "./components/sections/PortfolioSection";
+import RoadmapSection from "./components/sections/RoadmapSection";
 import SiteHeader from "./components/layout/SiteHeader";
 import { skipToken } from "@reduxjs/toolkit/query";
 import {
@@ -117,6 +118,7 @@ export default function App() {
                   projects={content.projects}
                   labels={labels.portfolio}
                 />
+                <RoadmapSection roadmap={content.roadmap} labels={labels.roadmap} />
                 <ContactSection
                   baseUrl={base}
                   contact={content.contact}

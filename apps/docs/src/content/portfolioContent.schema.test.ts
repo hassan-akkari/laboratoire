@@ -19,4 +19,14 @@ describe("portfolioContentSchema", () => {
     const result = portfolioContentSchema.safeParse(invalidPayload);
     expect(result.success).toBe(false);
   });
+
+  it("rejects payloads with less than two roadmap projects", () => {
+    const invalidPayload = {
+      ...fallbackPortfolioContent,
+      roadmap: [fallbackPortfolioContent.roadmap[0]],
+    };
+
+    const result = portfolioContentSchema.safeParse(invalidPayload);
+    expect(result.success).toBe(false);
+  });
 });

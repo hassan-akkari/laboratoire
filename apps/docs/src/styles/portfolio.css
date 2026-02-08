@@ -611,6 +611,120 @@ nav ul li a:focus-visible {
   margin-top: 28px;
 }
 
+#roadmap {
+  padding-top: clamp(42px, 7vw, 84px);
+}
+
+.roadmap-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.roadmap-card {
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 74%, transparent);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--app-card) 90%, transparent),
+      color-mix(in srgb, var(--app-accent-soft) 26%, transparent)
+    );
+  box-shadow: 0 20px 38px -28px rgba(0, 0, 0, 0.55);
+  padding: 20px;
+  display: grid;
+  gap: 10px;
+  transition: border-color 240ms ease, transform 240ms ease;
+}
+
+.roadmap-card:hover {
+  border-color: color-mix(in srgb, var(--app-accent) 56%, var(--app-border));
+}
+
+.roadmap-card h3,
+.roadmap-card p,
+.roadmap-card h4 {
+  margin: 0;
+}
+
+.roadmap-card p {
+  color: color-mix(in srgb, var(--app-fg) 82%, var(--app-muted));
+  line-height: 1.5;
+}
+
+.roadmap-card__top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.roadmap-status {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--app-accent) 62%, var(--app-border));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--app-accent) 82%, #ffffff 18%),
+      color-mix(in srgb, var(--app-accent) 94%, #000000 6%)
+    );
+}
+
+.roadmap-stack {
+  color: color-mix(in srgb, var(--app-accent) 70%, var(--app-fg)) !important;
+  font-size: 14px;
+}
+
+.roadmap-target {
+  font-size: 14px;
+}
+
+.roadmap-target strong {
+  color: color-mix(in srgb, var(--app-fg) 90%, #ffffff);
+}
+
+.roadmap-lists {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.roadmap-list-block {
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
+  background: color-mix(in srgb, var(--app-card) 84%, transparent);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.roadmap-list-block h4 {
+  font-size: 14px;
+  color: color-mix(in srgb, var(--app-accent) 74%, var(--app-fg));
+}
+
+.roadmap-list-block ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.roadmap-list-block li {
+  color: color-mix(in srgb, var(--app-fg) 82%, var(--app-muted));
+  line-height: 1.45;
+}
+
+.roadmap-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
 .contact-left {
   flex: 1 1 34%;
 }
