@@ -97,10 +97,13 @@ export default async function CartPage({ searchParams }: CartPageProps) {
           <Link href={checkoutHref} className="button">
             Continue to checkout
           </Link>
-          <Link href={`/experiences/${quote.experience.slug}`} className="link-button">
+          <Link
+            href={`/experiences/${quote.experience.slug}`}
+            className="button button--bordered"
+          >
             Edit booking
           </Link>
-          <Link href="/" className="link-button">
+          <Link href="/" className="button button--flat">
             Back to listing
           </Link>
         </div>
