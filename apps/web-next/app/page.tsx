@@ -66,7 +66,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             Search
           </button>
           {query ? (
-            <Link className="link-button" href="/">
+            <Link className="button button--flat" href="/">
               Clear
             </Link>
           ) : null}
@@ -92,7 +92,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 Open detail
               </Link>
               <Link
-                className="link-button"
+                className="button button--bordered"
                 href={`/cart?slug=${experience.slug}&guests=2&date=${seedDate}`}
               >
                 Quick cart

@@ -97,7 +97,7 @@ export default async function ExperienceDetailPage({
             </button>
           </form>
           <div className="button-row">
-            <Link href="/" className="link-button">
+            <Link href="/" className="button button--bordered">
               Back to listing
             </Link>
           </div>

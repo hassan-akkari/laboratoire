@@ -120,7 +120,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
             <button className="button" type="submit">
               Confirm order
             </button>
-            <Link className="link-button" href={`/cart?${queryString}`}>
+            <Link className="button button--bordered" href={`/cart?${queryString}`}>
               Back to cart
             </Link>
           </div>
