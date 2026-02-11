@@ -2,12 +2,12 @@
   "profile": {
     "name": "Hassan Akkari",
     "role": "Software Developer orientato al frontend",
-    "focus": "Sviluppatore orientato al frontend: modernizzo architetture UI, standardizzo componenti e riduco attrito nel team.",
+    "focus": "Standard UI, componenti riutilizzabili, flussi core (React/TS/RTK).",
     "location": "Roma, Italia",
-    "metric": "Frontend developer - cresciuto su Sibylla",
+    "metric": "Frontend engineer - UI architecture & delivery",
     "about": [
-      "Ho lavorato su Sibylla in un contesto dove le cose cambiano in fretta: se non metti ordine, il progetto ti mangia. Ho iniziato su Platform costruendo basi solide (jQuery/HTML/CSS) e standard pratici di classi/stili riusati nel tempo dal team. Oggi su Network lavoro in modo piu architetturale con React + Redux Toolkit sui flussi core.",
-      "Risolvo il problema, poi faccio in modo che non torni: standard, riuso, struttura.",
+      "Ho lavorato su Sibylla in un contesto dove le cose cambiano in fretta: se non metti ordine, il progetto ti mangia. Ho iniziato su Platform costruendo basi solide (jQuery/HTML/CSS) e standard UI riutilizzabili; oggi su Network lavoro in modo piu strutturale con React + Redux Toolkit sui flussi core.",
+      "Risolvo il problema, poi lo rendo difficile da ripetere: standard, riuso, struttura.",
       "Riduco attrito nel team: convenzioni chiare e componenti riutilizzabili.",
       "Quando serve collego FE/BE: API, MVC, query e debugging.",
       "Condivido volentieri approccio e impatto; alcuni dettagli interni restano fuori."
@@ -25,10 +25,10 @@
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Standard UI (classi/stili) introdotti su Platform e riusati nel tempo dal team.",
-    "Passaggio a lavoro piu strutturale su Network: React + Redux Toolkit, pattern riusabili.",
-    "Miglioramento della coerenza UI e riduzione della frammentazione (es. Bootstrap -> Tailwind dove applicabile).",
-    "Sblocco rapido del team su edge case e bug complessi, senza rallentare la delivery."
+    "Standard UI (classi/stili)\nPrima: convenzioni sparse e duplicazioni tra moduli.\nDopo: standard condivisi riusati nel tempo dal team.\nRisultato: meno regressioni e manutenzione piu veloce.",
+    "Network: pattern riusabili (React + Redux Toolkit)\nPrima: logiche distribuite e difficili da scalare.\nDopo: pattern e flussi piu prevedibili.\nRisultato: delivery piu stabile sui core flow.",
+    "Coerenza UI (Bootstrap -> Tailwind dove applicabile)\nPrima: layout incoerenti e componenti simili ma diversi.\nDopo: standard e composizione piu consistenti.\nRisultato: iterazioni piu rapide sui flussi principali.",
+    "Debugging su edge case e bug complessi\nPrima: blocchi lunghi e diagnosi frammentata.\nDopo: isolamento rapido, fix mirato, prevenzione dove possibile.\nRisultato: team sbloccato senza rallentare la release."
   ],
   "stack": {
     "daily": [
@@ -108,13 +108,13 @@
     {
       "id": "sibylla-network-ui-system",
       "title": "Sibylla Network - Il mio percorso frontend",
-      "summary": "Ho iniziato su Platform, ho imparato le basi e ho creato standard riutilizzabili. Ora su Network costruisco architetture scalabili con React e Redux Toolkit, con focus su coerenza UI e delivery prevedibile.",
+      "summary": "Ho iniziato su Platform creando basi solide e standard riutilizzabili. Su Network ho portato un approccio piu strutturale con React e Redux Toolkit, con focus su coerenza UI e delivery prevedibile.",
       "image": "image/enterprise-nda-placeholder.svg",
       "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
       "impact": [
-        "Standard UI adottati su piu moduli core (booking, catalogo, checkout).",
-        "Ridotta duplicazione CSS grazie a classi e pattern riutilizzabili.",
-        "Meno regressioni UI in rilascio grazie a convenzioni condivise."
+        "Problema: UI frammentata e regole replicate tra moduli.",
+        "Intervento: standard + pattern riusabili sui flussi core.",
+        "Risultato: maggiore coerenza UI e meno regressioni in rilascio."
       ],
       "links": [
         {
@@ -136,7 +136,7 @@
       "image": "image/LaBrochure.png",
       "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
       "impact": [
-        "Prima: layout disallineati tra moduli. Dopo: pattern utility condivisi.",
+        "Standard UI piu coerenti tra moduli e componenti.",
         "Ridotta dipendenza da vendor e meno comportamento UI frammentato.",
         "Iterazioni su layout e componenti piu rapide nei flussi principali."
       ],

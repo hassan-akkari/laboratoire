@@ -2,13 +2,15 @@
   "profile": {
     "name": "Hassan Akkari",
     "role": "Software Developer oriente frontend",
-    "focus": "Developpeur oriente frontend: je modernise l'architecture UI, je standardise les composants et je reduis la friction de livraison.",
+    "focus": "Standards UI, composants reutilisables, flux coeur (React/TS/RTK).",
     "location": "Rome, Italie",
-    "metric": "Frontend developer - grandi sur Sibylla",
+    "metric": "Ingenieur frontend - architecture UI et execution",
     "about": [
-      "Je suis un developpeur frontend qui apporte des ameliorations concretes via architecture UI moderne et flux plus efficaces.",
-      "J'ai commence sur Sibylla Platform: c'est la que j'ai construit mes bases en jQuery, HTML et CSS, puis introduit des standards reutilisables de classes/styles encore utilises aujourd'hui.",
-      "Aujourd'hui je suis sur Sibylla Network: je travaille sur booking, catalogue et checkout avec React et Redux Toolkit. Je ne peux pas montrer le produit, mais je peux expliquer le travail technique et son impact."
+      "J'ai travaille sur Sibylla dans un contexte qui change vite: sans ordre, le projet cree de la friction. J'ai commence sur Platform en construisant des bases solides (jQuery/HTML/CSS) et des standards UI reutilisables; aujourd'hui sur Network je travaille de facon plus structurelle avec React + Redux Toolkit sur les flux coeur.",
+      "Je resous le probleme, puis je le rends difficile a reproduire: standards, reutilisation, structure.",
+      "Je reduis la friction d'equipe: conventions claires et composants reutilisables.",
+      "Quand il faut, je connecte FE/BE: API, MVC, requetes et debugging.",
+      "Je partage volontiers l'approche et l'impact; certains details internes restent hors scope."
     ],
     "now": "Actuellement sur Sibylla Network: j'ameliore la delivery avec des patterns reutilisables et une architecture plus propre. Je ne peux pas montrer les details internes, mais je peux expliquer clairement ce que j'ai construit.",
     "philosophy": "Je standardise d'abord, puis j'accelere. Quand le code est propre, l'equipe va plus vite.",
@@ -23,12 +25,10 @@
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Debut sur Sibylla Platform: bases frontend en jQuery, HTML et CSS.",
-    "Mise en place de standards reutilisables de classes/styles devenus des conventions d'equipe encore utilisees.",
-    "Maintenant sur Sibylla Network: pilotage implementation booking, catalogue et checkout avec React et Redux Toolkit.",
-    "J'ai defini une structure React et Redux Toolkit pour un state management scalable et coherent.",
-    "J'ai pilote la migration Bootstrap vers Tailwind: moins de fragmentation et plus de coherence UI.",
-    "Je debloque l'equipe en corrigeant les edge cases et en simplifiant les UI complexes sans ralentir la delivery."
+    "Standards UI (classes/styles)\nAvant: conventions eparpillees et duplications entre modules.\nApres: standards partages reutilises dans le temps par l'equipe.\nResultat: moins de regressions et maintenance plus rapide.",
+    "Network: patterns reutilisables (React + Redux Toolkit)\nAvant: logiques distribuees et difficiles a scaler.\nApres: patterns et flux plus previsibles.\nResultat: livraison plus stable sur les flux coeur.",
+    "Coherence UI (Bootstrap -> Tailwind quand applicable)\nAvant: layouts incoherents et composants similaires mais differents.\nApres: standards et composition plus consistants.\nResultat: iterations plus rapides sur les flux principaux.",
+    "Debugging des cas limites et bugs complexes\nAvant: blocages longs et diagnostic fragmente.\nApres: isolation rapide, correction ciblee, prevention quand possible.\nResultat: equipe debloquee sans ralentir la livraison."
   ],
   "stack": {
     "daily": [
@@ -108,13 +108,13 @@
     {
       "id": "sibylla-network-ui-system",
       "title": "Sibylla Network - Mon parcours frontend",
-      "summary": "J'ai commence sur Platform, appris les bases, puis cree des standards reutilisables. Maintenant sur Network, je construis des architectures scalables avec React et Redux Toolkit. Je ne peux pas montrer le produit, mais je peux raconter ce que j'ai construit et l'impact sur l'equipe.",
+      "summary": "J'ai commence sur Platform en creant des bases solides et des standards reutilisables. Sur Network j'ai apporte une approche plus structurelle avec React et Redux Toolkit, avec un focus sur la coherence UI et une livraison previsible.",
       "image": "image/enterprise-nda-placeholder.svg",
       "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
       "impact": [
-        "Leadership sur architecture et delivery frontend dans les zones business principales.",
-        "Standardisation composants et regles layout pour ameliorer la coherence UI.",
-        "Onboarding plus rapide et delivery plus fluide grace aux patterns reutilisables."
+        "Probleme: UI fragmentee et regles dupliquees entre modules.",
+        "Intervention: standards + patterns reutilisables sur les flux coeur.",
+        "Resultat: meilleure coherence UI et moins de regressions en livraison."
       ],
       "links": [
         {
@@ -136,6 +136,7 @@
       "image": "image/LaBrochure.png",
       "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
       "impact": [
+        "Standards UI plus coherents entre modules et composants.",
         "Reduction de la dependance vendor et des comportements UI fragmentes.",
         "Vitesse d'iteration amelioree sur layouts et composants.",
         "Creation de patterns utilitaires reutilisables et plus scalables entre modules."

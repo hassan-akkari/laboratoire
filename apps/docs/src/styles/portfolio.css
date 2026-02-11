@@ -539,6 +539,7 @@ nav ul li a:focus-visible {
 .highlight-card p {
   margin: 0;
   line-height: 1.55;
+  white-space: pre-line;
 }
 
 .highlight-icon {

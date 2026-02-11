@@ -110,13 +110,15 @@ export const fallbackPortfolioContent: PortfolioContent = {
     name: "Hassan Akkari",
     role: "Frontend-focused Software Developer",
     focus:
-      "Frontend-focused software developer improving products by modernizing UI architecture, standardizing components, and removing delivery friction.",
+      "UI standards, reusable components, core flows (React/TS/RTK).",
     location: "Rome, Italy",
-    metric: "Frontend developer - grown through Sibylla",
+    metric: "Frontend engineer - UI architecture & delivery",
     about: [
-      "I am a frontend-focused software developer who improves products by modernizing UI architecture, standardizing components, and reducing team friction.",
-      "I started on Sibylla Platform: this is where I built my foundations with jQuery, HTML, and CSS, and introduced reusable class/style standards still used today.",
-      "Now I am on Sibylla Network, working on booking, catalog, and checkout flows with React and Redux Toolkit. I cannot show product internals, but I can explain the technical work and impact.",
+      "I have worked on Sibylla in a fast-moving environment: if you do not create order, the project creates friction. I started on Platform building solid foundations (jQuery/HTML/CSS) and reusable UI standards; today on Network I work more structurally with React + Redux Toolkit on core flows.",
+      "I solve the problem, then make it hard to repeat: standards, reuse, structure.",
+      "I reduce team friction: clear conventions and reusable components.",
+      "When needed, I connect FE/BE: APIs, MVC, queries, and debugging.",
+      "I am happy to share approach and impact; some internal details stay out.",
     ],
     now: "Currently on Sibylla Network: improving delivery with reusable patterns and cleaner architecture. I cannot show internals, but I can clearly explain what I built and why it helped.",
     philosophy:
@@ -132,12 +134,10 @@ export const fallbackPortfolioContent: PortfolioContent = {
     facebook: "https://www.facebook.com/hassan.akkari.714",
   },
   highlights: [
-    "Started on Sibylla Platform: built frontend foundations with jQuery, HTML, and CSS.",
-    "Introduced reusable class/style standards that became team conventions and are still used.",
-    "Now on Sibylla Network: lead implementation across booking, catalog, and checkout with React and Redux Toolkit.",
-    "Designed and implemented React plus Redux Toolkit structure to keep state management scalable and consistent.",
-    "Drove migration from Bootstrap and vendor packages to Tailwind to reduce UI fragmentation and improve consistency.",
-    "Unblock teammates by solving edge cases quickly and simplifying complex UI without slowing delivery.",
+    "UI standards (classes/styles)\nBefore: conventions were scattered and duplicated across modules.\nAfter: shared standards reused over time by the team.\nResult: fewer regressions and faster maintenance.",
+    "Network reusable patterns (React + Redux Toolkit)\nBefore: logic was distributed and hard to scale.\nAfter: patterns and flows became more predictable.\nResult: more stable delivery on core flows.",
+    "UI consistency (Bootstrap -> Tailwind where applicable)\nBefore: inconsistent layouts and similar-but-different components.\nAfter: more consistent standards and composition.\nResult: faster iterations on core flows.",
+    "Debugging edge cases and complex bugs\nBefore: long blockers and fragmented diagnosis.\nAfter: quick isolation, targeted fixes, prevention where possible.\nResult: team unblocked without slowing release.",
   ],
   stack: {
     daily: [
@@ -218,13 +218,13 @@ export const fallbackPortfolioContent: PortfolioContent = {
       id: "sibylla-network-ui-system",
       title: "Sibylla Network - My Frontend Journey",
       summary:
-        "I started on Platform, built frontend foundations, and introduced reusable standards. Now on Network, I build scalable React and Redux Toolkit architecture. I cannot show product internals, but I can explain what I built and how it improved delivery.",
+        "I started on Platform building solid foundations and reusable standards. On Network I brought a more structural approach with React and Redux Toolkit, with focus on UI consistency and predictable delivery.",
       image: "image/enterprise-nda-placeholder.svg",
       stack: ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
       impact: [
-        "Led frontend architecture and delivery across key business areas.",
-        "Standardized components and layout rules to improve UI consistency.",
-        "Enabled faster onboarding and smoother feature delivery through reusable patterns.",
+        "Problem: fragmented UI and duplicated rules across modules.",
+        "Intervention: standards + reusable patterns on core flows.",
+        "Result: stronger UI consistency and fewer release regressions.",
       ],
       links: [
         {
@@ -247,6 +247,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
       image: "image/LaBrochure.png",
       stack: ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
       impact: [
+        "More consistent UI standards across modules and components.",
         "Reduced vendor dependency and fragmented UI behaviour.",
         "Improved layout and component iteration speed for the team.",
         "Created reusable utility patterns that scale better across modules.",

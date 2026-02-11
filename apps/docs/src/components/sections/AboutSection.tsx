@@ -197,13 +197,6 @@ export default function AboutSection({
                 ))
               )}
             </div>
-            <p className="about-now">
-              <strong>{labels.about.now}:</strong> {content.profile.now}
-            </p>
-            <p className="about-now">
-              <strong>{labels.about.philosophy}:</strong> {content.profile.philosophy}
-            </p>
-
             <div className="about-cta">
               <AppButton as="a" href={`mailto:${content.contact.email}`}>
                 {labels.contact.emailMe}
