@@ -20,7 +20,6 @@ import {
 } from "../ui/motionPresets";
 
 type ContactSectionProps = {
-  baseUrl: string;
   contact: ProfileContact;
   labels: Messages["contact"];
 };
@@ -32,7 +31,6 @@ type SocialLink = {
 };
 
 export default function ContactSection({
-  baseUrl,
   contact,
   labels,
 }: ContactSectionProps) {
@@ -41,12 +39,12 @@ export default function ContactSection({
   const socialLinks: SocialLink[] = [
     {
       href: contact.github,
-      label: "GitHub",
+      label: labels.github,
       icon: <FaGithub />,
     },
     {
       href: contact.linkedin,
-      label: "LinkedIn",
+      label: labels.linkedin,
       icon: <FaLinkedin />,
     },
   ];
@@ -98,24 +96,6 @@ export default function ContactSection({
               <AppButton as="a" href={`mailto:${contact.email}`}>
                 {labels.emailMe}
               </AppButton>
-              <AppButton
-                as="a"
-                href={contact.github}
-                target="_blank"
-                rel="noreferrer"
-                variant="bordered"
-              >
-                {labels.github}
-              </AppButton>
-              <AppButton
-                as="a"
-                href={contact.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                variant="bordered"
-              >
-                {labels.linkedin}
-              </AppButton>
               {contact.bookCall ? (
                 <AppButton
                   as="a"
@@ -128,17 +108,10 @@ export default function ContactSection({
                 </AppButton>
               ) : null}
             </div>
-            <AppButton
-              as="a"
-              href={`${baseUrl}cv`}
-              className="contact-resume"
-            >
-              {labels.downloadCv}
-            </AppButton>
           </motion.div>
 
           <motion.div className="contact-right" variants={fadeUpVariants}>
-            <ContactForm />
+            <ContactForm labels={labels} />
           </motion.div>
         </motion.div>
       </Container>

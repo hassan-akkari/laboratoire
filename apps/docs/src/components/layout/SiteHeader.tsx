@@ -17,7 +17,6 @@ import {
 type SiteHeaderProps = {
   profile: PortfolioContent["profile"];
   contact: ProfileContact;
-  baseUrl: string;
   locale: Locale;
   onLocaleChange: (locale: Locale) => void;
   labels: Messages;
@@ -26,7 +25,6 @@ type SiteHeaderProps = {
 export default function SiteHeader({
   profile,
   contact,
-  baseUrl,
   locale,
   onLocaleChange,
   labels,
@@ -96,14 +94,6 @@ export default function SiteHeader({
               labels={labels.locale}
               className="nav-locale-switcher"
             />
-            <AppButton
-              as="a"
-              href={`${baseUrl}cv`}
-              size="sm"
-              className="nav-cv-button"
-            >
-              {labels.nav.cv}
-            </AppButton>
           </div>
         </motion.nav>
 
@@ -127,16 +117,12 @@ export default function SiteHeader({
               <AppButton as="a" href={`mailto:${contact.email}`} variant="bordered">
                 {labels.header.emailMe}
               </AppButton>
-              <AppButton as="a" href={`${baseUrl}cv`} variant="flat">
-                {labels.nav.cv}
-              </AppButton>
             </div>
           </motion.div>
           <motion.aside className="header-proof" variants={fadeUpVariants}>
             <p className="header-proof-title">{labels.header.quickProfile}</p>
             <p>{profile.metric}</p>
             <p>{profile.location}</p>
-            <p>{profile.philosophy}</p>
           </motion.aside>
         </motion.div>
       </Container>

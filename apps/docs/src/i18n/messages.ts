@@ -28,6 +28,7 @@ export type Messages = {
     title: string;
     now: string;
     philosophy: string;
+    howIWork: string;
     techStack: string;
     experience: string;
     education: string;
@@ -61,6 +62,11 @@ export type Messages = {
     linkedin: string;
     bookCall: string;
     downloadCv: string;
+    formName: string;
+    formEmail: string;
+    formMessage: string;
+    formSubmit: string;
+    formSuccess: string;
   };
   cv: {
     title: string;
@@ -112,6 +118,7 @@ export const messages: Record<Locale, Messages> = {
       title: "About me",
       now: "Now",
       philosophy: "Tech philosophy",
+      howIWork: "How I work",
       techStack: "Tech Stack",
       experience: "Experience",
       education: "Education",
@@ -128,16 +135,16 @@ export const messages: Record<Locale, Messages> = {
     portfolio: {
       title: "Featured projects",
       subtitle: "Selected work with stack details and impact-oriented outcomes.",
-      requestCaseStudy: "Request full case study",
+      requestCaseStudy: "Ask for additional details",
     },
     roadmap: {
       title: "Next builds",
       subtitle:
-        "Two production-oriented projects planned to increase recruiter signal beyond static portfolio pages.",
-      recruiterSignals: "Recruiter signal",
+        "Two mini side projects I build in my spare time to experiment beyond the static portfolio.",
+      recruiterSignals: "What I am exploring",
       mvpScope: "MVP scope",
       targetApp: "Target app",
-      cta: "Want me to prioritize one first? Email me",
+      cta: "If you want, I can share what I am building now",
     },
     contact: {
       title: "Contact me",
@@ -147,6 +154,11 @@ export const messages: Record<Locale, Messages> = {
       linkedin: "LinkedIn",
       bookCall: "Book a call",
       downloadCv: "Open CV page",
+      formName: "Your name",
+      formEmail: "Your email",
+      formMessage: "Your message",
+      formSubmit: "Send",
+      formSuccess: "Thanks! I will get back to you.",
     },
     cv: {
       title: "Curriculum Vitae",
@@ -199,6 +211,7 @@ export const messages: Record<Locale, Messages> = {
       title: "Chi sono",
       now: "Adesso",
       philosophy: "Filosofia tecnica",
+      howIWork: "Come lavoro",
       techStack: "Stack tecnico",
       experience: "Esperienza",
       education: "Formazione",
@@ -215,16 +228,16 @@ export const messages: Record<Locale, Messages> = {
     portfolio: {
       title: "Progetti in evidenza",
       subtitle: "Selezione di lavori con stack e risultati misurabili.",
-      requestCaseStudy: "Richiedi case study completo",
+      requestCaseStudy: "Per maggiori dettagli scrivimi",
     },
     roadmap: {
       title: "Prossimi build",
       subtitle:
-        "Due progetti orientati produzione per aumentare il segnale recruiter oltre il portfolio statico.",
-      recruiterSignals: "Segnale recruiter",
+        "Due mini progetti personali che porto avanti nel tempo libero, per sperimentare oltre il portfolio statico.",
+      recruiterSignals: "Cosa sto sperimentando",
       mvpScope: "Scope MVP",
       targetApp: "App target",
-      cta: "Vuoi che ne priorizzi uno? Scrivimi",
+      cta: "Se ti va, ti racconto cosa sto buildando ora",
     },
     contact: {
       title: "Contattami",
@@ -234,6 +247,11 @@ export const messages: Record<Locale, Messages> = {
       linkedin: "LinkedIn",
       bookCall: "Prenota call",
       downloadCv: "Apri pagina CV",
+      formName: "Nome",
+      formEmail: "Email",
+      formMessage: "Messaggio",
+      formSubmit: "Invia",
+      formSuccess: "Grazie! Ti rispondo presto.",
     },
     cv: {
       title: "Curriculum Vitae",
@@ -286,6 +304,7 @@ export const messages: Record<Locale, Messages> = {
       title: "A propos",
       now: "Actuellement",
       philosophy: "Philosophie technique",
+      howIWork: "Comment je travaille",
       techStack: "Stack technique",
       experience: "Experience",
       education: "Formation",
@@ -303,16 +322,16 @@ export const messages: Record<Locale, Messages> = {
       title: "Projets a la une",
       subtitle:
         "Selection de travaux avec details techniques et resultats orientes impact.",
-      requestCaseStudy: "Demander l'etude de cas complete",
+      requestCaseStudy: "Demander plus de details",
     },
     roadmap: {
       title: "Prochains builds",
       subtitle:
-        "Deux projets orientes production pour renforcer le signal recruteur au-dela du portfolio statique.",
-      recruiterSignals: "Signal recruteur",
+        "Deux mini projets perso que je fais sur mon temps libre pour experimenter au-dela du portfolio statique.",
+      recruiterSignals: "Ce que j'explore",
       mvpScope: "Scope MVP",
       targetApp: "App cible",
-      cta: "Vous voulez en prioriser un? Ecrivez-moi",
+      cta: "Si vous voulez, je peux partager ce que je build en ce moment",
     },
     contact: {
       title: "Contactez-moi",
@@ -322,6 +341,11 @@ export const messages: Record<Locale, Messages> = {
       linkedin: "LinkedIn",
       bookCall: "Reserver un appel",
       downloadCv: "Ouvrir page CV",
+      formName: "Votre nom",
+      formEmail: "Votre email",
+      formMessage: "Votre message",
+      formSubmit: "Envoyer",
+      formSuccess: "Merci! Je vous reponds rapidement.",
     },
     cv: {
       title: "Curriculum Vitae",

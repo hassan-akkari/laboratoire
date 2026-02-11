@@ -189,10 +189,6 @@ nav ul li a:focus-visible {
   transform: translateX(1.5rem) !important;
 }
 
-.nav-cv-button {
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-border) 65%, transparent);
-}
-
 .header-content {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
@@ -336,6 +332,27 @@ nav ul li a:focus-visible {
   margin: 0;
   color: color-mix(in srgb, var(--app-fg) 82%, var(--app-muted));
   line-height: 1.6;
+}
+
+.about-copy-title {
+  margin: 4px 0 0;
+  font-size: 16px;
+  color: var(--app-fg);
+}
+
+.about-work-list {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  color: color-mix(in srgb, var(--app-fg) 84%, var(--app-muted));
+  line-height: 1.6;
+}
+
+.about-disclosure {
+  margin-top: 4px;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--app-fg) 74%, var(--app-muted));
 }
 
 .about-now {
@@ -783,10 +800,6 @@ nav ul li a:focus-visible {
   gap: 10px;
 }
 
-.contact-resume {
-  margin-top: 14px;
-}
-
 .contact-right form {
   width: 100%;
   border-radius: 20px;
@@ -961,10 +974,6 @@ nav .fa-solid {
   }
 
   .nav-locale-switcher {
-    display: none;
-  }
-
-  .nav-cv-button {
     display: none;
   }
 

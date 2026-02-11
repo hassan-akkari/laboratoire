@@ -98,7 +98,6 @@ export default function App() {
                 <SiteHeader
                   profile={content.profile}
                   contact={content.contact}
-                  baseUrl={base}
                   locale={locale}
                   onLocaleChange={setLocale}
                   labels={labels}
@@ -120,7 +119,6 @@ export default function App() {
                 />
                 <RoadmapSection roadmap={content.roadmap} labels={labels.roadmap} />
                 <ContactSection
-                  baseUrl={base}
                   contact={content.contact}
                   labels={labels.contact}
                 />
