@@ -62,8 +62,15 @@ export default function AboutSection({
       }
     );
 
-    return `${githubProfile.public_repos} repos, ${githubProfile.followers} followers, updated ${lastUpdate}`;
+    return `Updated ${lastUpdate}`;
   }, [githubProfile]);
+
+  const hasStructuredAbout = content.profile.about.length >= 5;
+  const aboutStory = hasStructuredAbout ? content.profile.about[0] : null;
+  const aboutWorkBullets = hasStructuredAbout
+    ? content.profile.about.slice(1, content.profile.about.length - 1)
+    : [];
+  const aboutDisclosure = hasStructuredAbout ? content.profile.about.at(-1) : null;
 
   const renderTab = () => {
     switch (activeTab) {
@@ -171,9 +178,24 @@ export default function AboutSection({
           <motion.div className="about-col-2" variants={fadeUpVariants}>
             <h1 className="sub-title">{labels.about.title}</h1>
             <div className="about-copy">
-              {content.profile.about.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
+              {hasStructuredAbout && aboutStory ? (
+                <>
+                  <p>{aboutStory}</p>
+                  <h3 className="about-copy-title">{labels.about.howIWork}</h3>
+                  <ul className="about-work-list">
+                    {aboutWorkBullets.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                  {aboutDisclosure ? (
+                    <p className="about-disclosure">{aboutDisclosure}</p>
+                  ) : null}
+                </>
+              ) : (
+                content.profile.about.map((line) => (
+                  <p key={line}>{line}</p>
+                ))
+              )}
             </div>
             <p className="about-now">
               <strong>{labels.about.now}:</strong> {content.profile.now}
@@ -203,13 +225,6 @@ export default function AboutSection({
                 rel="noreferrer"
               >
                 {labels.contact.linkedin}
-              </AppButton>
-              <AppButton
-                as="a"
-                href={`${baseUrl}cv`}
-                variant="flat"
-              >
-                {labels.nav.cv}
               </AppButton>
             </div>
 

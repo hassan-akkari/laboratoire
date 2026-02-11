@@ -91,16 +91,6 @@ export default function PortfolioSection({
             </motion.article>
           ))}
         </motion.div>
-
-        <motion.div
-          className="portfolio-cta"
-          variants={fadeUpVariants}
-          {...getInViewReveal(reduceMotion, 0.3)}
-        >
-          <AppButton as="a" href="#contact" variant="flat">
-            {labels.requestCaseStudy}
-          </AppButton>
-        </motion.div>
       </Container>
     </Section>
   );

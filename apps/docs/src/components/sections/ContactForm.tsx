@@ -5,8 +5,18 @@ import {
   initialContactValues,
   type ContactValues,
 } from "./contactForm.schema";
+import type { Messages } from "../../i18n/messages";
 
-export default function ContactForm() {
+type ContactFormLabels = Pick<
+  Messages["contact"],
+  "formName" | "formEmail" | "formMessage" | "formSubmit" | "formSuccess"
+>;
+
+type ContactFormProps = {
+  labels: ContactFormLabels;
+};
+
+export default function ContactForm({ labels }: ContactFormProps) {
   const [values, setValues] = useState<ContactValues>(initialContactValues);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>(
     {}
@@ -41,7 +51,7 @@ export default function ContactForm() {
     }
 
     setErrors({});
-    setStatus("Thanks! I will get back to you.");
+    setStatus(labels.formSuccess);
     setValues(initialContactValues);
   };
 
@@ -51,7 +61,7 @@ export default function ContactForm() {
         <AppInput
           type="text"
           name="Name"
-          label="Your name"
+          label={labels.formName}
           labelPlacement="inside"
           value={values.name}
           onChange={(event) => updateField("name", event.target.value)}
@@ -65,7 +75,7 @@ export default function ContactForm() {
         <AppInput
           type="email"
           name="Email"
-          label="Your email"
+          label={labels.formEmail}
           labelPlacement="inside"
           value={values.email}
           onChange={(event) => updateField("email", event.target.value)}
@@ -78,7 +88,7 @@ export default function ContactForm() {
       <div className="form-field">
         <AppTextarea
           name="Message"
-          label="Your message"
+          label={labels.formMessage}
           labelPlacement="inside"
           minRows={6}
           value={values.message}
@@ -90,7 +100,7 @@ export default function ContactForm() {
       </div>
 
       <AppButton type="submit" className="mt-2 w-fit">
-        Submit
+        {labels.formSubmit}
       </AppButton>
       {status && isDirty === false && <span id="msg">{status}</span>}
     </form>

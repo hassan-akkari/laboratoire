@@ -4,14 +4,16 @@
     "role": "Software Developer orientato al frontend",
     "focus": "Sviluppatore orientato al frontend: modernizzo architetture UI, standardizzo componenti e riduco attrito nel team.",
     "location": "Roma, Italia",
-    "metric": "Lead frontend su moduli Sibylla Network e TTC",
+    "metric": "Frontend developer - cresciuto su Sibylla",
     "about": [
-      "Sono uno sviluppatore frontend che porta miglioramenti concreti modernizzando architettura UI e flussi di lavoro.",
-      "Su Sibylla Network e sui flussi TTC guido la delivery frontend tra stays, experiences, products, services e payments.",
-      "Di recente ho contribuito al passaggio da Bootstrap e pacchetti vendor a un approccio Tailwind, migliorando consistenza e riuso."
+      "Ho lavorato su Sibylla in un contesto dove le cose cambiano in fretta: se non metti ordine, il progetto ti mangia. Ho iniziato su Platform costruendo basi solide (jQuery/HTML/CSS) e standard pratici di classi/stili riusati nel tempo dal team. Oggi su Network lavoro in modo piu architetturale con React + Redux Toolkit sui flussi core.",
+      "Risolvo il problema, poi faccio in modo che non torni: standard, riuso, struttura.",
+      "Riduco attrito nel team: convenzioni chiare e componenti riutilizzabili.",
+      "Quando serve collego FE/BE: API, MVC, query e debugging.",
+      "Condivido volentieri approccio e impatto; alcuni dettagli interni restano fuori."
     ],
-    "now": "Sto guidando miglioramenti su Sibylla Network e TTC con pattern React e Redux Toolkit riutilizzabili e delivery piu veloce.",
-    "philosophy": "Porto cambiamento pratico: prima standardizzo, poi accelero la delivery.",
+    "now": "Attualmente su Sibylla Network: sto rendendo la delivery piu prevedibile con pattern React/Redux Toolkit riutilizzabili e maggiore coerenza UI.",
+    "philosophy": "Prima risolvo il problema, poi faccio in modo che non torni.",
     "githubUsername": "Dark-lIl-Demon"
   },
   "contact": {
@@ -23,12 +25,10 @@
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Lead frontend su Sibylla Network, con ownership su architettura, standard e delivery tra stays, experiences, products, services e payments.",
-    "Ho impostato struttura React e Redux Toolkit per rendere la gestione stato scalabile e consistente.",
-    "Ho definito standard UI/UX con componenti, layout e logica riutilizzabile per ridurre inconsistenza.",
-    "Ho spinto il passaggio da Bootstrap e pacchetti vendor a workflow Tailwind.",
-    "Sblocco velocemente il team risolvendo edge case e semplificando UI complesse senza fermare la delivery.",
-    "Connetto frontend e backend quando serve: integrazione REST e supporto su .NET MVC e SQL."
+    "Standard UI (classi/stili) introdotti su Platform e riusati nel tempo dal team.",
+    "Passaggio a lavoro piu strutturale su Network: React + Redux Toolkit, pattern riusabili.",
+    "Miglioramento della coerenza UI e riduzione della frammentazione (es. Bootstrap -> Tailwind dove applicabile).",
+    "Sblocco rapido del team su edge case e bug complessi, senza rallentare la delivery."
   ],
   "stack": {
     "daily": [
@@ -56,15 +56,15 @@
   },
   "experience": [
     {
-      "company": "Sibylla Network / TTC",
+      "company": "Sibylla (Platform e Network)",
       "location": "Italia",
-      "role": "Frontend Developer (Architecture and Delivery)",
+      "role": "Frontend Developer - cresciuto con il progetto",
       "start": "Attuale",
       "end": "In corso",
       "bullets": [
-        "Guido implementazione frontend su moduli stays, experiences, products, services e payments.",
-        "Ho costruito pattern React e Redux Toolkit per uno stato prevedibile e delivery piu rapida.",
-        "Ho guidato la migrazione da Bootstrap e pacchetti vendor a Tailwind per ridurre frammentazione UI."
+        "Ho iniziato su Platform: consolidato basi con jQuery, HTML e CSS, poi introdotto standard di classi e stili ancora usati.",
+        "Passato su Network: lavoro piu strutturale con React + Redux Toolkit e pattern riusabili sui flussi booking, catalogo e checkout.",
+        "Ho migliorato coerenza UI e ridotto frammentazione (Bootstrap -> Tailwind dove applicabile), mantenendo una delivery stabile."
       ]
     },
     {
@@ -107,25 +107,25 @@
   "projects": [
     {
       "id": "sibylla-network-ui-system",
-      "title": "Sibylla Network - Frontend Architecture and UI System",
-      "summary": "Ownership frontend su ecosistema multi-dominio, con pattern React e RTK scalabili e standard UI riutilizzabili.",
-      "image": "image/WorkBetterTgter.png",
+      "title": "Sibylla Network - Il mio percorso frontend",
+      "summary": "Ho iniziato su Platform, ho imparato le basi e ho creato standard riutilizzabili. Ora su Network costruisco architetture scalabili con React e Redux Toolkit, con focus su coerenza UI e delivery prevedibile.",
+      "image": "image/enterprise-nda-placeholder.svg",
       "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
       "impact": [
-        "Leadership su architettura e delivery frontend nelle aree business principali.",
-        "Standardizzazione componenti e regole layout per aumentare coerenza UI.",
-        "Onboarding piu rapido e delivery piu fluida grazie a pattern riutilizzabili."
+        "Standard UI adottati su piu moduli core (booking, catalogo, checkout).",
+        "Ridotta duplicazione CSS grazie a classi e pattern riutilizzabili.",
+        "Meno regressioni UI in rilascio grazie a convenzioni condivise."
       ],
       "links": [
         {
-          "label": "Case Study",
-          "href": "#contact",
-          "kind": "caseStudy"
+          "label": "Sito live",
+          "href": "https://sibyllanetwork.com",
+          "kind": "live"
         },
         {
-          "label": "GitHub",
-          "href": "https://github.com/Dark-lIl-Demon",
-          "kind": "github"
+          "label": "Vuoi sapere cosa ho costruito?",
+          "href": "#contact",
+          "kind": "caseStudy"
         }
       ]
     },
@@ -136,9 +136,9 @@
       "image": "image/LaBrochure.png",
       "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
       "impact": [
-        "Ridotta dipendenza da vendor e comportamento UI frammentato.",
-        "Migliorata velocita di iterazione su layout e componenti.",
-        "Creati pattern utility riutilizzabili e piu scalabili tra moduli."
+        "Prima: layout disallineati tra moduli. Dopo: pattern utility condivisi.",
+        "Ridotta dipendenza da vendor e meno comportamento UI frammentato.",
+        "Iterazioni su layout e componenti piu rapide nei flussi principali."
       ],
       "links": [
         {
@@ -169,9 +169,9 @@
         "Playwright"
       ],
       "recruiterSignals": [
-        "Mostra competenza su SSR e caching tra listing e dettaglio.",
-        "Dimostra auth con checkout protetto e redirect alla pagina originale.",
-        "Include motore regole prezzo e promo con copertura test unit."
+        "Lo uso per allenarmi su SSR e caching tra listing e dettaglio.",
+        "Sperimento login gate sul checkout e redirect pulito dopo auth.",
+        "Mi esercito su regole prezzo e logica promo con test unit."
       ],
       "mvpScope": [
         "Costruire il flusso listing -> detail -> cart -> checkout.",
@@ -194,9 +194,9 @@
         "Jest o Karma"
       ],
       "recruiterSignals": [
-        "Conferma architettura enterprise con confini feature chiari.",
-        "Evidenzia workflow form complessi e validazione robusta.",
-        "Dimostra accessi per ruolo e ciclo draft-to-published."
+        "Lo uso per provare una struttura enterprise a feature modulari.",
+        "Sperimento workflow form complessi e validazioni robuste.",
+        "Testo accessi per ruolo con ciclo draft-to-published."
       ],
       "mvpScope": [
         "Creare ruoli admin: viewer, editor, admin con route guards.",

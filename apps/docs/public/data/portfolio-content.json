@@ -4,14 +4,14 @@
     "role": "Frontend-focused Software Developer",
     "focus": "Frontend-focused software developer improving products by modernizing UI architecture, standardizing components, and removing delivery friction.",
     "location": "Rome, Italy",
-    "metric": "Lead frontend on Sibylla Network and TTC modules",
+    "metric": "Frontend developer - grown through Sibylla",
     "about": [
       "I am a frontend-focused software developer who improves products by modernizing UI architecture, standardizing components, and reducing team friction.",
-      "On Sibylla Network and TTC workflows, I lead frontend delivery across stays, experiences, products, services, and payments.",
-      "I recently helped drive the shift from Bootstrap and vendor packages to a Tailwind-based approach, improving UI consistency and component reuse."
+      "I started on Sibylla Platform: this is where I built my foundations with jQuery, HTML, and CSS, and introduced reusable class/style standards still used today.",
+      "Now I am on Sibylla Network, working on booking, catalog, and checkout flows with React and Redux Toolkit. I cannot show product internals, but I can explain the technical work and impact."
     ],
-    "now": "Driving Sibylla Network and TTC improvements with reusable React and Redux Toolkit patterns and faster delivery cycles.",
-    "philosophy": "I push practical change: standardize first, then speed up delivery.",
+    "now": "Currently on Sibylla Network: improving delivery with reusable patterns and cleaner architecture. I cannot show internals, but I can clearly explain what I built and why it helped.",
+    "philosophy": "Standardize first, then accelerate. Clean code helps the whole team ship faster.",
     "githubUsername": "Dark-lIl-Demon"
   },
   "contact": {
@@ -23,12 +23,12 @@
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Lead frontend on Sibylla Network, owning architecture, standards, and delivery across stays, experiences, products, services, and payments.",
+    "Started on Sibylla Platform: built frontend foundations with jQuery, HTML, and CSS.",
+    "Introduced reusable class/style standards that became team conventions and are still used.",
+    "Now on Sibylla Network: lead implementation across booking, catalog, and checkout with React and Redux Toolkit.",
     "Designed and implemented React plus Redux Toolkit structure to keep state management scalable and consistent.",
-    "Established UI and UX standards with reusable components, layouts, and logic to reduce inconsistency.",
-    "Pushed a transition from Bootstrap and vendor UI packages to a Tailwind-driven workflow.",
-    "Unblock teammates quickly by fixing edge cases and simplifying messy UI code without slowing delivery.",
-    "Bridge frontend and backend when needed, including REST integration and .NET MVC with SQL support tasks."
+    "Drove migration from Bootstrap and vendor packages to Tailwind to reduce UI fragmentation and improve consistency.",
+    "Unblock teammates by solving edge cases quickly and simplifying complex UI without slowing delivery."
   ],
   "stack": {
     "daily": [
@@ -56,15 +56,15 @@
   },
   "experience": [
     {
-      "company": "Sibylla Network / TTC",
+      "company": "Sibylla (Platform and Network)",
       "location": "Italy",
-      "role": "Frontend Developer (Architecture and Delivery)",
+      "role": "Frontend Developer (Platform Foundations and Network Delivery)",
       "start": "Current",
       "end": "Present",
       "bullets": [
-        "Lead frontend implementation across stays, experiences, products, services, and payments modules.",
-        "Built scalable React plus Redux Toolkit patterns for predictable state and faster delivery.",
-        "Drove migration from Bootstrap and vendor packages to Tailwind to reduce UI fragmentation."
+        "Started on Sibylla Platform, strengthening frontend fundamentals with jQuery, HTML, and CSS.",
+        "Introduced reusable class and style standards that became shared conventions and are still used.",
+        "Now on Sibylla Network, lead implementation across booking, catalog, and checkout with scalable React and Redux Toolkit patterns."
       ]
     },
     {
@@ -107,9 +107,9 @@
   "projects": [
     {
       "id": "sibylla-network-ui-system",
-      "title": "Sibylla Network - Frontend Architecture and UI System",
-      "summary": "Frontend ownership for a multi-domain ecosystem, with scalable React and RTK patterns plus reusable UI standards.",
-      "image": "image/WorkBetterTgter.png",
+      "title": "Sibylla Network - My Frontend Journey",
+      "summary": "I started on Platform, built frontend foundations, and introduced reusable standards. Now on Network, I build scalable React and Redux Toolkit architecture. I cannot show product internals, but I can explain what I built and how it improved delivery.",
+      "image": "image/enterprise-nda-placeholder.svg",
       "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
       "impact": [
         "Led frontend architecture and delivery across key business areas.",
@@ -118,14 +118,14 @@
       ],
       "links": [
         {
-          "label": "Case Study",
-          "href": "#contact",
-          "kind": "caseStudy"
+          "label": "Live product",
+          "href": "https://sibyllanetwork.com",
+          "kind": "live"
         },
         {
-          "label": "GitHub",
-          "href": "https://github.com/Dark-lIl-Demon",
-          "kind": "github"
+          "label": "Want to know what I built?",
+          "href": "#contact",
+          "kind": "caseStudy"
         }
       ]
     },
@@ -169,9 +169,9 @@
         "Playwright"
       ],
       "recruiterSignals": [
-        "Shows SSR and caching awareness with listing and detail pages.",
-        "Demonstrates auth and protected checkout routes with redirect handling.",
-        "Includes pricing rules engine and promo logic with unit test coverage."
+        "I use this build to practice SSR and caching between listing and detail pages.",
+        "I experiment with a login gate on checkout and clean redirect handling.",
+        "I use it to sharpen pricing rules and promo logic with unit tests."
       ],
       "mvpScope": [
         "Build listing to detail to cart to checkout user flow.",
@@ -194,9 +194,9 @@
         "Jest or Karma"
       ],
       "recruiterSignals": [
-        "Proves enterprise app architecture with clear feature boundaries.",
-        "Highlights form-heavy workflows and robust validation strategy.",
-        "Demonstrates role-based access and review-to-publish lifecycle."
+        "I use it to practice modular enterprise-style feature boundaries.",
+        "I experiment with form-heavy flows and robust validation patterns.",
+        "I test role-based access with a draft-to-published workflow."
       ],
       "mvpScope": [
         "Create admin roles: viewer, editor, admin with route guards.",

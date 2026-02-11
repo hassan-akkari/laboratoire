@@ -36,7 +36,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <section className="hero-card">
         <h1>Booking and Checkout Engine (MVP)</h1>
         <p>
-          Next.js app-router demo focused on recruiter signal: protected checkout,
+          Next.js app-router demo focused on concrete capability proof: protected checkout,
           server-validated pricing rules, and idempotent order confirmation.
         </p>
         <div className="signal-grid">

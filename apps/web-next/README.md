@@ -1,6 +1,6 @@
 # web-next
 
-Next.js MVP focused on a recruiter-friendly booking and checkout scenario.
+Next.js MVP focused on a booking and checkout scenario that proves concrete engineering capabilities.
 
 ## Features
 
