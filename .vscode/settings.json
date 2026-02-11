@@ -1,16 +1,20 @@
 {
-  "eslint.useFlatConfig": false,
+  "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [
     { "pattern": "apps/*", "changeProcessCWD": true },
+    { "pattern": "packages/*", "changeProcessCWD": true },
     { "directory": ".", "changeProcessCWD": true }
   ],
-  "eslint.options": {
-    "overrideConfigFile": "${workspaceFolder}/.eslintrc.cjs"
-  },
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "search.exclude": {
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/dist": true
+  }
 }

@@ -18,12 +18,12 @@ jobs:
           run_install: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
-      - run: pnpm -w install --no-frozen-lockfile
-      - run: pnpm -F docs build
-      - run: pnpm -F web-react build
+      - run: pnpm -w install --frozen-lockfile
+      - run: pnpm check
+      - run: pnpm build
       - run: pnpm -v
 
       - name: Stage dist (docs → /, react → /react)

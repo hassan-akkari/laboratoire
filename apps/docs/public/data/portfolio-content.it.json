@@ -1,0 +1,209 @@
+{
+  "profile": {
+    "name": "Hassan Akkari",
+    "role": "Software Developer orientato al frontend",
+    "focus": "Standard UI, componenti riutilizzabili, flussi core (React/TS/RTK).",
+    "location": "Roma, Italia",
+    "metric": "Frontend engineer - UI architecture & delivery",
+    "about": [
+      "Ho lavorato su Sibylla in un contesto dove le cose cambiano in fretta: se non metti ordine, il progetto ti mangia. Ho iniziato su Platform costruendo basi solide (jQuery/HTML/CSS) e standard UI riutilizzabili; oggi su Network lavoro in modo piu strutturale con React + Redux Toolkit sui flussi core.",
+      "Risolvo il problema, poi lo rendo difficile da ripetere: standard, riuso, struttura.",
+      "Riduco attrito nel team: convenzioni chiare e componenti riutilizzabili.",
+      "Quando serve collego FE/BE: API, MVC, query e debugging.",
+      "Condivido volentieri approccio e impatto; alcuni dettagli interni restano fuori."
+    ],
+    "now": "Attualmente su Sibylla Network: sto rendendo la delivery piu prevedibile con pattern React/Redux Toolkit riutilizzabili e maggiore coerenza UI.",
+    "philosophy": "Prima risolvo il problema, poi faccio in modo che non torni.",
+    "githubUsername": "Dark-lIl-Demon"
+  },
+  "contact": {
+    "email": "hassan.akkari01@gmail.com",
+    "resumePath": "pdf/CV-ITA-102025.pdf",
+    "github": "https://github.com/Dark-lIl-Demon",
+    "linkedin": "https://www.linkedin.com/in/hassan-akkari",
+    "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
+    "facebook": "https://www.facebook.com/hassan.akkari.714"
+  },
+  "highlights": [
+    "Standard UI (classi/stili)\nPrima: convenzioni sparse e duplicazioni tra moduli.\nDopo: standard condivisi riusati nel tempo dal team.\nRisultato: meno regressioni e manutenzione piu veloce.",
+    "Network: pattern riusabili (React + Redux Toolkit)\nPrima: logiche distribuite e difficili da scalare.\nDopo: pattern e flussi piu prevedibili.\nRisultato: delivery piu stabile sui core flow.",
+    "Coerenza UI (Bootstrap -> Tailwind dove applicabile)\nPrima: layout incoerenti e componenti simili ma diversi.\nDopo: standard e composizione piu consistenti.\nRisultato: iterazioni piu rapide sui flussi principali.",
+    "Debugging su edge case e bug complessi\nPrima: blocchi lunghi e diagnosi frammentata.\nDopo: isolamento rapido, fix mirato, prevenzione dove possibile.\nRisultato: team sbloccato senza rallentare la release."
+  ],
+  "stack": {
+    "daily": [
+      "React (TSX)",
+      "Redux Toolkit",
+      "TypeScript",
+      "JavaScript",
+      "jQuery",
+      "HTML5/CSS3",
+      "Tailwind CSS"
+    ],
+    "comfortable": [
+      "ASP.NET MVC",
+      "C#",
+      "SQL Server",
+      "REST APIs",
+      "UI standardization",
+      "Cross-domain feature delivery"
+    ],
+    "exploring": [
+      "Angular",
+      "GraphQL",
+      "Design tokens e governance componenti"
+    ]
+  },
+  "experience": [
+    {
+      "company": "Sibylla (Platform e Network)",
+      "location": "Italia",
+      "role": "Frontend Developer - cresciuto con il progetto",
+      "start": "Attuale",
+      "end": "In corso",
+      "bullets": [
+        "Ho iniziato su Platform: consolidato basi con jQuery, HTML e CSS, poi introdotto standard di classi e stili ancora usati.",
+        "Passato su Network: lavoro piu strutturale con React + Redux Toolkit e pattern riusabili sui flussi booking, catalogo e checkout.",
+        "Ho migliorato coerenza UI e ridotto frammentazione (Bootstrap -> Tailwind dove applicabile), mantenendo una delivery stabile."
+      ]
+    },
+    {
+      "company": "BetterTogether",
+      "location": "Roma, Italia",
+      "role": "Junior Developer Intern",
+      "start": "Ott 2022",
+      "end": "Giu 2023",
+      "bullets": [
+        "Sviluppo e manutenzione di feature interne con attenzione a form e validazione dati.",
+        "Integrazione flussi frontend con servizi .NET e dati SQL Server.",
+        "Fix e refactor su workflow critici prima del rilascio."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Uxbridge College",
+      "location": "Londra, UK",
+      "qualification": "Diploma in Computer Science",
+      "start": "Set 2019",
+      "end": "Giu 2021",
+      "focus": "Fondamenti software, concetti dati e basi di sviluppo web."
+    }
+  ],
+  "general": [
+    {
+      "title": "Lingue",
+      "items": ["Italiano", "Inglese", "Arabo (Darija)"]
+    },
+    {
+      "title": "Collaborazione",
+      "items": ["Code review", "Handoff di team", "Iterazione agile"]
+    },
+    {
+      "title": "Tooling",
+      "items": ["GitHub", "CI basics", "Figma handoff"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "sibylla-network-ui-system",
+      "title": "Sibylla Network - Il mio percorso frontend",
+      "summary": "Ho iniziato su Platform creando basi solide e standard riutilizzabili. Su Network ho portato un approccio piu strutturale con React e Redux Toolkit, con focus su coerenza UI e delivery prevedibile.",
+      "image": "image/enterprise-nda-placeholder.svg",
+      "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
+      "impact": [
+        "Problema: UI frammentata e regole replicate tra moduli.",
+        "Intervento: standard + pattern riusabili sui flussi core.",
+        "Risultato: maggiore coerenza UI e meno regressioni in rilascio."
+      ],
+      "links": [
+        {
+          "label": "Sito live",
+          "href": "https://sibyllanetwork.com",
+          "kind": "live"
+        },
+        {
+          "label": "Vuoi sapere cosa ho costruito?",
+          "href": "#contact",
+          "kind": "caseStudy"
+        }
+      ]
+    },
+    {
+      "id": "bootstrap-tailwind-modernization",
+      "title": "Bootstrap to Tailwind Modernization",
+      "summary": "Migrazione da Bootstrap e pacchetti vendor a workflow Tailwind orientato a consistenza, velocita e manutenzione.",
+      "image": "image/LaBrochure.png",
+      "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
+      "impact": [
+        "Standard UI piu coerenti tra moduli e componenti.",
+        "Ridotta dipendenza da vendor e meno comportamento UI frammentato.",
+        "Iterazioni su layout e componenti piu rapide nei flussi principali."
+      ],
+      "links": [
+        {
+          "label": "Case Study",
+          "href": "#contact",
+          "kind": "caseStudy"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/Dark-lIl-Demon",
+          "kind": "github"
+        }
+      ]
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "next-booking-checkout-engine",
+      "title": "Next.js Booking and Checkout Engine",
+      "summary": "Flusso booking in stile produzione: ricerca, dettaglio, carrello, checkout e conferma con confini API robusti.",
+      "status": "MVP pianificato",
+      "targetApp": "apps/web-next",
+      "stack": [
+        "Next.js App Router",
+        "TypeScript",
+        "Server Actions e Route Handlers",
+        "Zod",
+        "Playwright"
+      ],
+      "recruiterSignals": [
+        "Lo uso per allenarmi su SSR e caching tra listing e dettaglio.",
+        "Sperimento login gate sul checkout e redirect pulito dopo auth.",
+        "Mi esercito su regole prezzo e logica promo con test unit."
+      ],
+      "mvpScope": [
+        "Costruire il flusso listing -> detail -> cart -> checkout.",
+        "Implementare price rules engine e breakdown promo code.",
+        "Aggiungere login gate sul checkout e conferma pagamento simulata.",
+        "Pubblicare preview deploy-ready con CI lint, typecheck e test."
+      ]
+    },
+    {
+      "id": "angular-experiences-admin-console",
+      "title": "Angular Experiences Admin Console",
+      "summary": "Pannello admin orientato enterprise per creare, revisionare e pubblicare esperienze con ruoli e audit chiaro.",
+      "status": "MVP pianificato",
+      "targetApp": "apps/admin-angular",
+      "stack": [
+        "Angular",
+        "RxJS",
+        "Reactive Forms",
+        "Angular Router Guards",
+        "Jest o Karma"
+      ],
+      "recruiterSignals": [
+        "Lo uso per provare una struttura enterprise a feature modulari.",
+        "Sperimento workflow form complessi e validazioni robuste.",
+        "Testo accessi per ruolo con ciclo draft-to-published."
+      ],
+      "mvpScope": [
+        "Creare ruoli admin: viewer, editor, admin con route guards.",
+        "Costruire wizard esperienza con campi condizionali e validazioni.",
+        "Aggiungere workflow review: draft, review, published con audit trail.",
+        "Implementare tabella filtrabile con export CSV e test coverage."
+      ]
+    }
+  ]
+}

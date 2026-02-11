@@ -1,9 +1,19 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import { HeroUIProvider } from "@heroui/react";
 import { store } from "./store/store";
 import App from "./App";
 import "./index.css";
+
+const THEME_KEY = "laboratoire-theme";
+
+function initTheme() {
+  const stored = localStorage.getItem(THEME_KEY);
+  const theme = stored === "light" || stored === "dark" ? stored : "dark";
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  document.documentElement.classList.toggle("light", theme === "light");
+}
 
 async function enableMocksIfPossible() {
   if (!import.meta.env.DEV) return;
@@ -34,14 +44,17 @@ async function enableMocksIfPossible() {
 }
 
 async function bootstrap() {
+  initTheme();
   await enableMocksIfPossible();
 
   ReactDOM.createRoot(document.getElementById("root")!).render(
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
+    <HeroUIProvider>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </HeroUIProvider>
   );
 }
 

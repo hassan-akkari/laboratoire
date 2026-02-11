@@ -1,0 +1,55 @@
+{
+  "name": "@laboratoire/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json -w",
+    "lint": "eslint src",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "clsx": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@heroui/react": "^2.8.8",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@heroui/react": "^2.8.8",
+    "@heroui/theme": "^2.4.26",
+    "@storybook/addon-a11y": "10.2.4",
+    "@storybook/addon-docs": "10.2.4",
+    "@storybook/addon-links": "10.2.4",
+    "@storybook/react-vite": "10.2.4",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "msw": "^2.12.7",
+    "msw-storybook-addon": "2.0.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "storybook": "10.2.4",
+    "tailwindcss": "^4.1.18",
+    "vitest": "^3.2.4"
+  }
+}
