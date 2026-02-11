@@ -1,0 +1,12 @@
+**/node_modules/
+node_modules_old/
+**/.pnpm-store/
+**/.turbo/
+**/.vite/
+**/.next/
+**/dist/
+**/dist-pages/
+**/storybook-static/
+**/*.tsbuildinfo
+*.log
+node_modules_old/

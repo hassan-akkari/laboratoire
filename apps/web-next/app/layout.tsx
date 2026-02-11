@@ -1,0 +1,53 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { getDateWithOffset } from "../lib/date";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Web Next | Booking Checkout Engine",
+  description:
+    "Production-style Next.js booking and checkout flow with protected routes and pricing rules.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: ReactNode;
+}>) {
+  const seedDate = getDateWithOffset(7);
+  const seedQuery = new URLSearchParams({
+    slug: "rome-night-food-tour",
+    guests: "2",
+    date: seedDate,
+  }).toString();
+
+  return (
+    <html lang="en">
+      <body>
+        <div className="app-shell">
+          <nav className="app-nav">
+            <div className="app-nav__content">
+              <Link href="/" className="brand">
+                web-<span>next</span>
+              </Link>
+              <div className="nav-links">
+                <Link href="/">Listing</Link>
+                <Link href={`/cart?${seedQuery}`}>
+                  Cart
+                </Link>
+                <Link href={`/checkout?${seedQuery}`}>
+                  Checkout
+                </Link>
+                <Link href={`/login?next=${encodeURIComponent(`/checkout?${seedQuery}`)}`}>
+                  Login
+                </Link>
+              </div>
+            </div>
+          </nav>
+          <main className="app-main">{children}</main>
+        </div>
+      </body>
+    </html>
+  );
+}
