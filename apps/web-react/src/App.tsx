@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { usePingQuery } from "./store/api";
 import { useTheme } from "./hooks/useTheme";
 import PageLayout from "./components/layout/PageLayout";
@@ -30,6 +31,7 @@ function App() {
 
       <HeroForm />
       <NextSteps />
+      <Analytics />
     </PageLayout>
   );
 }

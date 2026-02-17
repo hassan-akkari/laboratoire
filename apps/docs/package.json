@@ -12,16 +12,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@laboratoire/ui": "workspace:*",
     "@heroui/react": "^2.8.8",
     "@heroui/theme": "^2.4.26",
+    "@laboratoire/ui": "workspace:*",
     "@reduxjs/toolkit": "^2.11.2",
+    "@vercel/analytics": "^1.6.1",
     "framer-motion": "^12.29.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.0",
-    "react-icons": "^5.5.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

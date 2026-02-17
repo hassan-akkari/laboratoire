@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import AboutSection from "./components/sections/AboutSection";
 import ContactSection from "./components/sections/ContactSection";
 import HighlightsSection from "./components/sections/HighlightsSection";
@@ -82,64 +83,67 @@ export default function App() {
   const loadedGithub: GithubProfile | null = githubProfile ?? null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        variants={routeTransitionVariants}
-        initial={reduceMotion ? false : "hidden"}
-        animate="visible"
-        exit={reduceMotion ? "visible" : "exit"}
-      >
-        <Routes location={location}>
-          <Route
-            path="/"
-            element={
-              <>
-                <SiteHeader
-                  profile={content.profile}
-                  contact={content.contact}
+    <>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          variants={routeTransitionVariants}
+          initial={reduceMotion ? false : "hidden"}
+          animate="visible"
+          exit={reduceMotion ? "visible" : "exit"}
+        >
+          <Routes location={location}>
+            <Route
+              path="/"
+              element={
+                <>
+                  <SiteHeader
+                    profile={content.profile}
+                    contact={content.contact}
+                    locale={locale}
+                    onLocaleChange={setLocale}
+                    labels={labels}
+                  />
+                  <AboutSection
+                    baseUrl={base}
+                    content={content}
+                    githubProfile={loadedGithub}
+                    isFallbackData={hasRemoteError}
+                    isRefreshing={isRefreshingPortfolio || isRefreshingGithub}
+                    hasGithubError={hasGithubError}
+                    labels={labels}
+                  />
+                  <HighlightsSection highlights={content.highlights} labels={labels.highlights} />
+                  <PortfolioSection
+                    baseUrl={base}
+                    projects={content.projects}
+                    labels={labels.portfolio}
+                  />
+                  <RoadmapSection roadmap={content.roadmap} labels={labels.roadmap} />
+                  <ContactSection
+                    contact={content.contact}
+                    labels={labels.contact}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/cv"
+              element={
+                <CvPage
+                  baseUrl={base}
+                  content={content}
                   locale={locale}
                   onLocaleChange={setLocale}
                   labels={labels}
                 />
-                <AboutSection
-                  baseUrl={base}
-                  content={content}
-                  githubProfile={loadedGithub}
-                  isFallbackData={hasRemoteError}
-                  isRefreshing={isRefreshingPortfolio || isRefreshingGithub}
-                  hasGithubError={hasGithubError}
-                  labels={labels}
-                />
-                <HighlightsSection highlights={content.highlights} labels={labels.highlights} />
-                <PortfolioSection
-                  baseUrl={base}
-                  projects={content.projects}
-                  labels={labels.portfolio}
-                />
-                <RoadmapSection roadmap={content.roadmap} labels={labels.roadmap} />
-                <ContactSection
-                  contact={content.contact}
-                  labels={labels.contact}
-                />
-              </>
-            }
-          />
-          <Route
-            path="/cv"
-            element={
-              <CvPage
-                baseUrl={base}
-                content={content}
-                locale={locale}
-                onLocaleChange={setLocale}
-                labels={labels}
-              />
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+      <Analytics />
+    </>
   );
 }
