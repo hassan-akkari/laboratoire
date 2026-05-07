@@ -7,10 +7,6 @@
     "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@laboratoire/ui": ["../../packages/ui/src/index.ts"]
-    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
