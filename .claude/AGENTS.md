@@ -167,12 +167,12 @@ example_invocation: |
 ```yaml
 name: deploy-warden
 mandate: |
-  Review or modify CI/CD, Vercel config, or anything that affects what reaches
-  production. Ensure the dual-deploy split (GH Pages + Vercel) stays coherent and
-  flag if web-next is being dragged into a deploy pipeline that's not designed for it.
+  Review or modify deploy configuration (Vercel today, OVH planned) or anything
+  that affects what reaches production. Keep `apps/docs` (Vercel) and the future
+  OVH target distinct; flag scope creep that mixes their concerns.
 trigger_when:
-  - "Touches .github/workflows/*"
   - "Touches vercel.json"
+  - "Touches .github/workflows/* (when an OVH or other workflow lands)"
   - "Touches root package.json scripts that affect build/deploy"
   - "Touches turbo.json"
   - "Touches apps/*/vite.config.ts (base path) or apps/web-next/next.config.ts"
@@ -181,22 +181,21 @@ tool_whitelist: [Read, Edit, Write, Glob, Grep]
 forbidden_tools: [Bash]   # no actual deploys
 forbidden_actions:
   - "Pushing changes that affect production deploy without a human-approved PR"
-  - "Removing the `pnpm check` pre-gate from deploy-user-site.yml"
-  - "Adding web-next to vercel.json or GH Pages staging without explicit human request"
-  - "Changing apps/web-react base path away from /react/ — it would break Pages"
+  - "Adding web-next or web-react to vercel.json without explicit human request — Vercel currently deploys only docs"
+  - "Writing the OVH deploy workflow before D2 (OVH topology) is answered in _followup.md"
+  - "Re-introducing GitHub Pages — it was intentionally retired in chore/deploy-topology-cleanup"
 checks_to_perform:
-  - "Both deploy targets still produce the same docs site, or one has been retired"
-  - "SPA fallback (index.html → 404.html) still wired for both docs and web-react"
-  - "GH_PAGES_TOKEN secret still referenced; no new required secrets without flagging"
+  - "Vercel still deploys only apps/docs (or the change is explicit and human-approved)"
   - "Turbo `^build` dependency still ensures packages/ui builds first"
+  - "No new required secrets at the repo level without flagging"
 output_contract:
   - "Diff with explanation of behavioral changes"
   - "Explicit list of new env vars or secrets required"
   - "Rollback plan if change is high-risk"
 example_invocation: |
-  Add web-next deploy to Vercel under a separate project.
-  Don't merge this into the existing docs Vercel project.
-  Confirm the auth cookie still works under Vercel's domain rules.
+  Wire OVH deploy for apps/web-next per D2 answers.
+  Use SSH/SFTP step in a new GH workflow or document the manual flow.
+  Do NOT merge this with the existing docs Vercel config.
 ```
 
 ---

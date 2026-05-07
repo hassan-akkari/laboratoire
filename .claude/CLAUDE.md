@@ -29,7 +29,7 @@ Source: `pnpm-lock.yaml` (cross-checked against `package.json` ranges).
 | Testing | `vitest` | `3.2.4` |
 | Linting | `eslint` / `typescript-eslint` | `9.39.2` / `8.54.0` |
 | Stories | `storybook` / `@storybook/react-vite` | `10.2.4` (packages/ui) |
-| Headless | `@headlessui/react` | declared `^2.1.2`, installed `2.2.9` — **mismatch, see Gotchas** |
+| Headless | `@headlessui/react` | `2.2.9` |
 
 ## Architecture
 
@@ -46,7 +46,7 @@ graph TD
 ```
 
 Notes:
-- `apps/docs` deploys at `/` (Vercel + GitHub Pages). `apps/web-react` deploys at `/react/` (GitHub Pages only). `apps/web-next` is **built in CI but not deployed** (see Gotchas).
+- `apps/docs` deploys to **Vercel** (`vercel.json`). `apps/web-react` and `apps/web-next` have **no Vercel target configured**; their hosting target is **OVH** — exact mapping TBD (see `_followup.md` D2).
 - Three different routing strategies: docs/web-react use React Router 7; web-next uses Next.js App Router.
 - State management is asymmetric: docs and web-react use Redux Toolkit + RTK Query; web-next uses Server Actions + an in-memory order store on `globalThis`.
 - `apps/web-next/middleware.ts:21-23` protects `/checkout/:path*` via a single-cookie session (`SESSION_COOKIE_NAME` / `SESSION_COOKIE_VALUE`). MVP only — not production-safe.
@@ -128,22 +128,21 @@ Portfolio domain (`apps/docs`): nav uses `Chi sono` / `Esperienza` / `Risultati`
 2. **`web-react` declares `@laboratoire/ui` in `tsconfig.app.json:11-13` but never imports it** (zero matches across `apps/web-react/src`) and does **not** list it in `package.json` deps. The path alias is dead code — confirm with the human before relying on or removing it.
 3. **`apps/web-react` has no `tailwind.config.ts` file** despite installing `tailwindcss` and `@tailwindcss/postcss`. Tailwind v4 still picks up the postcss plugin, but content scanning is implicit — verify any new utility classes actually generate CSS.
 4. **Three Tailwind setups, drifting tokens.** Dark theme colors differ between docs (`apps/docs/src/index.css:14-49`) and web-react (`apps/web-react/src/index.css:14-33`). web-next has only `apps/web-next/app/globals.css` and no Tailwind. Don't assume tokens match across apps.
-5. **`apps/web-next` is built in CI but not deployed.** Neither `vercel.json` nor `.github/workflows/deploy-user-site.yml` reference it. Treat it as a prototype until a deploy target is added.
-6. **In-memory order store, no persistence.** `apps/web-next/lib/orders.ts:23-24` — orders die on restart. The cookie session has no encryption or CSRF protection. Do not use this for real users.
-7. **Two production deploys for `docs`.** GH Pages (`Dark-lIl-Demon.github.io`, root) **and** Vercel (`vercel.json` → `apps/docs/dist`). Both fire on `main` push. Pick one canonical and document it.
-8. **SPA fallback inconsistency.** `docs` copies `index.html → 404.html` inline in `build`; `web-react` does the same in a `postbuild` hook. If `web-react`'s postbuild fails, the build still "succeeds" but routing breaks on Pages.
-9. **Port collision in `dev:all`.** Vite picks `5173` then auto-increments — both `dev:docs` and `dev:react` fight for it. Storybook is fixed at `6006`, Next at `3001` (hard-coded in `apps/web-next/package.json:7-9`).
-10. **Windows: NTFS only.** pnpm workspaces use symlinks; exFAT volumes will fail silently during install. Also `.npmrc` sets `child-concurrency=1` (sequential pnpm child tasks) and `node-linker=hoisted` (flat root `node_modules`).
-11. **`@headlessui/react` mismatch.** `packages/ui/package.json:29` declares `^2.1.2`, lockfile resolves `2.2.9`. Bump the declaration when you next touch that file.
-12. **`pnpm onlyBuiltDependencies`** restricts post-install scripts to `@heroui/shared-utils`, `esbuild`, `msw` (`package.json:42-46`). Adding native-build deps without listing them here will silently skip their build.
+5. **`apps/web-next` has no deploy target wired up yet.** Vercel (`vercel.json`) only deploys `apps/docs`. OVH is the planned target for the rest of the stack but the workflow is still TBD — see `_followup.md` D1/D2. Until then, treat it as a prototype.
+6. **In-memory order store, no persistence.** `apps/web-next/lib/orders.ts` — orders die on restart. The cookie session has no encryption or CSRF protection. **Conscious MVP choice** (see the `MVP-ONLY` guard comments at the top of `orders.ts` and `session.ts`). Do not use for real users.
+7. **SPA fallback artifact.** `apps/docs` build still copies `index.html → 404.html` inline; `apps/web-react` does the same via a `postbuild` hook. The fallback was originally for GitHub Pages routing — now mostly redundant on Vercel but harmless. Logged in `_followup.md` for cleanup.
+8. **Port collision in `dev:all`.** Vite picks `5173` then auto-increments — both `dev:docs` and `dev:react` fight for it. Storybook is fixed at `6006`, Next at `3001` (hard-coded in `apps/web-next/package.json:7-9`).
+9. **Windows: NTFS only.** pnpm workspaces use symlinks; exFAT volumes will fail silently during install. Also `.npmrc` sets `child-concurrency=1` (sequential pnpm child tasks) and `node-linker=hoisted` (flat root `node_modules`).
+10. **`pnpm onlyBuiltDependencies`** restricts post-install scripts to `@heroui/shared-utils`, `esbuild`, `msw` (`package.json:42-46`). Adding native-build deps without listing them here will silently skip their build.
 
 ## Workflow
 
-1. Branch off `main`. Naming is informal — recent branches: `dev/adding-motion`.
+1. Branch off `main`. Naming is informal — recent branches: `dev/adding-motion`, `chore/deploy-topology-cleanup`.
 2. Make changes; run `pnpm check` locally before push.
-3. Push → GitHub Actions runs `pnpm check`, then `pnpm build`, then publishes `docs` + `web-react` to `Dark-lIl-Demon/Dark-lIl-Demon.github.io@master`. Vercel separately deploys `docs`.
-4. Required secret: `GH_PAGES_TOKEN` (workflow `deploy-user-site.yml:48`).
-5. No PR templates, no CODEOWNERS, no review automation in repo.
+3. Push → **Vercel** auto-deploys `apps/docs` (config: `vercel.json`, framework `vite`, build `pnpm -F docs build`, output `apps/docs/dist`). No GitHub Actions workflow runs in this repo today.
+4. **OVH** is the planned target for `apps/web-react` and `apps/web-next` — workflow not yet wired (see `_followup.md` D1/D2).
+5. No required secrets at the repo level for the current pipeline. Vercel manages its own credentials in the Vercel dashboard.
+6. No PR templates, no CODEOWNERS, no review automation in repo.
 
 ## Capability Map
 
