@@ -1,4 +1,4 @@
-// MVP-ONLY — replace before: <DATE> — tracking: #<ISSUE>
+// MVP-ONLY — replace before going live with real users.
 // In-memory order store on globalThis. Lost on every server restart.
 // Conscious choice — see CLAUDE.md gotcha #6.
 import { randomUUID } from "node:crypto";
