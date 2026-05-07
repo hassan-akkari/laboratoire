@@ -1,3 +1,6 @@
+// MVP-ONLY — replace before: <DATE> — tracking: #<ISSUE>
+// In-memory order store on globalThis. Lost on every server restart.
+// Conscious choice — see CLAUDE.md gotcha #6.
 import { randomUUID } from "node:crypto";
 import { quoteBooking } from "./pricing";
 import type { CheckoutRequest } from "./bookingSchemas";
