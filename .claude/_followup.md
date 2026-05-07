@@ -6,11 +6,11 @@
 
 | ID | Topic | Status |
 |---|---|---|
-| **D1** | Fate of `apps/web-next` (WIP / smoke-test / abandoned) | Awaiting answer |
-| **D2** | OVH topology — what runs there, service type, deploy mechanism | Awaiting answer |
-| **D3** | Values for the `<DATE>` and `<ISSUE>` placeholders in the new MVP guard comments | Awaiting answer |
+| **D1** | Fate of `apps/web-next` (WIP / smoke-test / abandoned) | **Answered 2026-05-07**: WIP framework-showcase prototype. Will eventually be linked from the portfolio (route/subdomain/external — TBD). No urgency. |
+| **D2** | OVH topology — what runs there, service type, deploy mechanism | **Answered 2026-05-07**: OVH is registrar/DNS only for the portfolio domain — points at Vercel. **No OVH compute in scope.** Original premise of "OVH as deploy target for web-react/web-next" was wrong; corrected in CLAUDE.md. |
+| **D3** | Values for the `<DATE>` and `<ISSUE>` placeholders in the new MVP guard comments | **Resolved 2026-05-07**: no issue tracker / no deadline. Placeholders removed; comment reads `MVP-ONLY — replace before going live with real users`. |
 
-P2 (`apps/web-next` build-only path) is blocked on D1.
+D1/D2 closed. P2 (`apps/web-next` build-only path) is no longer blocked — but also no longer urgent, since web-next has no production target. Defer until hosting strategy is decided.
 
 ---
 
@@ -18,18 +18,15 @@ P2 (`apps/web-next` build-only path) is blocked on D1.
 
 These are direct consequences of work in this PR. Resolve in a small follow-up so the codebase stays coherent.
 
-### F1 — `README.md` still references the deleted GH Pages workflow
+### F1 — `README.md` still references the deleted GH Pages workflow ✅ RESOLVED 2026-05-07
 
-- **Where**: `README.md:81-86` ("Deploy GitHub Pages" section, mentions `deploy-user-site.yml`, `GH_PAGES_TOKEN`, target external repo).
-- **Why not fixed here**: brief's P0.3 limits doc-sync to `.claude/CAPABILITIES.md` and `.claude/CLAUDE.md`.
-- **Suggested fix**: replace the section with a Vercel + (TBD) OVH paragraph in a follow-up commit. Tiny diff.
+- **Was**: `README.md` "Deploy GitHub Pages" section referencing `deploy-user-site.yml`, `GH_PAGES_TOKEN`, target external repo.
+- **Fix applied**: section rewritten to describe the actual topology (Vercel for `docs`, OVH for DNS only, no deploy for `web-react`/`web-next`). "Stato attuale" block also updated.
 
-### F2 — `apps/web-react/vite.config.ts:28` still maps the dead `@laboratoire/ui` alias
+### F2 — `apps/web-react/vite.config.ts` dead `@laboratoire/ui` alias ✅ RESOLVED 2026-05-07
 
-- **Where**: `apps/web-react/vite.config.ts:8-29`. The build-time alias resolves `@laboratoire/ui` to either `packages/ui/src` or `packages/ui/dist/index.js`, **mirroring the tsconfig path mapping that this PR removed.**
-- **Why not fixed here**: brief's P1.1 was scoped to the tsconfig alias only. Removing the vite alias touches more (init logic + the explicit `existsSync` error message at `apps/web-react/vite.config.ts:17-21`).
-- **Risk if left**: if a future contributor blindly imports `@laboratoire/ui` in `apps/web-react/src`, Vite will resolve it but TypeScript will complain — exactly the inconsistency we just removed on the TS side.
-- **Suggested fix**: remove the alias block from `apps/web-react/vite.config.ts` and stop importing `@vitejs/plugin-react`'s tailwind/source-mode helpers that web-react no longer needs. Possibly retire web-react's UI-source toggle entirely, since it never consumed the package.
+- **Was**: build-time alias resolving `@laboratoire/ui` to `packages/ui/src` or `packages/ui/dist/index.js`, plus the `existsSync` guard, despite `web-react` never importing the package.
+- **Fix applied**: `apps/web-react/vite.config.ts` simplified — removed the alias block, the source/dist toggle, the existsSync guard, the unused `loadEnv`/`existsSync`/`path` imports, and the dangling `// const isPages = …` comment. Kept `base: "/react/"`, the React plugin, and the Tailwind PostCSS plugin.
 
 ### F3 — `_bootstrap-report.md` is a frozen snapshot mentioning the removed workflow
 

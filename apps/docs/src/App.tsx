@@ -1,25 +1,37 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import AboutSection from "./components/sections/AboutSection";
-import ContactSection from "./components/sections/ContactSection";
-import HighlightsSection from "./components/sections/HighlightsSection";
-import PortfolioSection from "./components/sections/PortfolioSection";
-import RoadmapSection from "./components/sections/RoadmapSection";
 import SiteHeader from "./components/layout/SiteHeader";
-import { skipToken } from "@reduxjs/toolkit/query";
-import {
-  fallbackPortfolioContent,
-  type GithubProfile,
-} from "./content/portfolioContent";
-import {
-  useGetGithubProfileQuery,
-  useGetPortfolioContentQuery,
-} from "./state/api";
+import HeroSection from "./components/sections/HeroSection";
+import ProblemsSection from "./components/sections/ProblemsSection";
+import ServicesSection from "./components/sections/ServicesSection";
+import TargetClientsSection from "./components/sections/TargetClientsSection";
+import ProcessSection from "./components/sections/ProcessSection";
+import CaseStudiesSection from "./components/sections/CaseStudiesSection";
+import WhyMeSection from "./components/sections/WhyMeSection";
+import TechStackSection from "./components/sections/TechStackSection";
+import FAQSection from "./components/sections/FAQSection";
+import FinalCTASection from "./components/sections/FinalCTASection";
+import AuditPage from "./pages/AuditPage";
 import CvPage from "./pages/CvPage";
+import { fallbackPortfolioContent } from "./content/portfolioContent";
+import { useGetPortfolioContentQuery } from "./state/api";
 import { LOCALE_STORAGE_KEY, resolveLocale, type Locale } from "./i18n/locale";
 import { messages } from "./i18n/messages";
+import { getSeoContent } from "./data/seoContent";
 import { routeTransitionVariants } from "./components/ui/motionPresets";
+
+function setMetaContent(name: string, attribute: "name" | "property", value: string) {
+  let element = document.querySelector<HTMLMetaElement>(
+    `meta[${attribute}="${name}"]`,
+  );
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, name);
+    document.head.appendChild(element);
+  }
+  element.setAttribute("content", value);
+}
 
 const base = import.meta.env.BASE_URL;
 
@@ -38,11 +50,26 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(LOCALE_STORAGE_KEY, locale);
     document.documentElement.lang = locale;
+
+    const seo = getSeoContent(locale);
+    document.title = seo.title;
+    setMetaContent("description", "name", seo.description);
+    setMetaContent("og:title", "property", seo.title);
+    setMetaContent("og:description", "property", seo.description);
+    setMetaContent("twitter:title", "name", seo.title);
+    setMetaContent("twitter:description", "name", seo.description);
+
+    const ogLocaleByLocale: Record<Locale, string> = {
+      it: "it_IT",
+      en: "en_US",
+      fr: "fr_FR",
+    };
+    setMetaContent("og:locale", "property", ogLocaleByLocale[locale]);
   }, [locale]);
 
   const labels = useMemo(() => messages[locale], [locale]);
 
-  const fallbackByLocale = useMemo(() => {
+  const cvFallbackContent = useMemo(() => {
     if (locale === "it") {
       return {
         ...fallbackPortfolioContent,
@@ -62,24 +89,8 @@ export default function App() {
     };
   }, [locale]);
 
-  const {
-    data: remoteContent,
-    error: portfolioError,
-    isFetching: isRefreshingPortfolio,
-  } = useGetPortfolioContentQuery(locale);
-
-  const content = remoteContent ?? fallbackByLocale;
-  const githubUsername = content.profile.githubUsername?.trim();
-
-  const {
-    data: githubProfile,
-    error: githubError,
-    isFetching: isRefreshingGithub,
-  } = useGetGithubProfileQuery(githubUsername ? githubUsername : skipToken);
-
-  const hasRemoteError = Boolean(portfolioError);
-  const hasGithubError = Boolean(githubError);
-  const loadedGithub: GithubProfile | null = githubProfile ?? null;
+  const { data: remoteContent } = useGetPortfolioContentQuery(locale);
+  const cvContent = remoteContent ?? cvFallbackContent;
 
   return (
     <AnimatePresence mode="wait">
@@ -96,33 +107,31 @@ export default function App() {
             element={
               <>
                 <SiteHeader
-                  profile={content.profile}
-                  contact={content.contact}
                   locale={locale}
                   onLocaleChange={setLocale}
                   labels={labels}
                 />
-                <AboutSection
-                  baseUrl={base}
-                  content={content}
-                  githubProfile={loadedGithub}
-                  isFallbackData={hasRemoteError}
-                  isRefreshing={isRefreshingPortfolio || isRefreshingGithub}
-                  hasGithubError={hasGithubError}
-                  labels={labels}
-                />
-                <HighlightsSection highlights={content.highlights} labels={labels.highlights} />
-                <PortfolioSection
-                  baseUrl={base}
-                  projects={content.projects}
-                  labels={labels.portfolio}
-                />
-                <RoadmapSection roadmap={content.roadmap} labels={labels.roadmap} />
-                <ContactSection
-                  contact={content.contact}
-                  labels={labels.contact}
-                />
+                <HeroSection locale={locale} />
+                <ProblemsSection locale={locale} />
+                <ServicesSection locale={locale} />
+                <TargetClientsSection locale={locale} />
+                <ProcessSection locale={locale} />
+                <CaseStudiesSection locale={locale} />
+                <WhyMeSection locale={locale} />
+                <TechStackSection locale={locale} />
+                <FAQSection locale={locale} />
+                <FinalCTASection locale={locale} />
               </>
+            }
+          />
+          <Route
+            path="/audit"
+            element={
+              <AuditPage
+                locale={locale}
+                onLocaleChange={setLocale}
+                labels={labels}
+              />
             }
           />
           <Route
@@ -130,7 +139,7 @@ export default function App() {
             element={
               <CvPage
                 baseUrl={base}
-                content={content}
+                content={cvContent}
                 locale={locale}
                 onLocaleChange={setLocale}
                 labels={labels}

@@ -46,7 +46,8 @@ graph TD
 ```
 
 Notes:
-- `apps/docs` deploys to **Vercel** (`vercel.json`). `apps/web-react` and `apps/web-next` have **no Vercel target configured**; their hosting target is **OVH** — exact mapping TBD (see `_followup.md` D2).
+- `apps/docs` is the only app live: built and hosted by **Vercel** (`vercel.json`), domain pointed via **OVH** (registrar/DNS only — OVH does not run any compute for this repo).
+- `apps/web-react` and `apps/web-next` are **showcase prototypes** — same patterns implemented in different frameworks, intended to eventually be linked from the portfolio (route, subdomain, or external link — undecided). No deploy target wired up. Treat them as local until a hosting plan is agreed.
 - Three different routing strategies: docs/web-react use React Router 7; web-next uses Next.js App Router.
 - State management is asymmetric: docs and web-react use Redux Toolkit + RTK Query; web-next uses Server Actions + an in-memory order store on `globalThis`.
 - `apps/web-next/middleware.ts:21-23` protects `/checkout/:path*` via a single-cookie session (`SESSION_COOKIE_NAME` / `SESSION_COOKIE_VALUE`). MVP only — not production-safe.
@@ -128,7 +129,7 @@ Portfolio domain (`apps/docs`): nav uses `Chi sono` / `Esperienza` / `Risultati`
 2. **`web-react` declares `@laboratoire/ui` in `tsconfig.app.json:11-13` but never imports it** (zero matches across `apps/web-react/src`) and does **not** list it in `package.json` deps. The path alias is dead code — confirm with the human before relying on or removing it.
 3. **`apps/web-react` has no `tailwind.config.ts` file** despite installing `tailwindcss` and `@tailwindcss/postcss`. Tailwind v4 still picks up the postcss plugin, but content scanning is implicit — verify any new utility classes actually generate CSS.
 4. **Three Tailwind setups, drifting tokens.** Dark theme colors differ between docs (`apps/docs/src/index.css:14-49`) and web-react (`apps/web-react/src/index.css:14-33`). web-next has only `apps/web-next/app/globals.css` and no Tailwind. Don't assume tokens match across apps.
-5. **`apps/web-next` has no deploy target wired up yet.** Vercel (`vercel.json`) only deploys `apps/docs`. OVH is the planned target for the rest of the stack but the workflow is still TBD — see `_followup.md` D1/D2. Until then, treat it as a prototype.
+5. **`apps/web-next` and `apps/web-react` have no deploy target.** Vercel (`vercel.json`) only deploys `apps/docs`. These two apps are framework-comparison prototypes for the portfolio — no hosting plan decided yet. Treat them as local sandboxes until linked from `apps/docs`.
 6. **In-memory order store, no persistence.** `apps/web-next/lib/orders.ts` — orders die on restart. The cookie session has no encryption or CSRF protection. **Conscious MVP choice** (see the `MVP-ONLY` guard comments at the top of `orders.ts` and `session.ts`). Do not use for real users.
 7. **SPA fallback artifact.** `apps/docs` build still copies `index.html → 404.html` inline; `apps/web-react` does the same via a `postbuild` hook. The fallback was originally for GitHub Pages routing — now mostly redundant on Vercel but harmless. Logged in `_followup.md` for cleanup.
 8. **Port collision in `dev:all`.** Vite picks `5173` then auto-increments — both `dev:docs` and `dev:react` fight for it. Storybook is fixed at `6006`, Next at `3001` (hard-coded in `apps/web-next/package.json:7-9`).
@@ -139,8 +140,8 @@ Portfolio domain (`apps/docs`): nav uses `Chi sono` / `Esperienza` / `Risultati`
 
 1. Branch off `main`. Naming is informal — recent branches: `dev/adding-motion`, `chore/deploy-topology-cleanup`.
 2. Make changes; run `pnpm check` locally before push.
-3. Push → **Vercel** auto-deploys `apps/docs` (config: `vercel.json`, framework `vite`, build `pnpm -F docs build`, output `apps/docs/dist`). No GitHub Actions workflow runs in this repo today.
-4. **OVH** is the planned target for `apps/web-react` and `apps/web-next` — workflow not yet wired (see `_followup.md` D1/D2).
+3. Push → **Vercel** auto-deploys `apps/docs` (config: `vercel.json`, framework `vite`, build `pnpm -F docs build`, output `apps/docs/dist`). Domain is registered/DNS-managed on **OVH**, pointed at Vercel. No GitHub Actions workflow runs in this repo today.
+4. `apps/web-react` and `apps/web-next` have **no deploy pipeline** — they're framework-showcase prototypes. Hosting strategy TBD (subroute, subdomain, separate Vercel project, etc.).
 5. No required secrets at the repo level for the current pipeline. Vercel manages its own credentials in the Vercel dashboard.
 6. No PR templates, no CODEOWNERS, no review automation in repo.
 
