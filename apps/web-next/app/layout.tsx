@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { getDateWithOffset } from "../lib/date";
 import "./globals.css";
 
@@ -47,6 +48,7 @@ export default function RootLayout({
           </nav>
           <main className="app-main">{children}</main>
         </div>
+        <Analytics />
       </body>
     </html>
   );

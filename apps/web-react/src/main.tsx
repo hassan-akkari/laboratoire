@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { HeroUIProvider } from "@heroui/react";
+import { Analytics } from "@vercel/analytics/react";
 import { store } from "./store/store";
 import App from "./App";
 import "./index.css";
@@ -52,6 +53,7 @@ async function bootstrap() {
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Provider store={store}>
           <App />
+          <Analytics />
         </Provider>
       </BrowserRouter>
     </HeroUIProvider>
