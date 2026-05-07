@@ -1,0 +1,158 @@
+# CLAUDE.md — laboratoire
+
+> Canonical instructions for any AI/human contributor on this repo. Generated 2026-05-07. See `_bootstrap-report.md` for analysis trail.
+
+## Overview
+
+Pnpm + Turbo monorepo with three frontend apps and one shared UI library. Used as a personal lab and showcase: a portfolio site (`docs`), a Redux/MSW reference app (`web-react`), and a Next.js booking/checkout MVP (`web-next`). UI primitives live in `packages/ui` and are consumed via `@laboratoire/ui`.
+
+## Tech Stack (exact installed versions)
+
+Source: `pnpm-lock.yaml` (cross-checked against `package.json` ranges).
+
+| Layer | Tool | Version |
+|---|---|---|
+| Runtime | Node | `>=24 <25` (`.node-version` = `24`) |
+| Package manager | pnpm | `10.0.0` (`packageManager` field) |
+| Monorepo | Turbo | `2.8.1` |
+| UI | React / React-DOM | `19.2.4` |
+| Bundler (docs, web-react) | Vite + `@vitejs/plugin-react` | `7.3.1` / `5.1.2` |
+| Framework (web-next) | Next.js | `16.1.6` (App Router) |
+| Language | TypeScript | `5.9.3` |
+| CSS | Tailwind + `@tailwindcss/postcss` | `4.1.18` |
+| Components | `@heroui/react` / `@heroui/theme` | `2.8.8` / `2.4.26` |
+| State | `@reduxjs/toolkit` / `react-redux` | `2.11.2` / `9.2.0` |
+| Routing (SPA) | `react-router-dom` | `7.13.0` |
+| Animation | `framer-motion` | `12.29.2` |
+| Validation | `zod` | `4.3.6` |
+| Mocks | `msw` | `2.12.7` (web-react only) |
+| Testing | `vitest` | `3.2.4` |
+| Linting | `eslint` / `typescript-eslint` | `9.39.2` / `8.54.0` |
+| Stories | `storybook` / `@storybook/react-vite` | `10.2.4` (packages/ui) |
+| Headless | `@headlessui/react` | declared `^2.1.2`, installed `2.2.9` — **mismatch, see Gotchas** |
+
+## Architecture
+
+```mermaid
+graph TD
+  ui[packages/ui<br/>@laboratoire/ui<br/>HeroUI wrappers + Theme]
+  docs[apps/docs<br/>Vite SPA · React Router 7<br/>Redux Toolkit + RTK Query<br/>i18n: en/it/fr]
+  webreact[apps/web-react<br/>Vite SPA · React Router 7<br/>Redux + MSW<br/>base: /react/]
+  webnext[apps/web-next<br/>Next.js 16 App Router<br/>Server Actions · zod · in-memory orders]
+
+  ui --> docs
+  ui -.alias declared but no import.-> webreact
+  ui --> webnext
+```
+
+Notes:
+- `apps/docs` deploys at `/` (Vercel + GitHub Pages). `apps/web-react` deploys at `/react/` (GitHub Pages only). `apps/web-next` is **built in CI but not deployed** (see Gotchas).
+- Three different routing strategies: docs/web-react use React Router 7; web-next uses Next.js App Router.
+- State management is asymmetric: docs and web-react use Redux Toolkit + RTK Query; web-next uses Server Actions + an in-memory order store on `globalThis`.
+- `apps/web-next/middleware.ts:21-23` protects `/checkout/:path*` via a single-cookie session (`SESSION_COOKIE_NAME` / `SESSION_COOKIE_VALUE`). MVP only — not production-safe.
+- `apps/web-next/lib/orders.ts:23-24` keeps orders in `globalThis.__bookingOrderStore__` with 6h TTL and 200-entry cap. **Lost on every server restart.**
+
+## Commands
+
+Always run from repo root unless noted. Node 24 + pnpm 10 required.
+
+```bash
+# Install (frozen lockfile is enforced via .npmrc)
+corepack enable && corepack prepare pnpm@10.0.0 --activate
+pnpm -w install --frozen-lockfile
+
+# Dev
+pnpm dev               # alias of dev:docs (default — docs only)
+pnpm dev:docs          # apps/docs (Vite, port 5173+)
+pnpm dev:react         # apps/web-react (Vite, port 5173+ — conflicts with dev:docs)
+pnpm dev:next          # apps/web-next (Next.js, port 3001 — hard-coded)
+pnpm dev:all           # UI watch + Storybook (6006) + all three apps
+
+# UI library (workspace)
+pnpm -F @laboratoire/ui build         # required before app prod build
+pnpm -F @laboratoire/ui storybook     # port 6006
+pnpm -F @laboratoire/ui build-storybook
+
+# Quality gates (run all three before pushing)
+pnpm check             # = lint + typecheck + test
+pnpm lint
+pnpm typecheck
+pnpm test
+
+# Build / Preview
+pnpm build             # turbo run build (respects ^build deps)
+pnpm preview:docs      # vite preview docs/dist
+pnpm preview:react     # vite preview web-react/dist
+pnpm start:next        # next start (port 3001)
+```
+
+## Conventions
+
+- **TypeScript**: `strict: true` everywhere; also `noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`, `noUncheckedSideEffectImports`, `erasableSyntaxOnly`. `verbatimModuleSyntax: true` for docs/web-react/ui; **off** in web-next (`apps/web-next/tsconfig.json`).
+- **ESLint**: flat config at `eslint.config.mjs`. Stack = `@eslint/js` + `typescript-eslint` + `eslint-plugin-react` + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh` (Vite preset). `react-refresh/only-export-components` is **disabled for `apps/web-next`** (eslint.config.mjs:51-55).
+- **No Prettier, no commitlint, no pre-commit hooks.** Formatting is informal.
+- **Naming**: React components in `apps/*` use `PascalCase.tsx`. `packages/ui/src/components/heroui` uses `App<Name>.tsx` (PascalCase wrappers); `packages/ui/src/components/tw-ui` uses `lowercase.tsx` (utility primitives) — keep the convention if you add files there.
+- **Folder layout**: type-based per app (`components/sections`, `components/layout`, `components/forms`, `pages`).
+- **Schema files**: `<feature>.schema.ts` co-located with their consumer; tests are `<feature>.schema.test.ts`.
+- **Imports**: no enforced order. Convention is `react` → third-party → `@laboratoire/ui` → relative.
+- **Commits**: free-form mixed with conventional prefixes (`feat:`, `fix:`, `chore:`, `ci:`, `build:`, `deploy:`). No enforcement — match the recent style.
+- **i18n**: `apps/docs/src/i18n/messages.ts` ships `en` / `it` / `fr` flat dictionaries. `apps/docs/public/data/portfolio-content.{json,it.json,fr.json}` mirror the same shape — keep all three locales in sync.
+
+## Domain Glossary
+
+Booking domain (`apps/web-next`):
+
+| EN | IT | FR | Where |
+|---|---|---|---|
+| experience | esperienza | expérience | `apps/web-next/lib/data.ts` |
+| guest | ospite | invité | `apps/web-next/lib/bookingSchemas.ts:5` |
+| quote | preventivo | devis | `apps/web-next/app/api/quote/route.ts` |
+| booking | prenotazione | réservation | `apps/web-next/lib/pricing.ts:82` |
+| cart | carrello | panier | `apps/web-next/app/cart/page.tsx` |
+| checkout | cassa | paiement | `apps/web-next/app/checkout/page.tsx` |
+| promo code | codice promo | code promo | `apps/web-next/lib/pricing.ts:33-45` |
+| service fee | commissione | frais | `apps/web-next/lib/pricing.ts:30` (8%) |
+| tax | IVA | TVA | `apps/web-next/lib/pricing.ts:31` (12%) |
+| order | ordine | commande | `apps/web-next/lib/orders.ts:5` |
+| idempotency key | chiave idempotenza | clé idempotence | `apps/web-next/lib/bookingSchemas.ts:14` |
+
+Promo codes (hard-coded): `NETWORK10` (10%, no min), `TEAM5` (5%, min 5 guests).
+
+Pricing models: `per-person` (default) and `minimum_group` (uses `Math.max(minimumGroupPrice, perPerson*guests)`).
+
+Portfolio domain (`apps/docs`): nav uses `Chi sono` / `Esperienza` / `Risultati` / `Progetti in evidenza` / `Prossimi build` / `Filosofia tecnica` / `Contattami` (see `apps/docs/src/i18n/messages.ts`).
+
+## Gotchas (read this before anything else)
+
+1. **UI dist required for prod builds.** `apps/docs/vite.config.ts:15-18` and `apps/web-react/vite.config.ts:17-21` throw if `packages/ui/dist/index.js` is missing **and** `VITE_UI_SOURCE` is unset. Either run `pnpm -F @laboratoire/ui build` first or set `VITE_UI_SOURCE=1`. Vite dev (`command === "serve"`) auto-uses source mode.
+2. **`web-react` declares `@laboratoire/ui` in `tsconfig.app.json:11-13` but never imports it** (zero matches across `apps/web-react/src`) and does **not** list it in `package.json` deps. The path alias is dead code — confirm with the human before relying on or removing it.
+3. **`apps/web-react` has no `tailwind.config.ts` file** despite installing `tailwindcss` and `@tailwindcss/postcss`. Tailwind v4 still picks up the postcss plugin, but content scanning is implicit — verify any new utility classes actually generate CSS.
+4. **Three Tailwind setups, drifting tokens.** Dark theme colors differ between docs (`apps/docs/src/index.css:14-49`) and web-react (`apps/web-react/src/index.css:14-33`). web-next has only `apps/web-next/app/globals.css` and no Tailwind. Don't assume tokens match across apps.
+5. **`apps/web-next` is built in CI but not deployed.** Neither `vercel.json` nor `.github/workflows/deploy-user-site.yml` reference it. Treat it as a prototype until a deploy target is added.
+6. **In-memory order store, no persistence.** `apps/web-next/lib/orders.ts:23-24` — orders die on restart. The cookie session has no encryption or CSRF protection. Do not use this for real users.
+7. **Two production deploys for `docs`.** GH Pages (`Dark-lIl-Demon.github.io`, root) **and** Vercel (`vercel.json` → `apps/docs/dist`). Both fire on `main` push. Pick one canonical and document it.
+8. **SPA fallback inconsistency.** `docs` copies `index.html → 404.html` inline in `build`; `web-react` does the same in a `postbuild` hook. If `web-react`'s postbuild fails, the build still "succeeds" but routing breaks on Pages.
+9. **Port collision in `dev:all`.** Vite picks `5173` then auto-increments — both `dev:docs` and `dev:react` fight for it. Storybook is fixed at `6006`, Next at `3001` (hard-coded in `apps/web-next/package.json:7-9`).
+10. **Windows: NTFS only.** pnpm workspaces use symlinks; exFAT volumes will fail silently during install. Also `.npmrc` sets `child-concurrency=1` (sequential pnpm child tasks) and `node-linker=hoisted` (flat root `node_modules`).
+11. **`@headlessui/react` mismatch.** `packages/ui/package.json:29` declares `^2.1.2`, lockfile resolves `2.2.9`. Bump the declaration when you next touch that file.
+12. **`pnpm onlyBuiltDependencies`** restricts post-install scripts to `@heroui/shared-utils`, `esbuild`, `msw` (`package.json:42-46`). Adding native-build deps without listing them here will silently skip their build.
+
+## Workflow
+
+1. Branch off `main`. Naming is informal — recent branches: `dev/adding-motion`.
+2. Make changes; run `pnpm check` locally before push.
+3. Push → GitHub Actions runs `pnpm check`, then `pnpm build`, then publishes `docs` + `web-react` to `Dark-lIl-Demon/Dark-lIl-Demon.github.io@master`. Vercel separately deploys `docs`.
+4. Required secret: `GH_PAGES_TOKEN` (workflow `deploy-user-site.yml:48`).
+5. No PR templates, no CODEOWNERS, no review automation in repo.
+
+## Capability Map
+
+See [`CAPABILITIES.md`](./CAPABILITIES.md) for skills, slash commands, sub-agents, and MCP integrations available on this host. See [`AGENTS.md`](./AGENTS.md) for the project-specific sub-agent roster.
+
+## Re-bootstrap
+
+Trigger phrases when the repo state drifts:
+
+- `bootstrap full` — re-run all 5 phases
+- `bootstrap refresh capabilities` — only Phase 4
+- `bootstrap audit` — diff this file vs. current repo and report incoherence
