@@ -21,8 +21,8 @@ body,
     --app-border: #262626;
     --app-accent: #4a4e69;
     --app-accent-soft: rgba(74, 78, 105, 0.24);
-    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.7))
-      drop-shadow(0 0 28px rgba(74, 78, 105, 0.35));
+    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.32))
+      drop-shadow(0 0 22px rgba(74, 78, 105, 0.16));
     --portrait-halo: radial-gradient(
       62% 70% at 50% 58%,
       var(--app-accent-soft) 0%,
@@ -58,8 +58,8 @@ body,
     --app-border: #262626;
     --app-accent: #4a4e69;
     --app-accent-soft: rgba(74, 78, 105, 0.24);
-    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.7))
-      drop-shadow(0 0 28px rgba(74, 78, 105, 0.35));
+    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.32))
+      drop-shadow(0 0 22px rgba(74, 78, 105, 0.16));
     --portrait-halo: radial-gradient(
       62% 70% at 50% 58%,
       var(--app-accent-soft) 0%,
