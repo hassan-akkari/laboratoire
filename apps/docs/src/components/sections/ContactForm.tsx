@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { AppButton, AppInput, AppTextarea } from "@laboratoire/ui";
 import {
   contactSchema,
@@ -21,21 +21,17 @@ export default function ContactForm({ labels }: ContactFormProps) {
   const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>(
     {}
   );
-  const [status, setStatus] = useState("");
-
-  const isDirty = useMemo(
-    () =>
-      values.name.length > 0 || values.email.length > 0 || values.message.length > 0,
-    [values]
-  );
+  const [submitted, setSubmitted] = useState(false);
 
   const updateField = (key: keyof ContactValues, value: string) => {
     setValues((prev) => ({ ...prev, [key]: value }));
+    if (submitted) {
+      setSubmitted(false);
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("");
 
     const result = contactSchema.safeParse(values);
     if (!result.success) {
@@ -47,11 +43,12 @@ export default function ContactForm({ labels }: ContactFormProps) {
         }
       }
       setErrors(nextErrors);
+      setSubmitted(false);
       return;
     }
 
     setErrors({});
-    setStatus(labels.formSuccess);
+    setSubmitted(true);
     setValues(initialContactValues);
   };
 
@@ -102,7 +99,11 @@ export default function ContactForm({ labels }: ContactFormProps) {
       <AppButton type="submit" className="mt-2 w-fit">
         {labels.formSubmit}
       </AppButton>
-      {status && isDirty === false && <span id="msg">{status}</span>}
+      {submitted && (
+        <span id="msg" role="status" aria-live="polite">
+          {labels.formSuccess}
+        </span>
+      )}
     </form>
   );
 }

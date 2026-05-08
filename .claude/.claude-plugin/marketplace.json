@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "laboratoire-local",
+  "description": "Local marketplace for project-specific Claude Code plugins authored inside the laboratoire monorepo. Not intended for public distribution — install via /plugin marketplace add <abs-path-to-this-dir>.",
+  "owner": {
+    "name": "Hassan Akkari",
+    "email": "h.akkari@sibyllanetwork.com"
+  },
+  "plugins": [
+    {
+      "name": "orchestrator",
+      "description": "Task classification + AgentHub team assembly skill, scoped to this repo's stack (Next.js 16 + Vite SPAs + HeroUI/Tailwind v4 + pnpm/Turbo monorepo).",
+      "author": {
+        "name": "Hassan Akkari"
+      },
+      "category": "development",
+      "source": "./plugins/orchestrator"
+    }
+  ]
+}
