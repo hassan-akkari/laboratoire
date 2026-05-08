@@ -83,13 +83,23 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Was**: `apps/docs/tsconfig.app.json:10` — `"baseUrl": "."`. TS 5.x emitted `Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0`.
 - **Fix applied**: dropped the `baseUrl` line. The single `paths` entry is now resolved relative to the tsconfig file (default behaviour since TS 5.x). Verified `@laboratoire/ui` import still resolves at type-check (Vite alias in `apps/docs/vite.config.ts:25-27` already handles runtime resolution independently).
 
-### F12 — Personal admin/booking page (manage availability + appointments)
+### F12 — Personal admin/booking page (manage availability + appointments) — DIRECTION DECIDED 2026-05-08
 
-- **Where**: net-new feature. Likely candidate path: a separate route in `apps/docs` (e.g. `/admin`) gated by auth, OR a new app entirely depending on auth complexity.
-- **What's needed**: authenticated dashboard where Hassan can (1) edit weekly availability windows, (2) see incoming intro-call / audit requests, (3) manage booked slots, (4) maybe push status to public hero ("disponibile / in slot pieni").
-- **Why not in scope now**: the conversion-pitch sprint (homepage + hero + audit linkage) is a separate concern — this is post-launch infrastructure once leads start arriving. Build vs buy still open: Cal.com / Calendly OAuth integration may be cheaper than custom for phase 1.
-- **Suggested approach**: log a small RFC weighing (a) Cal.com embed + iframe widget, (b) custom build leveraging the existing `apps/web-next` booking infra (in-memory store needs to become persistent — see Gotcha #6 in CLAUDE.md), (c) hybrid (Cal.com for booking, custom dashboard for slot rules). Decision needed before commit-time. Until then, hero/final-CTA links keep pointing to WhatsApp + email (zero infrastructure).
-- **Dependencies**: real auth (out of MVP-only cookie session in web-next), persistent storage (out of `globalThis` order store), maybe Stripe if intro calls become paid in future. None of these are urgent until inbound flow is real.
+- **Where**: net-new feature. Hybrid layout: Cal.com handles booking infra; a thin custom surface inside `apps/docs` (or a new `/admin` route gated by auth) handles whatever Cal.com doesn't cover.
+- **What's needed**: (1) bookable calendar with Hassan's availability windows, (2) incoming-call inbox visible to Hassan, (3) optional dashboard for lead-source attribution + quick actions, (4) maybe a status pill on the public hero ("disponibile / in slot pieni").
+- **Decision**: hybrid with Cal.com Free tier. Free tier covers everything needed for a solo freelancer:
+  - 1 user, unlimited event types and calendars
+  - Email + SMS notifications, 100+ integrations (Google/Outlook Calendar, Slack)
+  - Stripe + PayPal payment acceptance (future-proof for paid intro calls)
+  - Webhooks (the hook for any custom logic on booking events)
+  - 1-click Calendly import (easy migration if a Calendly account already exists)
+- **Concrete plan when this gets built**:
+  1. Create a Cal.com event type for "Free 20-min intro call" + one for "Audit follow-up" (post-audit upsell flow).
+  2. Embed the Cal.com inline widget on the `/audit` follow-up step ("Vuoi una call dopo aver letto il report?") and as a third option in `FinalCTASection` next to WhatsApp + email.
+  3. Wire a Cal.com webhook to a Vercel Function in `apps/web-next` (or a new `apps/admin` if scope grows) that (a) logs booking events to a persistent store, (b) optionally pings Hassan via Slack/Telegram, (c) updates a lightweight "current slot status" feed the public hero can read.
+  4. Build the admin dashboard (auth-gated) only when Cal.com's own admin UI proves insufficient — likely never for phase 1.
+- **Dependencies for the custom side**: persistent store (replace MVP-only `globalThis.__bookingOrderStore__`), real auth (replace MVP-only cookie session). Both already flagged as MVP guards in web-next; neither is urgent until inbound flow is real.
+- **Why still deferred**: the conversion-pitch sprint must ship first. Cal.com itself can be set up in 30 min independently — the integration into the site (embed + webhook) is the real work.
 
 ### F13 — Tailwind v4 canonical CSS variable syntax sweep
 
