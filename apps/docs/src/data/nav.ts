@@ -5,8 +5,14 @@ export type NavItem = {
   label: string;
 };
 
+export type NavRoute = {
+  to: string;
+  label: string;
+};
+
 export type NavContent = {
   items: NavItem[];
+  audit: NavRoute;
   whatsappLabel: string;
   openMenuLabel: string;
   closeMenuLabel: string;
@@ -20,6 +26,7 @@ const it: NavContent = {
     { href: "#faq", label: "FAQ" },
     { href: "#cta", label: "Contatti" },
   ],
+  audit: { to: "/audit", label: "Audit gratuito" },
   whatsappLabel: "WhatsApp",
   openMenuLabel: "Apri menu di navigazione",
   closeMenuLabel: "Chiudi menu di navigazione",
@@ -33,6 +40,7 @@ const en: NavContent = {
     { href: "#faq", label: "FAQ" },
     { href: "#cta", label: "Contact" },
   ],
+  audit: { to: "/audit", label: "Free audit" },
   whatsappLabel: "WhatsApp",
   openMenuLabel: "Open navigation menu",
   closeMenuLabel: "Close navigation menu",
@@ -46,6 +54,7 @@ const fr: NavContent = {
     { href: "#faq", label: "FAQ" },
     { href: "#cta", label: "Contact" },
   ],
+  audit: { to: "/audit", label: "Audit gratuit" },
   whatsappLabel: "WhatsApp",
   openMenuLabel: "Ouvrir le menu de navigation",
   closeMenuLabel: "Fermer le menu de navigation",

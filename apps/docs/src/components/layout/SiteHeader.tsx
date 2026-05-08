@@ -45,6 +45,9 @@ export default function SiteHeader({
               </li>
             ))}
             <li>
+              <Link to={nav.audit.to}>{nav.audit.label}</Link>
+            </li>
+            <li>
               <Link to="/cv">{labels.nav.cv}</Link>
             </li>
             <button
