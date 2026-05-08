@@ -58,6 +58,7 @@ export default [
       "apps/docs/**/*.{ts,tsx}",
       "apps/web-react/**/*.{ts,tsx}",
       "apps/web-next/**/*.{ts,tsx}",
+      "packages/ui/**/*.{ts,tsx}",
     ],
     languageOptions: {
       parserOptions: {
@@ -67,6 +68,7 @@ export default [
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
           "apps/web-next/tsconfig.json",
+          "packages/ui/tsconfig.json",
         ],
         tsconfigRootDir: __dirname,
       },
