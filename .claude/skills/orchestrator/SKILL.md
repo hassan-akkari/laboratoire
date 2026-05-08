@@ -184,7 +184,7 @@ Queste regole si applicano a **tutte** le varianti. Inserirle in ogni variant pr
 1. `pnpm check` (lint + typecheck + test) deve passare.
 2. Atomic commit: un task = un commit. Scope creep → `_followup.md`.
 3. `web-next` non usa Redux; `docs`/`web-react` non usano Server Actions.
-4. Nessuna modifica a `pnpm-lock.yaml` senza `pnpm install`.
+4. Nessun edit a mano di `pnpm-lock.yaml`. Se cambi deps/peerDeps/devDeps in qualsiasi `package.json`, esegui `pnpm install --no-frozen-lockfile` e includi il lock rigenerato nello **stesso commit** (`.npmrc` enforce `frozen-lockfile` in CI — separarli rompe la build).
 5. `packages/ui` non importa da `apps/*` mai.
 6. I18n: mai modificare una sola locale senza aggiornare le altre due.
 7. Currency math: sempre via `roundCurrency()` in `lib/pricing.ts`.

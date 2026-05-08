@@ -74,7 +74,7 @@ Tests: Vitest 3.2.4, pattern <feature>.test.ts co-located.
 == FORBIDDEN ==
 - Do not refactor unrelated code while fixing
 - Do not remove MVP-ONLY guards
-- Do not modify pnpm-lock.yaml directly
+- Do not hand-edit pnpm-lock.yaml. If a fix requires a deps/peerDeps/devDeps change, run `pnpm install --no-frozen-lockfile` and include the regenerated lock in the SAME commit (.npmrc enforces frozen-lockfile in CI)
 - Do not change session model without explicit request
 - Do not use raw float math for currency
 

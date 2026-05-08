@@ -78,7 +78,7 @@ For apps/docs:
 - Do NOT modify only one i18n locale (always all three)
 - Do NOT use raw float math for currency
 - Do NOT remove MVP-ONLY guard comments in orders.ts / session.ts
-- Do NOT touch pnpm-lock.yaml directly
+- Do NOT hand-edit pnpm-lock.yaml. If you change package.json deps/peerDeps/devDeps, run `pnpm install --no-frozen-lockfile` and include the regenerated lock in the SAME commit (`.npmrc` enforces frozen-lockfile in CI — splitting them breaks the build)
 
 == DELIVERABLE ==
 1. All files created/modified with complete content
