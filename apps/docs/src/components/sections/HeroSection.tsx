@@ -92,9 +92,9 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 style={{
                   filter: "var(--portrait-rim)",
                   maskImage:
-                    "linear-gradient(to bottom, black 70%, transparent 98%)",
+                    "linear-gradient(to bottom, black 88%, transparent 100%)",
                   WebkitMaskImage:
-                    "linear-gradient(to bottom, black 70%, transparent 98%)",
+                    "linear-gradient(to bottom, black 88%, transparent 100%)",
                 }}
               />
             </div>
