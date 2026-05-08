@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
-import { FaWhatsapp, FaCalendarAlt, FaRegEnvelope } from "react-icons/fa";
+import { FaWhatsapp, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
@@ -46,22 +46,22 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
           >
             <AppButton
               as="a"
+              href={content.auditHref}
+              size="lg"
+              endContent={<FaArrowRight aria-hidden="true" />}
+            >
+              {content.auditLabel}
+            </AppButton>
+            <AppButton
+              as="a"
               href={content.whatsappHref}
               target="_blank"
               rel="noreferrer"
               size="lg"
+              variant="bordered"
               startContent={<FaWhatsapp aria-hidden="true" />}
             >
               {content.whatsappLabel}
-            </AppButton>
-            <AppButton
-              as="a"
-              href={content.callHref}
-              size="lg"
-              variant="bordered"
-              startContent={<FaCalendarAlt aria-hidden="true" />}
-            >
-              {content.callLabel}
             </AppButton>
             <AppButton
               as="a"
