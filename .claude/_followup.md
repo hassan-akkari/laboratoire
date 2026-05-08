@@ -78,6 +78,11 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Behavior**: vestigial — Vercel handles SPA routing natively. Harmless but pointless.
 - **Suggested fix**: remove both copy steps once it's confirmed nothing relies on `404.html` for SPA fallback in the new topology. Trivial diff.
 
+### F11 — Deprecated `baseUrl` in `apps/docs/tsconfig.app.json` ✅ RESOLVED 2026-05-08
+
+- **Was**: `apps/docs/tsconfig.app.json:10` — `"baseUrl": "."`. TS 5.x emitted `Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0`.
+- **Fix applied**: dropped the `baseUrl` line. The single `paths` entry is now resolved relative to the tsconfig file (default behaviour since TS 5.x). Verified `@laboratoire/ui` import still resolves at type-check (Vite alias in `apps/docs/vite.config.ts:25-27` already handles runtime resolution independently).
+
 ---
 
 ## How to consume this file
