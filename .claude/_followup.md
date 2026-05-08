@@ -83,6 +83,21 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Was**: `apps/docs/tsconfig.app.json:10` — `"baseUrl": "."`. TS 5.x emitted `Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0`.
 - **Fix applied**: dropped the `baseUrl` line. The single `paths` entry is now resolved relative to the tsconfig file (default behaviour since TS 5.x). Verified `@laboratoire/ui` import still resolves at type-check (Vite alias in `apps/docs/vite.config.ts:25-27` already handles runtime resolution independently).
 
+### F12 — Personal admin/booking page (manage availability + appointments)
+
+- **Where**: net-new feature. Likely candidate path: a separate route in `apps/docs` (e.g. `/admin`) gated by auth, OR a new app entirely depending on auth complexity.
+- **What's needed**: authenticated dashboard where Hassan can (1) edit weekly availability windows, (2) see incoming intro-call / audit requests, (3) manage booked slots, (4) maybe push status to public hero ("disponibile / in slot pieni").
+- **Why not in scope now**: the conversion-pitch sprint (homepage + hero + audit linkage) is a separate concern — this is post-launch infrastructure once leads start arriving. Build vs buy still open: Cal.com / Calendly OAuth integration may be cheaper than custom for phase 1.
+- **Suggested approach**: log a small RFC weighing (a) Cal.com embed + iframe widget, (b) custom build leveraging the existing `apps/web-next` booking infra (in-memory store needs to become persistent — see Gotcha #6 in CLAUDE.md), (c) hybrid (Cal.com for booking, custom dashboard for slot rules). Decision needed before commit-time. Until then, hero/final-CTA links keep pointing to WhatsApp + email (zero infrastructure).
+- **Dependencies**: real auth (out of MVP-only cookie session in web-next), persistent storage (out of `globalThis` order store), maybe Stripe if intro calls become paid in future. None of these are urgent until inbound flow is real.
+
+### F13 — Tailwind v4 canonical CSS variable syntax sweep
+
+- **Where**: 79 occurrences of `[var(--app-*)]` across 11 files in `apps/docs/src/` (HeroSection, AuditPage, ServicesSection, CaseStudiesSection, ProcessSection, FAQSection, FinalCTASection, ProblemsSection, TargetClientsSection, TechStackSection, WhyMeSection).
+- **Behavior**: Tailwind v4 prefers the shorter `text-(--app-muted)` syntax over `text-[var(--app-muted)]`. tsserver/eslint surface a `suggestCanonicalClasses` warning on every occurrence. Builds and runtime are unaffected.
+- **Suggested fix**: one-shot regex sweep (`[var\(--([\w-]+)\)\]` → `(--$1)`) across the 11 files, in a single chore commit. Trivial diff but touches a lot of lines — keep it isolated from feature commits to make review tractable.
+- **Why not now**: pure stylistic refactor, zero functional impact. Should not be bundled with feature commits per atomic-commit discipline.
+
 ---
 
 ## How to consume this file
