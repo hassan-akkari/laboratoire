@@ -21,6 +21,13 @@ body,
     --app-border: #262626;
     --app-accent: #4a4e69;
     --app-accent-soft: rgba(74, 78, 105, 0.24);
+    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.7))
+      drop-shadow(0 0 28px rgba(74, 78, 105, 0.35));
+    --portrait-halo: radial-gradient(
+      62% 70% at 50% 58%,
+      var(--app-accent-soft) 0%,
+      transparent 72%
+    );
   }
 
   :root[data-theme="light"],
@@ -33,6 +40,12 @@ body,
     --app-border: #e6e3df;
     --app-accent: #1f6feb;
     --app-accent-soft: rgba(31, 111, 235, 0.2);
+    --portrait-rim: drop-shadow(0 12px 28px rgba(27, 26, 23, 0.18));
+    --portrait-halo: radial-gradient(
+      70% 80% at 50% 60%,
+      rgba(31, 111, 235, 0.08) 0%,
+      transparent 72%
+    );
   }
 
   :root[data-theme="dark"],
@@ -45,5 +58,12 @@ body,
     --app-border: #262626;
     --app-accent: #4a4e69;
     --app-accent-soft: rgba(74, 78, 105, 0.24);
+    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.7))
+      drop-shadow(0 0 28px rgba(74, 78, 105, 0.35));
+    --portrait-halo: radial-gradient(
+      62% 70% at 50% 58%,
+      var(--app-accent-soft) 0%,
+      transparent 72%
+    );
   }
 }

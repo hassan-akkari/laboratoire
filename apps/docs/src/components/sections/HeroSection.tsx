@@ -1,10 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
-import { FaWhatsapp, FaCalendarAlt, FaRegEnvelope } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
-import { SITE, mailtoLink } from "../../data/site";
 import { getHeroContent } from "../../data/heroContent";
 import {
   fadeUpVariants,
@@ -15,6 +14,8 @@ import {
 type HeroSectionProps = {
   locale: Locale;
 };
+
+const PORTRAIT_SRC = `${import.meta.env.BASE_URL}image/portrait.png`;
 
 export default function HeroSection({ locale }: HeroSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
@@ -47,10 +48,8 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               <AppButton
                 as="a"
                 href={content.primaryCtaHref}
-                target="_blank"
-                rel="noreferrer"
                 size="lg"
-                startContent={<FaWhatsapp aria-hidden="true" />}
+                endContent={<FaArrowRight aria-hidden="true" />}
               >
                 {content.primaryCtaLabel}
               </AppButton>
@@ -59,7 +58,6 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 href={content.secondaryCtaHref}
                 size="lg"
                 variant="bordered"
-                startContent={<FaCalendarAlt aria-hidden="true" />}
               >
                 {content.secondaryCtaLabel}
               </AppButton>
@@ -72,28 +70,51 @@ export default function HeroSection({ locale }: HeroSectionProps) {
             </ul>
           </motion.div>
 
-          <motion.aside
+          <motion.div
             variants={fadeUpVariants}
-            className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-6"
+            className="relative mx-auto flex w-full max-w-sm flex-col gap-6 md:max-w-none"
           >
-            <p className="text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
-              {content.aside.title}
-            </p>
-            <ul className="mt-4 space-y-3 text-base">
-              {content.aside.bullets.map((bullet) => (
-                <li key={bullet.id} className="flex gap-3">
-                  <span className="text-[var(--app-accent)]">→</span>
-                  <span>{bullet.label}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href={mailtoLink("Richiesta info")}
-              className="mt-6 inline-flex items-center gap-2 text-sm text-[var(--app-fg)] underline-offset-4 hover:underline"
-            >
-              <FaRegEnvelope aria-hidden="true" /> {SITE.email}
-            </a>
-          </motion.aside>
+            <div className="relative">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-0"
+                style={{ background: "var(--portrait-halo)" }}
+              />
+              <img
+                src={PORTRAIT_SRC}
+                alt={content.portraitAlt}
+                width={840}
+                height={1120}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                className="relative z-10 mx-auto block h-auto w-full max-w-md select-none object-contain md:max-w-none"
+                style={{ filter: "var(--portrait-rim)" }}
+              />
+            </div>
+
+            <div className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-5">
+              <dl className="grid grid-cols-3 gap-3 text-center">
+                {content.proofCard.stats.map((stat) => (
+                  <div key={stat.id}>
+                    <dt className="sr-only">{stat.label}</dt>
+                    <dd className="text-2xl font-semibold text-[var(--app-fg)] md:text-3xl">
+                      {stat.value}
+                    </dd>
+                    <p
+                      aria-hidden="true"
+                      className="mt-1 text-xs leading-tight text-[var(--app-muted)]"
+                    >
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-4 border-t border-[var(--app-border)] pt-4 text-sm leading-relaxed text-[var(--app-muted)]">
+                {content.proofCard.quote}
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       </Container>
     </Section>
