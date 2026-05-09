@@ -9,7 +9,12 @@
     "start": "next start --port 3001",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:generate": "tsx --env-file=.env.local ../../node_modules/drizzle-kit/bin.cjs generate",
+    "db:migrate": "tsx --env-file=.env.local ../../node_modules/drizzle-kit/bin.cjs migrate",
+    "db:push": "tsx --env-file=.env.local ../../node_modules/drizzle-kit/bin.cjs push",
+    "db:studio": "tsx --env-file=.env.local ../../node_modules/drizzle-kit/bin.cjs studio",
+    "db:seed": "tsx --env-file=.env.local scripts/seed.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
