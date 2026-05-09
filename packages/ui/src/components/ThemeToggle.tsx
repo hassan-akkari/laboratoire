@@ -6,6 +6,8 @@ export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
+  const label = isDark ? "Dark mode" : "Light mode";
+
   return (
     <Switch
       className="nav-theme-toggle"
@@ -17,6 +19,7 @@ export default function ThemeToggle() {
       color="secondary"
       isSelected={isDark}
       size="lg"
+      aria-label={label}
       onValueChange={() => toggleTheme()}
       thumbIcon={({
         isSelected,
@@ -31,8 +34,6 @@ export default function ThemeToggle() {
           <SunIcon className={className} />
         )
       }
-    >
-      {isDark ? "Dark mode" : "Light mode"}
-    </Switch>
+    />
   );
 }

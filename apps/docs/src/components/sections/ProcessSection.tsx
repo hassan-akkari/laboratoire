@@ -25,11 +25,11 @@ export default function ProcessSection({ locale }: ProcessSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
-          <p className="mt-4 text-base text-[var(--app-muted)]">
+          <p className="mt-4 text-base text-(--app-muted)">
             {content.subtitle}
           </p>
         </motion.div>
@@ -43,16 +43,16 @@ export default function ProcessSection({ locale }: ProcessSectionProps) {
             <motion.li
               key={step.id}
               variants={fadeUpVariants}
-              className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-6"
+              className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
             >
               <span
                 aria-hidden="true"
-                className="text-sm font-semibold tracking-[0.2em] text-[var(--app-accent)]"
+                className="text-sm font-semibold tracking-[0.2em] text-(--app-accent)"
               >
                 {step.number}
               </span>
               <h3 className="mt-3 text-lg leading-snug">{step.title}</h3>
-              <p className="mt-3 text-sm text-[var(--app-muted)]">
+              <p className="mt-3 text-sm text-(--app-muted)">
                 {step.description}
               </p>
             </motion.li>

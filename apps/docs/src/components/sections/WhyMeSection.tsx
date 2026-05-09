@@ -25,7 +25,7 @@ export default function WhyMeSection({ locale }: WhyMeSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -40,10 +40,10 @@ export default function WhyMeSection({ locale }: WhyMeSectionProps) {
             <motion.li
               key={reason.id}
               variants={fadeUpVariants}
-              className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-6"
+              className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
             >
               <h3 className="text-lg leading-snug">{reason.title}</h3>
-              <p className="mt-3 text-sm text-[var(--app-muted)]">
+              <p className="mt-3 text-sm text-(--app-muted)">
                 {reason.description}
               </p>
             </motion.li>
