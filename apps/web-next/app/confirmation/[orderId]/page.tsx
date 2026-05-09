@@ -14,6 +14,10 @@ function formatTimestamp(value: string) {
   }).format(new Date(value));
 }
 
+function formatPaymentMethod(value: "card" | "wallet") {
+  return value === "card" ? "Card" : "Wallet";
+}
+
 export default async function ConfirmationPage({ params }: ConfirmationPageProps) {
   const { orderId } = await params;
   const order = getOrderById(orderId);
@@ -31,7 +35,7 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
         </p>
         <p className="section-subtitle">
           Created at {formatTimestamp(order.createdAt)} / payment via{" "}
-          {order.customer.paymentMethod}
+          {formatPaymentMethod(order.customer.paymentMethod)}
         </p>
         <ul className="list">
           <li>Customer: {order.customer.fullName}</li>

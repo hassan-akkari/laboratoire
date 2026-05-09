@@ -1,4 +1,4 @@
-// MVP-ONLY — replace before: <DATE> — tracking: #<ISSUE>
+// MVP-ONLY — replace before going live with real users.
 // Sentinel-cookie session, no encryption / CSRF / persistence. Conscious choice.
 export const SESSION_COOKIE_NAME = "web_next_session";
 export const SESSION_COOKIE_VALUE = "active";

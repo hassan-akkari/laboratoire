@@ -33,10 +33,13 @@ section {
 
 #header {
   width: 100%;
-  min-height: 92vh;
   background-size: cover;
   background-position: center;
   padding-top: 18px;
+}
+
+#hero {
+  padding-top: clamp(0px, 1vw, 12px);
 }
 
 .container {
@@ -54,7 +57,7 @@ nav {
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: clamp(42px, 9vw, 88px);
+  margin-bottom: clamp(8px, 1.5vw, 18px);
   padding: 12px 16px;
   border: 1px solid color-mix(in srgb, var(--app-border) 68%, transparent);
   border-radius: 20px;
@@ -68,13 +71,6 @@ nav ul {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.logo {
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
-  object-fit: cover;
 }
 
 nav ul li {
@@ -96,6 +92,26 @@ nav ul li a:hover,
 nav ul li a:focus-visible {
   background: color-mix(in srgb, var(--app-accent-soft) 62%, transparent);
   color: var(--app-fg);
+}
+
+.nav-link {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.nav-link > .nav-link__text,
+.nav-link > .nav-link__ghost {
+  grid-column: 1;
+  grid-row: 1;
+  white-space: nowrap;
+}
+
+.nav-link > .nav-link__ghost {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
 }
 
 .nav-actions {

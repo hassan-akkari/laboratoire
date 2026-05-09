@@ -6,11 +6,11 @@
 
 | ID | Topic | Status |
 |---|---|---|
-| **D1** | Fate of `apps/web-next` (WIP / smoke-test / abandoned) | Awaiting answer |
-| **D2** | OVH topology — what runs there, service type, deploy mechanism | Awaiting answer |
-| **D3** | Values for the `<DATE>` and `<ISSUE>` placeholders in the new MVP guard comments | Awaiting answer |
+| **D1** | Fate of `apps/web-next` (WIP / smoke-test / abandoned) | **Answered 2026-05-07**: WIP framework-showcase prototype. Will eventually be linked from the portfolio (route/subdomain/external — TBD). No urgency. |
+| **D2** | OVH topology — what runs there, service type, deploy mechanism | **Answered 2026-05-07**: OVH is registrar/DNS only for the portfolio domain — points at Vercel. **No OVH compute in scope.** Original premise of "OVH as deploy target for web-react/web-next" was wrong; corrected in CLAUDE.md. |
+| **D3** | Values for the `<DATE>` and `<ISSUE>` placeholders in the new MVP guard comments | **Resolved 2026-05-07**: no issue tracker / no deadline. Placeholders removed; comment reads `MVP-ONLY — replace before going live with real users`. |
 
-P2 (`apps/web-next` build-only path) is blocked on D1.
+D1/D2 closed. P2 (`apps/web-next` build-only path) is no longer blocked — but also no longer urgent, since web-next has no production target. Defer until hosting strategy is decided.
 
 ---
 
@@ -18,18 +18,15 @@ P2 (`apps/web-next` build-only path) is blocked on D1.
 
 These are direct consequences of work in this PR. Resolve in a small follow-up so the codebase stays coherent.
 
-### F1 — `README.md` still references the deleted GH Pages workflow
+### F1 — `README.md` still references the deleted GH Pages workflow ✅ RESOLVED 2026-05-07
 
-- **Where**: `README.md:81-86` ("Deploy GitHub Pages" section, mentions `deploy-user-site.yml`, `GH_PAGES_TOKEN`, target external repo).
-- **Why not fixed here**: brief's P0.3 limits doc-sync to `.claude/CAPABILITIES.md` and `.claude/CLAUDE.md`.
-- **Suggested fix**: replace the section with a Vercel + (TBD) OVH paragraph in a follow-up commit. Tiny diff.
+- **Was**: `README.md` "Deploy GitHub Pages" section referencing `deploy-user-site.yml`, `GH_PAGES_TOKEN`, target external repo.
+- **Fix applied**: section rewritten to describe the actual topology (Vercel for `docs`, OVH for DNS only, no deploy for `web-react`/`web-next`). "Stato attuale" block also updated.
 
-### F2 — `apps/web-react/vite.config.ts:28` still maps the dead `@laboratoire/ui` alias
+### F2 — `apps/web-react/vite.config.ts` dead `@laboratoire/ui` alias ✅ RESOLVED 2026-05-07
 
-- **Where**: `apps/web-react/vite.config.ts:8-29`. The build-time alias resolves `@laboratoire/ui` to either `packages/ui/src` or `packages/ui/dist/index.js`, **mirroring the tsconfig path mapping that this PR removed.**
-- **Why not fixed here**: brief's P1.1 was scoped to the tsconfig alias only. Removing the vite alias touches more (init logic + the explicit `existsSync` error message at `apps/web-react/vite.config.ts:17-21`).
-- **Risk if left**: if a future contributor blindly imports `@laboratoire/ui` in `apps/web-react/src`, Vite will resolve it but TypeScript will complain — exactly the inconsistency we just removed on the TS side.
-- **Suggested fix**: remove the alias block from `apps/web-react/vite.config.ts` and stop importing `@vitejs/plugin-react`'s tailwind/source-mode helpers that web-react no longer needs. Possibly retire web-react's UI-source toggle entirely, since it never consumed the package.
+- **Was**: build-time alias resolving `@laboratoire/ui` to `packages/ui/src` or `packages/ui/dist/index.js`, plus the `existsSync` guard, despite `web-react` never importing the package.
+- **Fix applied**: `apps/web-react/vite.config.ts` simplified — removed the alias block, the source/dist toggle, the existsSync guard, the unused `loadEnv`/`existsSync`/`path` imports, and the dangling `// const isPages = …` comment. Kept `base: "/react/"`, the React plugin, and the Tailwind PostCSS plugin.
 
 ### F3 — `_bootstrap-report.md` is a frozen snapshot mentioning the removed workflow
 
@@ -80,6 +77,36 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Where**: `apps/docs/package.json:8` (inline) and `apps/web-react/package.json:9-10` (postbuild hook).
 - **Behavior**: vestigial — Vercel handles SPA routing natively. Harmless but pointless.
 - **Suggested fix**: remove both copy steps once it's confirmed nothing relies on `404.html` for SPA fallback in the new topology. Trivial diff.
+
+### F11 — Deprecated `baseUrl` in `apps/docs/tsconfig.app.json` ✅ RESOLVED 2026-05-08
+
+- **Was**: `apps/docs/tsconfig.app.json:10` — `"baseUrl": "."`. TS 5.x emitted `Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0`.
+- **Fix applied**: dropped the `baseUrl` line. The single `paths` entry is now resolved relative to the tsconfig file (default behaviour since TS 5.x). Verified `@laboratoire/ui` import still resolves at type-check (Vite alias in `apps/docs/vite.config.ts:25-27` already handles runtime resolution independently).
+
+### F12 — Personal admin/booking page (manage availability + appointments) — DIRECTION DECIDED 2026-05-08
+
+- **Where**: net-new feature. Hybrid layout: Cal.com handles booking infra; a thin custom surface inside `apps/docs` (or a new `/admin` route gated by auth) handles whatever Cal.com doesn't cover.
+- **What's needed**: (1) bookable calendar with Hassan's availability windows, (2) incoming-call inbox visible to Hassan, (3) optional dashboard for lead-source attribution + quick actions, (4) maybe a status pill on the public hero ("disponibile / in slot pieni").
+- **Decision**: hybrid with Cal.com Free tier. Free tier covers everything needed for a solo freelancer:
+  - 1 user, unlimited event types and calendars
+  - Email + SMS notifications, 100+ integrations (Google/Outlook Calendar, Slack)
+  - Stripe + PayPal payment acceptance (future-proof for paid intro calls)
+  - Webhooks (the hook for any custom logic on booking events)
+  - 1-click Calendly import (easy migration if a Calendly account already exists)
+- **Concrete plan when this gets built**:
+  1. Create a Cal.com event type for "Free 20-min intro call" + one for "Audit follow-up" (post-audit upsell flow).
+  2. Embed the Cal.com inline widget on the `/audit` follow-up step ("Vuoi una call dopo aver letto il report?") and as a third option in `FinalCTASection` next to WhatsApp + email.
+  3. Wire a Cal.com webhook to a Vercel Function in `apps/web-next` (or a new `apps/admin` if scope grows) that (a) logs booking events to a persistent store, (b) optionally pings Hassan via Slack/Telegram, (c) updates a lightweight "current slot status" feed the public hero can read.
+  4. Build the admin dashboard (auth-gated) only when Cal.com's own admin UI proves insufficient — likely never for phase 1.
+- **Dependencies for the custom side**: persistent store (replace MVP-only `globalThis.__bookingOrderStore__`), real auth (replace MVP-only cookie session). Both already flagged as MVP guards in web-next; neither is urgent until inbound flow is real.
+- **Why still deferred**: the conversion-pitch sprint must ship first. Cal.com itself can be set up in 30 min independently — the integration into the site (embed + webhook) is the real work.
+
+### F13 — Tailwind v4 canonical CSS variable syntax sweep
+
+- **Where**: 79 occurrences of `[var(--app-*)]` across 11 files in `apps/docs/src/` (HeroSection, AuditPage, ServicesSection, CaseStudiesSection, ProcessSection, FAQSection, FinalCTASection, ProblemsSection, TargetClientsSection, TechStackSection, WhyMeSection).
+- **Behavior**: Tailwind v4 prefers the shorter `text-(--app-muted)` syntax over `text-[var(--app-muted)]`. tsserver/eslint surface a `suggestCanonicalClasses` warning on every occurrence. Builds and runtime are unaffected.
+- **Suggested fix**: one-shot regex sweep (`[var\(--([\w-]+)\)\]` → `(--$1)`) across the 11 files, in a single chore commit. Trivial diff but touches a lot of lines — keep it isolated from feature commits to make review tractable.
+- **Why not now**: pure stylistic refactor, zero functional impact. Should not be bundled with feature commits per atomic-commit discipline.
 
 ---
 

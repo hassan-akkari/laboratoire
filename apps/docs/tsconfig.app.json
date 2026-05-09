@@ -7,7 +7,6 @@
     "module": "ESNext",
     "types": ["react", "react-dom"],
     "skipLibCheck": true,
-    "baseUrl": ".",
     "paths": {
       "@laboratoire/ui": ["../../packages/ui/src/index.ts"]
     },

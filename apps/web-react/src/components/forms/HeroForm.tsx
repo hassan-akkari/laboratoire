@@ -133,7 +133,7 @@ export default function HeroForm() {
               onValueChange={(value) => updateField("priority", value)}
               size="sm"
             >
-              Priorita alta
+              Priorità alta
             </Switch>
           </div>
 
