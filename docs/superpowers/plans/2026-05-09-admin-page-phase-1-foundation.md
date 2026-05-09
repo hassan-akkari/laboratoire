@@ -1092,7 +1092,7 @@ git mv apps/web-next/middleware.ts apps/web-next/proxy.ts
 
 - [ ] **Step 2: Rewrite the file as the new proxy**
 
-Replace the entire contents of `apps/web-next/proxy.ts`:
+Replace the entire contents of `apps/web-next/proxy.ts`. This preserves the existing booking-demo behaviour exactly (session presence → next; `/api/checkout` returns 401 JSON; `/checkout/*` redirects to `/login`) and adds the admin branch with the `/api/admin/login` carve-out:
 
 ```ts
 import type { NextRequest } from "next/server";
@@ -1103,13 +1103,8 @@ import { SESSION_COOKIE_NAME, SESSION_COOKIE_VALUE } from "./lib/session";
 export default function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  // Public carve-out: login route is reachable without a session
-  if (path === "/api/admin/login") {
-    return NextResponse.next();
-  }
-
-  // The login PAGE is also public
-  if (path === "/admin/login") {
+  // Public carve-outs (admin)
+  if (path === "/api/admin/login" || path === "/admin/login") {
     return NextResponse.next();
   }
 
@@ -1121,18 +1116,23 @@ export default function proxy(request: NextRequest) {
       return NextResponse.next();
     }
     if (path.startsWith("/api/admin")) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const loginUrl = new URL("/admin/login", request.url);
     loginUrl.searchParams.set("next", `${path}${request.nextUrl.search}`);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Booking demo gate (existing logic, untouched)
-  if (path.startsWith("/checkout")) {
+  // Booking demo gate (existing logic, preserved verbatim including /api/checkout JSON 401)
+  if (path.startsWith("/checkout") || path === "/api/checkout") {
     const hasSession =
       request.cookies.get(SESSION_COOKIE_NAME)?.value === SESSION_COOKIE_VALUE;
     if (hasSession) return NextResponse.next();
+
+    if (path.startsWith("/api/")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", `${path}${request.nextUrl.search}`);
     return NextResponse.redirect(loginUrl);
@@ -1144,6 +1144,7 @@ export default function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     "/checkout/:path*",
+    "/api/checkout",
     "/admin/:path*",
     "/api/admin/:path*",
   ],
