@@ -98,7 +98,7 @@ export default function AuditPage({
           >
             <motion.p
               variants={fadeUpVariants}
-              className="mb-4 inline-block rounded-full border border-[var(--app-border)] bg-[var(--app-card)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--app-muted)]"
+              className="mb-4 inline-block rounded-full border border-(--app-border) bg-(--app-card) px-3 py-1 text-xs uppercase tracking-[0.18em] text-(--app-muted)"
             >
               {content.badge}
             </motion.p>
@@ -110,7 +110,7 @@ export default function AuditPage({
             </motion.h1>
             <motion.p
               variants={fadeUpVariants}
-              className="mt-6 max-w-2xl text-lg text-[var(--app-muted)]"
+              className="mt-6 max-w-2xl text-lg text-(--app-muted)"
             >
               {content.hero.subtitle}
             </motion.p>
@@ -142,7 +142,7 @@ export default function AuditPage({
 
             <motion.ul
               variants={fadeUpVariants}
-              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--app-muted)]"
+              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-(--app-muted)"
             >
               {content.hero.guarantee.map((item) => (
                 <li key={item}>{item}</li>
@@ -159,7 +159,7 @@ export default function AuditPage({
             {...getInViewReveal(reduceMotion, 0.22)}
             className="max-w-2xl"
           >
-            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
               {content.checkpoints.label}
             </p>
             <h2 className="text-3xl md:text-4xl">{content.checkpoints.title}</h2>
@@ -174,16 +174,16 @@ export default function AuditPage({
               <motion.li
                 key={item.id}
                 variants={fadeUpVariants}
-                className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-6"
+                className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
               >
                 <span
                   aria-hidden="true"
-                  className="text-sm font-semibold tracking-[0.2em] text-[var(--app-accent)]"
+                  className="text-sm font-semibold tracking-[0.2em] text-(--app-accent)"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-3 text-lg leading-snug">{item.title}</h3>
-                <p className="mt-3 text-sm text-[var(--app-muted)]">
+                <p className="mt-3 text-sm text-(--app-muted)">
                   {item.description}
                 </p>
               </motion.li>
@@ -197,11 +197,11 @@ export default function AuditPage({
           <motion.div
             variants={staggerChildrenVariants}
             {...getInViewReveal(reduceMotion, 0.2)}
-            className="overflow-hidden rounded-3xl border border-[var(--app-border)] bg-[var(--app-card)] p-8 md:p-12"
+            className="overflow-hidden rounded-3xl border border-(--app-border) bg-(--app-card) p-8 md:p-12"
           >
             <motion.p
               variants={fadeUpVariants}
-              className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]"
+              className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)"
             >
               {content.deliverable.label}
             </motion.p>
@@ -219,7 +219,7 @@ export default function AuditPage({
                 <li key={item} className="flex gap-3">
                   <FaCheck
                     aria-hidden="true"
-                    className="mt-1 shrink-0 text-[var(--app-accent)]"
+                    className="mt-1 shrink-0 text-(--app-accent)"
                   />
                   <span className="text-base">{item}</span>
                 </li>
@@ -236,7 +236,7 @@ export default function AuditPage({
             {...getInViewReveal(reduceMotion, 0.22)}
             className="max-w-2xl"
           >
-            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
               {content.process.label}
             </p>
             <h2 className="text-3xl md:text-4xl">{content.process.title}</h2>
@@ -251,16 +251,16 @@ export default function AuditPage({
               <motion.li
                 key={step.id}
                 variants={fadeUpVariants}
-                className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-6"
+                className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
               >
                 <span
                   aria-hidden="true"
-                  className="text-sm font-semibold tracking-[0.2em] text-[var(--app-accent)]"
+                  className="text-sm font-semibold tracking-[0.2em] text-(--app-accent)"
                 >
                   {step.number}
                 </span>
                 <h3 className="mt-3 text-lg leading-snug">{step.title}</h3>
-                <p className="mt-3 text-sm text-[var(--app-muted)]">
+                <p className="mt-3 text-sm text-(--app-muted)">
                   {step.description}
                 </p>
               </motion.li>
@@ -276,7 +276,7 @@ export default function AuditPage({
             {...getInViewReveal(reduceMotion, 0.22)}
             className="max-w-2xl"
           >
-            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
               {content.faq.label}
             </p>
             <h2 className="text-3xl md:text-4xl">{content.faq.title}</h2>
@@ -293,7 +293,7 @@ export default function AuditPage({
                 <motion.li
                   key={faq.id}
                   variants={fadeUpVariants}
-                  className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)]"
+                  className="rounded-2xl border border-(--app-border) bg-(--app-card)"
                 >
                   <button
                     type="button"
@@ -307,7 +307,7 @@ export default function AuditPage({
                     </span>
                     <span
                       aria-hidden="true"
-                      className="mt-1 shrink-0 text-[var(--app-muted)]"
+                      className="mt-1 shrink-0 text-(--app-muted)"
                     >
                       {isOpen ? <FaMinus /> : <FaPlus />}
                     </span>
@@ -326,7 +326,7 @@ export default function AuditPage({
                         transition={{ duration: 0.24 }}
                         className="overflow-hidden"
                       >
-                        <p className="px-5 pb-5 text-sm text-[var(--app-muted)] md:text-base">
+                        <p className="px-5 pb-5 text-sm text-(--app-muted) md:text-base">
                           {faq.answer}
                         </p>
                       </motion.div>
@@ -342,7 +342,7 @@ export default function AuditPage({
       <Section id="audit-cta">
         <Container>
           <motion.div
-            className="overflow-hidden rounded-3xl border border-[var(--app-border)] bg-[var(--app-card)] p-8 md:p-14"
+            className="overflow-hidden rounded-3xl border border-(--app-border) bg-(--app-card) p-8 md:p-14"
             variants={staggerChildrenVariants}
             {...getInViewReveal(reduceMotion, 0.2)}
           >
@@ -354,7 +354,7 @@ export default function AuditPage({
             </motion.h2>
             <motion.p
               variants={fadeUpVariants}
-              className="mt-5 max-w-2xl text-base text-[var(--app-muted)] md:text-lg"
+              className="mt-5 max-w-2xl text-base text-(--app-muted) md:text-lg"
             >
               {content.finalCta.subtitle}
             </motion.p>

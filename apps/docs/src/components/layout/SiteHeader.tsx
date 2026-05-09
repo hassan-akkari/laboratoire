@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -8,7 +8,11 @@ import type { Locale } from "../../i18n/locale";
 import type { Messages } from "../../i18n/messages";
 import LocaleSwitcher from "../ui/LocaleSwitcher";
 import { whatsappLink } from "../../data/site";
-import { getNavContent } from "../../data/nav";
+import {
+  getLongestAuditLabel,
+  getLongestNavLabels,
+  getNavContent,
+} from "../../data/nav";
 import { fadeUpVariants, getMountReveal } from "../ui/motionPresets";
 
 type SiteHeaderProps = {
@@ -25,15 +29,14 @@ export default function SiteHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const reduceMotion = Boolean(useReducedMotion());
   const nav = getNavContent(locale);
+  const longestNavLabels = useMemo(() => getLongestNavLabels(), []);
+  const longestAuditLabel = useMemo(() => getLongestAuditLabel(), []);
   const toggleMenu = (open: boolean) => setMenuOpen(open);
 
   return (
     <div id="header">
       <Container>
         <motion.nav variants={fadeUpVariants} {...getMountReveal(reduceMotion)}>
-          <Link to="/" aria-label="Home">
-            <img className="logo" src="favicon.png" alt="Laboratoire logo" />
-          </Link>
           <ul
             id="sidemenu"
             className={menuOpen ? "open" : ""}
@@ -41,11 +44,21 @@ export default function SiteHeader({
           >
             {nav.items.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <a href={item.href} className="nav-link">
+                  <span className="nav-link__text">{item.label}</span>
+                  <span className="nav-link__ghost" aria-hidden="true">
+                    {longestNavLabels[item.href] ?? item.label}
+                  </span>
+                </a>
               </li>
             ))}
             <li>
-              <Link to={nav.audit.to}>{nav.audit.label}</Link>
+              <Link to={nav.audit.to} className="nav-link">
+                <span className="nav-link__text">{nav.audit.label}</span>
+                <span className="nav-link__ghost" aria-hidden="true">
+                  {longestAuditLabel}
+                </span>
+              </Link>
             </li>
             <li>
               <Link to="/cv">{labels.nav.cv}</Link>
@@ -67,10 +80,11 @@ export default function SiteHeader({
               rel="noreferrer"
               size="sm"
               variant="flat"
-              startContent={<FaWhatsapp aria-hidden="true" />}
+              isIconOnly
+              aria-label={nav.whatsappLabel}
               className="nav-whatsapp"
             >
-              {nav.whatsappLabel}
+              <FaWhatsapp aria-hidden="true" />
             </AppButton>
             <ThemeToggle />
             <button

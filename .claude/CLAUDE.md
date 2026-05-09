@@ -10,26 +10,26 @@ Pnpm + Turbo monorepo with three frontend apps and one shared UI library. Used a
 
 Source: `pnpm-lock.yaml` (cross-checked against `package.json` ranges).
 
-| Layer | Tool | Version |
-|---|---|---|
-| Runtime | Node | `>=24 <25` (`.node-version` = `24`) |
-| Package manager | pnpm | `10.0.0` (`packageManager` field) |
-| Monorepo | Turbo | `2.8.1` |
-| UI | React / React-DOM | `19.2.4` |
-| Bundler (docs, web-react) | Vite + `@vitejs/plugin-react` | `7.3.1` / `5.1.2` |
-| Framework (web-next) | Next.js | `16.1.6` (App Router) |
-| Language | TypeScript | `5.9.3` |
-| CSS | Tailwind + `@tailwindcss/postcss` | `4.1.18` |
-| Components | `@heroui/react` / `@heroui/theme` | `2.8.8` / `2.4.26` |
-| State | `@reduxjs/toolkit` / `react-redux` | `2.11.2` / `9.2.0` |
-| Routing (SPA) | `react-router-dom` | `7.13.0` |
-| Animation | `framer-motion` | `12.29.2` |
-| Validation | `zod` | `4.3.6` |
-| Mocks | `msw` | `2.12.7` (web-react only) |
-| Testing | `vitest` | `3.2.4` |
-| Linting | `eslint` / `typescript-eslint` | `9.39.2` / `8.54.0` |
-| Stories | `storybook` / `@storybook/react-vite` | `10.2.4` (packages/ui) |
-| Headless | `@headlessui/react` | `2.2.9` |
+| Layer                     | Tool                                  | Version                             |
+| ------------------------- | ------------------------------------- | ----------------------------------- |
+| Runtime                   | Node                                  | `>=24 <25` (`.node-version` = `24`) |
+| Package manager           | pnpm                                  | `10.0.0` (`packageManager` field)   |
+| Monorepo                  | Turbo                                 | `2.8.1`                             |
+| UI                        | React / React-DOM                     | `19.2.4`                            |
+| Bundler (docs, web-react) | Vite + `@vitejs/plugin-react`         | `7.3.1` / `5.1.2`                   |
+| Framework (web-next)      | Next.js                               | `16.1.6` (App Router)               |
+| Language                  | TypeScript                            | `5.9.3`                             |
+| CSS                       | Tailwind + `@tailwindcss/postcss`     | `4.1.18`                            |
+| Components                | `@heroui/react` / `@heroui/theme`     | `2.8.8` / `2.4.26`                  |
+| State                     | `@reduxjs/toolkit` / `react-redux`    | `2.11.2` / `9.2.0`                  |
+| Routing (SPA)             | `react-router-dom`                    | `7.13.0`                            |
+| Animation                 | `framer-motion`                       | `12.29.2`                           |
+| Validation                | `zod`                                 | `4.3.6`                             |
+| Mocks                     | `msw`                                 | `2.12.7` (web-react only)           |
+| Testing                   | `vitest`                              | `3.2.4`                             |
+| Linting                   | `eslint` / `typescript-eslint`        | `9.39.2` / `8.54.0`                 |
+| Stories                   | `storybook` / `@storybook/react-vite` | `10.2.4` (packages/ui)              |
+| Headless                  | `@headlessui/react`                   | `2.2.9`                             |
 
 ## Architecture
 
@@ -46,6 +46,7 @@ graph TD
 ```
 
 Notes:
+
 - `apps/docs` is the only app live: built and hosted by **Vercel** (`vercel.json`), domain pointed via **OVH** (registrar/DNS only — OVH does not run any compute for this repo).
 - `apps/web-react` and `apps/web-next` are **showcase prototypes** — same patterns implemented in different frameworks, intended to eventually be linked from the portfolio (route, subdomain, or external link — undecided). No deploy target wired up. Treat them as local until a hosting plan is agreed.
 - Three different routing strategies: docs/web-react use React Router 7; web-next uses Next.js App Router.
@@ -103,18 +104,18 @@ pnpm start:next        # next start (port 3001)
 
 Booking domain (`apps/web-next`):
 
-| EN | IT | FR | Where |
-|---|---|---|---|
-| experience | esperienza | expérience | `apps/web-next/lib/data.ts` |
-| guest | ospite | invité | `apps/web-next/lib/bookingSchemas.ts:5` |
-| quote | preventivo | devis | `apps/web-next/app/api/quote/route.ts` |
-| booking | prenotazione | réservation | `apps/web-next/lib/pricing.ts:82` |
-| cart | carrello | panier | `apps/web-next/app/cart/page.tsx` |
-| checkout | cassa | paiement | `apps/web-next/app/checkout/page.tsx` |
-| promo code | codice promo | code promo | `apps/web-next/lib/pricing.ts:33-45` |
-| service fee | commissione | frais | `apps/web-next/lib/pricing.ts:30` (8%) |
-| tax | IVA | TVA | `apps/web-next/lib/pricing.ts:31` (12%) |
-| order | ordine | commande | `apps/web-next/lib/orders.ts:5` |
+| EN              | IT                 | FR              | Where                                    |
+| --------------- | ------------------ | --------------- | ---------------------------------------- |
+| experience      | esperienza         | expérience      | `apps/web-next/lib/data.ts`              |
+| guest           | ospite             | invité          | `apps/web-next/lib/bookingSchemas.ts:5`  |
+| quote           | preventivo         | devis           | `apps/web-next/app/api/quote/route.ts`   |
+| booking         | prenotazione       | réservation     | `apps/web-next/lib/pricing.ts:82`        |
+| cart            | carrello           | panier          | `apps/web-next/app/cart/page.tsx`        |
+| checkout        | cassa              | paiement        | `apps/web-next/app/checkout/page.tsx`    |
+| promo code      | codice promo       | code promo      | `apps/web-next/lib/pricing.ts:33-45`     |
+| service fee     | commissione        | frais           | `apps/web-next/lib/pricing.ts:30` (8%)   |
+| tax             | IVA                | TVA             | `apps/web-next/lib/pricing.ts:31` (12%)  |
+| order           | ordine             | commande        | `apps/web-next/lib/orders.ts:5`          |
 | idempotency key | chiave idempotenza | clé idempotence | `apps/web-next/lib/bookingSchemas.ts:14` |
 
 Promo codes (hard-coded): `NETWORK10` (10%, no min), `TEAM5` (5%, min 5 guests).

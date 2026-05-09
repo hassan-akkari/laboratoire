@@ -25,92 +25,95 @@ export type HeroContent = {
 };
 
 const it: HeroContent = {
-  badge: "Developer freelance per professionisti e piccole attività",
+  badge: "Sviluppatore freelance per professionisti e piccole attività",
   titleParts: {
-    before: "Trasformo siti vecchi e idee confuse in soluzioni digitali ",
-    accent: "chiare, veloci",
-    after: " e che portano contatti.",
+    before: "Creo siti e web app ",
+    accent: "puliti e veloci",
+    after:
+      " che aiutano i professionisti a sembrare più credibili e ricevere più richieste.",
   },
   subtitle:
-    "Aiuto professionisti, studi e piccole attività ad avere una presenza online seria. Niente template, niente promesse vaghe. Parli con me, decidi con me, ricevi il lavoro da me.",
-  primaryCtaLabel: "Audit gratuito in 24h",
+    "Aiuto professionisti, studi e piccole attività a trasformare siti vecchi, idee confuse e processi manuali in prodotti digitali chiari, curati e facili da usare.",
+  primaryCtaLabel: "Richiedi un audit gratuito",
   primaryCtaHref: "/audit",
-  secondaryCtaLabel: "Vedi i miei progetti",
+  secondaryCtaLabel: "Vedi i case study",
   secondaryCtaHref: "#case-studies",
   guaranteeBullets: [
-    "✓ Prima call gratuita di 20 min",
+    "✓ Call introduttiva gratuita di 20 minuti",
     "✓ Preventivo scritto entro 48h",
-    "✓ Online in 1-3 settimane",
+    "✓ Prima versione online in 1–3 settimane",
   ],
   portraitAlt: "Hassan Akkari, sviluppatore freelance",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "anni React + TypeScript" },
-      { id: "response", value: "24h", label: "tempo di risposta" },
-      { id: "no-tricks", value: "0", label: "call vendita mascherate" },
+      { id: "experience", value: "5+", label: "anni nella creazione di interfacce web" },
+      { id: "response", value: "24h", label: "prima risposta tipica" },
+      { id: "no-tricks", value: "0", label: "call commerciali aggressive" },
     ],
     quote:
-      "Lavoro su prodotti enterprise di giorno. Per i miei clienti freelance porto la stessa qualità — senza farti pagare l'agenzia.",
+      "Di giorno lavoro su prodotti enterprise. Porto la stessa cura nei progetti freelance selezionati — senza il sovrapprezzo di un'agenzia.",
   },
 };
 
 const en: HeroContent = {
   badge: "Freelance developer for professionals and small businesses",
   titleParts: {
-    before: "I turn outdated sites and unclear ideas into ",
-    accent: "clear, fast",
-    after: " digital solutions that actually bring you contacts.",
+    before: "I build ",
+    accent: "clean, fast",
+    after:
+      " websites and web apps that help professionals look credible and get more enquiries.",
   },
   subtitle:
-    "I help professionals, studios, and small businesses build a serious online presence. No templates, no vague promises. You talk to me, decide with me, get the work from me.",
-  primaryCtaLabel: "Free 24h audit",
+    "I help professionals, studios, and small businesses turn outdated websites, unclear ideas, and manual workflows into digital products that feel clear, polished, and easy to use.",
+  primaryCtaLabel: "Get a free audit",
   primaryCtaHref: "/audit",
-  secondaryCtaLabel: "See my projects",
+  secondaryCtaLabel: "See case studies",
   secondaryCtaHref: "#case-studies",
   guaranteeBullets: [
     "✓ Free 20-minute intro call",
     "✓ Written quote within 48h",
-    "✓ Live in 1-3 weeks",
+    "✓ First version live in 1–3 weeks",
   ],
   portraitAlt: "Hassan Akkari, freelance developer",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "years React + TypeScript" },
-      { id: "response", value: "24h", label: "reply time" },
-      { id: "no-tricks", value: "0", label: "disguised sales calls" },
+      { id: "experience", value: "5+", label: "years building web interfaces" },
+      { id: "response", value: "24h", label: "typical first reply" },
+      { id: "no-tricks", value: "0", label: "pushy sales calls" },
     ],
     quote:
-      "I work on enterprise products by day. I bring the same quality to my freelance clients — without the agency markup.",
+      "I work on enterprise products by day and bring the same care to selected freelance projects — without agency markup.",
   },
 };
 
 const fr: HeroContent = {
-  badge: "Développeur freelance pour pros et petites entreprises",
+  badge: "Développeur freelance pour professionnels et petites entreprises",
   titleParts: {
-    before: "Je transforme des sites dépassés et des idées floues en solutions numériques ",
-    accent: "claires, rapides",
-    after: " qui ramènent de vrais contacts.",
+    before: "Je crée des sites web et des applications ",
+    accent: "rapides et soignés",
+    after:
+      " qui aident les professionnels à paraître plus crédibles et à recevoir plus de demandes.",
   },
   subtitle:
-    "J'aide les professionnels, les cabinets et les petites entreprises à avoir une présence en ligne sérieuse. Pas de templates, pas de promesses vagues. Vous parlez avec moi, décidez avec moi, recevez le travail de moi.",
-  primaryCtaLabel: "Audit gratuit en 24h",
+    "J'aide les professionnels, les studios et les petites entreprises à transformer des sites dépassés, des idées floues et des processus manuels en produits digitaux clairs, soignés et faciles à utiliser.",
+  primaryCtaLabel: "Demander un audit gratuit",
   primaryCtaHref: "/audit",
-  secondaryCtaLabel: "Voir mes projets",
+  secondaryCtaLabel: "Voir les cas clients",
   secondaryCtaHref: "#case-studies",
   guaranteeBullets: [
-    "✓ Premier appel gratuit de 20 min",
+    "✓ Appel découverte gratuit de 20 minutes",
     "✓ Devis écrit sous 48h",
-    "✓ En ligne en 1-3 semaines",
+    "✓ Première version en ligne en 1–3 semaines",
   ],
   portraitAlt: "Hassan Akkari, développeur freelance",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "ans React + TypeScript" },
-      { id: "response", value: "24h", label: "délai de réponse" },
-      { id: "no-tricks", value: "0", label: "appel commercial déguisé" },
+      { id: "experience", value: "5+", label: "ans à créer des interfaces web" },
+      { id: "response", value: "24h", label: "première réponse habituelle" },
+      { id: "no-tricks", value: "0", label: "appels commerciaux agressifs" },
     ],
     quote:
-      "Je travaille sur des produits enterprise de jour. À mes clients freelance j'apporte la même qualité — sans le markup d'agence.",
+      "Le jour, je travaille sur des produits enterprise. J'apporte le même niveau de soin aux projets freelance sélectionnés — sans la marge d'une agence.",
   },
 };
 

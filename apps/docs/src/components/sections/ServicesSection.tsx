@@ -27,11 +27,11 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
-          <p className="mt-4 text-base text-[var(--app-muted)]">
+          <p className="mt-4 text-base text-(--app-muted)">
             {content.subtitle}
           </p>
         </motion.div>
@@ -45,22 +45,22 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
             <motion.article
               key={service.id}
               variants={fadeUpVariants}
-              className="relative flex flex-col rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-7"
+              className="relative flex flex-col rounded-2xl border border-(--app-border) bg-(--app-card) p-7"
             >
               {service.badge ? (
-                <span className="absolute -top-3 left-7 rounded-full bg-[var(--app-accent)] px-3 py-1 text-xs uppercase tracking-wider text-white">
+                <span className="absolute -top-3 left-7 rounded-full bg-(--app-accent) px-3 py-1 text-xs uppercase tracking-wider text-white">
                   {service.badge}
                 </span>
               ) : null}
 
               <div>
                 <h3 className="text-2xl">{service.name}</h3>
-                <p className="mt-2 text-base text-[var(--app-fg)]">
+                <p className="mt-2 text-base text-(--app-fg)">
                   {service.tagline}
                 </p>
               </div>
 
-              <p className="mt-4 text-sm text-[var(--app-muted)]">
+              <p className="mt-4 text-sm text-(--app-muted)">
                 {service.forWho}
               </p>
 
@@ -68,7 +68,7 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
                 <span>
                   <strong>{service.priceLabel}</strong>
                 </span>
-                <span className="text-[var(--app-muted)]">
+                <span className="text-(--app-muted)">
                   {service.timeline}
                 </span>
               </div>
@@ -78,14 +78,14 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
                   <li key={item} className="flex gap-2">
                     <FaCheck
                       aria-hidden="true"
-                      className="mt-1 shrink-0 text-[var(--app-accent)]"
+                      className="mt-1 shrink-0 text-(--app-accent)"
                     />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
 
-              <ul className="mt-3 space-y-2 text-sm text-[var(--app-muted)]">
+              <ul className="mt-3 space-y-2 text-sm text-(--app-muted)">
                 {service.excludes.map((item) => (
                   <li key={item} className="flex gap-2">
                     <FaTimes aria-hidden="true" className="mt-1 shrink-0" />
@@ -110,13 +110,13 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
         </motion.div>
 
         <motion.p
-          className="mt-10 text-center text-sm text-[var(--app-muted)]"
+          className="mt-10 text-center text-sm text-(--app-muted)"
           variants={fadeUpVariants}
           {...getInViewReveal(reduceMotion, 0.4)}
         >
           <a
             href={content.secondaryCta.href}
-            className="underline-offset-4 hover:underline hover:text-[var(--app-fg)]"
+            className="underline-offset-4 hover:underline hover:text-(--app-fg)"
           >
             {content.secondaryCta.label}
           </a>

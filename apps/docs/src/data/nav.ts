@@ -65,3 +65,29 @@ export const navContent: Record<Locale, NavContent> = { it, en, fr };
 export function getNavContent(locale: Locale) {
   return navContent[locale];
 }
+
+const ALL_LOCALES: Locale[] = ["en", "it", "fr"];
+
+export function getLongestNavLabels(): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const ref of navContent.en.items) {
+    let longest = "";
+    for (const loc of ALL_LOCALES) {
+      const match = navContent[loc].items.find((i) => i.href === ref.href);
+      if (match && match.label.length > longest.length) {
+        longest = match.label;
+      }
+    }
+    result[ref.href] = longest;
+  }
+  return result;
+}
+
+export function getLongestAuditLabel(): string {
+  let longest = "";
+  for (const loc of ALL_LOCALES) {
+    const label = navContent[loc].audit.label;
+    if (label.length > longest.length) longest = label;
+  }
+  return longest;
+}

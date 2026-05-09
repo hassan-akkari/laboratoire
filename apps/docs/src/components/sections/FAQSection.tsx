@@ -35,7 +35,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[var(--app-muted)]">
+          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -52,7 +52,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
               <motion.li
                 key={faq.id}
                 variants={fadeUpVariants}
-                className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)]"
+                className="rounded-2xl border border-(--app-border) bg-(--app-card)"
               >
                 <button
                   type="button"
@@ -66,7 +66,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
                   </span>
                   <span
                     aria-hidden="true"
-                    className="mt-1 shrink-0 text-[var(--app-muted)]"
+                    className="mt-1 shrink-0 text-(--app-muted)"
                   >
                     {isOpen ? <FaMinus /> : <FaPlus />}
                   </span>
@@ -83,7 +83,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
                       transition={{ duration: 0.24 }}
                       className="overflow-hidden"
                     >
-                      <p className="px-5 pb-5 text-sm text-[var(--app-muted)] md:text-base">
+                      <p className="px-5 pb-5 text-sm text-(--app-muted) md:text-base">
                         {faq.answer}
                       </p>
                     </motion.div>
@@ -95,7 +95,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
         </motion.ul>
 
         <motion.p
-          className="mt-10 text-center text-sm text-[var(--app-muted)]"
+          className="mt-10 text-center text-sm text-(--app-muted)"
           variants={fadeUpVariants}
           {...getInViewReveal(reduceMotion, 0.4)}
         >
@@ -104,7 +104,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
             href={whatsappLink(locale, content.whatsappMessage)}
             target="_blank"
             rel="noreferrer"
-            className="text-[var(--app-fg)] underline-offset-4 hover:underline"
+            className="text-(--app-fg) underline-offset-4 hover:underline"
           >
             {content.outro.linkLabel}
           </a>

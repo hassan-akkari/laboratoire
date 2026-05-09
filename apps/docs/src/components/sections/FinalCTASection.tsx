@@ -23,7 +23,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
     <Section id="cta">
       <Container>
         <motion.div
-          className="overflow-hidden rounded-3xl border border-[var(--app-border)] bg-[var(--app-card)] p-8 md:p-14"
+          className="overflow-hidden rounded-3xl border border-(--app-border) bg-(--app-card) p-8 md:p-14"
           variants={staggerChildrenVariants}
           {...getInViewReveal(reduceMotion, 0.2)}
         >
@@ -35,7 +35,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
           </motion.h2>
           <motion.p
             variants={fadeUpVariants}
-            className="mt-5 max-w-2xl text-base text-[var(--app-muted)] md:text-lg"
+            className="mt-5 max-w-2xl text-base text-(--app-muted) md:text-lg"
           >
             {content.subtitle}
           </motion.p>
@@ -76,7 +76,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
 
           <motion.p
             variants={fadeUpVariants}
-            className="mt-6 text-xs text-[var(--app-muted)]"
+            className="mt-6 text-xs text-(--app-muted)"
           >
             {content.footnote}
           </motion.p>

@@ -31,8 +31,9 @@ export default function LocaleSwitcher({
           }`}
           onClick={() => onChange(item)}
           aria-pressed={locale === item}
+          aria-label={labels[item]}
         >
-          {labels[item]}
+          {item.toUpperCase()}
         </button>
       ))}
     </div>

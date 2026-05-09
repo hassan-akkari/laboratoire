@@ -30,25 +30,26 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           {...getMountReveal(reduceMotion)}
         >
           <motion.div variants={fadeUpVariants}>
-            <p className="mb-4 inline-block rounded-full border border-[var(--app-border)] bg-[var(--app-card)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--app-muted)]">
+            <p className="mb-4 inline-block rounded-full border border-(--app-border) bg-(--app-card) px-3 py-1 text-xs uppercase tracking-[0.18em] text-(--app-muted)">
               {content.badge}
             </p>
             <h1 className="text-4xl leading-[1.1] sm:text-5xl md:text-6xl">
               {content.titleParts.before}
-              <span className="text-[var(--app-accent)]">
+              <span className="text-(--app-accent)">
                 {content.titleParts.accent}
               </span>
               {content.titleParts.after}
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-[var(--app-muted)]">
+            <p className="mt-6 max-w-xl text-lg text-(--app-muted)">
               {content.subtitle}
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:max-w-lg sm:grid-cols-2">
               <AppButton
                 as="a"
                 href={content.primaryCtaHref}
                 size="lg"
+                fullWidth
                 endContent={<FaArrowRight aria-hidden="true" />}
               >
                 {content.primaryCtaLabel}
@@ -57,13 +58,14 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 as="a"
                 href={content.secondaryCtaHref}
                 size="lg"
+                fullWidth
                 variant="bordered"
               >
                 {content.secondaryCtaLabel}
               </AppButton>
             </div>
 
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--app-muted)]">
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-(--app-muted)">
               {content.guaranteeBullets.map((bullet) => (
                 <li key={bullet}>{bullet}</li>
               ))}
@@ -99,24 +101,24 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               />
             </div>
 
-            <div className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card)] p-5">
+            <div className="rounded-2xl border border-(--app-border) bg-(--app-card) p-5">
               <dl className="grid grid-cols-3 gap-3 text-center">
                 {content.proofCard.stats.map((stat) => (
                   <div key={stat.id}>
                     <dt className="sr-only">{stat.label}</dt>
-                    <dd className="text-2xl font-semibold text-[var(--app-fg)] md:text-3xl">
+                    <dd className="text-2xl font-semibold text-(--app-fg) md:text-3xl">
                       {stat.value}
                     </dd>
                     <p
                       aria-hidden="true"
-                      className="mt-1 text-xs leading-tight text-[var(--app-muted)]"
+                      className="mt-1 text-xs leading-tight text-(--app-muted)"
                     >
                       {stat.label}
                     </p>
                   </div>
                 ))}
               </dl>
-              <p className="mt-4 border-t border-[var(--app-border)] pt-4 text-sm leading-relaxed text-[var(--app-muted)]">
+              <p className="mt-4 border-t border-(--app-border) pt-4 text-sm leading-relaxed text-(--app-muted)">
                 {content.proofCard.quote}
               </p>
             </div>
