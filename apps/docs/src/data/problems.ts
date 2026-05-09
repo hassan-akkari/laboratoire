@@ -15,7 +15,7 @@ export type ProblemsContent = {
 const it: ProblemsContent = {
   sectionLabel: "Problemi che risolvo",
   title:
-    "Riconosci uno di questi? Bene, è esattamente per questo che esisto.",
+    "Se ti riconosci in uno di questi problemi, il sito non è solo da rifare: è da rimettere in ordine.",
   problems: [
     {
       id: "old-site",
@@ -30,19 +30,6 @@ const it: ProblemsContent = {
         "La gente lo apre, non capisce cosa offri, e se ne va. Niente CTA chiare, niente WhatsApp, niente form che funzioni.",
     },
     {
-      id: "vague-idea",
-      title: "Hai un'idea per un sito o un'app ma non sai da dove partire",
-      description:
-        "Hai capito che ti serve qualcosa, ma non sai se serve un sito, una landing, una web app o solo Instagram fatto meglio.",
-    },
-    {
-      id: "wordpress-mess",
-      title:
-        "Sei stanco di WordPress impacchettato come 'soluzione su misura'",
-      description:
-        "Plugin che si rompono, template comprati, performance basse e qualcuno che ti chiede 50 € ogni volta che vuoi cambiare un titolo.",
-    },
-    {
       id: "scattered",
       title: "La tua presenza online è sparpagliata e poco credibile",
       description:
@@ -54,12 +41,26 @@ const it: ProblemsContent = {
       description:
         "Prenotazioni, clienti, schede, ordini. Funziona, ma ti porta via tempo e ti fa sembrare poco strutturato.",
     },
+    {
+      id: "vague-idea",
+      title: "Hai un'idea per un sito o un'app ma non sai da dove partire",
+      description:
+        "Hai capito che ti serve qualcosa, ma non sai se serve un sito, una landing, una web app o un sistema più ordinato.",
+    },
+    {
+      id: "wordpress-mess",
+      title:
+        "Sei stanco di WordPress impacchettato come 'soluzione su misura'",
+      description:
+        "Plugin che si rompono, template comprati, performance basse e modifiche semplici che diventano sempre complicate.",
+    },
   ],
 };
 
 const en: ProblemsContent = {
   sectionLabel: "Problems I solve",
-  title: "Recognise yourself in any of these? Good — that's exactly why I exist.",
+  title:
+    "If any of this sounds familiar, your website doesn't just need a refresh — it needs order.",
   problems: [
     {
       id: "old-site",
@@ -74,19 +75,6 @@ const en: ProblemsContent = {
         "People open it, don't understand what you offer, and leave. No clear CTAs, no WhatsApp, no form that actually works.",
     },
     {
-      id: "vague-idea",
-      title:
-        "You have an idea for a site or an app but don't know where to start",
-      description:
-        "You understand you need something, but can't tell if it's a site, a landing page, a web app, or just better Instagram.",
-    },
-    {
-      id: "wordpress-mess",
-      title: "You're tired of WordPress sold as a 'custom solution'",
-      description:
-        "Plugins that break, bought templates, poor performance, and someone charging you €50 every time you want to change a heading.",
-    },
-    {
       id: "scattered",
       title: "Your online presence is scattered and not credible",
       description:
@@ -98,13 +86,26 @@ const en: ProblemsContent = {
       description:
         "Bookings, clients, sheets, orders. It works, but it eats your time and makes you look unstructured.",
     },
+    {
+      id: "vague-idea",
+      title:
+        "You have an idea for a site or an app but don't know where to start",
+      description:
+        "You know you need something, but can't tell if it's a website, a landing page, a web app, or simply a more ordered system.",
+    },
+    {
+      id: "wordpress-mess",
+      title: "You're tired of WordPress sold as a 'custom solution'",
+      description:
+        "Plugins that break, bought templates, poor performance, and simple edits that always become complicated.",
+    },
   ],
 };
 
 const fr: ProblemsContent = {
   sectionLabel: "Problèmes que je résous",
   title:
-    "Vous vous reconnaissez ? Tant mieux — c'est exactement pour ça que j'existe.",
+    "Si vous vous reconnaissez dans ces problèmes, votre site n'est pas seulement à refaire : il faut le remettre en ordre.",
   problems: [
     {
       id: "old-site",
@@ -119,20 +120,6 @@ const fr: ProblemsContent = {
         "Les visiteurs l'ouvrent, ne comprennent pas ce que vous offrez, et repartent. Pas de CTA clairs, pas de WhatsApp, pas de formulaire qui marche.",
     },
     {
-      id: "vague-idea",
-      title:
-        "Vous avez une idée de site ou d'app mais vous ne savez pas par où commencer",
-      description:
-        "Vous savez qu'il vous faut quelque chose, mais vous ne savez pas si c'est un site, une landing, une web app ou juste un meilleur Instagram.",
-    },
-    {
-      id: "wordpress-mess",
-      title:
-        "Vous en avez marre de WordPress vendu comme 'solution sur mesure'",
-      description:
-        "Plugins qui cassent, templates achetés, performances faibles, et quelqu'un qui demande 50 € à chaque fois que vous voulez changer un titre.",
-    },
-    {
       id: "scattered",
       title: "Votre présence en ligne est dispersée et peu crédible",
       description:
@@ -143,6 +130,20 @@ const fr: ProblemsContent = {
       title: "Vous gérez encore tout par Excel et WhatsApp",
       description:
         "Réservations, clients, fiches, commandes. Ça marche, mais ça vous bouffe du temps et vous fait paraître peu structuré(e).",
+    },
+    {
+      id: "vague-idea",
+      title:
+        "Vous avez une idée de site ou d'app mais vous ne savez pas par où commencer",
+      description:
+        "Vous savez qu'il vous faut quelque chose, mais vous ne savez pas si c'est un site, une landing, une web app ou simplement un système plus ordonné.",
+    },
+    {
+      id: "wordpress-mess",
+      title:
+        "Vous en avez marre de WordPress vendu comme 'solution sur mesure'",
+      description:
+        "Plugins qui cassent, templates achetés, performances faibles, et des petites modifications qui deviennent toujours compliquées.",
     },
   ],
 };

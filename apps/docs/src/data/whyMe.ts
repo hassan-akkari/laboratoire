@@ -15,7 +15,7 @@ export type WhyMeContent = {
 const it: WhyMeContent = {
   sectionLabel: "Perché lavorare con me",
   title:
-    "Differenza tra una scelta su misura e un sito-pacco di un'agenzia.",
+    "La differenza tra una soluzione su misura e un sito preconfezionato.",
   reasons: [
     {
       id: "single-contact",
@@ -27,19 +27,19 @@ const it: WhyMeContent = {
       id: "real-experience",
       title: "Esperienza reale su prodotti in produzione",
       description:
-        "Lavoro tutti i giorni su un prodotto enterprise con utenti reali. So cosa rompe un flusso di booking, un checkout o un form di contatto. Non imparo sul tuo budget.",
+        "Arrivo con metodo già testato su prodotti reali, utenti veri e flussi complessi. Non improvviso sul tuo progetto.",
     },
     {
       id: "no-template",
-      title: "Codice mio, non template ricomprati",
+      title: "Soluzioni su misura, non temi rivenduti",
       description:
-        "React, TypeScript e Tailwind. Il sito che ricevi è davvero su misura: cambi un titolo o aggiungi una sezione senza dover ricomprare un plugin.",
+        "Costruisco con React, TypeScript e Tailwind quando serve controllo reale su performance, design e flussi. Non rivendo un tema con due colori cambiati.",
     },
     {
       id: "transparent-pricing",
       title: "Prezzi chiari, scope chiaro",
       description:
-        "Ti dico in anticipo cosa è dentro e cosa è fuori. Non triplichiamo il preventivo a metà progetto, e non spariamo cifre per vedere se attacchi.",
+        "Ti dico in anticipo cosa è dentro e cosa è fuori. Preventivo scritto, priorità chiare e decisioni tracciate.",
     },
     {
       id: "fast-real",
@@ -51,7 +51,7 @@ const it: WhyMeContent = {
       id: "post-launch",
       title: "Non sparisco dopo il lancio",
       description:
-        "Resto reperibile su WhatsApp/email per fix e dubbi. Se vuoi un'evolutiva o una nuova sezione, ti faccio un preventivo separato e onesto.",
+        "Resto reperibile su WhatsApp/email per fix e dubbi. Se vuoi un'evolutiva o una nuova sezione, ti faccio un preventivo separato.",
     },
   ],
 };
@@ -59,7 +59,7 @@ const it: WhyMeContent = {
 const en: WhyMeContent = {
   sectionLabel: "Why work with me",
   title:
-    "The difference between a tailored choice and an off-the-shelf agency site.",
+    "The difference between a tailored solution and a prebuilt website.",
   reasons: [
     {
       id: "single-contact",
@@ -71,19 +71,19 @@ const en: WhyMeContent = {
       id: "real-experience",
       title: "Real experience on production products",
       description:
-        "I work daily on an enterprise product with real users. I know what breaks a booking flow, a checkout, or a contact form. I don't learn on your budget.",
+        "I bring a method already tested on real products, real users, and complex flows. I do not improvise on your project.",
     },
     {
       id: "no-template",
-      title: "My code, not bought templates",
+      title: "Tailored solutions, not resold themes",
       description:
-        "React, TypeScript, and Tailwind. The site you receive is genuinely custom: you can change a heading or add a section without buying yet another plugin.",
+        "I build with React, TypeScript, and Tailwind when real control over performance, design, and flows matters. I do not resell a theme with two colours changed.",
     },
     {
       id: "transparent-pricing",
       title: "Clear pricing, clear scope",
       description:
-        "I tell you upfront what's in and what's out. We don't triple the quote mid-project, and I don't throw out numbers just to see if you bite.",
+        "I tell you upfront what's in and what's out. Written quote, clear priorities, and tracked decisions.",
     },
     {
       id: "fast-real",
@@ -95,7 +95,7 @@ const en: WhyMeContent = {
       id: "post-launch",
       title: "I don't disappear after launch",
       description:
-        "I stay reachable on WhatsApp/email for fixes and questions. If you want an upgrade or a new section, I send you a separate honest quote.",
+        "I stay reachable on WhatsApp/email for fixes and questions. If you want an upgrade or a new section, I send you a separate quote.",
     },
   ],
 };
@@ -103,7 +103,7 @@ const en: WhyMeContent = {
 const fr: WhyMeContent = {
   sectionLabel: "Pourquoi travailler avec moi",
   title:
-    "La différence entre un choix sur mesure et un site-paquet d'agence.",
+    "La différence entre une solution sur mesure et un site préfabriqué.",
   reasons: [
     {
       id: "single-contact",
@@ -115,19 +115,19 @@ const fr: WhyMeContent = {
       id: "real-experience",
       title: "Expérience réelle sur des produits en production",
       description:
-        "Je travaille tous les jours sur un produit enterprise avec de vrais utilisateurs. Je sais ce qui casse un flow de booking, un checkout ou un formulaire. Je n'apprends pas sur votre budget.",
+        "J'arrive avec une méthode déjà testée sur de vrais produits, de vrais utilisateurs et des flux complexes. Je n'improvise pas sur votre projet.",
     },
     {
       id: "no-template",
-      title: "Mon code, pas des templates achetés",
+      title: "Solutions sur mesure, pas des thèmes revendus",
       description:
-        "React, TypeScript et Tailwind. Le site que vous recevez est vraiment sur mesure : vous changez un titre ou ajoutez une section sans devoir racheter un plugin.",
+        "Je construis avec React, TypeScript et Tailwind quand il faut un vrai contrôle sur la performance, le design et les flux. Je ne revends pas un thème avec deux couleurs changées.",
     },
     {
       id: "transparent-pricing",
       title: "Prix clair, scope clair",
       description:
-        "Je vous dis à l'avance ce qui est inclus et ce qui ne l'est pas. On ne triple pas le devis en cours de projet, et je ne lance pas des chiffres pour voir si vous mordez.",
+        "Je vous dis à l'avance ce qui est inclus et ce qui ne l'est pas. Devis écrit, priorités claires et décisions suivies.",
     },
     {
       id: "fast-real",
@@ -139,7 +139,7 @@ const fr: WhyMeContent = {
       id: "post-launch",
       title: "Je ne disparais pas après le lancement",
       description:
-        "Je reste joignable sur WhatsApp/email pour les corrections et les doutes. Si vous voulez une évolution ou une nouvelle section, je vous fais un devis séparé et honnête.",
+        "Je reste joignable sur WhatsApp/email pour les corrections et les doutes. Si vous voulez une évolution ou une nouvelle section, je vous fais un devis séparé.",
     },
   ],
 };

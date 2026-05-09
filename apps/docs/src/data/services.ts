@@ -35,7 +35,7 @@ const it: ServicesContent = {
       tagline:
         "Una pagina pensata per vendere un servizio o raccogliere contatti. Online in una settimana.",
       forWho:
-        "Professionisti, freelance e piccole attività che vogliono testare un servizio, una promozione o lanciare una nuova offerta.",
+        "Ideale per professionisti, freelance e piccole attività che vogliono promuovere un servizio specifico, una campagna, un'offerta o una nuova attività.",
       includes: [
         "Design su misura, mobile-first",
         "Copy strutturato per la conversione",
@@ -59,7 +59,7 @@ const it: ServicesContent = {
     },
     {
       id: "site",
-      name: "Sito Professionale Completo",
+      name: "Sito Professionale per attività e studi",
       tagline:
         "Il sito che dà credibilità alla tua attività. Chiaro, veloce, fatto per farti contattare.",
       forWho:
@@ -90,15 +90,15 @@ const it: ServicesContent = {
       id: "webapp",
       name: "Web App / MVP su misura",
       tagline:
-        "Hai un'idea di app o uno strumento che ti serve in azienda? Ti aiuto a costruirlo da zero.",
+        "Un piccolo sistema web per togliere processi da Excel, WhatsApp o strumenti improvvisati.",
       forWho:
-        "Chi ha un'idea di prodotto digitale, un gestionale interno da rifare o vuole portare online un processo che oggi gira su Excel/WhatsApp.",
+        "Chi ha un'idea di prodotto digitale, un gestionale interno da rifare o vuole portare online un processo che oggi gira su Excel/WhatsApp. Partiamo dalla prima versione utile, non dal castello intero.",
       includes: [
         "Analisi del problema e definizione dell'MVP",
         "Area clienti / login / dashboard",
         "Gestione dati, prenotazioni, contenuti",
         "API REST e integrazioni con servizi esterni",
-        "Architettura scalabile (React + TypeScript)",
+        "Base tecnica solida, facile da evolvere senza rifare tutto da zero",
         "Documentazione e handover finale",
       ],
       excludes: [
@@ -115,7 +115,7 @@ const it: ServicesContent = {
     },
     {
       id: "restyle",
-      name: "Restyling Sito Esistente",
+      name: "Restyling strategico del sito esistente",
       tagline:
         "Il tuo sito è vecchio, lento o non ti rappresenta più? Lo rimetto a posto senza ricominciare da zero.",
       forWho:
@@ -162,7 +162,7 @@ const en: ServicesContent = {
       tagline:
         "A single page built to sell a service or capture leads. Live in one week.",
       forWho:
-        "Professionals, freelancers, and small businesses testing a service, a promotion, or a new offer.",
+        "Ideal for professionals, freelancers, and small businesses promoting a specific service, campaign, offer, or new activity.",
       includes: [
         "Custom mobile-first design",
         "Copy structured for conversion",
@@ -186,7 +186,7 @@ const en: ServicesContent = {
     },
     {
       id: "site",
-      name: "Complete Professional Website",
+      name: "Professional Website for businesses and studios",
       tagline:
         "The website that gives your business credibility. Clear, fast, built to get you contacted.",
       forWho:
@@ -217,15 +217,15 @@ const en: ServicesContent = {
       id: "webapp",
       name: "Custom Web App / MVP",
       tagline:
-        "Got an app idea or an internal tool you actually need? I help you build it from scratch.",
+        "A small web system to move work away from Excel, WhatsApp, or improvised tools.",
       forWho:
-        "Founders with a product idea, teams stuck on Excel/WhatsApp, or anyone who needs to move a process online.",
+        "Founders with a product idea, teams stuck on Excel/WhatsApp, or anyone who needs to move a process online. We start from the first useful version, not the whole castle.",
       includes: [
         "Problem analysis and MVP definition",
         "Customer area / login / dashboard",
         "Data, booking, and content management",
         "REST APIs and third-party integrations",
-        "Scalable architecture (React + TypeScript)",
+        "Solid technical base, easy to evolve without rebuilding from scratch",
         "Final documentation and handover",
       ],
       excludes: [
@@ -242,7 +242,7 @@ const en: ServicesContent = {
     },
     {
       id: "restyle",
-      name: "Existing Website Restyling",
+      name: "Strategic restyling of an existing website",
       tagline:
         "Your site is old, slow, or no longer represents you? I fix it without starting over.",
       forWho:
@@ -290,7 +290,7 @@ const fr: ServicesContent = {
       tagline:
         "Une page conçue pour vendre un service ou capter des contacts. En ligne en une semaine.",
       forWho:
-        "Professionnels, freelances et petites structures qui veulent tester un service, une promotion ou une nouvelle offre.",
+        "Idéal pour les professionnels, freelances et petites structures qui veulent promouvoir un service précis, une campagne, une offre ou une nouvelle activité.",
       includes: [
         "Design sur mesure, mobile-first",
         "Copy structuré pour la conversion",
@@ -314,7 +314,7 @@ const fr: ServicesContent = {
     },
     {
       id: "site",
-      name: "Site Professionnel Complet",
+      name: "Site professionnel pour activités et cabinets",
       tagline:
         "Le site qui donne de la crédibilité à votre activité. Clair, rapide, fait pour générer des contacts.",
       forWho:
@@ -345,15 +345,15 @@ const fr: ServicesContent = {
       id: "webapp",
       name: "Web App / MVP sur mesure",
       tagline:
-        "Vous avez une idée d'app ou un outil interne dont vous avez vraiment besoin ? Je vous aide à le construire de zéro.",
+        "Un petit système web pour sortir des processus d'Excel, WhatsApp ou d'outils improvisés.",
       forWho:
-        "Founders avec une idée de produit, équipes coincées sur Excel/WhatsApp, ou quiconque a besoin de digitaliser un processus.",
+        "Founders avec une idée de produit, équipes coincées sur Excel/WhatsApp, ou toute personne qui doit digitaliser un processus. On part de la première version utile, pas d'une plateforme énorme.",
       includes: [
         "Analyse du problème et définition du MVP",
         "Espace client / login / tableau de bord",
         "Gestion données, réservations, contenus",
         "API REST et intégrations tierces",
-        "Architecture évolutive (React + TypeScript)",
+        "Base technique solide, facile à faire évoluer sans tout reconstruire",
         "Documentation finale et passation",
       ],
       excludes: [
@@ -370,7 +370,7 @@ const fr: ServicesContent = {
     },
     {
       id: "restyle",
-      name: "Refonte de Site Existant",
+      name: "Refonte stratégique du site existant",
       tagline:
         "Votre site est daté, lent, ne vous représente plus ? Je le remets en forme sans repartir de zéro.",
       forWho:

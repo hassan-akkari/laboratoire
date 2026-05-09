@@ -1,19 +1,19 @@
 {
   "profile": {
     "name": "Hassan Akkari",
-    "role": "Software Developer oriente frontend",
-    "focus": "Standards UI, composants reutilisables, flux coeur (React/TS/RTK).",
+    "role": "Frontend Engineer — React, TypeScript, UI Architecture",
+    "focus": "Standards UI, composants réutilisables, flux cœur (React/TS/RTK).",
     "location": "Rome, Italie",
-    "metric": "Ingenieur frontend - architecture UI et execution",
+    "metric": "Ingénieur frontend - architecture UI et exécution",
     "about": [
-      "J'ai travaille sur Sibylla dans un contexte qui change vite: sans ordre, le projet cree de la friction. J'ai commence sur Platform en construisant des bases solides (jQuery/HTML/CSS) et des standards UI reutilisables; aujourd'hui sur Network je travaille de facon plus structurelle avec React + Redux Toolkit sur les flux coeur.",
-      "Je resous le probleme, puis je le rends difficile a reproduire: standards, reutilisation, structure.",
-      "Je reduis la friction d'equipe: conventions claires et composants reutilisables.",
-      "Quand il faut, je connecte FE/BE: API, MVC, requetes et debugging.",
-      "Je partage volontiers l'approche et l'impact; certains details internes restent hors scope."
+      "Dans un contexte qui change vite, j'ai appris que sans standards partagés la codebase crée de la friction. J'ai commencé sur Platform en construisant des bases solides (jQuery/HTML/CSS) et des standards UI réutilisables; aujourd'hui sur Network je travaille de façon plus structurelle avec React + Redux Toolkit sur les flux cœur.",
+      "Je résous le problème, puis je le rends difficile à reproduire: standards, réutilisation, structure.",
+      "Je réduis la friction d'équipe: conventions claires et composants réutilisables.",
+      "Quand il faut, je connecte FE/BE: API, MVC, requêtes et debugging.",
+      "Je partage volontiers l'approche et l'impact; certains détails internes restent hors scope."
     ],
-    "now": "Actuellement sur Sibylla Network: j'ameliore la delivery avec des patterns reutilisables et une architecture plus propre. Je ne peux pas montrer les details internes, mais je peux expliquer clairement ce que j'ai construit.",
-    "philosophy": "Je standardise d'abord, puis j'accelere. Quand le code est propre, l'equipe va plus vite.",
+    "now": "Actuellement sur Sibylla Network: j'améliore la delivery avec des patterns réutilisables et une architecture plus propre. Je ne peux pas montrer les détails internes, mais je peux expliquer clairement ce que j'ai construit.",
+    "philosophy": "Je standardise d'abord, puis j'accélère. Quand le code est propre, l'équipe va plus vite.",
     "githubUsername": "Dark-lIl-Demon"
   },
   "contact": {
@@ -25,10 +25,10 @@
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Standards UI (classes/styles)\nAvant: conventions eparpillees et duplications entre modules.\nApres: standards partages reutilises dans le temps par l'equipe.\nResultat: moins de regressions et maintenance plus rapide.",
-    "Network: patterns reutilisables (React + Redux Toolkit)\nAvant: logiques distribuees et difficiles a scaler.\nApres: patterns et flux plus previsibles.\nResultat: livraison plus stable sur les flux coeur.",
-    "Coherence UI (Bootstrap -> Tailwind quand applicable)\nAvant: layouts incoherents et composants similaires mais differents.\nApres: standards et composition plus consistants.\nResultat: iterations plus rapides sur les flux principaux.",
-    "Debugging des cas limites et bugs complexes\nAvant: blocages longs et diagnostic fragmente.\nApres: isolation rapide, correction ciblee, prevention quand possible.\nResultat: equipe debloquee sans ralentir la livraison."
+    "Standards UI (classes/styles)\nAvant: conventions éparpillées et duplications entre modules.\nAprès: standards partagés réutilisés dans le temps par l'équipe.\nRésultat: moins de régressions et maintenance plus rapide.",
+    "Network: patterns réutilisables (React + Redux Toolkit)\nAvant: logiques distribuées et difficiles à scaler.\nAprès: patterns et flux plus prévisibles.\nRésultat: livraison plus stable sur les flux cœur.",
+    "Cohérence UI (Bootstrap -> Tailwind quand applicable)\nAvant: layouts incohérents et composants similaires mais différents.\nAprès: standards et composition plus consistants.\nRésultat: itérations plus rapides sur les flux principaux.",
+    "Debugging des cas limites et bugs complexes\nAvant: blocages longs et diagnostic fragmenté.\nAprès: isolation rapide, correction ciblée, prévention quand possible.\nRésultat: équipe débloquée sans ralentir la livraison."
   ],
   "stack": {
     "daily": [
@@ -59,12 +59,12 @@
       "company": "Sibylla (Platform et Network)",
       "location": "Italie",
       "role": "Frontend Developer - evolution dans le projet",
-      "start": "Actuel",
-      "end": "En cours",
+      "start": "Sept 2023",
+      "end": "Présent",
       "bullets": [
-        "J'ai commence sur Platform pour consolider les bases en jQuery, HTML et CSS.",
-        "J'ai introduit des standards reutilisables de classes et styles, encore utilises par l'equipe.",
-        "Maintenant sur Network, je pilote implementation booking, catalogue et checkout avec des patterns React et Redux Toolkit scalables."
+        "J'ai commencé sur Platform pour consolider les bases en jQuery, HTML et CSS.",
+        "J'ai introduit des standards réutilisables de classes et styles, encore utilisés par l'équipe.",
+        "Maintenant sur Network, je pilote l'implémentation booking, catalogue et checkout avec des patterns React et Redux Toolkit scalables."
       ]
     },
     {
@@ -74,8 +74,8 @@
       "start": "Oct 2022",
       "end": "Juin 2023",
       "bullets": [
-        "Developpement et maintenance de fonctionnalites internes avec focus formulaires et validation.",
-        "Integration des flux frontend avec services .NET et donnees SQL Server.",
+        "Développement et maintenance de fonctionnalités internes avec focus formulaires et validation.",
+        "Intégration des flux frontend avec services .NET et données SQL Server.",
         "Corrections et refactors sur des workflows critiques avant livraison."
       ]
     }
@@ -87,7 +87,7 @@
       "qualification": "Diploma in Computer Science",
       "start": "Sept 2019",
       "end": "Juin 2021",
-      "focus": "Fondations logicielles, concepts data et bases du developpement web."
+      "focus": "Fondations logicielles, concepts data et bases du développement web."
     }
   ],
   "general": [
@@ -132,14 +132,14 @@
     {
       "id": "bootstrap-tailwind-modernization",
       "title": "Bootstrap to Tailwind Modernization",
-      "summary": "Migration de Bootstrap et packages vendor vers un workflow Tailwind axe coherence, vitesse et maintenance.",
+      "summary": "Migration de Bootstrap et packages vendor vers un workflow Tailwind axé cohérence, vitesse et maintenance.",
       "image": "image/LaBrochure.png",
       "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
       "impact": [
-        "Standards UI plus coherents entre modules et composants.",
-        "Reduction de la dependance vendor et des comportements UI fragmentes.",
-        "Vitesse d'iteration amelioree sur layouts et composants.",
-        "Creation de patterns utilitaires reutilisables et plus scalables entre modules."
+        "Standards UI plus cohérents entre modules et composants.",
+        "Réduction de la dépendance vendor et des comportements UI fragmentés.",
+        "Vitesse d'itération améliorée sur layouts et composants.",
+        "Création de patterns utilitaires réutilisables et plus scalables entre modules."
       ],
       "links": [
         {

@@ -51,8 +51,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           Checkout is protected to show a realistic auth gate and redirect flow.
         </p>
         <p className="notice">
-          Demo mode: click continue and we set a short-lived secure cookie for this
-          browser session.
+          Demo mode: click continue and we set a short-lived HTTP-only session
+          cookie for this browser. The cookie is only flagged secure when running
+          in production.
         </p>
         <form action={continueToCheckout} className="form-grid">
           <input type="hidden" name="next" value={nextPath} />
