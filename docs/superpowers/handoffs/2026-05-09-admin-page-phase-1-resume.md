@@ -3,7 +3,7 @@
 **Date:** 2026-05-09 (evening session, paused mid-execution)
 **Owner:** Hassan
 **Branch:** `feat/admin-page` (off `main`)
-**Status:** Phase 1 ~80% complete. 11 commits ahead of `main`. 25/25 tests green. Blocked on Neon Frankfurt setup before Tasks 4, 5 (run step), and 12 can finish.
+**Status:** Phase 1 ~80% complete. 13 commits ahead of `main` (12 code + 1 handoff). 25/25 tests green. Blocked on Neon Frankfurt setup before Tasks 4, 5 (run step), and 12 can finish.
 
 ## TL;DR for the next AI
 
@@ -25,6 +25,8 @@ db53d9b7  chore: ignore .env*.local and admin smoke-test artifacts
 febfe5dd  feat(web-next): rename middleware.ts -> proxy.ts + admin matcher
 2e7dfa2d  chore(web-next): .env.example for phase 1
 f2c545b1  feat(web-next): admin user + site_config seed script
+cd61ea67  docs(superpowers): admin Phase 1 mid-execution handoff
+9ca08efe  chore(web-next): drop deprecated baseUrl from tsconfig
 ```
 
 Plan task ↔ commit mapping:
@@ -183,7 +185,7 @@ These are extras on top of the original spec/plan; capture them into CLAUDE.md o
 
 ```
 Branch:                 feat/admin-page
-Commits ahead of main:  11
+Commits ahead of main:  13
 Tests:                  25/25 passing (origin 6, adminSession 4, login 5, logout 3, + existing session 3, pricing 3, orders 1)
 Typecheck:              clean
 Lint:                   not run this session — run before Phase 2 starts
