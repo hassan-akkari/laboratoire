@@ -63,14 +63,16 @@ export default function SiteHeader({
             <li>
               <Link to="/cv">{labels.nav.cv}</Link>
             </li>
-            <button
-              type="button"
-              className="fa-solid fa-xmark nav-icon-button"
-              onClick={() => toggleMenu(false)}
-              aria-label={nav.closeMenuLabel}
-            >
-              <FaTimes />
-            </button>
+            <li className="nav-close">
+              <button
+                type="button"
+                className="fa-solid fa-xmark nav-icon-button"
+                onClick={() => toggleMenu(false)}
+                aria-label={nav.closeMenuLabel}
+              >
+                <FaTimes aria-hidden="true" />
+              </button>
+            </li>
           </ul>
           <div className="nav-actions">
             <AppButton
