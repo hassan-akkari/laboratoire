@@ -10,3 +10,12 @@ node_modules_old/
 **/*.tsbuildinfo
 *.log
 node_modules_old/
+
+# Environment / secrets
+**/.env.local
+**/.env.*.local
+**/.env.development.local
+**/.env.production.local
+
+# Cookie jar from manual smoke tests
+admin-cookie.txt
