@@ -4,9 +4,12 @@ export default heroui({
   themes: {
     light: {
       colors: {
-        background: "#f8f7f4",
-        foreground: "#1b1a17",
-        primary: "#1f6feb",
+        background: "#f5f1ea",
+        foreground: "#1b1814",
+        primary: {
+          DEFAULT: "#4a4e69",
+          foreground: "#f8f7f4",
+        },
         secondary: "#0f172a",
       },
     },
@@ -14,7 +17,10 @@ export default heroui({
       colors: {
         background: "#080808",
         foreground: "#decbc6",
-        primary: "#4a4e69",
+        primary: {
+          DEFAULT: "#4a4e69",
+          foreground: "#decbc6",
+        },
         secondary: "#decbc6",
       },
     },

@@ -28,24 +28,23 @@ body,
       var(--app-accent-soft) 0%,
       transparent 72%
     );
+    --portrait-mask: linear-gradient(
+      to bottom,
+      black 88%,
+      transparent 100%
+    );
   }
 
   :root[data-theme="light"],
   .light {
     color-scheme: light;
-    --app-bg: #f8f7f4;
-    --app-fg: #1b1a17;
-    --app-muted: #6b6b6b;
-    --app-card: #ffffff;
-    --app-border: #e6e3df;
-    --app-accent: #1f6feb;
-    --app-accent-soft: rgba(31, 111, 235, 0.2);
-    --portrait-rim: drop-shadow(0 12px 28px rgba(27, 26, 23, 0.18));
-    --portrait-halo: radial-gradient(
-      70% 80% at 50% 60%,
-      rgba(31, 111, 235, 0.08) 0%,
-      transparent 72%
-    );
+    --app-bg: #f5f1ea;
+    --app-fg: #1b1814;
+    --app-muted: #75695f;
+    --app-card: #fbf8f3;
+    --app-border: #e8dfd2;
+    --app-accent: #3d4368;
+    --app-accent-soft: rgba(61, 67, 104, 0.18);
   }
 
   :root[data-theme="dark"],
@@ -58,12 +57,5 @@ body,
     --app-border: #262626;
     --app-accent: #4a4e69;
     --app-accent-soft: rgba(74, 78, 105, 0.24);
-    --portrait-rim: drop-shadow(0 0 1px rgba(74, 78, 105, 0.32))
-      drop-shadow(0 0 22px rgba(74, 78, 105, 0.16));
-    --portrait-halo: radial-gradient(
-      62% 70% at 50% 58%,
-      var(--app-accent-soft) 0%,
-      transparent 72%
-    );
   }
 }

@@ -93,10 +93,8 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 className="relative z-10 mx-auto block h-auto w-full max-w-md select-none object-contain md:max-w-none"
                 style={{
                   filter: "var(--portrait-rim)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 88%, transparent 100%)",
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 88%, transparent 100%)",
+                  maskImage: "var(--portrait-mask)",
+                  WebkitMaskImage: "var(--portrait-mask)",
                 }}
               />
             </div>
