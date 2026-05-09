@@ -69,7 +69,13 @@ export default function AuditPage({
             {...getMountReveal(reduceMotion)}
           >
             <Link to="/" aria-label="Home">
-              <img className="logo" src="favicon.png" alt="Laboratoire logo" />
+              <img
+                className="logo"
+                src="favicon.png"
+                alt="Laboratoire logo"
+                width={42}
+                height={38}
+              />
             </Link>
             <ul id="sidemenu">
               <li>
@@ -162,7 +168,9 @@ export default function AuditPage({
             <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
               {content.checkpoints.label}
             </p>
-            <h2 className="text-3xl md:text-4xl">{content.checkpoints.title}</h2>
+            <h2 className="text-3xl md:text-4xl">
+              {content.checkpoints.title}
+            </h2>
           </motion.div>
 
           <motion.ol

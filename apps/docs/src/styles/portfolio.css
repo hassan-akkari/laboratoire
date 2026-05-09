@@ -101,17 +101,33 @@ nav ul li a:focus-visible {
   justify-items: center;
 }
 
-.nav-link > .nav-link__text,
-.nav-link > .nav-link__ghost {
+.nav-link>.nav-link__text,
+.nav-link>.nav-link__ghost {
   grid-column: 1;
   grid-row: 1;
   white-space: nowrap;
 }
 
-.nav-link > .nav-link__ghost {
+.nav-link>.nav-link__ghost {
   visibility: hidden;
   pointer-events: none;
   user-select: none;
+}
+
+nav a:has(> .logo) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+.logo {
+  display: block;
+  height: 35px;
+  width: auto;
+  object-fit: cover;
 }
 
 .nav-actions {
@@ -144,11 +160,9 @@ nav ul li a:focus-visible {
 .locale-switcher__button--active {
   color: #ffffff;
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       color-mix(in srgb, var(--app-accent) 82%, #ffffff 18%),
-      color-mix(in srgb, var(--app-accent) 94%, #000000 6%)
-    );
+      color-mix(in srgb, var(--app-accent) 94%, #000000 6%));
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, #ffffff 24%, transparent),
     0 8px 14px -10px color-mix(in srgb, var(--app-accent) 72%, transparent);
@@ -201,7 +215,7 @@ nav ul li a:focus-visible {
 }
 
 .nav-theme-toggle[data-selected="true"] .nav-theme-toggle__thumb,
-.nav-theme-toggle input:checked + .nav-theme-toggle__track .nav-theme-toggle__thumb {
+.nav-theme-toggle input:checked+.nav-theme-toggle__track .nav-theme-toggle__thumb {
   transform: translateX(1.5rem) !important;
 }
 
@@ -392,11 +406,9 @@ nav ul li a:focus-visible {
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       color-mix(in srgb, var(--app-card) 92%, transparent),
-      color-mix(in srgb, var(--app-card) 76%, transparent)
-    );
+      color-mix(in srgb, var(--app-card) 76%, transparent));
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--app-fg) 9%, transparent);
   max-width: 100%;
   overflow-x: auto;
@@ -446,11 +458,9 @@ nav ul li a:focus-visible {
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--app-accent) 62%, var(--app-border));
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       color-mix(in srgb, var(--app-accent) 82%, #ffffff 18%),
-      color-mix(in srgb, var(--app-accent) 94%, #000000 6%)
-    );
+      color-mix(in srgb, var(--app-accent) 94%, #000000 6%));
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, #ffffff 24%, transparent),
     0 8px 16px -10px color-mix(in srgb, var(--app-accent) 72%, transparent);
@@ -659,11 +669,9 @@ nav ul li a:focus-visible {
   border-radius: 22px;
   border: 1px solid color-mix(in srgb, var(--app-border) 74%, transparent);
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       color-mix(in srgb, var(--app-card) 90%, transparent),
-      color-mix(in srgb, var(--app-accent-soft) 26%, transparent)
-    );
+      color-mix(in srgb, var(--app-accent-soft) 26%, transparent));
   box-shadow: 0 20px 38px -28px rgba(0, 0, 0, 0.55);
   padding: 20px;
   display: grid;
@@ -701,11 +709,9 @@ nav ul li a:focus-visible {
   color: #ffffff;
   border: 1px solid color-mix(in srgb, var(--app-accent) 62%, var(--app-border));
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       color-mix(in srgb, var(--app-accent) 82%, #ffffff 18%),
-      color-mix(in srgb, var(--app-accent) 94%, #000000 6%)
-    );
+      color-mix(in srgb, var(--app-accent) 94%, #000000 6%));
 }
 
 .roadmap-stack {
@@ -968,6 +974,7 @@ nav .fa-solid {
 }
 
 @media (max-width: 1024px) {
+
   .about-col-1,
   .about-col-2,
   .contact-left,
@@ -1073,9 +1080,9 @@ nav .fa-solid {
     align-items: stretch;
   }
 
-  .about-cta > *,
-  .header-actions > *,
-  .contact-cta > * {
+  .about-cta>*,
+  .header-actions>*,
+  .contact-cta>* {
     width: 100%;
   }
 
@@ -1084,8 +1091,8 @@ nav .fa-solid {
     align-items: stretch;
   }
 
-  .cv-topbar > *,
-  .cv-actions > * {
+  .cv-topbar>*,
+  .cv-actions>* {
     width: 100%;
   }
 }
