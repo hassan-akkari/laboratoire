@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { checkoutRequestSchema, parseQuoteSearchParams } from "../../lib/bookingSchemas";
+import { getExperienceBySlug } from "../../lib/data";
 import { processCheckout } from "../../lib/orders";
 import { formatCurrency, quoteBooking } from "../../lib/pricing";
 
@@ -31,7 +32,7 @@ function toQueryString(params: {
 export default async function CheckoutPage({ searchParams }: CheckoutPageProps) {
   const params = parseQuoteSearchParams(await searchParams);
 
-  if (!params) {
+  if (!params || !getExperienceBySlug(params.slug)) {
     return (
       <section className="card">
         <h1>Checkout</h1>
@@ -145,6 +146,10 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
           <div className="summary-row">
             <span>Service fee</span>
             <strong>{formatCurrency(quote.serviceFee)}</strong>
+          </div>
+          <div className="summary-row">
+            <span>Tax</span>
+            <strong>{formatCurrency(quote.tax)}</strong>
           </div>
           <div className="summary-row total">
             <span>Total</span>

@@ -31,5 +31,17 @@ export default defineConfig(({ command, mode }) => {
         plugins: [tailwind()],
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            "react-vendor": ["react", "react-dom", "react-router-dom"],
+            "motion-vendor": ["framer-motion"],
+            "heroui-vendor": ["@heroui/react", "@heroui/theme"],
+            "redux-vendor": ["@reduxjs/toolkit", "react-redux"],
+          },
+        },
+      },
+    },
   };
 });

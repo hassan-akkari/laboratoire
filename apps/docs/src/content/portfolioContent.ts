@@ -108,13 +108,13 @@ export type GithubProfile = z.infer<typeof githubProfileSchema>;
 export const fallbackPortfolioContent: PortfolioContent = {
   profile: {
     name: "Hassan Akkari",
-    role: "Frontend-focused Software Developer",
+    role: "Frontend Engineer — React, TypeScript, UI Architecture",
     focus:
       "UI standards, reusable components, core flows (React/TS/RTK).",
     location: "Rome, Italy",
     metric: "Frontend engineer - UI architecture & delivery",
     about: [
-      "I have worked on Sibylla in a fast-moving environment: if you do not create order, the project creates friction. I started on Platform building solid foundations (jQuery/HTML/CSS) and reusable UI standards; today on Network I work more structurally with React + Redux Toolkit on core flows.",
+      "In a fast-moving environment, I learned that without shared standards the codebase creates friction. I started on Platform building solid foundations (jQuery/HTML/CSS) and reusable UI standards; today on Network I work more structurally with React + Redux Toolkit on core flows.",
       "I solve the problem, then make it hard to repeat: standards, reuse, structure.",
       "I reduce team friction: clear conventions and reusable components.",
       "When needed, I connect FE/BE: APIs, MVC, queries, and debugging.",
@@ -168,7 +168,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
       company: "Sibylla (Platform and Network)",
       location: "Italy",
       role: "Frontend Developer (Platform Foundations and Network Delivery)",
-      start: "Current",
+      start: "Sep 2023",
       end: "Present",
       bullets: [
         "Started on Sibylla Platform, strengthening frontend fundamentals with jQuery, HTML, and CSS.",

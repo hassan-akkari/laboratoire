@@ -2,11 +2,11 @@
 
 Monorepo pnpm/turbo con tre app frontend: `docs`, `web-react`, `web-next`.
 
-## Stato attuale (2026-01-26)
-- `apps/docs`: portfolio statico (Tailwind v4 + HeroUI wiring pronto, preflight off)
-- `apps/web-react`: Tailwind v4 + HeroUI v2 + Redux Toolkit/RTK Query + MSW (mock `/api/ping`), tema light/dark
-- `apps/web-next`: Next.js App Router con MVP booking/checkout (auth gate, pricing engine, API routes)
-- Deploy: workflow GitHub Pages pubblica `docs` su `/` e `web-react` su `/react`
+## Stato attuale
+- `apps/docs`: portfolio live — Vite + Tailwind v4 + HeroUI, hosting Vercel, dominio gestito su OVH (registrar/DNS).
+- `apps/web-react`: showcase prototype (Tailwind v4 + HeroUI v2 + Redux Toolkit/RTK Query + MSW). Solo locale.
+- `apps/web-next`: showcase prototype Next.js App Router con booking/checkout MVP (auth gate sentinel, pricing engine, in-memory orders). Solo locale.
+- Deploy: solo `apps/docs` è online. `web-react` e `web-next` sono vetrine framework non ancora collegate.
 
 ## Struttura
 - `apps/docs` (sito/portfolio)
@@ -78,9 +78,7 @@ pnpm preview:react
 pnpm start:next
 ```
 
-## Deploy GitHub Pages
-Workflow: `.github/workflows/deploy-user-site.yml`
-- richiede il secret `GH_PAGES_TOKEN`
-- esegue `pnpm check` prima della build/deploy
-- pubblica su `Dark-lIl-Demon/Dark-lIl-Demon.github.io`
+## Deploy
+- **`apps/docs`** → Vercel (config `vercel.json`: framework `vite`, build `pnpm -F docs build`, output `apps/docs/dist`). Push su `main` ⇒ deploy automatico. Il dominio è registrato su OVH e punta su Vercel via DNS — OVH non esegue codice.
+- **`apps/web-react` / `apps/web-next`** → nessun deploy. Sono showcase prototypes locali; un'eventuale futura messa online (subroute, subdomain o progetto Vercel separato) è ancora da decidere.
 

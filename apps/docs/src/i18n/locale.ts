@@ -8,6 +8,6 @@ export function isLocale(value: string): value is Locale {
 }
 
 export function resolveLocale(value: string | null | undefined): Locale {
-  if (!value) return "en";
-  return isLocale(value) ? value : "en";
+  if (!value) return "it";
+  return isLocale(value) ? value : "it";
 }
