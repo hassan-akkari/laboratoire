@@ -15,135 +15,81 @@ export type TargetClientsContent = {
 
 const it: TargetClientsContent = {
   sectionLabel: "Per chi lavoro",
-  title: "Lavoro con persone vere, non con buyer persona.",
+  title: "Lavoro con persone che hanno bisogno di più ordine digitale.",
   subtitle:
-    "Se ti riconosci in una di queste categorie probabilmente posso aiutarti. Se sei nel dubbio, scrivimi e te lo dico io con onestà.",
+    "Tre gruppi diversi, stesso obiettivo: un sito o un piccolo sistema web che renda più chiaro cosa fai e più semplice contattarti.",
   clients: [
     {
       id: "professionals",
-      label: "Professionisti e consulenti",
+      label: "Professionisti e studi",
       description:
-        "Commercialisti, avvocati, consulenti, architetti che vogliono un sito serio, veloce e che dia subito fiducia.",
-    },
-    {
-      id: "fitness",
-      label: "Personal trainer e palestre",
-      description:
-        "Landing per pacchetti, schede online, prenotazioni lezioni, app gestione clienti.",
-    },
-    {
-      id: "studios",
-      label: "Studi e piccole strutture",
-      description:
-        "Studi medici, centri estetici, scuole, associazioni: presenza online chiara con orari, servizi e prenotazione.",
+        "Commercialisti, avvocati, consulenti, architetti e studi medici che vogliono un sito credibile, chiaro e orientato al contatto.",
     },
     {
       id: "small-business",
-      label: "Piccole attività locali",
+      label: "Attività locali e servizi",
       description:
-        "Ristoranti, b&b, negozi, artigiani: sito mobile-first che porti chiamate, prenotazioni e visite reali.",
+        "Palestre, centri estetici, B&B, ristoranti, scuole e associazioni: servizi, orari, disponibilità, contatti e prenotazioni in ordine.",
     },
     {
       id: "founders",
-      label: "Founder con un'idea di prodotto",
+      label: "Founder e team piccoli",
       description:
-        "Hai un'idea di app, gestionale o servizio digitale? Ti aiuto a partire dall'MVP senza buttare via tempo e budget.",
-    },
-    {
-      id: "freelancers",
-      label: "Altri freelance",
-      description:
-        "Personal brand, portfolio, landing per i tuoi servizi. Un sito che ti faccia sembrare il professionista che sei.",
+        "Persone che vogliono MVP, dashboard, strumenti interni o flussi digitali per togliere processi da Excel e WhatsApp.",
     },
   ],
 };
 
 const en: TargetClientsContent = {
   sectionLabel: "Who I work with",
-  title: "I work with real people, not buyer personas.",
+  title: "I work with people who need more digital order.",
   subtitle:
-    "If you recognise yourself in one of these, I can probably help. If you're not sure, drop me a line and I'll tell you honestly.",
+    "Three different groups, one shared goal: a website or small web system that makes your work clearer and easier to contact.",
   clients: [
     {
       id: "professionals",
-      label: "Professionals & consultants",
+      label: "Professionals and studios",
       description:
-        "Accountants, lawyers, consultants, architects who want a serious, fast site that builds trust on the spot.",
-    },
-    {
-      id: "fitness",
-      label: "Personal trainers & gyms",
-      description:
-        "Landings for packages, online plans, class booking, client management apps.",
-    },
-    {
-      id: "studios",
-      label: "Studios & small practices",
-      description:
-        "Clinics, beauty studios, schools, associations: clear online presence with hours, services, and booking.",
+        "Accountants, lawyers, consultants, architects, and medical studios that need a credible, clear, contact-oriented site.",
     },
     {
       id: "small-business",
-      label: "Small local businesses",
+      label: "Local activities and services",
       description:
-        "Restaurants, B&Bs, shops, craftsmen: a mobile-first site that drives real calls, bookings, and visits.",
+        "Gyms, beauty centres, B&Bs, restaurants, schools, and associations: services, hours, availability, contacts, and bookings in one clear place.",
     },
     {
       id: "founders",
-      label: "Founders with a product idea",
+      label: "Founders and small teams",
       description:
-        "Got an app idea, internal tool, or digital service? I help you start from the MVP without burning time and budget.",
-    },
-    {
-      id: "freelancers",
-      label: "Other freelancers",
-      description:
-        "Personal brand, portfolio, landings for your services. A site that makes you look like the professional you are.",
+        "People who need MVPs, dashboards, internal tools, or digital flows to move work out of Excel and WhatsApp.",
     },
   ],
 };
 
 const fr: TargetClientsContent = {
   sectionLabel: "Pour qui je travaille",
-  title: "Je travaille avec de vraies personnes, pas avec des buyer personas.",
+  title: "Je travaille avec des personnes qui ont besoin de plus d'ordre digital.",
   subtitle:
-    "Si vous vous reconnaissez dans l'une de ces catégories, je peux probablement vous aider. Sinon, écrivez-moi et je vous le dirai honnêtement.",
+    "Trois groupes différents, un même objectif : un site ou un petit système web qui clarifie votre activité et facilite le contact.",
   clients: [
     {
       id: "professionals",
-      label: "Professionnels & consultants",
+      label: "Professionnels et cabinets",
       description:
-        "Experts-comptables, avocats, consultants, architectes : un site sérieux, rapide, qui inspire confiance dès la première seconde.",
-    },
-    {
-      id: "fitness",
-      label: "Coachs sportifs & salles de sport",
-      description:
-        "Landings pour des forfaits, plans en ligne, réservation de cours, apps de gestion clients.",
-    },
-    {
-      id: "studios",
-      label: "Cabinets & petites structures",
-      description:
-        "Cabinets médicaux, instituts de beauté, écoles, associations : présence en ligne claire avec horaires, services et réservation.",
+        "Experts-comptables, avocats, consultants, architectes et cabinets médicaux qui veulent un site crédible, clair et orienté contact.",
     },
     {
       id: "small-business",
-      label: "Petites activités locales",
+      label: "Activités locales et services",
       description:
-        "Restaurants, B&B, boutiques, artisans : site mobile-first qui ramène appels, réservations et visites réelles.",
+        "Salles de sport, instituts de beauté, B&B, restaurants, écoles et associations : services, horaires, disponibilités, contacts et réservations en ordre.",
     },
     {
       id: "founders",
-      label: "Founders avec une idée produit",
+      label: "Founders et petites équipes",
       description:
-        "Une idée d'app, d'outil interne ou de service digital ? Je vous aide à partir du MVP sans gaspiller temps et budget.",
-    },
-    {
-      id: "freelancers",
-      label: "Autres freelances",
-      description:
-        "Marque personnelle, portfolio, landings pour vos services. Un site qui vous fait passer pour le pro que vous êtes.",
+        "Personnes qui veulent un MVP, un dashboard, un outil interne ou des flux digitaux pour sortir d'Excel et WhatsApp.",
     },
   ],
 };

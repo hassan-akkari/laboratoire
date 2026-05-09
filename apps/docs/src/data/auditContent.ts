@@ -73,13 +73,13 @@ const auditPrefilled: Record<Locale, string> = {
 const it: AuditContent = {
   seoTitle: "Audit gratuito del tuo sito · Hassan Akkari",
   seoDescription:
-    "Il tuo sito perde clienti senza saperlo. In 24h ti dico cosa non funziona — gratis, senza impegno, senza call vendita mascherata.",
+    "Mandami l'URL del tuo sito. Entro 24 ore lavorative ricevi un mini audit concreto su cosa sistemare prima e perché.",
   badge: "Lead magnet — gratuito",
   hero: {
     title:
-      "Il tuo sito perde clienti senza saperlo. In 24h ti dico perché — gratis.",
+      "Mandami l'URL del tuo sito. Entro 24 ore lavorative ti dico cosa sistemare prima.",
     subtitle:
-      "Mandami l'URL del tuo sito su WhatsApp. Entro 24 ore lavorative ricevi un'analisi su 5 punti chiave, le 3 cose da sistemare subito, e una stima di costi/priorità. Niente call vendita mascherata: leggi il report e fai quello che vuoi.",
+      "Ricevi un mini audit concreto: cosa non funziona, cosa sistemare prima e quanto potrebbe costare intervenire. Gratis, senza impegno e senza call vendita mascherata.",
     primaryCtaLabel: "Voglio l'audit gratuito",
     primaryCtaHref: whatsappLink("it", auditPrefilled.it),
     secondaryCtaLabel: "Mandami una mail",
@@ -88,9 +88,9 @@ const it: AuditContent = {
       "Ciao Hassan, vorrei l'audit gratuito del mio sito.\n\nURL del sito: \nNote: ",
     ),
     guarantee: [
-      "✓ Risposta entro 24h lavorative",
-      "✓ Zero impegno, zero call vendita mascherata",
-      "✓ Niente upselling automatico",
+      "✓ Risposta entro 24 ore lavorative",
+      "✓ Video chiaro, leggibile in 10 minuti",
+      "✓ Call opzionale solo se vuoi approfondire",
     ],
   },
   checkpoints: {
@@ -153,7 +153,7 @@ const it: AuditContent = {
       {
         id: "analyze",
         number: "02",
-        title: "Analizzo entro 24h lavorative",
+        title: "Analizzo entro 24 ore lavorative",
         description:
           "Verifico i 5 punti, faccio screenshot, registro il video. Se mi serve qualche dettaglio in più ti chiedo.",
       },
@@ -172,9 +172,9 @@ const it: AuditContent = {
     items: [
       {
         id: "really-free",
-        question: "È davvero gratis? Dov'è la fregatura?",
+        question: "È davvero gratis?",
         answer:
-          "È davvero gratis. La fregatura non c'è. Faccio audit perché spesso uno o due dei problemi che trovo sono perfetti per uno dei miei pacchetti — ma non te lo vendo a forza. Se decidi di sistemare con qualcun altro, o di farlo tu, mi va benissimo. È marketing onesto.",
+          "Sì. L'audit è gratuito perché è il modo più semplice per capire se posso aiutarti davvero. Se dopo il report vuoi sistemare qualcosa con me, ne parliamo. Altrimenti ti resta comunque una lista utile.",
       },
       {
         id: "no-website",
@@ -192,20 +192,20 @@ const it: AuditContent = {
         id: "obligation",
         question: "Sono obbligato a comprare qualcosa dopo?",
         answer:
-          "No. Mai. Se anche dopo l'audit decidi che non sei pronto a sistemare nulla, va benissimo. Sei libero di tornare quando ti serve.",
+          "No. Se dopo l'audit decidi che non sei pronto a sistemare nulla, va benissimo. Sei libero di tornare quando ti serve.",
       },
       {
         id: "speed",
         question: "Davvero in 24 ore?",
         answer:
-          "24h lavorative dal momento in cui ricevo l'URL. Se mando l'audit di venerdì sera, può arrivare lunedì. Se sono in vacanza te lo dico subito e ti do una data realistica.",
+          "24 ore lavorative dal momento in cui ricevo l'URL. Se mi scrivi venerdì sera, può arrivare lunedì. Se sono in vacanza te lo dico subito e ti do una data realistica.",
       },
     ],
   },
   finalCta: {
     title: "Pronto a vedere cosa il tuo sito non ti sta dicendo?",
     subtitle:
-      "Mandami l'URL ora. Tra 24 ore hai più chiarezza di quanta ne hai oggi — comunque vada.",
+      "Mandami l'URL. Entro 24 ore lavorative ricevi un audit chiaro con cosa sistemare prima e perché.",
     primaryLabel: "Mandami il mio URL su WhatsApp",
     primaryHref: whatsappLink("it", auditPrefilled.it),
     secondaryLabel: "Preferisco via email",
@@ -220,13 +220,13 @@ const it: AuditContent = {
 const en: AuditContent = {
   seoTitle: "Free site audit · Hassan Akkari",
   seoDescription:
-    "Your site is losing customers without you knowing. In 24h I'll tell you why — free, no commitment, no disguised sales call.",
+    "Send me your site URL. Within 24 business hours you receive a concrete mini audit on what to fix first and why.",
   badge: "Lead magnet — free",
   hero: {
     title:
-      "Your site is losing customers without you knowing. I'll tell you why in 24h — free.",
+      "Send me your site URL. Within 24 business hours I'll tell you what to fix first.",
     subtitle:
-      "Send me your site URL on WhatsApp. Within 24 business hours you receive a 5-point analysis, the 3 things to fix immediately, and a cost/priority estimate. No disguised sales call: read the report and do whatever you want with it.",
+      "You receive a concrete mini audit: what's not working, what to fix first, and what it could cost to intervene. Free, no commitment, no disguised sales call.",
     primaryCtaLabel: "I want the free audit",
     primaryCtaHref: whatsappLink("en", auditPrefilled.en),
     secondaryCtaLabel: "Send me an email",
@@ -236,8 +236,8 @@ const en: AuditContent = {
     ),
     guarantee: [
       "✓ Reply within 24 business hours",
-      "✓ No commitment, no disguised sales call",
-      "✓ No automatic upselling",
+      "✓ Clear video, readable in 10 minutes",
+      "✓ Optional call only if you want to dig deeper",
     ],
   },
   checkpoints: {
@@ -319,9 +319,9 @@ const en: AuditContent = {
     items: [
       {
         id: "really-free",
-        question: "Is it really free? Where's the catch?",
+        question: "Is it really free?",
         answer:
-          "It really is free. There's no catch. I run audits because often one or two issues I find fit one of my packages perfectly — but I don't push them. If you decide to fix things with someone else, or yourself, that's fine by me. It's honest marketing.",
+          "Yes. The audit is free because it's the simplest way to understand whether I can actually help. If after the report you want to fix something with me, we talk. If not, you still keep a useful list.",
       },
       {
         id: "no-website",
@@ -339,7 +339,7 @@ const en: AuditContent = {
         id: "obligation",
         question: "Am I forced to buy something afterwards?",
         answer:
-          "No. Never. If after the audit you decide you're not ready to fix anything, that's fine. You can come back when you need to.",
+          "No. If after the audit you decide you're not ready to fix anything, that's fine. You can come back when you need to.",
       },
       {
         id: "speed",
@@ -352,7 +352,7 @@ const en: AuditContent = {
   finalCta: {
     title: "Ready to see what your site isn't telling you?",
     subtitle:
-      "Send me the URL now. In 24 hours you'll have more clarity than you do today — whatever you decide to do with it.",
+      "Send me the URL. Within 24 business hours you receive a clear audit with what to fix first and why.",
     primaryLabel: "Send my URL on WhatsApp",
     primaryHref: whatsappLink("en", auditPrefilled.en),
     secondaryLabel: "I prefer email",
@@ -367,13 +367,13 @@ const en: AuditContent = {
 const fr: AuditContent = {
   seoTitle: "Audit gratuit de votre site · Hassan Akkari",
   seoDescription:
-    "Votre site perd des clients sans que vous le sachiez. En 24h je vous dis pourquoi — gratuit, sans engagement, sans appel commercial déguisé.",
+    "Envoyez-moi l'URL de votre site. Sous 24 heures ouvrées, vous recevez un mini audit concret sur quoi corriger en premier et pourquoi.",
   badge: "Lead magnet — gratuit",
   hero: {
     title:
-      "Votre site perd des clients sans que vous le sachiez. Je vous dis pourquoi en 24h — gratuit.",
+      "Envoyez-moi l'URL de votre site. Sous 24 heures ouvrées, je vous dis quoi corriger en premier.",
     subtitle:
-      "Envoyez-moi l'URL de votre site sur WhatsApp. Sous 24h ouvrées vous recevez une analyse en 5 points, les 3 choses à corriger tout de suite, et une estimation des coûts et priorités. Pas d'appel commercial déguisé : lisez le rapport et faites-en ce que vous voulez.",
+      "Vous recevez un mini audit concret : ce qui ne fonctionne pas, quoi corriger en premier et combien l'intervention pourrait coûter. Gratuit, sans engagement et sans appel commercial déguisé.",
     primaryCtaLabel: "Je veux l'audit gratuit",
     primaryCtaHref: whatsappLink("fr", auditPrefilled.fr),
     secondaryCtaLabel: "Envoyez-moi un mail",
@@ -382,9 +382,9 @@ const fr: AuditContent = {
       "Bonjour Hassan, je voudrais l'audit gratuit de mon site.\n\nURL du site : \nNotes : ",
     ),
     guarantee: [
-      "✓ Réponse sous 24h ouvrées",
-      "✓ Zéro engagement, zéro appel commercial déguisé",
-      "✓ Pas d'upselling automatique",
+      "✓ Réponse sous 24 heures ouvrées",
+      "✓ Vidéo claire, lisible en 10 minutes",
+      "✓ Appel optionnel seulement si vous voulez approfondir",
     ],
   },
   checkpoints: {
@@ -448,7 +448,7 @@ const fr: AuditContent = {
       {
         id: "analyze",
         number: "02",
-        title: "J'analyse sous 24h ouvrées",
+        title: "J'analyse sous 24 heures ouvrées",
         description:
           "Je vérifie les 5 points, je fais des captures, j'enregistre la vidéo. Si j'ai besoin de plus de détails, je vous demande.",
       },
@@ -467,9 +467,9 @@ const fr: AuditContent = {
     items: [
       {
         id: "really-free",
-        question: "C'est vraiment gratuit ? Où est l'arnaque ?",
+        question: "C'est vraiment gratuit ?",
         answer:
-          "C'est vraiment gratuit. Il n'y a pas d'arnaque. Je fais des audits parce que souvent un ou deux des problèmes que je trouve correspondent parfaitement à un de mes forfaits — mais je ne vous le force pas. Si vous décidez de corriger avec quelqu'un d'autre, ou seul, ça me va. C'est du marketing honnête.",
+          "Oui. L'audit est gratuit parce que c'est le moyen le plus simple de comprendre si je peux vraiment vous aider. Si après le rapport vous voulez corriger quelque chose avec moi, on en parle. Sinon, vous gardez quand même une liste utile.",
       },
       {
         id: "no-website",
@@ -487,20 +487,20 @@ const fr: AuditContent = {
         id: "obligation",
         question: "Suis-je obligé d'acheter quelque chose après ?",
         answer:
-          "Non. Jamais. Si après l'audit vous décidez que vous n'êtes pas prêt à corriger quoi que ce soit, c'est ok. Vous pouvez revenir quand vous en aurez besoin.",
+          "Non. Si après l'audit vous décidez que vous n'êtes pas prêt à corriger quoi que ce soit, c'est ok. Vous pouvez revenir quand vous en aurez besoin.",
       },
       {
         id: "speed",
         question: "Vraiment 24h ?",
         answer:
-          "24h ouvrées à partir de la réception de l'URL. Si vous envoyez l'audit un vendredi soir, il peut arriver lundi. Si je suis en vacances, je vous le dis tout de suite et je vous donne une date réaliste.",
+          "24 heures ouvrées à partir de la réception de l'URL. Si vous m'écrivez un vendredi soir, il peut arriver lundi. Si je suis en vacances, je vous le dis tout de suite et je vous donne une date réaliste.",
       },
     ],
   },
   finalCta: {
     title: "Prêt à voir ce que votre site ne vous dit pas ?",
     subtitle:
-      "Envoyez l'URL maintenant. Dans 24 heures vous y verrez plus clair qu'aujourd'hui — quelle que soit votre décision.",
+      "Envoyez l'URL. Sous 24 heures ouvrées, vous recevez un audit clair avec quoi corriger en premier et pourquoi.",
     primaryLabel: "Envoyer mon URL sur WhatsApp",
     primaryHref: whatsappLink("fr", auditPrefilled.fr),
     secondaryLabel: "Je préfère par email",

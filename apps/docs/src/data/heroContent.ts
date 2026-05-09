@@ -28,12 +28,11 @@ const it: HeroContent = {
   badge: "Sviluppatore freelance per professionisti e piccole attività",
   titleParts: {
     before: "Creo siti e web app ",
-    accent: "puliti e veloci",
-    after:
-      " che aiutano i professionisti a sembrare più credibili e ricevere più richieste.",
+    accent: "veloci",
+    after: " che trasformano visite confuse in richieste reali.",
   },
   subtitle:
-    "Aiuto professionisti, studi e piccole attività a trasformare siti vecchi, idee confuse e processi manuali in prodotti digitali chiari, curati e facili da usare.",
+    "Aiuto professionisti, studi e piccole attività a sistemare siti vecchi, idee digitali confuse e processi manuali con soluzioni chiare, curate e facili da usare.",
   primaryCtaLabel: "Richiedi un audit gratuito",
   primaryCtaHref: "/audit",
   secondaryCtaLabel: "Vedi i case study",
@@ -51,7 +50,7 @@ const it: HeroContent = {
       { id: "no-tricks", value: "0", label: "call commerciali aggressive" },
     ],
     quote:
-      "Di giorno lavoro su prodotti enterprise. Porto la stessa cura nei progetti freelance selezionati — senza il sovrapprezzo di un'agenzia.",
+      "Lavoro ogni giorno su prodotti web reali, con utenti veri e flussi complessi. Porto lo stesso metodo nei progetti freelance selezionati: meno improvvisazione, più struttura.",
   },
 };
 
@@ -59,12 +58,11 @@ const en: HeroContent = {
   badge: "Freelance developer for professionals and small businesses",
   titleParts: {
     before: "I build ",
-    accent: "clean, fast",
-    after:
-      " websites and web apps that help professionals look credible and get more enquiries.",
+    accent: "fast",
+    after: " websites and web apps that turn confused visits into real enquiries.",
   },
   subtitle:
-    "I help professionals, studios, and small businesses turn outdated websites, unclear ideas, and manual workflows into digital products that feel clear, polished, and easy to use.",
+    "I help professionals, studios, and small businesses fix outdated websites, unclear digital ideas, and manual workflows with clear, polished, easy-to-use solutions.",
   primaryCtaLabel: "Get a free audit",
   primaryCtaHref: "/audit",
   secondaryCtaLabel: "See case studies",
@@ -82,7 +80,7 @@ const en: HeroContent = {
       { id: "no-tricks", value: "0", label: "pushy sales calls" },
     ],
     quote:
-      "I work on enterprise products by day and bring the same care to selected freelance projects — without agency markup.",
+      "I work every day on real web products, with real users and complex flows. I bring the same method to selected freelance projects: less improvisation, more structure.",
   },
 };
 
@@ -90,12 +88,11 @@ const fr: HeroContent = {
   badge: "Développeur freelance pour professionnels et petites entreprises",
   titleParts: {
     before: "Je crée des sites web et des applications ",
-    accent: "rapides et soignés",
-    after:
-      " qui aident les professionnels à paraître plus crédibles et à recevoir plus de demandes.",
+    accent: "rapides",
+    after: " qui transforment des visites confuses en vraies demandes.",
   },
   subtitle:
-    "J'aide les professionnels, les studios et les petites entreprises à transformer des sites dépassés, des idées floues et des processus manuels en produits digitaux clairs, soignés et faciles à utiliser.",
+    "J'aide les professionnels, les studios et les petites entreprises à remettre en ordre des sites dépassés, des idées digitales floues et des processus manuels avec des solutions claires, soignées et faciles à utiliser.",
   primaryCtaLabel: "Demander un audit gratuit",
   primaryCtaHref: "/audit",
   secondaryCtaLabel: "Voir les cas clients",
@@ -113,7 +110,7 @@ const fr: HeroContent = {
       { id: "no-tricks", value: "0", label: "appels commerciaux agressifs" },
     ],
     quote:
-      "Le jour, je travaille sur des produits enterprise. J'apporte le même niveau de soin aux projets freelance sélectionnés — sans la marge d'une agence.",
+      "Je travaille chaque jour sur de vrais produits web, avec de vrais utilisateurs et des flux complexes. J'apporte la même méthode aux projets freelance sélectionnés : moins d'improvisation, plus de structure.",
   },
 };
 

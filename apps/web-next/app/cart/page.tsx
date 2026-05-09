@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { parseQuoteSearchParams } from "../../lib/bookingSchemas";
+import { getExperienceBySlug } from "../../lib/data";
 import { formatCurrency, quoteBooking } from "../../lib/pricing";
 
 type CartPageProps = {
@@ -30,7 +31,7 @@ function buildCheckoutHref(
 export default async function CartPage({ searchParams }: CartPageProps) {
   const params = parseQuoteSearchParams(await searchParams);
 
-  if (!params) {
+  if (!params || !getExperienceBySlug(params.slug)) {
     return (
       <section className="card">
         <h1>Cart</h1>

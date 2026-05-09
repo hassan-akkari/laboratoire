@@ -27,9 +27,9 @@ export type CaseStudiesContent = {
 
 const it: CaseStudiesContent = {
   sectionLabel: "Progetti e case study",
-  title: "Cose che ho costruito davvero, raccontate per intero.",
+  title: "Case study reali e laboratori tecnici, separati con chiarezza.",
   subtitle:
-    "Su alcuni progetti ho NDA: ti racconto problema, soluzione e risultato senza tirare fuori screenshot riservati.",
+    "I case study reali mostrano metodo e impatto. I lab tecnici mostrano profondità su flussi più complessi, senza confonderli con lavori cliente.",
   labels: {
     problem: "Problema",
     solution: "Cosa ho fatto",
@@ -58,9 +58,9 @@ const it: CaseStudiesContent = {
         "Tailwind CSS",
       ],
       result: [
-        "UI più coerente tra moduli",
-        "Meno regressioni al rilascio",
-        "Meno tempo perso a discutere convenzioni durante le PR",
+        "Prima: moduli simili avevano bottoni, layout e comportamenti diversi",
+        "Dopo: pattern condivisi hanno reso l'interfaccia più coerente e più veloce da mantenere",
+        "Risultato: meno discussioni soggettive nelle PR e meno regressioni sulle schermate comuni",
       ],
       proves:
         "So portare ordine in codebase grandi e già in produzione, senza riscriverle da zero.",
@@ -84,16 +84,16 @@ const it: CaseStudiesContent = {
         "CSS architecture",
       ],
       result: [
-        "Layout coerenti tra pagine simili",
-        "Iterazione UI più veloce per il team",
-        "Dipendenze vendor ridotte e più controllo sul design system",
+        "Prima: cambiare uno stile richiedeva controlli manuali su pagine non collegate",
+        "Dopo: pattern Tailwind condivisi per card, form, layout e bottoni",
+        "Risultato: iterazioni UI più rapide e più controllo sul design system",
       ],
       proves:
         "Posso modernizzare un sito esistente senza buttare via tutto il lavoro fatto prima.",
     },
     {
       id: "booking-checkout",
-      title: "Booking + checkout MVP (Next.js)",
+      title: "Lab tecnico — Booking + checkout MVP (Next.js)",
       context:
         "Progetto interno di laboratorio per validare un flusso di prenotazione/pagamento end-to-end con regole di prezzo reali.",
       problem:
@@ -118,9 +118,9 @@ const it: CaseStudiesContent = {
 
 const en: CaseStudiesContent = {
   sectionLabel: "Projects & case studies",
-  title: "Things I actually built, told end to end.",
+  title: "Real case studies and technical labs, clearly separated.",
   subtitle:
-    "Some projects are under NDA: I'll walk you through problem, solution and outcome without leaking confidential screenshots.",
+    "Real case studies show method and impact. Technical labs show depth on more complex flows without presenting them as client work.",
   labels: {
     problem: "Problem",
     solution: "What I did",
@@ -149,9 +149,9 @@ const en: CaseStudiesContent = {
         "Tailwind CSS",
       ],
       result: [
-        "More consistent UI across modules",
-        "Fewer release regressions",
-        "Less time wasted debating conventions on PRs",
+        "Before: similar modules had different buttons, layouts, and behaviours",
+        "After: shared patterns made the interface more consistent and easier to maintain",
+        "Result: fewer subjective PR debates and fewer regressions on common screens",
       ],
       proves:
         "I can bring order to large, in-production codebases without rewriting them from scratch.",
@@ -175,16 +175,16 @@ const en: CaseStudiesContent = {
         "CSS architecture",
       ],
       result: [
-        "Consistent layouts across similar pages",
-        "Faster UI iteration for the team",
-        "Reduced vendor dependencies and more control over the design system",
+        "Before: changing one style required manual checks on unrelated pages",
+        "After: shared Tailwind patterns for cards, forms, layouts, and buttons",
+        "Result: faster UI iterations and more control over the design system",
       ],
       proves:
         "I can modernise an existing site without throwing away the work already done.",
     },
     {
       id: "booking-checkout",
-      title: "Booking + checkout MVP (Next.js)",
+      title: "Technical lab — Booking + checkout MVP (Next.js)",
       context:
         "Internal lab project to validate an end-to-end booking/payment flow with real pricing rules.",
       problem:
@@ -209,9 +209,9 @@ const en: CaseStudiesContent = {
 
 const fr: CaseStudiesContent = {
   sectionLabel: "Projets & case studies",
-  title: "Des choses que j'ai vraiment construites, racontées de bout en bout.",
+  title: "Case studies réels et labos techniques, clairement séparés.",
   subtitle:
-    "Certains projets sont sous NDA : je vous explique problème, solution et résultat sans sortir de captures confidentielles.",
+    "Les case studies réels montrent la méthode et l'impact. Les labos techniques montrent la profondeur sur des flux plus complexes, sans les présenter comme des projets client.",
   labels: {
     problem: "Problème",
     solution: "Ce que j'ai fait",
@@ -240,9 +240,9 @@ const fr: CaseStudiesContent = {
         "Tailwind CSS",
       ],
       result: [
-        "UI plus cohérente entre modules",
-        "Moins de régressions en release",
-        "Moins de temps perdu à débattre des conventions en PR",
+        "Avant : des modules similaires avaient des boutons, layouts et comportements différents",
+        "Après : des patterns partagés ont rendu l'interface plus cohérente et plus facile à maintenir",
+        "Résultat : moins de débats subjectifs en PR et moins de régressions sur les écrans communs",
       ],
       proves:
         "Je sais mettre de l'ordre dans des codebases grands et déjà en production, sans tout réécrire.",
@@ -266,16 +266,16 @@ const fr: CaseStudiesContent = {
         "CSS architecture",
       ],
       result: [
-        "Layouts cohérents entre pages similaires",
-        "Itération UI plus rapide pour l'équipe",
-        "Dépendances vendor réduites et plus de contrôle sur le design system",
+        "Avant : changer un style demandait des checks manuels sur des pages sans lien direct",
+        "Après : patterns Tailwind partagés pour cards, forms, layouts et boutons",
+        "Résultat : itérations UI plus rapides et plus de contrôle sur le design system",
       ],
       proves:
         "Je peux moderniser un site existant sans jeter le travail déjà fait.",
     },
     {
       id: "booking-checkout",
-      title: "Booking + checkout MVP (Next.js)",
+      title: "Labo technique — Booking + checkout MVP (Next.js)",
       context:
         "Projet labo interne pour valider un flux réservation/paiement end-to-end avec de vraies règles de prix.",
       problem:

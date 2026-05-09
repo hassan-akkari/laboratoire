@@ -24,7 +24,7 @@ const it: FaqsContent = {
   outro: {
     prefix: "Hai un'altra domanda? ",
     linkLabel: "Scrivimi su WhatsApp",
-    suffix: ", rispondo entro 24h.",
+    suffix: ", rispondo entro 24 ore lavorative.",
   },
   whatsappMessage:
     "Ciao Hassan, ho una domanda sul tuo lavoro prima di partire con un progetto.",
@@ -34,7 +34,7 @@ const it: FaqsContent = {
       question:
         "Perché non WordPress? Mi avevano detto che costa meno e va bene uguale.",
       answer:
-        "WordPress va benissimo per un blog o un sito vetrina molto semplice. Ma su qualsiasi cosa un po' personalizzata, finisci a pagare 4-5 plugin a pagamento all'anno, performance scadenti su mobile, e un dev a ore ogni volta che vuoi cambiare qualcosa. Io faccio siti più veloci, più sicuri, e che restano tuoi al 100%.",
+        "WordPress va benissimo per blog e siti molto semplici. Io lo evito quando il progetto richiede più controllo su performance, design, sicurezza o flussi personalizzati. In quei casi preferisco costruire una soluzione più leggera, veloce e tua al 100%.",
     },
     {
       id: "price",
@@ -58,13 +58,13 @@ const it: FaqsContent = {
       id: "what-after",
       question: "E dopo che il sito è online, mi lasci da solo?",
       answer:
-        "No. Resto reperibile su WhatsApp/email per piccoli fix e dubbi. Se vuoi un'evolutiva (sezione nuova, blog, integrazione) ti faccio un preventivo separato. Niente abbonamenti annuali forzati per scrivere due righe.",
+        "No. Resto reperibile su WhatsApp/email per piccoli fix e dubbi. Se vuoi un'evolutiva (sezione nuova, blog, integrazione) ti faccio un preventivo separato.",
     },
     {
       id: "host",
       question: "L'hosting e il dominio sono inclusi?",
       answer:
-        "Il dominio (~15 €/anno) e l'hosting (spesso 0 € su Vercel per siti vetrina) li paghi tu, sui tuoi account, così resti sempre proprietario. Io li configuro insieme a te durante il setup. Niente trucchi tipo 'il dominio è mio finché paghi il canone'.",
+        "Il dominio (~15 €/anno) e l'hosting (spesso 0 € su Vercel per siti vetrina) li paghi tu, sui tuoi account, così resti sempre proprietario. Io li configuro insieme a te durante il setup.",
     },
     {
       id: "seo",
@@ -93,7 +93,7 @@ const en: FaqsContent = {
   outro: {
     prefix: "Got another question? ",
     linkLabel: "Message me on WhatsApp",
-    suffix: ", I reply within 24h.",
+    suffix: ", I reply within 24 business hours.",
   },
   whatsappMessage:
     "Hi Hassan, I have a question about how you work before kicking off a project.",
@@ -103,7 +103,7 @@ const en: FaqsContent = {
       question:
         "Why not WordPress? People told me it's cheaper and just as good.",
       answer:
-        "WordPress is fine for a simple blog or brochure site. But for anything even slightly customised, you end up paying 4-5 paid plugins a year, poor mobile performance, and a dev by the hour every time you want to change something. My sites are faster, safer, and stay 100% yours.",
+        "WordPress is perfectly fine for blogs and very simple sites. I avoid it when a project needs more control over performance, design, security, or custom flows. In those cases I prefer building a lighter, faster solution that stays 100% yours.",
     },
     {
       id: "price",
@@ -127,13 +127,13 @@ const en: FaqsContent = {
       id: "what-after",
       question: "After the site is live, do you leave me alone?",
       answer:
-        "No. I stay reachable on WhatsApp/email for small fixes and questions. If you want an evolution (new section, blog, integration), I send you a separate quote. No yearly subscription just to change two lines.",
+        "No. I stay reachable on WhatsApp/email for small fixes and questions. If you want an evolution (new section, blog, integration), I send you a separate quote.",
     },
     {
       id: "host",
       question: "Are hosting and domain included?",
       answer:
-        "Domain (~€15/year) and hosting (often €0 on Vercel for brochure sites) are paid by you, on your accounts — so you always stay the owner. I help you set them up. No tricks like 'the domain is mine as long as you pay the fee'.",
+        "Domain (~€15/year) and hosting (often €0 on Vercel for brochure sites) are paid by you, on your accounts — so you always stay the owner. I help you set them up.",
     },
     {
       id: "seo",

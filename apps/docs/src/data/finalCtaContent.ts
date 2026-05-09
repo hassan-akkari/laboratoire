@@ -16,8 +16,8 @@ export type FinalCtaContent = {
 const it: FinalCtaContent = {
   title: "Non sai ancora se il tuo sito ti sta costando clienti?",
   subtitle:
-    "In 24h te lo dico — gratis, senza call vendita mascherata. Mandami l'URL, leggi il report, decidi tu cosa fare. Se non sono io la persona giusta, te lo scrivo dritto.",
-  auditLabel: "Voglio l'audit gratuito",
+    "Mandami l'URL. Entro 24 ore lavorative ti mando un audit chiaro con cosa sistemare prima e perché.",
+  auditLabel: "Richiedi audit gratuito",
   auditHref: "/audit",
   whatsappLabel: "Scrivimi su WhatsApp",
   whatsappHref: whatsappLink("it"),
@@ -29,8 +29,8 @@ const it: FinalCtaContent = {
 const en: FinalCtaContent = {
   title: "Don't know if your site is costing you customers?",
   subtitle:
-    "In 24h I'll tell you — free, no disguised sales call. Send me the URL, read the report, decide what to do next. If I'm not the right person, I'll tell you straight.",
-  auditLabel: "I want the free audit",
+    "Send me the URL. Within 24 business hours I send you a clear audit with what to fix first and why.",
+  auditLabel: "Get a free audit",
   auditHref: "/audit",
   whatsappLabel: "Message me on WhatsApp",
   whatsappHref: whatsappLink("en"),
@@ -42,8 +42,8 @@ const en: FinalCtaContent = {
 const fr: FinalCtaContent = {
   title: "Vous ne savez pas si votre site vous coûte des clients ?",
   subtitle:
-    "En 24h je vous le dis — gratuit, sans appel commercial déguisé. Envoyez-moi l'URL, lisez le rapport, décidez ensuite. Si je ne suis pas la bonne personne, je vous le dis franchement.",
-  auditLabel: "Je veux l'audit gratuit",
+    "Envoyez-moi l'URL. Sous 24 heures ouvrées, je vous envoie un audit clair avec quoi corriger en premier et pourquoi.",
+  auditLabel: "Demander un audit gratuit",
   auditHref: "/audit",
   whatsappLabel: "Écrivez-moi sur WhatsApp",
   whatsappHref: whatsappLink("fr"),
