@@ -1,29 +1,81 @@
 import { describe, expect, it } from "vitest";
-import { contactSchema } from "./contactForm.schema";
+import { createContactSchema, initialContactValues } from "./contactForm.schema";
 
-describe("contactSchema", () => {
-  it("accepts a valid contact payload", () => {
-    const result = contactSchema.safeParse({
-      name: "Hassan",
-      email: "hassan@example.com",
-      message: "I would like to collaborate on a project.",
-    });
+const labels = {
+  nameShort: "name too short",
+  emailInvalid: "bad email",
+  messageShort: "msg too short",
+  privacyRequired: "privacy required",
+};
 
+const valid = {
+  name: "Mara",
+  email: "mara@x.com",
+  message: "Hi there, this is a valid message",
+  companyWebsite: "",
+  startedAt: Date.now() - 5000,
+  privacyAccepted: true as const,
+};
+
+describe("createContactSchema", () => {
+  it("accepts a valid payload", () => {
+    const schema = createContactSchema(labels);
+    const result = schema.safeParse(valid);
     expect(result.success).toBe(true);
   });
 
-  it("rejects invalid email and short message", () => {
-    const result = contactSchema.safeParse({
-      name: "Ha",
-      email: "not-an-email",
-      message: "short",
-    });
-
+  it("rejects short name with the localized message", () => {
+    const schema = createContactSchema(labels);
+    const result = schema.safeParse({ ...valid, name: "A" });
     expect(result.success).toBe(false);
-    if (result.success) return;
+    if (!result.success) {
+      expect(result.error.issues[0]?.message).toBe("name too short");
+    }
+  });
 
-    const fields = result.error.flatten().fieldErrors;
-    expect(fields.email?.[0]).toBe("Email is not valid.");
-    expect(fields.message?.[0]).toBe("Message should be at least 10 characters.");
+  it("rejects bad email", () => {
+    const schema = createContactSchema(labels);
+    const result = schema.safeParse({ ...valid, email: "not-an-email" });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects short message", () => {
+    const schema = createContactSchema(labels);
+    const result = schema.safeParse({ ...valid, message: "hi" });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects when privacyAccepted is false", () => {
+    const schema = createContactSchema(labels);
+    const result = schema.safeParse({ ...valid, privacyAccepted: false });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0]?.message).toBe("privacy required");
+    }
+  });
+
+  it("allows companyWebsite to be empty or absent (honeypot)", () => {
+    const schema = createContactSchema(labels);
+    const r1 = schema.safeParse({ ...valid, companyWebsite: "" });
+    expect(r1.success).toBe(true);
+    const withoutHoneypot: Record<string, unknown> = { ...valid };
+    delete withoutHoneypot.companyWebsite;
+    const r2 = schema.safeParse(withoutHoneypot);
+    expect(r2.success).toBe(true);
+  });
+});
+
+describe("initialContactValues", () => {
+  it("returns sensible defaults with a fresh startedAt timestamp", () => {
+    const before = Date.now();
+    const values = initialContactValues();
+    const after = Date.now();
+    expect(values.name).toBe("");
+    expect(values.email).toBe("");
+    expect(values.message).toBe("");
+    expect(values.companyWebsite).toBe("");
+    expect(values.privacyAccepted).toBe(false);
+    expect(values.startedAt).toBeGreaterThanOrEqual(before);
+    expect(values.startedAt).toBeLessThanOrEqual(after);
   });
 });

@@ -66,7 +66,15 @@ export type Messages = {
     formEmail: string;
     formMessage: string;
     formSubmit: string;
+    formSubmitting: string;
     formSuccess: string;
+    formError: string;
+    formErrorNameShort: string;
+    formErrorEmailInvalid: string;
+    formErrorMessageShort: string;
+    formErrorPrivacyRequired: string;
+    privacyLabel: string;
+    privacyLink: string;
   };
   cv: {
     title: string;
@@ -81,6 +89,12 @@ export type Messages = {
     education: string;
     general: string;
     contact: string;
+  };
+  privacy: {
+    title: string;
+    intro: string;
+    sections: { heading: string; body: string }[];
+    backToSite: string;
   };
   system: {
     githubUnavailable: string;
@@ -158,7 +172,15 @@ export const messages: Record<Locale, Messages> = {
       formEmail: "Your email",
       formMessage: "Your message",
       formSubmit: "Send",
+      formSubmitting: "Sending...",
       formSuccess: "Thanks! I will get back to you.",
+      formError: "Could not send the message. Please retry in a moment.",
+      formErrorNameShort: "Please use at least 2 characters.",
+      formErrorEmailInvalid: "That email doesn't look right.",
+      formErrorMessageShort: "Please write at least 10 characters.",
+      formErrorPrivacyRequired: "Please accept the privacy notice to continue.",
+      privacyLabel: "I have read and accept the",
+      privacyLink: "privacy notice",
     },
     cv: {
       title: "Curriculum Vitae",
@@ -174,6 +196,39 @@ export const messages: Record<Locale, Messages> = {
       education: "Education",
       general: "Additional information",
       contact: "Contact",
+    },
+    privacy: {
+      title: "Privacy notice",
+      intro:
+        "When you use the contact form on itshassan.it I receive your name, email, and message. I use that data only to reply to you.",
+      sections: [
+        {
+          heading: "What I collect",
+          body:
+            "Name, email address, the message you write, and the timestamp of the submission. I also automatically receive a request origin (for spam protection) — nothing else.",
+        },
+        {
+          heading: "Why I collect it",
+          body:
+            "To answer your message. The legal basis is your consent (checkbox on the form). You can withdraw at any time by emailing me.",
+        },
+        {
+          heading: "Where it lives",
+          body:
+            "Inside a private Neon Postgres database in the Frankfurt region (EU). Email notifications are sent via Resend. I do not share your data with anyone else and do not run ads or trackers.",
+        },
+        {
+          heading: "How long",
+          body:
+            "Up to 24 months, then deleted. You can ask me to delete sooner — write to the same address you used to contact me.",
+        },
+        {
+          heading: "Your rights",
+          body:
+            "Access, correction, deletion, portability, and the right to lodge a complaint with the supervisory authority. Email me to exercise them.",
+        },
+      ],
+      backToSite: "Back to portfolio",
     },
     system: {
       githubUnavailable:
@@ -251,7 +306,15 @@ export const messages: Record<Locale, Messages> = {
       formEmail: "Email",
       formMessage: "Messaggio",
       formSubmit: "Invia",
+      formSubmitting: "Invio in corso...",
       formSuccess: "Grazie! Ti rispondo presto.",
+      formError: "Invio non riuscito. Riprova tra un momento.",
+      formErrorNameShort: "Inserisci almeno 2 caratteri.",
+      formErrorEmailInvalid: "L'email non sembra valida.",
+      formErrorMessageShort: "Scrivi almeno 10 caratteri.",
+      formErrorPrivacyRequired: "Accetta l'informativa privacy per continuare.",
+      privacyLabel: "Ho letto e accetto l'",
+      privacyLink: "informativa privacy",
     },
     cv: {
       title: "Curriculum Vitae",
@@ -267,6 +330,39 @@ export const messages: Record<Locale, Messages> = {
       education: "Formazione",
       general: "Informazioni aggiuntive",
       contact: "Contatti",
+    },
+    privacy: {
+      title: "Informativa privacy",
+      intro:
+        "Quando usi il modulo di contatto su itshassan.it ricevo nome, email e messaggio. Uso questi dati solo per risponderti.",
+      sections: [
+        {
+          heading: "Cosa raccolgo",
+          body:
+            "Nome, email, il messaggio che scrivi e il timestamp dell'invio. Ricevo anche l'origine della richiesta (per la protezione anti-spam) — nient'altro.",
+        },
+        {
+          heading: "Perché lo raccolgo",
+          body:
+            "Per rispondere al tuo messaggio. La base legale è il tuo consenso (checkbox sul modulo). Puoi revocarlo in qualsiasi momento scrivendomi.",
+        },
+        {
+          heading: "Dove sono i dati",
+          body:
+            "In un database privato Neon Postgres nella regione di Francoforte (UE). Le notifiche email passano da Resend. Non condivido i tuoi dati con nessuno e non uso pubblicità o tracker.",
+        },
+        {
+          heading: "Per quanto tempo",
+          body:
+            "Fino a 24 mesi, poi cancello. Puoi chiedermi di cancellare prima — scrivimi all'indirizzo che hai usato per contattarmi.",
+        },
+        {
+          heading: "I tuoi diritti",
+          body:
+            "Accesso, rettifica, cancellazione, portabilità e diritto di reclamo all'autorità di controllo. Scrivimi per esercitarli.",
+        },
+      ],
+      backToSite: "Torna al portfolio",
     },
     system: {
       githubUnavailable:
@@ -345,7 +441,15 @@ export const messages: Record<Locale, Messages> = {
       formEmail: "Votre email",
       formMessage: "Votre message",
       formSubmit: "Envoyer",
+      formSubmitting: "Envoi en cours...",
       formSuccess: "Merci! Je vous réponds rapidement.",
+      formError: "Envoi impossible. Veuillez réessayer dans un instant.",
+      formErrorNameShort: "Saisissez au moins 2 caractères.",
+      formErrorEmailInvalid: "Cet email n'a pas l'air valide.",
+      formErrorMessageShort: "Écrivez au moins 10 caractères.",
+      formErrorPrivacyRequired: "Acceptez la politique de confidentialité pour continuer.",
+      privacyLabel: "J'ai lu et j'accepte la",
+      privacyLink: "politique de confidentialité",
     },
     cv: {
       title: "Curriculum Vitae",
@@ -361,6 +465,39 @@ export const messages: Record<Locale, Messages> = {
       education: "Formation",
       general: "Informations supplémentaires",
       contact: "Contact",
+    },
+    privacy: {
+      title: "Politique de confidentialité",
+      intro:
+        "Lorsque vous utilisez le formulaire de contact sur itshassan.it, je reçois votre nom, email et message. J'utilise ces données uniquement pour vous répondre.",
+      sections: [
+        {
+          heading: "Ce que je collecte",
+          body:
+            "Nom, email, le message que vous écrivez et la date d'envoi. Je reçois aussi l'origine de la requête (protection anti-spam) — rien d'autre.",
+        },
+        {
+          heading: "Pourquoi je collecte",
+          body:
+            "Pour répondre à votre message. La base légale est votre consentement (case à cocher du formulaire). Vous pouvez le retirer à tout moment en m'écrivant.",
+        },
+        {
+          heading: "Où sont les données",
+          body:
+            "Dans une base Neon Postgres privée dans la région de Francfort (UE). Les notifications email passent par Resend. Je ne partage pas vos données et n'utilise ni publicité ni tracker.",
+        },
+        {
+          heading: "Pendant combien de temps",
+          body:
+            "Jusqu'à 24 mois, puis suppression. Vous pouvez demander une suppression plus tôt — écrivez-moi à l'adresse que vous avez utilisée.",
+        },
+        {
+          heading: "Vos droits",
+          body:
+            "Accès, rectification, suppression, portabilité et droit de réclamation auprès de l'autorité de contrôle. Écrivez-moi pour les exercer.",
+        },
+      ],
+      backToSite: "Retour au portfolio",
     },
     system: {
       githubUnavailable:

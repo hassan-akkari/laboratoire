@@ -49,3 +49,53 @@ export async function updateLead(
     .returning();
   return rows[0] ?? null;
 }
+
+export type CreateLeadInput = {
+  source: "contact_form" | "cal";
+  sourceDetail?: string | null;
+  name: string;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
+  privacyVersion: string;
+};
+
+export async function createLead(input: CreateLeadInput): Promise<Lead | null> {
+  const rows = await db
+    .insert(schema.leads)
+    .values({
+      source: input.source,
+      sourceDetail: input.sourceDetail ?? null,
+      name: input.name,
+      email: input.email,
+      phone: input.phone ?? null,
+      message: input.message ?? null,
+      status: "new",
+      privacyAcceptedAt: new Date(),
+      privacyVersion: input.privacyVersion,
+    })
+    .returning();
+  return rows[0] ?? null;
+}
+
+export type NotificationOutcome =
+  | { ok: true }
+  | { ok: false; error: string };
+
+export async function recordLeadNotification(
+  leadId: string,
+  outcome: NotificationOutcome,
+): Promise<void> {
+  // On success: timestamp lastNotifiedAt and clear the previous error.
+  // On failure: capture the error string but leave lastNotifiedAt as-is — the
+  // column tracks "last time we successfully notified", which is information
+  // Phase 4 retry flows will want preserved across a transient failure.
+  const patch = outcome.ok
+    ? { lastNotifiedAt: new Date(), notificationError: null, updatedAt: new Date() }
+    : { notificationError: outcome.error, updatedAt: new Date() };
+  await db
+    .update(schema.leads)
+    .set(patch)
+    .where(eq(schema.leads.id, leadId))
+    .returning();
+}
