@@ -898,7 +898,7 @@ nav a:has(> .logo) {
   max-width: 960px;
 }
 
-.cv-header h1,
+.cv-header h2,
 .cv-header p,
 .cv-section h2,
 .cv-section p,
@@ -913,7 +913,7 @@ nav a:has(> .logo) {
   margin-bottom: 20px;
 }
 
-.cv-header h1 {
+.cv-header h2 {
   font-size: clamp(34px, 5vw, 52px);
   line-height: 1.05;
   letter-spacing: -0.03em;
