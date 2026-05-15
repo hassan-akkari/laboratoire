@@ -7,7 +7,7 @@ vi.mock("resend", () => ({
   })),
 }));
 
-import { escapeHtml, getNotificationRecipient, sendLeadNotification, sendTestEmail } from "./email";
+import { escapeHtml, getNotificationRecipient, sendLeadNotification } from "./email";
 
 describe("escapeHtml", () => {
   it("passes plain ASCII through unchanged", () => {

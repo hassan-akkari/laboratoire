@@ -72,4 +72,12 @@ describe("public /api/site-config", () => {
     const res = await GET(makeRequest("GET", "https://itshassan.it"));
     expect(res.status).toBe(503);
   });
+
+  it("returns 503 when getSiteConfig resolves null (singleton row missing)", async () => {
+    getSiteConfigMock.mockResolvedValueOnce(null);
+    const res = await GET(makeRequest("GET", "https://itshassan.it"));
+    expect(res.status).toBe(503);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toMatch(/not seeded/i);
+  });
 });
