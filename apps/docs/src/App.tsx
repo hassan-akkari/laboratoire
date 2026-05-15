@@ -14,6 +14,7 @@ import FAQSection from "./components/sections/FAQSection";
 import FinalCTASection from "./components/sections/FinalCTASection";
 import AuditPage from "./pages/AuditPage";
 import CvPage from "./pages/CvPage";
+import PrivacyPage from "./pages/PrivacyPage";
 import { fallbackPortfolioContent } from "./content/portfolioContent";
 import { useGetPortfolioContentQuery } from "./state/api";
 import { LOCALE_STORAGE_KEY, resolveLocale, type Locale } from "./i18n/locale";
@@ -146,6 +147,7 @@ export default function App() {
               />
             }
           />
+          <Route path="/privacy" element={<PrivacyPage labels={labels} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </motion.div>
