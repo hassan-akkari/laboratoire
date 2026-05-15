@@ -16,7 +16,6 @@ if (!databaseUrl && !devNoDb) {
 }
 
 if (devNoDb) {
-  // eslint-disable-next-line no-console
   console.warn(
     "[admin] DEV_NO_DB=1 — login route is using env-compare bypass. " +
       "DB queries will throw. Remove DEV_NO_DB once DATABASE_URL is set.",
