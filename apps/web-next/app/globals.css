@@ -459,3 +459,170 @@ section {
     width: 100%;
   }
 }
+
+/* === Admin (Phase 2) — additive, reuses .card / .button / .field / .notice === */
+
+.admin-shell {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 24px clamp(20px, 6vw, 92px) 0;
+  display: grid;
+  gap: 24px;
+}
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 68%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--app-card) 84%, transparent);
+}
+
+.admin-topbar__links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-topbar__links a {
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--app-fg) 80%, var(--app-muted));
+}
+
+.admin-topbar__links a[aria-current="page"] {
+  color: var(--app-fg);
+  background: color-mix(in srgb, var(--app-accent-soft) 62%, transparent);
+}
+
+.stat-card-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.stat-card {
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 74%, transparent);
+  background: color-mix(in srgb, var(--app-card) 90%, transparent);
+  padding: 16px 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.stat-card__label {
+  font-size: 13px;
+  color: color-mix(in srgb, var(--app-fg) 70%, var(--app-muted));
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stat-card__value {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -0.02em;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--app-border) 74%, transparent);
+  background: color-mix(in srgb, var(--app-card) 90%, transparent);
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 60%, transparent);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table th {
+  background: color-mix(in srgb, var(--app-bg) 60%, transparent);
+  color: color-mix(in srgb, var(--app-fg) 70%, var(--app-muted));
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-table tr.lead-row {
+  cursor: pointer;
+  transition: background-color 220ms ease;
+}
+
+.admin-table tr.lead-row:hover {
+  background: color-mix(in srgb, var(--app-accent-soft) 28%, transparent);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid color-mix(in srgb, var(--app-border) 72%, transparent);
+  background: color-mix(in srgb, var(--app-card) 82%, transparent);
+  color: color-mix(in srgb, var(--app-fg) 78%, var(--app-muted));
+}
+
+.tag--new { color: #5fa8ff; border-color: color-mix(in srgb, #5fa8ff 60%, var(--app-border)); }
+.tag--contacted { color: #f4c66a; border-color: color-mix(in srgb, #f4c66a 60%, var(--app-border)); }
+.tag--closed { color: color-mix(in srgb, var(--app-fg) 60%, var(--app-muted)); }
+.tag--scheduled { color: #5cbf83; border-color: color-mix(in srgb, var(--app-success) 60%, var(--app-border)); }
+.tag--rescheduled { color: #f4c66a; }
+.tag--cancelled { color: #e07a7a; }
+.tag--cal { color: #c8a2ff; border-color: color-mix(in srgb, #c8a2ff 50%, var(--app-border)); }
+.tag--contact_form { color: color-mix(in srgb, var(--app-fg) 78%, var(--app-muted)); }
+
+.admin-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-filter-row .field {
+  min-width: 0;
+  padding: 6px 10px;
+}
+
+.admin-empty {
+  border-radius: 18px;
+  border: 1px dashed color-mix(in srgb, var(--app-border) 76%, transparent);
+  background: color-mix(in srgb, var(--app-card) 60%, transparent);
+  padding: 28px;
+  text-align: center;
+  color: color-mix(in srgb, var(--app-fg) 70%, var(--app-muted));
+}
+
+.notice.err {
+  border-color: color-mix(in srgb, #e07a7a 56%, var(--app-border));
+  color: color-mix(in srgb, #e07a7a 80%, var(--app-fg));
+}
+
+@media (max-width: 760px) {
+  .admin-shell {
+    padding-inline: clamp(14px, 5vw, 28px);
+  }
+  .admin-table {
+    font-size: 14px;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 10px;
+  }
+}
