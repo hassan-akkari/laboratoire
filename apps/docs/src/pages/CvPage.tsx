@@ -71,7 +71,7 @@ export default function CvPage({
           {...getMountReveal(reduceMotion)}
         >
           <header className="cv-header">
-            <h1>{content.profile.name}</h1>
+            <h2>{content.profile.name}</h2>
             <p className="cv-role">{content.profile.role}</p>
             <p>{content.profile.focus}</p>
             <p>{content.profile.location}</p>

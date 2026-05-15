@@ -176,7 +176,7 @@ export default function AboutSection({
             </motion.aside>
           </motion.div>
           <motion.div className="about-col-2" variants={fadeUpVariants}>
-            <h1 className="sub-title">{labels.about.title}</h1>
+            <h2 className="sub-title">{labels.about.title}</h2>
             <div className="about-copy">
               {hasStructuredAbout && aboutStory ? (
                 <>

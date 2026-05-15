@@ -42,7 +42,7 @@ export default function PortfolioSection({
           variants={fadeUpVariants}
           {...getInViewReveal(reduceMotion, 0.26)}
         >
-          <h1 className="sub-title">{labels.title}</h1>
+          <h2 className="sub-title">{labels.title}</h2>
           <p className="section-subtitle">{labels.subtitle}</p>
         </motion.div>
 
