@@ -6,9 +6,18 @@ import { SESSION_COOKIE_NAME, SESSION_COOKIE_VALUE } from "./lib/session";
 export default function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
+  // Carry the pathname into request headers so the root layout can detect
+  // /admin/* context and suppress the booking-demo nav. The proxy matcher
+  // only fires for admin + checkout paths, so booking-demo pages never see
+  // this header — which is exactly what we want.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", path);
+  const passthrough = () =>
+    NextResponse.next({ request: { headers: requestHeaders } });
+
   // Public carve-outs (admin)
   if (path === "/api/admin/login" || path === "/admin/login") {
-    return NextResponse.next();
+    return passthrough();
   }
 
   // Admin gate
@@ -16,7 +25,7 @@ export default function proxy(request: NextRequest) {
     const hasAdminCookie = request.cookies.has(ADMIN_COOKIE_NAME);
     if (hasAdminCookie) {
       // Presence-only check; route handler / page validates the seal
-      return NextResponse.next();
+      return passthrough();
     }
     if (path.startsWith("/api/admin")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -30,7 +39,7 @@ export default function proxy(request: NextRequest) {
   if (path.startsWith("/checkout") || path === "/api/checkout") {
     const hasSession =
       request.cookies.get(SESSION_COOKIE_NAME)?.value === SESSION_COOKIE_VALUE;
-    if (hasSession) return NextResponse.next();
+    if (hasSession) return passthrough();
 
     if (path.startsWith("/api/")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -41,7 +50,7 @@ export default function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  return passthrough();
 }
 
 export const config = {
