@@ -20,6 +20,13 @@ export async function GET(request: NextRequest | Request): Promise<Response> {
 
   try {
     const config = await getSiteConfig();
+    if (!config) {
+      return withCors(
+        Response.json({ error: "Site config not seeded" }, { status: 503 }),
+        origin,
+        "public",
+      );
+    }
     const publicShape = {
       phone: config.phone,
       contactEmail: config.contactEmail,

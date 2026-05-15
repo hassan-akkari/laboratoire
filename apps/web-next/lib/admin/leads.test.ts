@@ -188,14 +188,13 @@ describe("recordLeadNotification", () => {
     expect(patch.notificationError).toBeNull();
   });
 
-  it("stamps notificationError on failure", async () => {
+  it("captures notificationError on failure without touching lastNotifiedAt", async () => {
     mockState.updateReturn = [{ id: "abc" } as Lead];
     await recordLeadNotification("abc", { ok: false, error: "Resend down" });
-    const patch = mockState.setSpy.mock.calls[0]?.[0] as {
-      lastNotifiedAt?: Date | null;
-      notificationError?: string;
-    };
-    expect(patch.lastNotifiedAt).toBeNull();
+    const patch = mockState.setSpy.mock.calls[0]?.[0] as Record<string, unknown>;
+    // lastNotifiedAt is intentionally NOT in the patch on failure — the column
+    // preserves the prior successful timestamp across transient errors.
+    expect(Object.keys(patch)).not.toContain("lastNotifiedAt");
     expect(patch.notificationError).toBe("Resend down");
   });
 });

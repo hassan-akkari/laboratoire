@@ -86,9 +86,13 @@ export async function recordLeadNotification(
   leadId: string,
   outcome: NotificationOutcome,
 ): Promise<void> {
+  // On success: timestamp lastNotifiedAt and clear the previous error.
+  // On failure: capture the error string but leave lastNotifiedAt as-is — the
+  // column tracks "last time we successfully notified", which is information
+  // Phase 4 retry flows will want preserved across a transient failure.
   const patch = outcome.ok
     ? { lastNotifiedAt: new Date(), notificationError: null, updatedAt: new Date() }
-    : { lastNotifiedAt: null, notificationError: outcome.error, updatedAt: new Date() };
+    : { notificationError: outcome.error, updatedAt: new Date() };
   await db
     .update(schema.leads)
     .set(patch)

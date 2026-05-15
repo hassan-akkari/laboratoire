@@ -142,6 +142,9 @@ describe("POST /api/leads", () => {
       "lead-1",
       expect.objectContaining({ ok: true }),
     );
+    // CORS header must be present on the success response — browsers reject
+    // the response otherwise. (Regression guard against a future withCors drop.)
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("https://itshassan.it");
   });
 
   it("still returns 200 when Resend fails, and records the notification error", async () => {
