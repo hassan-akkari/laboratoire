@@ -1,39 +1,51 @@
-import { useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { AppButton, AppInput, AppTextarea } from "@laboratoire/ui";
 import {
-  contactSchema,
+  createContactSchema,
   initialContactValues,
   type ContactValues,
 } from "./contactForm.schema";
 import type { Messages } from "../../i18n/messages";
 
-type ContactFormLabels = Pick<
-  Messages["contact"],
-  "formName" | "formEmail" | "formMessage" | "formSubmit" | "formSuccess"
->;
-
 type ContactFormProps = {
-  labels: ContactFormLabels;
+  labels: Messages["contact"];
 };
 
-export default function ContactForm({ labels }: ContactFormProps) {
-  const [values, setValues] = useState<ContactValues>(initialContactValues);
-  const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>(
-    {}
-  );
-  const [submitted, setSubmitted] = useState(false);
+type SubmitState =
+  | { kind: "idle" }
+  | { kind: "submitting" }
+  | { kind: "success" }
+  | { kind: "error"; message: string };
 
-  const updateField = (key: keyof ContactValues, value: string) => {
+const adminBaseUrl = (import.meta.env.VITE_ADMIN_API_BASE as string | undefined)?.replace(
+  /\/$/,
+  "",
+);
+
+export default function ContactForm({ labels }: ContactFormProps) {
+  const [values, setValues] = useState<ContactValues>(() => initialContactValues());
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>({});
+  const [submit, setSubmit] = useState<SubmitState>({ kind: "idle" });
+
+  const schema = useMemo(
+    () =>
+      createContactSchema({
+        nameShort: labels.formErrorNameShort,
+        emailInvalid: labels.formErrorEmailInvalid,
+        messageShort: labels.formErrorMessageShort,
+        privacyRequired: labels.formErrorPrivacyRequired,
+      }),
+    [labels],
+  );
+
+  const updateField = <K extends keyof ContactValues>(key: K, value: ContactValues[K]) => {
     setValues((prev) => ({ ...prev, [key]: value }));
-    if (submitted) {
-      setSubmitted(false);
-    }
+    if (submit.kind === "success") setSubmit({ kind: "idle" });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const result = contactSchema.safeParse(values);
+    const result = schema.safeParse(values);
     if (!result.success) {
       const nextErrors: Partial<Record<keyof ContactValues, string>> = {};
       for (const issue of result.error.issues) {
@@ -43,17 +55,44 @@ export default function ContactForm({ labels }: ContactFormProps) {
         }
       }
       setErrors(nextErrors);
-      setSubmitted(false);
+      setSubmit({ kind: "idle" });
       return;
     }
 
     setErrors({});
-    setSubmitted(true);
-    setValues(initialContactValues);
+    setSubmit({ kind: "submitting" });
+
+    if (!adminBaseUrl) {
+      setSubmit({ kind: "error", message: labels.formError });
+      return;
+    }
+
+    try {
+      const response = await fetch(`${adminBaseUrl}/api/leads`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name: result.data.name,
+          email: result.data.email,
+          message: result.data.message,
+          company_website: result.data.companyWebsite ?? "",
+          started_at: result.data.startedAt,
+          privacy_accepted: result.data.privacyAccepted,
+        }),
+      });
+      if (!response.ok) {
+        setSubmit({ kind: "error", message: labels.formError });
+        return;
+      }
+      setSubmit({ kind: "success" });
+      setValues(initialContactValues());
+    } catch {
+      setSubmit({ kind: "error", message: labels.formError });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
       <div className="form-field">
         <AppInput
           type="text"
@@ -96,12 +135,62 @@ export default function ContactForm({ labels }: ContactFormProps) {
         />
       </div>
 
-      <AppButton type="submit" className="mt-2 w-fit">
-        {labels.formSubmit}
+      {/* Honeypot — hidden from real users via tabIndex + aria-hidden + off-screen styling.
+          Real submissions leave it empty; bots that auto-fill every input populate it,
+          and the admin route silently 200s without inserting. */}
+      <div
+        aria-hidden="true"
+        style={{ position: "absolute", left: "-9999px", height: 0, overflow: "hidden" }}
+      >
+        <label>
+          Company website
+          <input
+            type="text"
+            name="company_website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={values.companyWebsite ?? ""}
+            onChange={(event) => updateField("companyWebsite", event.target.value)}
+          />
+        </label>
+      </div>
+
+      <div className="form-field" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <input
+          type="checkbox"
+          id="contact-privacy"
+          checked={values.privacyAccepted === true}
+          onChange={(event) =>
+            updateField("privacyAccepted", event.target.checked as unknown as true)
+          }
+          required
+        />
+        <label htmlFor="contact-privacy" style={{ fontSize: 14 }}>
+          {labels.privacyLabel}{" "}
+          <a href={`${import.meta.env.BASE_URL}privacy`} target="_blank" rel="noreferrer">
+            {labels.privacyLink}
+          </a>
+          .
+        </label>
+      </div>
+      {errors.privacyAccepted && (
+        <p className="form-field-error" style={{ color: "var(--app-error, #c33)" }}>
+          {errors.privacyAccepted}
+        </p>
+      )}
+
+      <AppButton type="submit" className="mt-2 w-fit" isDisabled={submit.kind === "submitting"}>
+        {submit.kind === "submitting" ? labels.formSubmitting : labels.formSubmit}
       </AppButton>
-      {submitted && (
+
+      {submit.kind === "success" && (
         <span id="msg" role="status" aria-live="polite">
           {labels.formSuccess}
+        </span>
+      )}
+      {submit.kind === "error" && (
+        <span role="alert" aria-live="assertive">
+          {submit.message}
         </span>
       )}
     </form>
