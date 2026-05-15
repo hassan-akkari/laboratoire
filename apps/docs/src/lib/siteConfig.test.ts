@@ -9,23 +9,36 @@ import {
 
 const fetchMock = vi.fn();
 
-beforeEach(() => {
-  vi.stubGlobal("fetch", fetchMock);
-  vi.stubGlobal("localStorage", {
-    _store: new Map<string, string>(),
+type FakeLocalStorage = Storage & { _store: Map<string, string> };
+
+function makeFakeLocalStorage(): FakeLocalStorage {
+  const store = new Map<string, string>();
+  return {
+    _store: store,
+    get length() {
+      return store.size;
+    },
     getItem(key: string) {
-      return this._store.has(key) ? this._store.get(key)! : null;
+      return store.has(key) ? store.get(key)! : null;
     },
     setItem(key: string, value: string) {
-      this._store.set(key, value);
+      store.set(key, value);
     },
     removeItem(key: string) {
-      this._store.delete(key);
+      store.delete(key);
     },
     clear() {
-      this._store.clear();
+      store.clear();
     },
-  });
+    key(index: number) {
+      return Array.from(store.keys())[index] ?? null;
+    },
+  };
+}
+
+beforeEach(() => {
+  vi.stubGlobal("fetch", fetchMock);
+  vi.stubGlobal("localStorage", makeFakeLocalStorage());
   fetchMock.mockReset();
 });
 

@@ -58,7 +58,8 @@ describe("createContactSchema", () => {
     const schema = createContactSchema(labels);
     const r1 = schema.safeParse({ ...valid, companyWebsite: "" });
     expect(r1.success).toBe(true);
-    const { companyWebsite: _omit, ...withoutHoneypot } = valid;
+    const withoutHoneypot: Record<string, unknown> = { ...valid };
+    delete withoutHoneypot.companyWebsite;
     const r2 = schema.safeParse(withoutHoneypot);
     expect(r2.success).toBe(true);
   });
