@@ -70,6 +70,10 @@ export default function App() {
   const labels = useMemo(() => messages[locale], [locale]);
 
   const cvFallbackContent = useMemo(() => {
+    // CV PDFs ship in EN + IT only. FR locale intentionally falls through
+    // to the EN PDF — no French CV exists yet. The same fallback is
+    // mirrored in apps/docs/public/data/portfolio-content.fr.json so the
+    // RTK Query path agrees with this fallback path.
     if (locale === "it") {
       return {
         ...fallbackPortfolioContent,
