@@ -74,7 +74,7 @@ export default function ContactSection({
           {...getInViewReveal(reduceMotion, 0.15)}
         >
           <motion.div className="contact-left" variants={fadeUpVariants}>
-            <h1 className="sub-title">{labels.title}</h1>
+            <h2 className="sub-title">{labels.title}</h2>
             <p>
               <FaEnvelope /> {contact.email}
             </p>
