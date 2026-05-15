@@ -16,11 +16,15 @@
 
 ## Pre-flight (do these BEFORE Task 1, outside the plan)
 
-1. **Pick a branch strategy.** Phase 1 is on `feat/admin-page` but not yet merged. Two options:
-   - **A — One big PR (continue on `feat/admin-page`)**: simpler git story, one review at the end. Recommended if Hassan plans to ship the admin as a single deploy.
-   - **B — Merge Phase 1 first, branch off `main`**: cleaner PR history. Run `git checkout main && git merge --no-ff feat/admin-page && git push`, then `git checkout -b feat/admin-page-ui`.
+1. **Branch strategy.** **Decided 2026-05-15: option B — merge Phase 1 first, then branch off updated `main`.** Hassan opens a PR on GitHub web UI from `feat/admin-page` → `main` (the gh CLI on his machine is unauthenticated). Once merged, run:
+   ```powershell
+   git checkout main
+   git pull
+   git checkout -b feat/admin-page-phase-2
+   ```
+   Plan steps below assume the new branch `feat/admin-page-phase-2`. Commit messages match the Phase 1 style (`feat(web-next): ...`, `chore(web-next): ...`).
 
-   Either works. Plan steps assume **A** (continue on `feat/admin-page`); adjust commits/branch names if you pick B.
+   If for some reason the merge can't happen (e.g., Hassan changes his mind), the plan still works on the existing `feat/admin-page` branch — only the branch name in commit context differs.
 
 2. **(Optional but recommended) Resend account.** Without it, the "Send test email" button returns `{ ok: false, error: "Resend not configured" }` — the rest of the UI works. To enable real email:
    - Sign up at https://resend.com (free tier — 100 emails/day, 3 000/month).
@@ -72,7 +76,9 @@ apps/web-next/
       leads.test.ts                             NEW
       siteConfig.ts                             NEW — getSiteConfig / updateSiteConfig
       siteConfig.test.ts                        NEW
-  app/globals.css                               MODIFIED — admin-specific classes appended
+  app/globals.css                               MODIFIED — admin-specific classes appended (Task 5)
+  app/layout.tsx                                MODIFIED — async + conditional booking nav (Task 5.5)
+  proxy.ts                                      MODIFIED — inject x-pathname header (Task 5.5)
   .env.example                                  MODIFIED — uncomment + document RESEND_*
   .env.local                                    MODIFIED locally (gitignored) — RESEND_*
 ```
@@ -768,6 +774,190 @@ git commit -m "feat(web-next): admin CSS classes (.admin-shell/.stat-card/.admin
 
 ---
 
+## Task 5.5: Suppress booking-demo nav on `/admin/*` (proxy + root layout)
+
+**Why this task is here:** `apps/web-next/app/layout.tsx` currently hardcodes the booking-demo `<nav className="app-nav">` (Listing / Cart / Checkout / Login links) for **every** page. Without this fix, admin pages render the booking nav above the `admin-topbar` from Task 7, which is visually wrong AND produces invalid HTML (nested `<main>`). We don't want to refactor the booking demo into a route group (file moves risk breaking it) so we use a smaller change: the proxy injects `x-pathname` on the request headers; the root layout reads it and skips the booking nav when the path starts with `/admin`.
+
+The proxy `matcher` already covers `/admin/:path*` + `/api/admin/:path*` (Phase 1), so the header is only set for admin (and checkout) requests. For booking-demo pages (`/`, `/cart`, etc.) the header is absent → `isAdmin = false` → booking nav still renders → booking demo unchanged.
+
+**Files:**
+- Modify: `apps/web-next/proxy.ts`
+- Modify: `apps/web-next/app/layout.tsx`
+
+- [ ] **Step 1: Add `x-pathname` injector to `proxy.ts`**
+
+Replace `apps/web-next/proxy.ts` with:
+
+```ts
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { ADMIN_COOKIE_NAME } from "./lib/adminSession";
+import { SESSION_COOKIE_NAME, SESSION_COOKIE_VALUE } from "./lib/session";
+
+export default function proxy(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+
+  // Carry the pathname into request headers so the root layout can detect
+  // /admin/* context and suppress the booking-demo nav. The proxy matcher
+  // only fires for admin + checkout paths, so booking-demo pages never see
+  // this header — which is exactly what we want.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", path);
+  const passthrough = () =>
+    NextResponse.next({ request: { headers: requestHeaders } });
+
+  // Public carve-outs (admin)
+  if (path === "/api/admin/login" || path === "/admin/login") {
+    return passthrough();
+  }
+
+  // Admin gate
+  if (path.startsWith("/admin") || path.startsWith("/api/admin")) {
+    const hasAdminCookie = request.cookies.has(ADMIN_COOKIE_NAME);
+    if (hasAdminCookie) {
+      // Presence-only check; route handler / page validates the seal
+      return passthrough();
+    }
+    if (path.startsWith("/api/admin")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const loginUrl = new URL("/admin/login", request.url);
+    loginUrl.searchParams.set("next", `${path}${request.nextUrl.search}`);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Booking demo gate (existing logic, preserved verbatim including /api/checkout JSON 401)
+  if (path.startsWith("/checkout") || path === "/api/checkout") {
+    const hasSession =
+      request.cookies.get(SESSION_COOKIE_NAME)?.value === SESSION_COOKIE_VALUE;
+    if (hasSession) return passthrough();
+
+    if (path.startsWith("/api/")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("next", `${path}${request.nextUrl.search}`);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return passthrough();
+}
+
+export const config = {
+  matcher: [
+    "/checkout/:path*",
+    "/api/checkout",
+    "/admin/:path*",
+    "/api/admin/:path*",
+  ],
+};
+```
+
+Only change from Phase 1's `proxy.ts`: the three `NextResponse.next()` calls are replaced with `passthrough()` which forwards a copy of the request headers with `x-pathname` set. Behaviour for booking demo `/checkout` is unchanged (still redirects to `/login`, still returns 401 JSON on `/api/checkout`).
+
+- [ ] **Step 2: Make the root layout async + conditionally render the booking nav**
+
+Replace `apps/web-next/app/layout.tsx` with:
+
+```tsx
+import type { Metadata } from "next";
+import Link from "next/link";
+import { headers } from "next/headers";
+import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import { getDateWithOffset } from "../lib/date";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Web Next | Booking Checkout Engine",
+  description:
+    "Production-style Next.js booking and checkout flow with protected routes and pricing rules.",
+};
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: ReactNode;
+}>) {
+  const seedDate = getDateWithOffset(7);
+  const seedQuery = new URLSearchParams({
+    slug: "rome-night-food-tour",
+    guests: "2",
+    date: seedDate,
+  }).toString();
+
+  const headerList = await headers();
+  const pathname = headerList.get("x-pathname") ?? "";
+  const isAdmin = pathname.startsWith("/admin");
+
+  return (
+    <html lang="en">
+      <body>
+        <div className="app-shell">
+          {!isAdmin && (
+            <nav className="app-nav">
+              <div className="app-nav__content">
+                <Link href="/" className="brand">
+                  web-<span>next</span>
+                </Link>
+                <div className="nav-links">
+                  <Link href="/">Listing</Link>
+                  <Link href={`/cart?${seedQuery}`}>
+                    Cart
+                  </Link>
+                  <Link href={`/checkout?${seedQuery}`}>
+                    Checkout
+                  </Link>
+                  <Link href={`/login?next=${encodeURIComponent(`/checkout?${seedQuery}`)}`}>
+                    Login
+                  </Link>
+                </div>
+              </div>
+            </nav>
+          )}
+          <main className="app-main">{children}</main>
+        </div>
+        <Analytics />
+      </body>
+    </html>
+  );
+}
+```
+
+Two changes vs. the Phase 1 file: `export default async function` (was sync), and the booking nav wrapped in `{!isAdmin && (...)}`. Everything else is verbatim.
+
+- [ ] **Step 3: Typecheck + tests + lint**
+
+```powershell
+pnpm -F web-next lint
+pnpm -F web-next typecheck
+pnpm -F web-next test
+```
+
+Expected: all three clean. The proxy and layout aren't unit-tested directly; the existing 25 Phase 1 tests + the new service-layer tests from Tasks 2-4 still pass.
+
+- [ ] **Step 4: Browser smoke** (~30 seconds)
+
+```powershell
+pnpm dev:next
+```
+
+Open `http://localhost:3001/` — booking nav still appears (proxy `matcher` excludes `/`, so `x-pathname` is absent, `isAdmin = false`).
+
+Open `http://localhost:3001/admin/login` — booking nav is **hidden**. The page itself is still a 404 (Task 6 builds it), but the layout chrome is now correct: clean white space where the booking nav used to be.
+
+If the booking nav still appears on `/admin/login`, the header isn't being read — confirm `RootLayout` is `async` and uses `await headers()`.
+
+- [ ] **Step 5: Commit**
+
+```powershell
+git add apps/web-next/proxy.ts apps/web-next/app/layout.tsx
+git commit -m "feat(web-next): suppress booking-demo nav on /admin/* via x-pathname header"
+```
+
+---
+
 ## Task 6: `/admin/login` page (client form)
 
 **Files:**
@@ -928,7 +1118,7 @@ export default async function AdminAuthedLayout({ children }: { children: ReactN
         </div>
         <LogoutButton />
       </nav>
-      <main>{children}</main>
+      {children}
     </div>
   );
 }
@@ -2042,7 +2232,7 @@ git tag phase-2-ui
 
 ## Self-review notes (read these before reporting Phase 2 done)
 
-1. **Spec coverage.** Tasks 6 (login page), 7 (shell + LogoutButton), 8 (leads list + stat cards) cover build-order step 5. Tasks 9 (detail) + 11 (PATCH route) cover step 6. Tasks 10 (site-config + TestEmailButton), 12 (PUT route), 13 (test-email route) cover step 7. Task 2 (email lib) + Task 5 (CSS) + Task 14 (admin not-found) round it out.
+1. **Spec coverage.** Tasks 6 (login page), 7 (shell + LogoutButton), 8 (leads list + stat cards) cover build-order step 5. Tasks 9 (detail) + 11 (PATCH route) cover step 6. Tasks 10 (site-config + TestEmailButton), 12 (PUT route), 13 (test-email route) cover step 7. Task 2 (email lib) + Task 5 (CSS) + Task 5.5 (booking nav suppression) + Task 14 (admin not-found) round it out.
 2. **Defense in depth still applies.** Every page in `(authed)/` is wrapped by the layout that calls `requireAdminSession()` (real seal verify), and every admin API route additionally calls `getAdminSession()` itself — so a future bug in `proxy.ts` cannot let a request through without re-verification.
 3. **Spec rule respected: `getNotificationRecipient` is the only place that decides who gets emails.** Every notification path goes through it (currently just the test-email route; the lead-intake route in Phase 3 will do the same).
 4. **Route group prevents auth-check infinite loop.** `/admin/login` is at `app/admin/login/page.tsx` (no `(authed)` group), so it doesn't render under the layout that would redirect it back to itself.
