@@ -1,5 +1,7 @@
 # Handoff — Admin Page Phase 1 (resume)
 
+> **RESOLVED 2026-05-09 (later in the evening).** Hassan got Neon Frankfurt access, the migration was generated + applied, the seed ran successfully, and `pnpm check` (lint + typecheck + test) passes end-to-end. **Phase 1 is functionally complete.** Only manual smoke test (curl flow in Task 12) is left, and it's user-runnable. The history below is preserved for archaeology — see the "Phase 1 close-out" section at the bottom for the final state.
+
 **Date:** 2026-05-09 (evening session, paused mid-execution)
 **Owner:** Hassan
 **Branch:** `feat/admin-page` (off `main`)
@@ -205,3 +207,92 @@ Phase 1 progress:       11 of 12 plan tasks done; Task 4 + Task 5 run-step + Tas
 - `POST /api/cal/webhook` (Phase 4 — deferrable, Free plan may not expose webhooks).
 - Resend wiring + "Send test email" + privacy fields end-to-end (Phase 2-3).
 - Deployment README + Vercel project for `apps/web-next` + `admin.itshassan.it` CNAME on OVH (Phase 5).
+
+---
+
+## Phase 1 close-out (2026-05-09, later same evening)
+
+### What changed since the "BLOCKED" snapshot above
+
+Hassan got 2FA access back, completed the Vercel-Neon integration wizard (Frankfurt / Fra1 confirmed by the host `ep-shiny-truth-aljd5o4s-pooler.c-3.eu-central-1.aws.neon.tech`), pasted `DATABASE_URL` and `ADMIN_PASSWORD` into `.env.local`, and disabled the `DEV_NO_DB` escape hatch by commenting out the line.
+
+Then in the same session we ran:
+
+```
+pnpm -F web-next db:generate     # → drizzle/0000_solid_robin_chapel.sql
+pnpm -F web-next db:migrate      # → applied to Neon, all 3 enums + 3 tables + 3 indexes + check constraint live
+pnpm -F web-next db:seed         # → inserted admin user + site_config singleton
+pnpm -F web-next lint            # → 0 errors (after dropping an unused eslint-disable)
+pnpm -F web-next typecheck       # → clean
+pnpm -F web-next test            # → 25/25 green
+```
+
+### Additional commits on top of the BLOCKED snapshot
+
+```
+9ca08efe  chore(web-next): drop deprecated baseUrl from tsconfig
+885e2902  feat(web-next): DEV_NO_DB escape hatch for admin login pre-Neon
+a9ff47ae  chore(web-next): document DEV_NO_DB flag in .env.example
+1954d2ec  feat(web-next): initial drizzle migration (users, leads, site_config)
+d95c7e27  chore(web-next): drop unused no-console eslint-disable on dev warn
+```
+
+### Bonus deviation from the original plan: `DEV_NO_DB` escape hatch
+
+Added so we could exercise the auth wiring before Neon was provisioned. When `DEV_NO_DB=1` and `NODE_ENV !== "production"`, the login route compares `ADMIN_EMAIL` + `ADMIN_PASSWORD` directly against env (no bcrypt, no DB) and seals an iron-session cookie as if a real user matched. Logout already worked DB-free.
+
+This branch is now dormant (DEV_NO_DB is commented out in `.env.local`), but the code remains. It's gated tightly enough that it can't activate in production. Phase 5 (deployment) should decide whether to:
+
+- **Keep it** as a permanent escape hatch for future "DB is wedged, let me in" scenarios. Document in CLAUDE.md.
+- **Remove it** before merging Phase 1 to main. ~15 lines in `app/api/admin/login/route.ts` + the small extension in `lib/db/client.ts`. Easy `git revert` of `885e2902` if desired, though some later commits touched the same file so a manual edit is cleaner.
+
+Tracked in `_followup.md` (see entry: "DEV_NO_DB cleanup decision before Phase 5 deploy").
+
+### Final state
+
+- DB exists in Neon Frankfurt with three tables, one admin user (`hassan.akkari01@gmail.com`), one site_config row.
+- Re-running `db:seed` is idempotent (updates user's password hash, skips config insert).
+- `apps/web-next/proxy.ts` gates `/admin/*` and `/api/admin/*` with the `/api/admin/login` carve-out. Booking demo `/checkout` flow untouched, verified.
+- 25/25 vitest tests pass (origin 6, adminSession 4, login 5, logout 3, plus pre-existing session 3, pricing 3, orders 1).
+- `pnpm check` (lint + typecheck + test) passes cleanly.
+
+### What Hassan still has to do (manual)
+
+**Task 12 — smoke test** (he can do anytime; the rest of Phase 1 is committed):
+
+```powershell
+# Wrong password → 401
+curl.exe -i -X POST http://localhost:3001/api/admin/login `
+  -H "Origin: http://localhost:3001" `
+  -H "Content-Type: application/json" `
+  -d '{\"email\":\"hassan.akkari01@gmail.com\",\"password\":\"wrong\"}'
+
+# Foreign origin → 403
+curl.exe -i -X POST http://localhost:3001/api/admin/login `
+  -H "Origin: https://evil.com" `
+  -H "Content-Type: application/json" `
+  -d '{\"email\":\"hassan.akkari01@gmail.com\",\"password\":\"whatever\"}'
+
+# Right password → 200 + Set-Cookie admin_session
+curl.exe -i -X POST http://localhost:3001/api/admin/login `
+  -H "Origin: http://localhost:3001" `
+  -H "Content-Type: application/json" `
+  -d '{\"email\":\"hassan.akkari01@gmail.com\",\"password\":\"somalia17\"}' `
+  -c admin-cookie.txt
+
+# Hit /admin/leads with cookie → 404 (page not built yet — Phase 2)
+curl.exe -i -b admin-cookie.txt http://localhost:3001/admin/leads
+
+# Logout → 200, cookie cleared
+curl.exe -i -X POST http://localhost:3001/api/admin/logout `
+  -H "Origin: http://localhost:3001" `
+  -b admin-cookie.txt -c admin-cookie.txt
+```
+
+(Dev server must be running: `pnpm dev:next` on port 3001. Must be restarted after the env-var changes from BLOCKED → close-out, since Next.js dev mode caches env at startup.)
+
+### What's next
+
+- **Phase 2 plan** is the next thing to write. Scope: `/admin` shell (nav + logout button), leads list with stat cards + filters, `/admin/leads/[id]` detail page, `/admin/site-config` edit page with "Send test email" button. This pulls in `lib/email.ts` (Resend) since the test-email button needs it. Privacy version env wiring also happens here.
+
+- Once Phase 2 plan is written, the next AI invokes `superpowers:executing-plans` (or `subagent-driven-development`) and resumes the same loop.
