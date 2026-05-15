@@ -14,6 +14,22 @@ export function getNotificationRecipient(config: SiteConfigEmail): string {
   return candidate ? candidate : config.contactEmail;
 }
 
+/**
+ * Minimal HTML escaper for values interpolated into email bodies. Phase 2
+ * recipients are admin-controlled so the realistic attack surface is zero,
+ * but the Phase 3 lead-notification template will inline unauthenticated
+ * lead.name / lead.message — getting the escaping pattern right here means
+ * future contributors copy the safe shape, not the unsafe one.
+ */
+export function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export type SendResult = { ok: true; id?: string } | { ok: false; error: string };
 
 /**
@@ -33,6 +49,7 @@ export async function sendTestEmail(recipient: string): Promise<SendResult> {
   }
 
   const resend = new Resend(apiKey);
+  const safeRecipient = escapeHtml(recipient);
   const { data, error } = await resend.emails.send({
     from,
     to: recipient,
@@ -40,7 +57,7 @@ export async function sendTestEmail(recipient: string): Promise<SendResult> {
     html: `
       <p>This is a test email from your admin panel.</p>
       <p>If you received this, Resend is configured correctly and ` +
-      `<code>getNotificationRecipient()</code> resolved to <strong>${recipient}</strong>.</p>
+      `<code>getNotificationRecipient()</code> resolved to <strong>${safeRecipient}</strong>.</p>
     `,
   });
 

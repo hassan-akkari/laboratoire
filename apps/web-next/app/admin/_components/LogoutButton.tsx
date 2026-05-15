@@ -1,17 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function LogoutButton() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   async function handleClick() {
     setLoading(true);
     await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
-    router.refresh();
+    // Hard navigation (not router.push) so the in-memory RSC cache of the
+    // prior admin pages is dropped immediately — avoids a flash of stale
+    // lead/site-config data if the user hits Back before the cache invalidates.
+    window.location.assign("/admin/login");
   }
 
   return (

@@ -1,5 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { getNotificationRecipient } from "./email";
+import { escapeHtml, getNotificationRecipient } from "./email";
+
+describe("escapeHtml", () => {
+  it("passes plain ASCII through unchanged", () => {
+    expect(escapeHtml("hello@itshassan.it")).toBe("hello@itshassan.it");
+  });
+
+  it("escapes the five HTML-significant characters", () => {
+    expect(escapeHtml(`<script>"a&b'c</script>`)).toBe(
+      "&lt;script&gt;&quot;a&amp;b&#39;c&lt;/script&gt;",
+    );
+  });
+
+  it("is idempotent only for already-text-safe input (not a sanitizer)", () => {
+    // & gets escaped first; running escapeHtml twice would double-escape.
+    // Documents the contract: callers escape ONCE at the boundary.
+    expect(escapeHtml("&amp;")).toBe("&amp;amp;");
+  });
+});
 
 describe("getNotificationRecipient", () => {
   it("returns notifyEmail when it is set", () => {

@@ -33,9 +33,17 @@ describe("POST /api/admin/logout", () => {
     expect(res.status).toBe(403);
   });
 
-  it("returns 401 when not signed in", async () => {
+  it("clears the cookie and returns 200 even when there's no session (idempotent)", async () => {
     const res = await POST(makeRequest());
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(cookieStore.has("admin_session")).toBe(false);
+  });
+
+  it("clears a stale/tampered cookie even though unseal would fail", async () => {
+    cookieStore.set("admin_session", "not-a-real-seal-xxxxxxxxxx");
+    const res = await POST(makeRequest());
+    expect(res.status).toBe(200);
+    expect(cookieStore.has("admin_session")).toBe(false);
   });
 
   it("clears the cookie and returns 200 when signed in", async () => {
