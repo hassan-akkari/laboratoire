@@ -1,4 +1,9 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import {
+  fetchPublicSiteConfig,
+  PUBLIC_SITE_CONFIG_FALLBACK,
+  type PublicSiteConfig,
+} from "../../lib/siteConfig";
 import {
   FaEnvelope,
   FaFacebook,
@@ -35,6 +40,22 @@ export default function ContactSection({
   labels,
 }: ContactSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
+
+  const adminBaseUrl = (import.meta.env.VITE_ADMIN_API_BASE as string | undefined)?.replace(/\/$/, "");
+  const [siteConfig, setSiteConfig] = useState<PublicSiteConfig>(PUBLIC_SITE_CONFIG_FALLBACK);
+
+  useEffect(() => {
+    if (!adminBaseUrl) return;
+    let cancelled = false;
+    fetchPublicSiteConfig(adminBaseUrl).then((value) => {
+      if (!cancelled) setSiteConfig(value);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [adminBaseUrl]);
+
+  const displayEmail = siteConfig.contactEmail || contact.email;
 
   const socialLinks: SocialLink[] = [
     {
@@ -76,7 +97,7 @@ export default function ContactSection({
           <motion.div className="contact-left" variants={fadeUpVariants}>
             <h1 className="sub-title">{labels.title}</h1>
             <p>
-              <FaEnvelope /> {contact.email}
+              <FaEnvelope /> {displayEmail}
             </p>
             <p className="contact-note">{labels.note}</p>
             <div className="social-icons">
@@ -93,7 +114,7 @@ export default function ContactSection({
               ))}
             </div>
             <div className="contact-cta">
-              <AppButton as="a" href={`mailto:${contact.email}`}>
+              <AppButton as="a" href={`mailto:${displayEmail}`}>
                 {labels.emailMe}
               </AppButton>
               {contact.bookCall ? (
