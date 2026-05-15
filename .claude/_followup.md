@@ -175,11 +175,10 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Why it matters**: any future middleware (auth headers, retries) added to `contentApi` will leak into GitHub requests. Different services with different origins need different `createApi` instances.
 - **Suggested fix**: split into `contentApi` and `githubApi`, each with their own `baseQuery`.
 
-#### A10 — `apps/docs` heading hierarchy broken (multiple `<h1>` per page)
+#### A10 — `apps/docs` heading hierarchy broken (multiple `<h1>` per page) ✅ RESOLVED 2026-05-15
 
-- **Where**: `apps/docs/src/components/sections/AboutSection.tsx:179`, `ContactSection.tsx:77`, `PortfolioSection.tsx:45` — all use `<h1 className="sub-title">`. The page already has an `<h1>` in `SiteHeader.tsx:107`.
-- **Why it matters**: multiple `<h1>` confuse screen-reader landmark navigation. WCAG 2.1.
-- **Suggested fix**: change the three section headings to `<h2>`. Likely needs a CSS pass on `.sub-title` since it currently styles whatever element wears it.
+- **Was**: `AboutSection.tsx:179`, `ContactSection.tsx:77`, `PortfolioSection.tsx:45` all emitted `<h1 className="sub-title">` next to SiteHeader's `<h1>`. CvPage also had two `<h1>` (intro title + paper title with the name).
+- **Fix applied**: demoted the four section/paper headings to `<h2>`. Class-based CSS unchanged for `.sub-title`; `.cv-header h1` selectors retargeted to `.cv-header h2`. Visual rendering byte-identical; single `<h1>` per page now resolves to SiteHeader (web) or cv-intro (CV view).
 
 #### A11 — `apps/docs` no route-change focus management
 
@@ -204,16 +203,15 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Where**: `apps/web-react/public/mockServiceWorker.js` is copied into `dist/` by Vite's static-asset handling. The startup guard in `main.tsx:20` blocks it from registering in prod, but the file still ships.
 - **Suggested fix**: remove from `dist/` post-build (extend the existing `postbuild` hook or replace it; see A18 — they overlap).
 
-#### A15 — French i18n diacritics stripped throughout `apps/docs/src/i18n/messages.ts`
+#### A15 — French i18n diacritics stripped throughout `apps/docs/src/i18n/messages.ts` ✅ RESOLVED (pre-2026-05-15, outdated note)
 
-- **Where**: `messages.ts:108`, `:201`, `:294` and surrounding French strings — `Francais`, `A propos`, `Ecrivez-moi`, `Telecharger`, `Reserver`, `Resume professionnel`, `Experience`, `Informations supplementaires`.
-- **Why it matters**: visibly unprofessional for French-speaking visitors. Ç/É/À carry semantic meaning.
-- **Suggested fix**: restore diacritics in all three locale dictionaries (the EN/IT dictionaries also display the locale label "Francais" for switching to French — fix everywhere).
+- **Was reported**: stripped diacritics across FR strings + EN/IT locale labels for French.
+- **Verification 2026-05-15**: re-scanned `messages.ts` and `portfolio-content.fr.json` against the original pattern list (Francais/Ecrivez/Telecharger/Reserver/professionnel/Experience/propos/Informations supplementaires). All current diacritics are correct: `Français`, `À propos`, `Écrivez-moi`, `Télécharger`, `Réserver`, `Expérience`, `Résumé professionnel`, `Informations supplémentaires`, `cœur`, `réutilisables`, etc. Followup note was outdated.
 
-#### A16 — `apps/docs/public/data/portfolio-content.fr.json:21` `resumePath` points to the English CV PDF
+#### A16 — `apps/docs/public/data/portfolio-content.fr.json:21` `resumePath` points to the English CV PDF ✅ RESOLVED 2026-05-15 (documented as intentional)
 
-- **Where**: `"resumePath": "pdf/CV-ENG-102025.pdf"` in the FR JSON. No `pdf/CV-FRA-*.pdf` exists.
-- **Suggested fix**: either ship a French CV, or document the intentional fallback with an inline comment + a `_followup.md` link; remove the FR-specific override in `App.tsx:45-63` if the fallback is the desired behavior.
+- **Was**: FR JSON's `resumePath` pointed at `pdf/CV-ENG-102025.pdf`; no `pdf/CV-FRA-*.pdf` exists. Behavior was correct (FR locale serves the EN PDF) but undocumented.
+- **Resolution**: added an inline comment in `apps/docs/src/App.tsx:72-77` explaining the FR-falls-through-to-EN rule and that the JSON path mirrors the fallback. No code change; FR CV PDF still TODO if Hassan wants it. Note in App.tsx is the durable explanation; this followup entry can stay closed.
 
 #### A17 — `apps/docs/src/components/sections/contactForm.schema.ts` error messages hardcoded English
 
