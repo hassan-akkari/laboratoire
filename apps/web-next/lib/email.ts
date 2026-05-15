@@ -66,3 +66,66 @@ export async function sendTestEmail(recipient: string): Promise<SendResult> {
   }
   return { ok: true, id: data?.id };
 }
+
+export type LeadEmailFields = {
+  name: string;
+  email: string;
+  message: string | null;
+  source: "contact_form" | "cal";
+  phone?: string | null;
+};
+
+export async function sendLeadNotification(
+  recipient: string,
+  lead: LeadEmailFields,
+): Promise<SendResult> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM;
+
+  if (!apiKey) {
+    return { ok: false, error: "Resend not configured: RESEND_API_KEY is missing" };
+  }
+  if (!from) {
+    return { ok: false, error: "Resend not configured: RESEND_FROM is missing" };
+  }
+  if (!recipient || !recipient.trim()) {
+    return { ok: false, error: "No recipient address resolved from site_config" };
+  }
+
+  const safeName = escapeHtml(lead.name);
+  const safeEmail = escapeHtml(lead.email);
+  const safePhone = lead.phone ? escapeHtml(lead.phone) : "—";
+  const safeMessage = lead.message ? escapeHtml(lead.message) : "(no message)";
+  const sourceLabel = lead.source === "cal" ? "Cal.com booking" : "Contact form";
+
+  const resend = new Resend(apiKey);
+  const result = await resend.emails.send({
+    from,
+    to: recipient,
+    subject: `New lead from ${safeName} (${sourceLabel})`,
+    html: `
+      <p>You received a new lead via the ${sourceLabel}.</p>
+      <ul>
+        <li><strong>Name:</strong> ${safeName}</li>
+        <li><strong>Email:</strong> ${safeEmail}</li>
+        <li><strong>Phone:</strong> ${safePhone}</li>
+      </ul>
+      <p><strong>Message:</strong></p>
+      <p>${safeMessage}</p>
+    `,
+    text:
+      `New lead via ${sourceLabel}.\n` +
+      `Name: ${lead.name}\n` +
+      `Email: ${lead.email}\n` +
+      `Phone: ${lead.phone ?? "—"}\n\n` +
+      `Message:\n${lead.message ?? "(no message)"}`,
+  });
+
+  if (result.error) {
+    return { ok: false, error: result.error.message ?? "Unknown Resend error" };
+  }
+  if (!result.data?.id) {
+    return { ok: false, error: "Resend returned no message id" };
+  }
+  return { ok: true, id: result.data.id };
+}

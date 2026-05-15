@@ -1,5 +1,13 @@
-import { describe, expect, it } from "vitest";
-import { escapeHtml, getNotificationRecipient } from "./email";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const sendMock = vi.fn();
+vi.mock("resend", () => ({
+  Resend: vi.fn().mockImplementation(() => ({
+    emails: { send: sendMock },
+  })),
+}));
+
+import { escapeHtml, getNotificationRecipient, sendLeadNotification } from "./email";
 
 describe("escapeHtml", () => {
   it("passes plain ASCII through unchanged", () => {
@@ -45,5 +53,69 @@ describe("getNotificationRecipient", () => {
         notifyEmail: "",
       }),
     ).toBe("hello@itshassan.it");
+  });
+});
+
+describe("sendLeadNotification", () => {
+  const originalKey = process.env.RESEND_API_KEY;
+  const originalFrom = process.env.RESEND_FROM;
+
+  beforeEach(() => {
+    sendMock.mockReset();
+  });
+
+  afterEach(() => {
+    if (originalKey === undefined) delete process.env.RESEND_API_KEY;
+    else process.env.RESEND_API_KEY = originalKey;
+    if (originalFrom === undefined) delete process.env.RESEND_FROM;
+    else process.env.RESEND_FROM = originalFrom;
+  });
+
+  it("returns ok:false when Resend not configured", async () => {
+    delete process.env.RESEND_API_KEY;
+    process.env.RESEND_FROM = "from@x.com";
+    const r = await sendLeadNotification("a@b.com", {
+      name: "Mara",
+      email: "mara@x.com",
+      message: "Hi",
+      source: "contact_form",
+    });
+    expect(r.ok).toBe(false);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("sends with the lead fields HTML-escaped", async () => {
+    process.env.RESEND_API_KEY = "re_x";
+    process.env.RESEND_FROM = "from@x.com";
+    sendMock.mockResolvedValue({ data: { id: "msg-9" }, error: null });
+    const r = await sendLeadNotification("a@b.com", {
+      name: '<script>alert("x")</script>',
+      email: "mara@x.com",
+      message: "Use & < > tags carefully",
+      source: "contact_form",
+    });
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.id).toBe("msg-9");
+    const sentArgs = sendMock.mock.calls[0]?.[0] as { html: string };
+    expect(sentArgs.html).toContain("&lt;script&gt;");
+    expect(sentArgs.html).toContain("Use &amp; &lt; &gt; tags");
+    expect(sentArgs.html).not.toContain("<script>");
+  });
+
+  it("returns ok:false with the Resend error on failure", async () => {
+    process.env.RESEND_API_KEY = "re_x";
+    process.env.RESEND_FROM = "from@x.com";
+    sendMock.mockResolvedValue({
+      data: null,
+      error: { message: "rate limited", name: "RateLimitError" },
+    });
+    const r = await sendLeadNotification("a@b.com", {
+      name: "X",
+      email: "x@y.com",
+      message: "Z",
+      source: "contact_form",
+    });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.error).toBe("rate limited");
   });
 });
