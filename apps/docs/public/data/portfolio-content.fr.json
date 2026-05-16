@@ -1,107 +1,149 @@
 {
   "profile": {
     "name": "Hassan Akkari",
-    "role": "Frontend Engineer — React, TypeScript, UI Architecture",
-    "focus": "Standards UI, composants réutilisables, flux cœur (React/TS/RTK).",
+    "role": "Software Developer · Frontend — React 19, TypeScript",
+    "focus": "Reconstructions greenfield, machines à états de paiement, revue adversariale AI-augmented.",
     "location": "Rome, Italie",
-    "metric": "Ingénieur frontend - architecture UI et exécution",
+    "metric": "3+ ans en production · Reconstruction React 19 + intégration Nexi",
     "about": [
-      "Dans un contexte qui change vite, j'ai appris que sans standards partagés la codebase crée de la friction. J'ai commencé sur Platform en construisant des bases solides (jQuery/HTML/CSS) et des standards UI réutilisables; aujourd'hui sur Network je travaille de façon plus structurelle avec React + Redux Toolkit sur les flux cœur.",
-      "Je résous le problème, puis je le rends difficile à reproduire: standards, réutilisation, structure.",
-      "Je réduis la friction d'équipe: conventions claires et composants réutilisables.",
-      "Quand il faut, je connecte FE/BE: API, MVC, requêtes et debugging.",
-      "Je partage volontiers l'approche et l'impact; certains détails internes restent hors scope."
+      "Software Developer (spécialiste Frontend) avec 3+ ans d'expérience en production. Je pilote actuellement la reconstruction React 19 / TypeScript d'une plateforme hospitality e-commerce chez Sibylla, après que le développement externe précédent n'avait pas répondu aux exigences.",
+      "J'ai livré l'intégration end-to-end du paiement Nexi — callback server-to-server, machine à états idempotente (pending → nexi_paid → sibylla_confirmed | failed), handler MediatR fire-and-forget et un outil PowerShell de replay pour le debug des race conditions de callback.",
+      "J'ai conçu les formulaires avec react-hook-form + Zod qui normalisent les payloads backend legacy au boundary; auth JWT avec refresh tokens et protection XSRF; gestion autonome des tâches via Azure DevOps avec UI depuis Figma.",
+      "J'ai construit un workflow d'engineering AI-augmented sur Claude Code — 5 subagents read-only (revue adversariale, audit SOLID, contract-drift TS↔C#, tracing forensique du payment flow), une knowledge base CLAUDE.md à 3 niveaux et 4 slash commands SRP-scoped; 3 bugs latents du flow paiements détectés au premier run.",
+      "Je partage approche et impact ouvertement; certains détails internes restent hors scope."
     ],
-    "now": "Actuellement sur Sibylla Network: j'améliore la delivery avec des patterns réutilisables et une architecture plus propre. Je ne peux pas montrer les détails internes, mais je peux expliquer clairement ce que j'ai construit.",
-    "philosophy": "Je standardise d'abord, puis j'accélère. Quand le code est propre, l'équipe va plus vite.",
+    "now": "Sur Sibylla Network je pilote la reconstruction React 19 / TypeScript d'une plateforme hospitality e-commerce; j'ai récemment livré l'intégration end-to-end du paiement Nexi avec machine à états idempotente, et construit un workflow de revue adversariale AI-augmented sur Claude Code qui a détecté 3 bugs latents du flow paiements au premier run.",
+    "philosophy": "Résous le problème, puis rends-le difficile à répéter — avec standards, contrats typés et revue adversariale.",
     "githubUsername": "Dark-lIl-Demon"
   },
   "contact": {
     "email": "hassan.akkari01@gmail.com",
-    "resumePath": "pdf/CV-ENG-102025.pdf",
+    "resumePath": "pdf/CV-ENG-05-2026.pdf",
     "github": "https://github.com/Dark-lIl-Demon",
     "linkedin": "https://www.linkedin.com/in/hassan-akkari",
     "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Standards UI (classes/styles)\nAvant: conventions éparpillées et duplications entre modules.\nAprès: standards partagés réutilisés dans le temps par l'équipe.\nRésultat: moins de régressions et maintenance plus rapide.",
-    "Network: patterns réutilisables (React + Redux Toolkit)\nAvant: logiques distribuées et difficiles à scaler.\nAprès: patterns et flux plus prévisibles.\nRésultat: livraison plus stable sur les flux cœur.",
-    "Cohérence UI (Bootstrap -> Tailwind quand applicable)\nAvant: layouts incohérents et composants similaires mais différents.\nAprès: standards et composition plus consistants.\nRésultat: itérations plus rapides sur les flux principaux.",
-    "Debugging des cas limites et bugs complexes\nAvant: blocages longs et diagnostic fragmenté.\nAprès: isolation rapide, correction ciblée, prévention quand possible.\nRésultat: équipe débloquée sans ralentir la livraison."
+    "Intégration paiement Nexi (end-to-end)\nAvant: le flow paiements avait des race conditions de callback récurrentes et aucun état rejouable.\nAprès: handler callback S2S avec machine à états idempotente (pending → nexi_paid → sibylla_confirmed | failed), handler MediatR fire-and-forget et un outil PowerShell de replay pour le debug.\nRésultat: récupération déterministe des race conditions de callback; bugs récurrents de race condition éliminés.",
+    "Reconstruction React 19 + TypeScript depuis zéro\nAvant: le développement externe n'avait pas répondu aux exigences de la plateforme hospitality.\nAprès: ~20 modules API, ~60 endpoints query/mutation, ~35 routes, ~12 zones de features (booking, checkout, paiements, wallet, account) construites en interne avec Redux Toolkit + RTK Query.\nRésultat: pleine ownership de l'architecture et direction frontend, en travaillant avec un backend developer.",
+    "Revue adversariale AI-augmented (subagents Claude Code)\nAvant: la code review dépendait de la disponibilité d'équipe et manquait le drift cross-stack.\nAprès: 5 subagents Claude Code read-only — revue adversariale, audit SOLID, contract-drift TS↔C#, tracing forensique du payment flow — sur le codebase ASP.NET Core 10 / React 19.\nRésultat: 3 bugs latents du flow paiements détectés au premier run; revue AI-assistée reproductible dans une sandbox à permissions minimales.",
+    "Knowledge base projet à 3 niveaux (CLAUDE.md × 3)\nAvant: les règles métier, la payment state machine et les gotchas vivaient seulement dans les têtes.\nAprès: 3 niveaux de CLAUDE.md (root + frontend + backend) codifiant glossaire métier, payment state machine et gotchas non évidents; 4 slash commands SRP (/challenge, /audit-solid, /check-drift, /trace-payment).\nRésultat: revue adversariale intégrée au workflow de PR; reproductible sur toute nouvelle feature.",
+    "Architecture formulaires + auth JWT (react-hook-form + Zod)\nAvant: payloads backend legacy incohérents cassaient la validation côté client.\nAprès: formulaires typés normalisant les payloads au boundary avec Zod; auth JWT avec refresh tokens et protection XSRF.\nRésultat: validation prévisible sur booking, checkout, paiements, wallet.",
+    "Standards UI sur stack legacy (ASP.NET MVC / Razor / jQuery)\nAvant: chaque nouvelle page réinventait classes, styles et utilitaires.\nAprès: système de classes CSS réutilisables et fichiers utilitaires JS partagés devenus la référence d'équipe pour les nouvelles pages.\nRésultat: duplication et incohérences visuelles réduites entre modules; encore utilisé après la migration React."
   ],
   "stack": {
     "daily": [
-      "React (TSX)",
-      "Redux Toolkit",
+      "React 19",
       "TypeScript",
-      "JavaScript",
-      "jQuery",
-      "HTML5/CSS3",
-      "Tailwind CSS"
+      "Next.js",
+      "Redux Toolkit",
+      "RTK Query",
+      "react-hook-form",
+      "Zod",
+      "Tailwind CSS",
+      "Vite",
+      "Turbo",
+      "pnpm"
     ],
     "comfortable": [
-      "ASP.NET MVC",
+      "ASP.NET Core 10",
       "C#",
+      "MediatR",
       "SQL Server",
-      "REST APIs",
-      "UI standardization",
-      "Cross-domain feature delivery"
+      "Dapper",
+      "Razor / MVC (legacy)",
+      "Vitest",
+      "Playwright (e2e + a11y)",
+      "Storybook",
+      "MSW",
+      "Sass",
+      "Framer Motion",
+      "Azure DevOps",
+      "CI/CD (YAML)",
+      "Figma",
+      "Jira"
     ],
     "exploring": [
+      "Claude Code custom subagents",
+      "Agentic adversarial review",
       "Angular",
-      "GraphQL",
-      "Design tokens et gouvernance composants"
+      "GraphQL"
     ]
   },
   "experience": [
     {
-      "company": "Sibylla (Platform et Network)",
-      "location": "Italie",
-      "role": "Frontend Developer - evolution dans le projet",
-      "start": "Sept 2023",
+      "company": "Sibylla S.r.l. — Sibylla Network",
+      "location": "Rome, Italie",
+      "role": "Frontend Developer — React 19 · TypeScript · ASP.NET Core 10",
+      "start": "Mar 2025",
       "end": "Présent",
       "bullets": [
-        "J'ai commencé sur Platform pour consolider les bases en jQuery, HTML et CSS.",
-        "J'ai introduit des standards réutilisables de classes et styles, encore utilisés par l'équipe.",
-        "Maintenant sur Network, je pilote l'implémentation booking, catalogue et checkout avec des patterns React et Redux Toolkit scalables."
+        "Pris en charge le frontend d'une plateforme hospitality / e-commerce greenfield, en la reconstruisant en interne après que le développement externe précédent n'avait pas répondu aux exigences; travail avec un backend developer.",
+        "App React + TypeScript construite depuis zéro avec Redux Toolkit + RTK Query: ~20 modules API, ~60 endpoints query/mutation, ~35 routes, ~12 zones de features sur booking, checkout, paiements, wallet, account.",
+        "Livraison de l'intégration end-to-end du paiement Nexi: callback S2S, machine à états idempotente (pending → nexi_paid → sibylla_confirmed | failed), handler MediatR fire-and-forget et un outil PowerShell de replay pour le debug des race conditions de callback.",
+        "Workflow d'engineering AI-augmented sur Claude Code: 5 subagents read-only (revue adversariale, audit SOLID, contract-drift TS↔C#, tracing du payment flow) + knowledge base CLAUDE.md à 3 niveaux + 4 slash commands SRP-scoped; 3 bugs latents du flow paiements détectés au premier run.",
+        "Architecture formulaires avec react-hook-form + Zod; auth JWT avec refresh tokens et protection XSRF; Vitest (unit) + Playwright (e2e + a11y); gestion des mises à jour pipeline CI/CD (YAML) et résolution des blocages pipeline."
       ]
     },
     {
-      "company": "BetterTogether",
+      "company": "Sibylla S.r.l. — Sibylla Platform",
       "location": "Rome, Italie",
-      "role": "Junior Developer Intern",
-      "start": "Oct 2022",
-      "end": "Juin 2023",
+      "role": "Frontend Developer — ASP.NET MVC · Razor · jQuery",
+      "start": "Sept 2023",
+      "end": "Mar 2025",
       "bullets": [
-        "Développement et maintenance de fonctionnalités internes avec focus formulaires et validation.",
-        "Intégration des flux frontend avec services .NET et données SQL Server.",
-        "Corrections et refactors sur des workflows critiques avant livraison."
+        "UI sur ASP.NET MVC avec Razor et JavaScript/jQuery; système de classes CSS réutilisables et fichiers utilitaires JS partagés devenus la référence d'équipe pour les nouvelles pages, réduisant la duplication et les incohérences visuelles entre modules.",
+        "Refactor: suppression HTML/CSS/JS inutilisés, standardisation des conventions de nommage; Jira + FileZilla pour le tracking et le déploiement."
+      ]
+    },
+    {
+      "company": "BetterTogether S.r.l.",
+      "location": "Rome, Italie",
+      "role": "Frontend Developer Intern",
+      "start": "Oct 2022",
+      "end": "Mai 2023",
+      "bullets": [
+        "Front-end pour facturation automatique (B2C / B2B2C) avec HTML, CSS, JS et C# / ASP.NET MVC.",
+        "Intégration des API Aruba pour la facturation électronique; standardisation UI et refactoring du code legacy avant livraison."
       ]
     }
   ],
   "education": [
     {
-      "school": "Uxbridge College",
-      "location": "Londres, UK",
-      "qualification": "Diploma in Computer Science",
+      "school": "HCUC (Harrow, Richmond, Uxbridge College)",
+      "location": "Londres, Royaume-Uni",
+      "qualification": "Level 3 Diploma · Computing",
       "start": "Sept 2019",
       "end": "Juin 2021",
-      "focus": "Fondations logicielles, concepts data et bases du développement web."
+      "focus": "Fondations logicielles, concepts data, bases du développement web."
+    },
+    {
+      "school": "ITIS Leonardo da Vinci",
+      "location": "Rome, Italie",
+      "qualification": "Diplôme technique · Informatique",
+      "start": "Sept 2009",
+      "end": "Juin 2014",
+      "focus": "Diplôme technique italien quinquennal en informatique; fondations de programmation, bases de données, networking."
     }
   ],
   "general": [
     {
       "title": "Langues",
-      "items": ["Italien", "Anglais", "Arabe (Darija)"]
+      "items": ["Anglais (C1 / courant)", "Italien (langue maternelle)", "Arabe (conversationnel)"]
     },
     {
-      "title": "Collaboration",
-      "items": ["Code reviews", "Handoff equipe", "Iteration agile"]
+      "title": "Dev AI-augmenté",
+      "items": [
+        "Claude Code · subagents custom",
+        "CLAUDE.md knowledge bases tiered",
+        "Revue adversariale agentique",
+        "Slash commands SRP-scoped"
+      ]
     },
     {
-      "title": "Tooling",
-      "items": ["GitHub", "CI basics", "Figma handoff"]
+      "title": "Tests & outils",
+      "items": ["Vitest", "Playwright (e2e + a11y)", "Storybook", "MSW", "Azure DevOps", "CI/CD (YAML)", "Figma", "Jira"]
     }
   ],
   "projects": [
