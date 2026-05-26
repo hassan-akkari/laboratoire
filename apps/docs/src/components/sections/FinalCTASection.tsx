@@ -5,6 +5,8 @@ import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
 import { getFinalCtaContent } from "../../data/finalCtaContent";
+import { SITE, whatsappPrefilledMessages } from "../../data/site";
+import { useSiteContactOverrides } from "../../lib/useSiteConfig";
 import {
   fadeUpVariants,
   getInViewReveal,
@@ -18,6 +20,19 @@ type FinalCTASectionProps = {
 export default function FinalCTASection({ locale }: FinalCTASectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
   const content = getFinalCtaContent(locale);
+  const { phoneDigits, email } = useSiteContactOverrides();
+
+  const effectivePhone = phoneDigits ?? SITE.whatsappNumber;
+  const effectiveEmail = email ?? SITE.email;
+
+  const whatsappHref = `https://wa.me/${effectivePhone}?text=${encodeURIComponent(
+    whatsappPrefilledMessages[locale],
+  )}`;
+  const emailHref = `mailto:${effectiveEmail}?subject=${encodeURIComponent(
+    locale === "it" ? "Richiesta info" : locale === "fr" ? "Demande d'info" : "Quick question",
+  )}&body=${encodeURIComponent(
+    locale === "it" ? "Ciao Hassan, " : locale === "fr" ? "Bonjour Hassan, " : "Hi Hassan, ",
+  )}`;
 
   return (
     <Section id="cta">
@@ -54,7 +69,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
             </AppButton>
             <AppButton
               as="a"
-              href={content.whatsappHref}
+              href={whatsappHref}
               target="_blank"
               rel="noreferrer"
               size="lg"
@@ -65,7 +80,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
             </AppButton>
             <AppButton
               as="a"
-              href={content.emailHref}
+              href={emailHref}
               size="lg"
               variant="flat"
               startContent={<FaRegEnvelope aria-hidden="true" />}

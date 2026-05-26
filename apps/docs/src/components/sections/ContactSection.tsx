@@ -1,15 +1,12 @@
-import { useEffect, useState, type ReactNode } from "react";
-import {
-  fetchPublicSiteConfig,
-  PUBLIC_SITE_CONFIG_FALLBACK,
-  type PublicSiteConfig,
-} from "../../lib/siteConfig";
+import { type ReactNode } from "react";
+import { useSiteConfig } from "../../lib/useSiteConfig";
 import {
   FaEnvelope,
   FaFacebook,
   FaGithub,
   FaInstagram,
   FaLinkedin,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
@@ -40,22 +37,13 @@ export default function ContactSection({
   labels,
 }: ContactSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
-
-  const adminBaseUrl = (import.meta.env.VITE_ADMIN_API_BASE as string | undefined)?.replace(/\/$/, "");
-  const [siteConfig, setSiteConfig] = useState<PublicSiteConfig>(PUBLIC_SITE_CONFIG_FALLBACK);
-
-  useEffect(() => {
-    if (!adminBaseUrl) return;
-    let cancelled = false;
-    fetchPublicSiteConfig(adminBaseUrl).then((value) => {
-      if (!cancelled) setSiteConfig(value);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [adminBaseUrl]);
+  const siteConfig = useSiteConfig();
 
   const displayEmail = siteConfig.contactEmail || contact.email;
+  const displayPhone = siteConfig.phone;
+  const whatsappHref = displayPhone
+    ? `https://wa.me/${displayPhone.replace(/\D/g, "")}`
+    : null;
 
   const socialLinks: SocialLink[] = [
     {
@@ -117,6 +105,17 @@ export default function ContactSection({
               <AppButton as="a" href={`mailto:${displayEmail}`}>
                 {labels.emailMe}
               </AppButton>
+              {whatsappHref ? (
+                <AppButton
+                  as="a"
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="flat"
+                >
+                  <FaWhatsapp /> WhatsApp
+                </AppButton>
+              ) : null}
               {contact.bookCall ? (
                 <AppButton
                   as="a"
