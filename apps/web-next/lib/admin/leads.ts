@@ -82,6 +82,56 @@ export type NotificationOutcome =
   | { ok: true }
   | { ok: false; error: string };
 
+export type UpsertCalLeadInput = {
+  calBookingId: string;
+  name: string;
+  email: string;
+  scheduledAt: Date | null;
+  sourceDetail: string | null;
+  calPayload: unknown;
+  bookingStatus: "scheduled" | "rescheduled" | "cancelled";
+};
+
+export async function upsertCalLead(input: UpsertCalLeadInput): Promise<Lead | null> {
+  const existing = await db
+    .select()
+    .from(schema.leads)
+    .where(eq(schema.leads.calBookingId, input.calBookingId))
+    .limit(1);
+
+  if (existing[0]) {
+    const rows = await db
+      .update(schema.leads)
+      .set({
+        bookingStatus: input.bookingStatus,
+        scheduledAt: input.scheduledAt,
+        calPayload: input.calPayload,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.leads.id, existing[0].id))
+      .returning();
+    return rows[0] ?? null;
+  }
+
+  const rows = await db
+    .insert(schema.leads)
+    .values({
+      source: "cal",
+      sourceDetail: input.sourceDetail,
+      name: input.name,
+      email: input.email,
+      calBookingId: input.calBookingId,
+      calPayload: input.calPayload,
+      scheduledAt: input.scheduledAt,
+      bookingStatus: input.bookingStatus,
+      status: "new",
+      privacyAcceptedAt: new Date(),
+      privacyVersion: "cal-implicit",
+    })
+    .returning();
+  return rows[0] ?? null;
+}
+
 export async function recordLeadNotification(
   leadId: string,
   outcome: NotificationOutcome,

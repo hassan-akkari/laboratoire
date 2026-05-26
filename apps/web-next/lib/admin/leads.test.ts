@@ -66,6 +66,7 @@ import {
   getLeads,
   recordLeadNotification,
   updateLead,
+  upsertCalLead,
 } from "./leads";
 
 describe("lib/admin/leads", () => {
@@ -196,5 +197,83 @@ describe("recordLeadNotification", () => {
     // preserves the prior successful timestamp across transient errors.
     expect(Object.keys(patch)).not.toContain("lastNotifiedAt");
     expect(patch.notificationError).toBe("Resend down");
+  });
+});
+
+describe("upsertCalLead", () => {
+  beforeEach(() => {
+    mockState.selectByIdRows = [];
+    mockState.updateReturn = [];
+    mockState.setSpy.mockReset();
+    mockState.insertSpy.mockReset();
+    mockState.whereSpy.mockReset();
+  });
+
+  it("inserts a new lead when no existing row found for calBookingId", async () => {
+    mockState.selectByIdRows = [];
+    const inserted = {
+      id: "new-id",
+      source: "cal",
+      calBookingId: "uid-abc",
+      bookingStatus: "scheduled",
+      status: "new",
+    };
+    mockState.updateReturn = [inserted as unknown as Lead];
+    const result = await upsertCalLead({
+      calBookingId: "uid-abc",
+      name: "Alice",
+      email: "alice@example.com",
+      scheduledAt: new Date("2026-06-01T09:00:00Z"),
+      sourceDetail: "Discovery Call",
+      calPayload: { uid: "uid-abc" },
+      bookingStatus: "scheduled",
+    });
+    expect(result?.id).toBe("new-id");
+    expect(mockState.insertSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        source: "cal",
+        calBookingId: "uid-abc",
+        name: "Alice",
+        email: "alice@example.com",
+        bookingStatus: "scheduled",
+        privacyVersion: "cal-implicit",
+      }),
+    );
+  });
+
+  it("updates bookingStatus when existing row found for calBookingId", async () => {
+    const existing = { id: "existing-id", calBookingId: "uid-abc" } as unknown as Lead;
+    mockState.selectByIdRows = [existing];
+    const updated = { id: "existing-id", bookingStatus: "rescheduled" } as unknown as Lead;
+    mockState.updateReturn = [updated];
+    const result = await upsertCalLead({
+      calBookingId: "uid-abc",
+      name: "Alice",
+      email: "alice@example.com",
+      scheduledAt: new Date("2026-06-02T10:00:00Z"),
+      sourceDetail: "Discovery Call",
+      calPayload: { uid: "uid-abc" },
+      bookingStatus: "rescheduled",
+    });
+    expect(result?.id).toBe("existing-id");
+    expect(mockState.insertSpy).not.toHaveBeenCalled();
+    expect(mockState.setSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ bookingStatus: "rescheduled" }),
+    );
+  });
+
+  it("returns null when insert returns no row", async () => {
+    mockState.selectByIdRows = [];
+    mockState.updateReturn = [];
+    const result = await upsertCalLead({
+      calBookingId: "uid-xyz",
+      name: "Bob",
+      email: "bob@example.com",
+      scheduledAt: null,
+      sourceDetail: null,
+      calPayload: {},
+      bookingStatus: "scheduled",
+    });
+    expect(result).toBeNull();
   });
 });

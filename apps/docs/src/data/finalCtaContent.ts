@@ -6,6 +6,7 @@ export type FinalCtaContent = {
   subtitle: string;
   auditLabel: string;
   auditHref: string;
+  calLabel: string;
   whatsappLabel: string;
   whatsappHref: string;
   emailLabel: string;
@@ -19,6 +20,7 @@ const it: FinalCtaContent = {
     "Mandami l'URL. Entro 24 ore lavorative ti mando un audit chiaro con cosa sistemare prima e perché.",
   auditLabel: "Richiedi audit gratuito",
   auditHref: "/audit",
+  calLabel: "Prenota una chiamata",
   whatsappLabel: "Scrivimi su WhatsApp",
   whatsappHref: whatsappLink("it"),
   emailLabel: "Mandami una mail",
@@ -32,6 +34,7 @@ const en: FinalCtaContent = {
     "Send me the URL. Within 24 business hours I send you a clear audit with what to fix first and why.",
   auditLabel: "Get a free audit",
   auditHref: "/audit",
+  calLabel: "Book a call",
   whatsappLabel: "Message me on WhatsApp",
   whatsappHref: whatsappLink("en"),
   emailLabel: "Send me an email",
@@ -45,6 +48,7 @@ const fr: FinalCtaContent = {
     "Envoyez-moi l'URL. Sous 24 heures ouvrées, je vous envoie un audit clair avec quoi corriger en premier et pourquoi.",
   auditLabel: "Demander un audit gratuit",
   auditHref: "/audit",
+  calLabel: "Réserver un appel",
   whatsappLabel: "Écrivez-moi sur WhatsApp",
   whatsappHref: whatsappLink("fr"),
   emailLabel: "Envoyez-moi un mail",
