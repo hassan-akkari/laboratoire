@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
 import { FaWhatsapp, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
+import CalBookButton from "../ui/CalBookButton";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
@@ -67,6 +68,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
             >
               {content.auditLabel}
             </AppButton>
+            <CalBookButton label={content.calLabel} />
             <AppButton
               as="a"
               href={whatsappHref}
