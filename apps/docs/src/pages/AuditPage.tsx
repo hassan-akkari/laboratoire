@@ -15,6 +15,7 @@ import LocaleSwitcher from "../components/ui/LocaleSwitcher";
 import type { Locale } from "../i18n/locale";
 import type { Messages } from "../i18n/messages";
 import { getAuditContent } from "../data/auditContent";
+import { useSiteContactOverrides } from "../lib/useSiteConfig";
 import {
   fadeUpVariants,
   getInViewReveal,
@@ -34,7 +35,8 @@ export default function AuditPage({
   labels,
 }: AuditPageProps) {
   const reduceMotion = Boolean(useReducedMotion());
-  const content = getAuditContent(locale);
+  const { phoneDigits, email } = useSiteContactOverrides();
+  const content = getAuditContent(locale, phoneDigits, email);
   const [openFaqId, setOpenFaqId] = useState<string | null>(
     content.faq.items[0]?.id ?? null,
   );

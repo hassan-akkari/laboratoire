@@ -1,5 +1,5 @@
 import type { Locale } from "../i18n/locale";
-import { mailtoLink, whatsappLink } from "./site";
+import { mailtoLink, patchMailtoEmail, patchWhatsappPhone, whatsappLink } from "./site";
 
 export type Service = {
   id: string;
@@ -407,6 +407,17 @@ const fr: ServicesContent = {
 
 export const servicesContent: Record<Locale, ServicesContent> = { it, en, fr };
 
-export function getServicesContent(locale: Locale) {
-  return servicesContent[locale];
+export function getServicesContent(locale: Locale, phoneDigits?: string, email?: string): ServicesContent {
+  const base = servicesContent[locale];
+  if (!phoneDigits && !email) return base;
+
+  const wa = (href: string) => phoneDigits ? patchWhatsappPhone(href, phoneDigits) : href;
+  const ml = (href: string) => email ? patchMailtoEmail(href, email) : href;
+  const patch = (href: string) => href.startsWith("https://wa.me/") ? wa(href) : ml(href);
+
+  return {
+    ...base,
+    services: base.services.map((s) => ({ ...s, ctaHref: patch(s.ctaHref) })),
+    secondaryCta: { ...base.secondaryCta, href: ml(base.secondaryCta.href) },
+  };
 }

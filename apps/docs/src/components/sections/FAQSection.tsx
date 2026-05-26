@@ -6,6 +6,7 @@ import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
 import { getFaqsContent } from "../../data/faqs";
 import { whatsappLink } from "../../data/site";
+import { useSiteContactOverrides } from "../../lib/useSiteConfig";
 import {
   fadeUpVariants,
   getInViewReveal,
@@ -19,6 +20,7 @@ type FAQSectionProps = {
 export default function FAQSection({ locale }: FAQSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
   const content = getFaqsContent(locale);
+  const { phoneDigits } = useSiteContactOverrides();
   const [openId, setOpenId] = useState<string | null>(
     content.faqs[0]?.id ?? null,
   );
@@ -101,7 +103,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
         >
           {content.outro.prefix}
           <a
-            href={whatsappLink(locale, content.whatsappMessage)}
+            href={whatsappLink(locale, content.whatsappMessage, phoneDigits)}
             target="_blank"
             rel="noreferrer"
             className="text-(--app-fg) underline-offset-4 hover:underline"
