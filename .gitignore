@@ -10,3 +10,9 @@ node_modules_old/
 **/*.tsbuildinfo
 *.log
 node_modules_old/
+
+# Local env files — never commit secrets (DATABASE_URL, ADMIN_SESSION_SECRET, etc.)
+.env.local
+.env*.local
+**/.env.local
+**/.env*.local
