@@ -11,6 +11,7 @@ export default async function AdminAuthedLayout({ children }: { children: ReactN
         <div className="admin-topbar__links">
           <Link href="/admin">Leads</Link>
           <Link href="/admin/site-config">Site config</Link>
+          <Link href="/admin/arsenale">Arsenale</Link>
         </div>
         <LogoutButton />
       </nav>
