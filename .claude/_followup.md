@@ -108,6 +108,14 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Suggested fix**: one-shot regex sweep (`[var\(--([\w-]+)\)\]` → `(--$1)`) across the 11 files, in a single chore commit. Trivial diff but touches a lot of lines — keep it isolated from feature commits to make review tractable.
 - **Why not now**: pure stylistic refactor, zero functional impact. Should not be bundled with feature commits per atomic-commit discipline.
 
+### F14 — Orphan `resources/arsenale-mentale.html` needs a gated home — BLOCKED ON ADMIN PHASE 1
+
+- **Where**: `resources/arsenale-mentale.html` — 368-line self-contained dark-themed page (36-book reading roadmap, personal "arsenale mentale" dossier, IT). Committed `4fb6a60` ("we gotta think about this later, the book shelf"). Zero references from any app (`git grep arsenale -- apps/` → nothing). True orphan.
+- **Decision (2026-06-03)**: port into the admin surface as `apps/web-next/app/admin/arsenale/page.tsx`, gated by the admin auth being built in the admin spec/Phase 1 (proxy `/admin/*` + `requireAdminSession()` + `admin_session` cookie). Admin-only — it's personal content, not public portfolio material.
+- **Why deferred**: the admin auth gate does not exist yet. Building a throwaway one-off cookie check now would be ripped out the moment Phase 1 lands. Sequencing: finish [admin Phase 1 foundation](../docs/superpowers/plans/2026-05-09-admin-page-phase-1-foundation.md) → then drop the page in as a trivial gated route.
+- **Port notes when built**: page is raw `<html>` + inline `<style>` + Google Fonts (Fraunces / Hanken Grotesk). Per spec decision #20 (no Tailwind in web-next) it can either keep its self-contained inline styles or fold into `globals.css`. No data dependency — pure static content, so it does NOT need the leads/site_config tables. Just auth + a route. Belongs in the admin nav alongside leads / site-config (likely a Phase 2/3 add since Phase 1 is API-only, no admin pages yet).
+- **Related**: extends the [F12] admin-page direction; depends on the auth foundation in [admin-page-design spec](../docs/superpowers/specs/2026-05-09-admin-page-design.md).
+
 ---
 
 ---

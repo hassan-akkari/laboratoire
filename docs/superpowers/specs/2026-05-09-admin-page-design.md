@@ -382,6 +382,7 @@ Vitest, with the Drizzle client mocked for unit tests. No DB integration tests o
 - Calendar sync outside Cal.com.
 - Managing the existing booking-demo orders (`apps/web-next/lib/orders.ts`).
 - Localization of the admin UI (English only).
+- The "arsenale mentale" reading-dossier page (`resources/arsenale-mentale.html`). **Deferred, but planned as an admin surface**: port to `app/admin/arsenale/page.tsx`, gated by the same admin auth, added once admin pages exist (Phase 2+). Pure static content — no DB dependency. Tracked as F14 in `.claude/_followup.md`.
 
 ## Open risks / gotchas
 
