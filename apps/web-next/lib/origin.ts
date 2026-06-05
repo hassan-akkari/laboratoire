@@ -8,14 +8,28 @@ function parseList(env: string | undefined): Set<string> {
   );
 }
 
-export function isAllowedPublicOrigin(origin: string | null): boolean {
+function getVercelPreviewOrigin(): string | null {
+  if (process.env.VERCEL_ENV === "production") return null;
+
+  const url = process.env.VERCEL_URL?.trim();
+  if (!url) return null;
+
+  const host = url.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+  return host ? `https://${host}` : null;
+}
+
+function isAllowedOrigin(origin: string | null, env: string | undefined): boolean {
   if (!origin) return false;
-  return parseList(process.env.PUBLIC_ALLOWED_ORIGINS).has(origin);
+  if (parseList(env).has(origin)) return true;
+  return origin === getVercelPreviewOrigin();
+}
+
+export function isAllowedPublicOrigin(origin: string | null): boolean {
+  return isAllowedOrigin(origin, process.env.PUBLIC_ALLOWED_ORIGINS);
 }
 
 export function isAllowedAdminOrigin(origin: string | null): boolean {
-  if (!origin) return false;
-  return parseList(process.env.ADMIN_ALLOWED_ORIGINS).has(origin);
+  return isAllowedOrigin(origin, process.env.ADMIN_ALLOWED_ORIGINS);
 }
 
 export function withCors(
