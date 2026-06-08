@@ -5,6 +5,7 @@ import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
 import { getServicesContent } from "../../data/services";
+import { useSiteContactOverrides } from "../../lib/useSiteConfig";
 import {
   fadeUpVariants,
   getInViewReveal,
@@ -17,7 +18,8 @@ type ServicesSectionProps = {
 
 export default function ServicesSection({ locale }: ServicesSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
-  const content = getServicesContent(locale);
+  const { phoneDigits, email } = useSiteContactOverrides();
+  const content = getServicesContent(locale, phoneDigits, email);
 
   return (
     <Section id="services">
