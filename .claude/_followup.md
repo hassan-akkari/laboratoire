@@ -108,6 +108,22 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Suggested fix**: one-shot regex sweep (`[var\(--([\w-]+)\)\]` → `(--$1)`) across the 11 files, in a single chore commit. Trivial diff but touches a lot of lines — keep it isolated from feature commits to make review tractable.
 - **Why not now**: pure stylistic refactor, zero functional impact. Should not be bundled with feature commits per atomic-commit discipline.
 
+### F14 — Wire `resources/arsenale-mentale.html` into the admin as a gated route — UNBLOCKED 2026-06-03
+
+- **Where**: `resources/arsenale-mentale.html` — 368-line self-contained dark-themed page (36-book reading roadmap, personal "arsenale mentale" dossier, IT). Originally committed on `dev/pitch` (`4fb6a60`), cherry-picked onto `feat/admin-phase-3-plan` (`6c5e30f`). Still an orphan — zero references from any app.
+- **Decision (2026-06-03)**: port into the admin surface as `apps/web-next/app/admin/arsenale/page.tsx`, gated by the existing admin auth. Admin-only — personal content, not public portfolio material. Add to the admin nav alongside leads / site-config.
+- **No longer blocked**: the original deferral reason ("admin auth gate doesn't exist yet") is gone. Phase 1-2 shipped the gate — `apps/web-next/app/admin/layout.tsx` already calls `requireAdminSession()` and renders the admin shell + nav. Any new `app/admin/arsenale/page.tsx` inherits that gate automatically. The proxy already matches `/admin/:path*`.
+- **Port notes**: page is raw `<html>` + inline `<style>` + Google Fonts (Fraunces / Hanken Grotesk). Per the spec's no-Tailwind-in-web-next decision it can keep its self-contained inline styles (wrap the `<body>` markup in a React component, move the `<style>` into a scoped block or `globals.css`) or be served as static content. Pure static — no DB/leads/site_config dependency. Just a gated route + a nav link.
+- **Related**: extends the [F12] admin-page direction; the admin auth + shell it depends on are already merged on this branch.
+
+### F15 — Wire Resend email (lead notifications + admin "Send test email") — DEFERRED 2026-06-08
+
+- **Where**: `apps/web-next/lib/email.ts` (`sendTestEmail`, `sendLeadNotification`), admin Site config page.
+- **Current state**: `.env.local` has `RESEND_FROM=Hassan <onboarding@resend.dev>` and a blank `RESEND_API_KEY=`. Admin "Notify email override" already set to `hassan.akkari@icloud.com` (notifications resolve to iCloud; public contact stays gmail). No API key → button reports "Resend not configured". Email path is **optional** — leads still save to the DB without it; both email fns fail gracefully (`{ok:false}`, never throw).
+- **Why deferred**: not worth the email-infra detour right now; DB separation (the actual session goal) is done. Hassan is happy with leads-to-DB-only for now.
+- **Next step**: full procedure in `apps/web-next/RESEND_SETUP.md`. TL;DR — sign up Resend with `hassan.akkari@icloud.com`, create API key, paste into `.env.local`, restart `pnpm dev:next`, click Send test email. For sending to arbitrary recipients / prod: verify `itshassan.it` in Resend + add DKIM/SPF/MX DNS at OVH (Resend uses a `send.` subdomain, so OVH root MX for `contact@itshassan.it` stays intact).
+- **Related**: same OVH DNS console as the future `admin.itshassan.it` subdomain.
+
 ---
 
 ---

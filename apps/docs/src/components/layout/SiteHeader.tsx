@@ -8,6 +8,7 @@ import type { Locale } from "../../i18n/locale";
 import type { Messages } from "../../i18n/messages";
 import LocaleSwitcher from "../ui/LocaleSwitcher";
 import { whatsappLink } from "../../data/site";
+import { useSiteContactOverrides } from "../../lib/useSiteConfig";
 import {
   getLongestAuditLabel,
   getLongestNavLabels,
@@ -29,6 +30,7 @@ export default function SiteHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const reduceMotion = Boolean(useReducedMotion());
   const nav = getNavContent(locale);
+  const { phoneDigits } = useSiteContactOverrides();
   const longestNavLabels = useMemo(() => getLongestNavLabels(), []);
   const longestAuditLabel = useMemo(() => getLongestAuditLabel(), []);
   const toggleMenu = (open: boolean) => setMenuOpen(open);
@@ -77,7 +79,7 @@ export default function SiteHeader({
           <div className="nav-actions">
             <AppButton
               as="a"
-              href={whatsappLink(locale)}
+              href={whatsappLink(locale, undefined, phoneDigits)}
               target="_blank"
               rel="noreferrer"
               size="sm"

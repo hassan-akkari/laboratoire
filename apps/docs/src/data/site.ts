@@ -10,22 +10,32 @@ export const SITE = {
   location: "Roma, Italia",
 } as const;
 
-const whatsappPrefilledMessages: Record<Locale, string> = {
+export const whatsappPrefilledMessages: Record<Locale, string> = {
   it: "Ciao Hassan, vorrei parlare di un progetto. Mi puoi richiamare?",
   en: "Hi Hassan, I'd like to talk about a project. Can you get back to me?",
   fr: "Bonjour Hassan, je voudrais parler d'un projet. Pouvez-vous me recontacter ?",
 };
 
-export function whatsappLink(locale: Locale, message?: string) {
+export function whatsappLink(locale: Locale, message?: string, phoneDigitsOverride?: string) {
+  const phone = phoneDigitsOverride ?? SITE.whatsappNumber;
   const finalMessage = message ?? whatsappPrefilledMessages[locale];
   const text = encodeURIComponent(finalMessage);
-  return `https://wa.me/${SITE.whatsappNumber}?text=${text}`;
+  return `https://wa.me/${phone}?text=${text}`;
 }
 
-export function mailtoLink(subject: string, body?: string) {
+export function mailtoLink(subject: string, body?: string, emailOverride?: string) {
+  const email = emailOverride ?? SITE.email;
   const params = new URLSearchParams();
   if (subject) params.set("subject", subject);
   if (body) params.set("body", body);
   const query = params.toString();
-  return `mailto:${SITE.email}${query ? `?${query}` : ""}`;
+  return `mailto:${email}${query ? `?${query}` : ""}`;
+}
+
+export function patchWhatsappPhone(href: string, phoneDigits: string): string {
+  return href.replace(/wa\.me\/\d+/, `wa.me/${phoneDigits}`);
+}
+
+export function patchMailtoEmail(href: string, email: string): string {
+  return href.replace(/mailto:[^?]+/, `mailto:${email}`);
 }

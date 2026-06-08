@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "@heroui/react": "^2.8.8",
     "@heroui/theme": "^2.4.26",
     "@laboratoire/ui": "workspace:*",

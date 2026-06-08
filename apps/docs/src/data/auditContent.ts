@@ -1,5 +1,5 @@
 import type { Locale } from "../i18n/locale";
-import { mailtoLink, whatsappLink } from "./site";
+import { mailtoLink, patchMailtoEmail, patchWhatsappPhone, whatsappLink } from "./site";
 
 export type AuditCheckpoint = {
   id: string;
@@ -514,6 +514,24 @@ const fr: AuditContent = {
 
 export const auditContent: Record<Locale, AuditContent> = { it, en, fr };
 
-export function getAuditContent(locale: Locale) {
-  return auditContent[locale];
+export function getAuditContent(locale: Locale, phoneDigits?: string, email?: string): AuditContent {
+  const base = auditContent[locale];
+  if (!phoneDigits && !email) return base;
+
+  const wa = (href: string) => phoneDigits ? patchWhatsappPhone(href, phoneDigits) : href;
+  const ml = (href: string) => email ? patchMailtoEmail(href, email) : href;
+
+  return {
+    ...base,
+    hero: {
+      ...base.hero,
+      primaryCtaHref: wa(base.hero.primaryCtaHref),
+      secondaryCtaHref: ml(base.hero.secondaryCtaHref),
+    },
+    finalCta: {
+      ...base.finalCta,
+      primaryHref: wa(base.finalCta.primaryHref),
+      secondaryHref: ml(base.finalCta.secondaryHref),
+    },
+  };
 }
