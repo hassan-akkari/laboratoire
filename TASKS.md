@@ -38,6 +38,13 @@
 - Windows + Neon: a `Assertion failed ... uv_handle` line after a successful DB
   op is a harmless `@neondatabase/serverless` teardown bug — ignore it.
 - There is **no root `tsconfig.json`** (per-app configs only). See task **T4**.
+- **Preview env vars are git-branch-scoped.** They were added scoped to specific
+  branches (`feat/admin-phase-3-plan`, `feat/post-launch-tasks`) because the
+  agent-mode CLI refuses to set "all Preview branches". A NEW branch with no
+  preview env → web-next preview build **fails** with `DATABASE_URL is not set`
+  (`lib/db/client.ts` throws at module load). Fix per new branch:
+  `vercel env add <NAME> preview <branch> --value ... --yes` for the 4 vars, or
+  better do **T7** once. Production env is unaffected by this.
 
 ## Set up on a new PC
 
@@ -148,6 +155,15 @@ Tracked as **F15** in `.claude/_followup.md`.
 `feat/admin-phase-3-plan` is merged into `main`. Once confident, delete it
 (`git branch -d feat/admin-phase-3-plan` + `git push origin --delete feat/admin-phase-3-plan`).
 Work continues on `feat/post-launch-tasks`.
+
+### T7 — Make web-next Preview env apply to all branches  · P2
+**Why:** the 4 Preview env vars are scoped per git-branch, so every new branch's
+preview build fails with `DATABASE_URL is not set` until re-added (see gotcha above).
+**Do (dashboard — CLI can't):** Vercel → `admin` project → Settings → Environment
+Variables → for each of `DATABASE_URL`, `ADMIN_SESSION_SECRET`,
+`PUBLIC_ALLOWED_ORIGINS`, `ADMIN_ALLOWED_ORIGINS` (Preview), edit → set
+**All Preview branches** (remove the specific-branch filter). Then new branches
+get preview env automatically.
 
 ---
 
