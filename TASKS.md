@@ -98,7 +98,10 @@ Optionally `cd apps/web-next && vercel link` (project `admin`) and
 
 ## TASKS
 
-### T1 — Verify the lead WRITE path  · P1
+### T1 — Verify the lead WRITE path  · P1 · ✅ DONE 2026-06-09
+**Verified:** contact form on `itshassan.it` POSTs to `admin.itshassan.it/api/leads`,
+lead lands in `/admin/leads` (prod-db). Write path works.
+
 **Why:** the read path (site-config overlay) works; the write path (the whole
 point — capturing leads) is unverified.
 **Do:** submit the contact form on `itshassan.it` → confirm it POSTs to
@@ -110,14 +113,30 @@ so the browser fetch should pass; a raw curl with no Origin gets 403 (by design)
 `apps/docs/src/components/sections/ContactForm.tsx`.
 **Done when:** a test lead appears in `/admin/leads` and only in prod-db.
 
-### T2 — Cal.com webhook → leads  · P1 (if using calls)
+### T2 — Cal.com webhook → leads  · P1 (if using calls) · 🟡 code fixed, needs deploy + dashboard
 **Why:** the "Book a call" button works (`VITE_CAL_LINK` set), but Cal bookings
 won't become leads until the webhook is wired.
-**Do:**
-1. Add `CAL_WEBHOOK_SECRET` to the **`admin` project Production** env (random secret).
-2. In Cal.com → create a webhook → URL `https://admin.itshassan.it/api/cal/webhook`,
-   same secret, on booking-created events.
-3. Make a test booking → confirm a lead with `source=cal` appears in `/admin/leads`.
+**⚠️ Bug found + fixed (commit `83586664`):** `verifyCalSignature` compared against
+`sha256=<hmac>`, but Cal.com sends the **bare hex** HMAC-SHA256 digest in
+`X-Cal-Signature-256` (no prefix — verified against calcom/cal.com
+`sendPayload.ts`). Every real webhook would have 401'd → no leads. The buggy
+version is **already on `main`/prod**, so this fix must be **deployed to prod**
+before wiring Cal, else bookings silently drop.
+**Do (in order):**
+1. **Deploy the fix:** merge `feat/post-launch-tasks` → `main` → `git push` →
+   Vercel prod build for `admin` → promote (T3 caveat may apply to `admin` too —
+   verify it promotes).
+2. Add `CAL_WEBHOOK_SECRET` to the **`admin` project Production** env. Suggested
+   value (regenerate anytime with `openssl rand -hex 32`):
+   `1f6bd0f663255d86a10da95a528b5ff7ec3fdea987431d88192308dd051cd823`
+3. In Cal.com → Settings → Developer → Webhooks → create → URL
+   `https://admin.itshassan.it/api/cal/webhook`, **secret = same value**, subscribe
+   to `Booking created` (optionally rescheduled/cancelled — handler supports all 3).
+4. Make a test booking → confirm a lead with `source=cal` in `/admin/leads` (prod-db).
+**Payload shape the handler expects** (`lib/cal/extract.ts`): top-level
+`triggerEvent` + `payload.{uid, type, startTime, attendees[].{name,email}}`. Cal's
+default booking webhook matches this; if you customize the payload template in Cal,
+keep those fields.
 **Files:** `apps/web-next/app/api/cal/webhook/route.ts`,
 `apps/web-next/lib/cal/verifySignature.ts`, `apps/web-next/lib/cal/extract.ts`.
 
