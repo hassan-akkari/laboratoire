@@ -130,18 +130,21 @@ setting and align it so `main` pushes auto-promote.
 **Workaround until fixed:** `vercel promote <docs-prod-deployment-url>` or dashboard
 → Deployments → ⋯ → Promote to Production.
 
-### T4 — Resolve the Vercel "Typecheck" deployment check  · P3 (cosmetic)
+### T4 — Resolve the Vercel "Typecheck" deployment check  · P3 (cosmetic) · ✅ DONE 2026-06-09
 **Why:** the Vercel-managed **Typecheck** check fails with "command failed to
 execute" — it runs bare `tsc` at the repo root, but there is **no root
 `tsconfig.json`** (per-app configs only). The Lint check passes (root
 `eslint.config.mjs` exists). The code itself is clean (`pnpm typecheck` = 4/4).
-**Do (pick one):**
-- **Remove** the managed Typecheck check (Settings → Deployment Checks → ⋯ → Remove),
-  rely on `pnpm check` before push. Don't add a single root `tsconfig.json` just to
-  satisfy it — the 4 apps have divergent TS settings.
-- OR add a **GitHub Action** running `pnpm check` (lint+typecheck+test) as the real
-  monorepo-aware gate, then ignore the managed checks. (No `.github/workflows` exists
-  yet.)
+**Done:** took the **GitHub Action** option — added [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+running `pnpm check` (lint+typecheck+test via Turbo) on every push + PR. Single
+`check` job, ubuntu-latest, pnpm 10 via `packageManager` (one pin) + Node 24 from
+`.node-version`, `--frozen-lockfile`, pnpm-store + Turbo (`.turbo`) caches, no
+secrets needed (web-next tests mock the db client; docs/web-react typecheck use the
+UI source alias). Verified `pnpm check` green locally before commit.
+**Still TODO (dashboard, you):** now that the GH Action is the real gate, you may
+**remove/ignore** the Vercel-managed Typecheck check (Settings → Deployment Checks →
+⋯ → Remove) so the cosmetic red ✗ stops showing. Don't add a root `tsconfig.json` —
+the 4 apps have divergent TS settings.
 
 ### T5 — Resend email (lead notifications)  · P3
 **Why:** admin "Send test email" + lead notification emails are off (optional).
