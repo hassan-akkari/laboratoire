@@ -2,8 +2,9 @@ import { createHmac } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { verifyCalSignature } from "./verifySignature";
 
+// Cal.com sends the bare hex digest (no "sha256=" prefix).
 function sign(body: string, secret: string): string {
-  return `sha256=${createHmac("sha256", secret).update(body).digest("hex")}`;
+  return createHmac("sha256", secret).update(body).digest("hex");
 }
 
 describe("verifyCalSignature", () => {
@@ -16,19 +17,19 @@ describe("verifyCalSignature", () => {
   });
 
   it("returns false when signature is wrong", () => {
-    expect(verifyCalSignature(body, "sha256=wronghex", secret)).toBe(false);
+    expect(verifyCalSignature(body, "wronghex", secret)).toBe(false);
   });
 
   it("returns false when signature header is null", () => {
     expect(verifyCalSignature(body, null, secret)).toBe(false);
   });
 
-  it("returns false when header lacks sha256= prefix", () => {
-    const hex = createHmac("sha256", secret).update(body).digest("hex");
-    expect(verifyCalSignature(body, hex, secret)).toBe(false);
+  it("returns false when header carries a sha256= prefix (Cal.com sends bare hex)", () => {
+    const prefixed = `sha256=${createHmac("sha256", secret).update(body).digest("hex")}`;
+    expect(verifyCalSignature(body, prefixed, secret)).toBe(false);
   });
 
   it("uses timingSafeEqual (different lengths return false not throw)", () => {
-    expect(verifyCalSignature(body, "sha256=short", secret)).toBe(false);
+    expect(verifyCalSignature(body, "short", secret)).toBe(false);
   });
 });

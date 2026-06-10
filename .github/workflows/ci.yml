@@ -1,0 +1,75 @@
+name: CI
+
+# First workflow in the repo. Gate = the documented local flow:
+#   frozen install, then `pnpm check` (lint -> typecheck -> test via Turbo).
+# Runs on every push and every PR. ubuntu-latest (devs are on Windows, but CI
+# standardizes on Linux). No secrets, no DATABASE_URL, no UI dist build needed:
+# web-next tests vi.mock("@/lib/db/client"); docs/web-react typecheck resolve
+# @laboratoire/ui via the source path alias (packages/ui/src).
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+# Cancel superseded runs on the same ref to save minutes and avoid stale
+# statuses landing on a ref that has already moved on.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least-privilege: this gate only reads the repo and restores/saves caches.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: lint + typecheck + test
+    runs-on: ubuntu-latest
+    # Hard ceiling so a hung vitest/turbo cannot pin a runner.
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # MUST run before setup-node so that setup-node's `cache: pnpm` can shell
+      # out to `pnpm store path` and find the store to cache. The pnpm version
+      # is read from package.json#packageManager (pnpm@10.0.0) — one source of
+      # truth, no `version:` input here, so it can never drift from corepack.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      # Node 24 from .node-version (satisfies engines ">=24 <25"). cache: pnpm
+      # keys the pnpm content-addressable store off pnpm-lock.yaml automatically.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      # Turbo filesystem cache. lint/typecheck/test declare empty `outputs` and
+      # no `dependsOn` in turbo.json, so a warm cache lets Turbo hash-and-skip
+      # unchanged tasks. Key on the lockfile (toolchain) + a hash of all source
+      # and config inputs so unrelated commits still restore a hit; restore-keys
+      # give a partial-hit fallback. No TURBO_TOKEN/remote cache, so this needs
+      # no secret and is fork-PR safe. Turbo 2.x writes to .turbo/cache by
+      # default, which `pnpm check` (-> pnpm turbo run <task>) uses unchanged.
+      - name: Cache Turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('**/*.ts', '**/*.tsx', '**/*.js', '**/*.json', '!**/node_modules/**', '!.turbo/**') }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+            turbo-${{ runner.os }}-
+
+      # --frozen-lockfile enforces .npmrc parity (prefer-frozen-lockfile=true)
+      # and hard-fails on any drift, so CI never mutates pnpm-lock.yaml. The
+      # pnpm.onlyBuiltDependencies allowlist handles pnpm v10's blocked
+      # postinstalls non-interactively — no extra flag required.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The gate. `pnpm check` = lint && typecheck && test, each delegating to
+      # `pnpm turbo run <task>` across all four workspaces. Matches local exactly.
+      - name: Check (lint + typecheck + test)
+        run: pnpm check
