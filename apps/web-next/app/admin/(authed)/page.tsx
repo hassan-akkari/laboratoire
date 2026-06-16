@@ -103,7 +103,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
           </thead>
           <tbody>
             {filtered.map((l) => (
-              <tr key={l.id} className="lead-row" onClick={() => undefined}>
+              <tr key={l.id} className="lead-row">
                 <td>
                   <Link href={`/admin/leads/${l.id}`}>
                     {new Date(l.createdAt).toLocaleString("en-GB", {
