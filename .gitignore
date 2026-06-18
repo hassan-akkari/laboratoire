@@ -20,3 +20,6 @@ node_modules_old/
 # Cookie jar from manual smoke tests
 admin-cookie.txt
 .vercel
+
+# AgentHub orchestration scratch (session board, worktree coordination)
+.agenthub/
