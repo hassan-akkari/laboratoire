@@ -1,6 +1,5 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { HeroUIProvider } from "@heroui/react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
@@ -9,6 +8,7 @@ import "./index.css";
 import "./styles/portfolio.css";
 import App from "./App.tsx";
 import { store } from "./state/store";
+import { RouterUiProvider } from "./RouterUiProvider";
 
 const THEME_KEY = "laboratoire-theme";
 
@@ -25,13 +25,13 @@ initTheme();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <HeroUIProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <RouterUiProvider>
         <Provider store={store}>
           <App />
           <Analytics />
         </Provider>
-      </BrowserRouter>
-    </HeroUIProvider>
+      </RouterUiProvider>
+    </BrowserRouter>
   </StrictMode>,
 )
