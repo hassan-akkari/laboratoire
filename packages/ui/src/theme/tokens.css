@@ -1,0 +1,44 @@
+/*
+ * Shared `--app-*` design tokens — GENERATED from `tokens.ts` (the typed single
+ * source). DO NOT hand-edit values: change them in `tokens.ts` and this file is
+ * kept in lockstep by `renderThemeCss()` + the `tokensCssSync` vitest.
+ *
+ * This is the CSS counterpart of the typed tokens: apps inline an equivalent
+ * block in their own `index.css` (Tailwind v4 needs the declarations at parse
+ * time), and Storybook imports THIS file (via `.storybook/preview.css`) so
+ * `var(--app-*)` resolves in stories. Dark is the default; light is supported.
+ */
+:root {
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
+}
+
+:root[data-theme="light"],
+.light {
+    color-scheme: light;
+    --app-bg: #f5f1ea;
+    --app-fg: #1b1814;
+    --app-muted: #75695f;
+    --app-card: #fbf8f3;
+    --app-border: #e8dfd2;
+    --app-accent: #3d4368;
+    --app-accent-soft: rgba(61, 67, 104, 0.18);
+}
+
+:root[data-theme="dark"],
+.dark {
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
+}

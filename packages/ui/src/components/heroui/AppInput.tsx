@@ -1,3 +1,5 @@
+"use client";
+
 import { Input as HeroInput, type InputProps } from "@heroui/react";
 
 export type AppInputProps = InputProps;
