@@ -1,22 +1,10 @@
-import { heroui } from "@heroui/theme";
-
-export default heroui({
-  themes: {
-    light: {
-      colors: {
-        background: "#f8f7f4",
-        foreground: "#1b1a17",
-        primary: "#1f6feb",
-        secondary: "#0f172a",
-      },
-    },
-    dark: {
-      colors: {
-        background: "#0f1115",
-        foreground: "#eceff4",
-        primary: "#7aa2ff",
-        secondary: "#e2e8f0",
-      },
-    },
-  },
-});
+/**
+ * Storybook's Tailwind plugin entry — UNIFIED onto the canonical warm theme.
+ *
+ * Previously this file declared its own cool-blue palette, drifting from the
+ * apps. It now re-exports the single-source `heroTheme` (derived from
+ * `src/theme/tokens.ts`) so Storybook renders with the exact colors the apps
+ * use. `@plugin` resolves a filesystem path, so `preview.css` points at this
+ * file and this file forwards the shared plugin object as its default export.
+ */
+export { default } from "../src/theme/heroTheme";

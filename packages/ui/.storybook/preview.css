@@ -1,5 +1,9 @@
 @import "tailwindcss";
-@plugin "./hero.ts";
+/* Unified: load the canonical warm HeroUI plugin (single source) instead of a
+ * local Storybook-only palette. */
+@plugin "../src/theme/heroTheme.ts";
+/* Shared `--app-*` design tokens so `var(--app-*)` resolves in stories. */
+@import "../src/theme/tokens.css";
 @source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @source "../src/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:where(.dark, .dark *));

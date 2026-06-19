@@ -1,3 +1,5 @@
+"use client";
+
 import { Button as HeroButton, type ButtonProps } from "@heroui/react";
 
 export type AppButtonProps = ButtonProps;

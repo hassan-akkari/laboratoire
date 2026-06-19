@@ -1,3 +1,5 @@
+"use client";
+
 import { Textarea as HeroTextarea, type TextAreaProps } from "@heroui/react";
 
 export type AppTextareaProps = TextAreaProps;

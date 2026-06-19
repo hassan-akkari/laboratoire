@@ -3,14 +3,87 @@ export { MoonIcon, SunIcon } from "./icons/ThemeIcons";
 export { useTheme } from "./hooks/useTheme";
 export { resolveThemeMode } from "./hooks/themeUtils";
 export type { ThemeMode } from "./hooks/themeUtils";
-export { Input, InputGroup } from "./components/tw-ui/input";
-export { Textarea } from "./components/tw-ui/textarea";
+
+// ---------------------------------------------------------------------------
+// HeroUI wrappers — the PUBLIC, standardized component API.
+//
+// CONVENTION: every consumer-facing component is an `App*` HeroUI wrapper. tw-ui
+// primitives are NOT part of the public barrel where a HeroUI equivalent exists
+// (see the tw-ui retirement note at the bottom of this file).
+// ---------------------------------------------------------------------------
+
+// Form controls
 export { AppButton } from "./components/heroui/AppButton";
 export type { AppButtonProps } from "./components/heroui/AppButton";
 export { AppInput } from "./components/heroui/AppInput";
 export type { AppInputProps } from "./components/heroui/AppInput";
 export { AppTextarea } from "./components/heroui/AppTextarea";
 export type { AppTextareaProps } from "./components/heroui/AppTextarea";
+
+// Archetype 1 — simple passthrough
+export { AppChip } from "./components/heroui/AppChip";
+export type { AppChipProps } from "./components/heroui/AppChip";
+
+// Archetype 2 — static compound (slots also attached as AppCard.Header/Body/Footer)
+export {
+  AppCard,
+  AppCardHeader,
+  AppCardBody,
+  AppCardFooter,
+} from "./components/heroui/AppCard";
+export type {
+  AppCardProps,
+  AppCardHeaderProps,
+  AppCardBodyProps,
+  AppCardFooterProps,
+} from "./components/heroui/AppCard";
+
+// Archetype 3 — collection (children also attached as AppSelect.Item/Section)
+export {
+  AppSelect,
+  AppSelectItem,
+  AppSelectSection,
+} from "./components/heroui/AppSelect";
+export type {
+  AppSelectProps,
+  AppSelectItemProps,
+  AppSelectSectionProps,
+} from "./components/heroui/AppSelect";
+
+// Archetype 4 — stateful/disclosure (slots also attached as AppModal.Content/...)
+export {
+  AppModal,
+  AppModalContent,
+  AppModalHeader,
+  AppModalBody,
+  AppModalFooter,
+  useAppDisclosure,
+} from "./components/heroui/AppModal";
+export type {
+  AppModalProps,
+  AppModalContentProps,
+  AppModalHeaderProps,
+  AppModalBodyProps,
+  AppModalFooterProps,
+} from "./components/heroui/AppModal";
+
+// Archetype 5 — heavy collection-compound (also AppTable.Header/Column/Body/Row/Cell)
+export {
+  AppTable,
+  AppTableHeader,
+  AppTableColumn,
+  AppTableBody,
+  AppTableRow,
+  AppTableCell,
+} from "./components/heroui/AppTable";
+export type {
+  AppTableProps,
+  AppTableHeaderProps,
+  AppTableColumnProps,
+  AppTableBodyProps,
+  AppTableRowProps,
+  AppTableCellProps,
+} from "./components/heroui/AppTable";
 
 // Router-agnostic provider (Phase 1 foundation).
 export { UiProvider } from "./components/UiProvider";
@@ -29,6 +102,23 @@ export {
   renderThemeCss,
 } from "./theme/tokens";
 export type { HeroColorSet, AppTokenName } from "./theme/tokens";
+
+// ---------------------------------------------------------------------------
+// tw-ui RETIREMENT (Phase 2 public-API standardization).
+//
+// The tw-ui `Input`, `InputGroup`, and `Textarea` primitives previously exported
+// here are now REDUNDANT with the HeroUI wrappers `AppInput` / `AppTextarea` and
+// have been removed from the public barrel. No app imported them from
+// `@laboratoire/ui` (docs/web-react use `AppInput`/`AppTextarea`), so this is a
+// safe public-API cut. The tw-ui SOURCE files remain in
+// `src/components/tw-ui/` (not deleted — out of Phase 2 scope) and stay usable
+// internally; only the public surface is standardized on the `App*` wrappers.
+//
+// RULE for the remaining inventory fan-out: a tw-ui primitive may be exported
+// from this barrel ONLY where HeroUI has no equivalent. Where HeroUI has one,
+// the `App*` wrapper is the single public component.
+// ---------------------------------------------------------------------------
+
 // NOTE: `heroTheme` (the heroui() plugin object) is intentionally NOT re-exported
 // from the runtime barrel. It pulls in `@heroui/theme` at value level and is only
 // ever consumed at CSS-build time via the Tailwind `@plugin` directive pointing

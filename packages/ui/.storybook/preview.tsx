@@ -1,6 +1,6 @@
 import "./preview.css";
 import type { Decorator, Preview } from "@storybook/react";
-import { HeroUIProvider } from "@heroui/react";
+import { UiProvider } from "../src/components/UiProvider";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import { useEffect, type ReactNode } from "react";
 
@@ -50,10 +50,12 @@ const preview: Preview = {
   },
   loaders: [mswLoader],
   decorators: [
+    // Shared foundation provider (no router in Storybook — navigate/useHref are
+    // optional and omitted here). Matches what the apps mount in production.
     (Story) => (
-      <HeroUIProvider>
+      <UiProvider>
         <Story />
-      </HeroUIProvider>
+      </UiProvider>
     ),
     withTheme,
   ],
