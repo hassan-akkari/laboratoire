@@ -85,6 +85,89 @@ export type {
   AppTableCellProps,
 } from "./components/heroui/AppTable";
 
+// ---------------------------------------------------------------------------
+// Full wrapper inventory (Phase 2b) — same archetype conventions as above.
+// ---------------------------------------------------------------------------
+
+// Form controls
+export { AppCheckbox } from "./components/heroui/AppCheckbox";
+export type { AppCheckboxProps } from "./components/heroui/AppCheckbox";
+export { AppSwitch } from "./components/heroui/AppSwitch";
+export type { AppSwitchProps } from "./components/heroui/AppSwitch";
+// RadioGroup is a static compound (AppRadioGroup.Radio); AppRadio also named.
+export { AppRadioGroup, AppRadio } from "./components/heroui/AppRadioGroup";
+export type {
+  AppRadioGroupProps,
+  AppRadioProps,
+} from "./components/heroui/AppRadioGroup";
+
+// Display / feedback
+export { AppAlert } from "./components/heroui/AppAlert";
+export type { AppAlertProps } from "./components/heroui/AppAlert";
+// Avatar is a static compound (AppAvatar.Group); AppAvatarGroup also named.
+export { AppAvatar, AppAvatarGroup } from "./components/heroui/AppAvatar";
+export type {
+  AppAvatarProps,
+  AppAvatarGroupProps,
+} from "./components/heroui/AppAvatar";
+export { AppDivider } from "./components/heroui/AppDivider";
+export type { AppDividerProps } from "./components/heroui/AppDivider";
+export { AppSpinner } from "./components/heroui/AppSpinner";
+export type { AppSpinnerProps } from "./components/heroui/AppSpinner";
+export { AppLink } from "./components/heroui/AppLink";
+export type { AppLinkProps } from "./components/heroui/AppLink";
+
+// Overlay / disclosure
+export { AppTooltip } from "./components/heroui/AppTooltip";
+export type { AppTooltipProps } from "./components/heroui/AppTooltip";
+// Dropdown compound (AppDropdown.Trigger/.Menu/.Item/.Section).
+export {
+  AppDropdown,
+  AppDropdownTrigger,
+  AppDropdownMenu,
+  AppDropdownItem,
+  AppDropdownSection,
+} from "./components/heroui/AppDropdown";
+export type {
+  AppDropdownProps,
+  AppDropdownTriggerProps,
+  AppDropdownMenuProps,
+  AppDropdownItemProps,
+  AppDropdownSectionProps,
+} from "./components/heroui/AppDropdown";
+// Accordion compound (AppAccordion.Item).
+export { AppAccordion, AppAccordionItem } from "./components/heroui/AppAccordion";
+export type {
+  AppAccordionProps,
+  AppAccordionItemProps,
+} from "./components/heroui/AppAccordion";
+
+// Navigation
+// Navbar compound (AppNavbar.Brand/.Content/.Item/.MenuToggle/.Menu/.MenuItem).
+export {
+  AppNavbar,
+  AppNavbarBrand,
+  AppNavbarContent,
+  AppNavbarItem,
+  AppNavbarMenuToggle,
+  AppNavbarMenu,
+  AppNavbarMenuItem,
+} from "./components/heroui/AppNavbar";
+export type {
+  AppNavbarProps,
+  AppNavbarBrandProps,
+  AppNavbarContentProps,
+  AppNavbarItemProps,
+  AppNavbarMenuToggleProps,
+  AppNavbarMenuProps,
+  AppNavbarMenuItemProps,
+} from "./components/heroui/AppNavbar";
+// Tabs compound (AppTabs.Tab).
+export { AppTabs, AppTab } from "./components/heroui/AppTabs";
+export type { AppTabsProps, AppTabProps } from "./components/heroui/AppTabs";
+export { AppPagination } from "./components/heroui/AppPagination";
+export type { AppPaginationProps } from "./components/heroui/AppPagination";
+
 // Router-agnostic provider (Phase 1 foundation).
 export { UiProvider } from "./components/UiProvider";
 export type { UiProviderProps } from "./components/UiProvider";
