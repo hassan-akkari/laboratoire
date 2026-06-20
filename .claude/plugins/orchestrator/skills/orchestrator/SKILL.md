@@ -28,36 +28,47 @@ Dato un task in linguaggio naturale (IT o EN), questo skill:
 ## Flowchart
 
 ```
-INPUT: task description (IT/EN free text)
+INPUT: task + mode (default interactive)
    |
    v
-[1. CLASSIFY: stack / domain / action / complexity]
+[Step 0: RESOLVE MODE (interactive | unattended)]
    |
    v
-[Out-of-scope?] --YES--> handle inline
+[Step 1: CLASSIFY: stack/domain/action/complexity + confidence]
    |
-   NO
+   +--[confidence low?]--> interactive: ASK | unattended: ABORT+notify
+   |
    v
-[complexity == simple?]
-   |              |
-   YES            NO
-   v              v
-[DEPTH-1]    [DEPTH-2]
-3 lone        3 mini-team variants
-specialists   each spawns 2-3
-competing     sub-specialists via Agent
-   |              |
-   +------+-------+
-          v
-[agenthub:init]
-[agenthub:run (N variants)]
-[agenthub:eval (judge)]
-          |
-          v
-[adversarial-reviewer pass on winner diff]
-          |
-          v
-[agenthub:merge winner + atomic commit]
+[Out-of-scope?] --YES--> route to AGENTS.md handler / inline (do not compete)
+   |
+   v
+[Step 2: DEPTH] simple->Depth-1 | complex->Depth-2
+   |
+   +--[ambiguous?]--> interactive: ASK | unattended: Depth-1 + adversarial
+   |
+   v
+[Step 4: INIT (hub_init.py --task --base-branch main) -> assert base_branch]
+[SPAWN N variant agents in worktrees (push disabled); >=2 must materialize]
+[OBJECTIVE GATE: pnpm check per worktree (timeout); disqualify failures]
+   |
+   +--[all fail / <2 variants]--> interactive: SURFACE | unattended: ABORT+notify
+   |
+   v
+[JUDGE (LLM judge, task-type rubric)]
+   |
+   v
+[ADVERSARIAL (fail-closed gate)]
+   |
+   +--[CRITICAL / escalated MEDIUM / reviewer error]--> interactive: SURFACE | unattended: ABORT+notify
+   |
+   v
+[WRITE CEILING]
+   interactive: ask -> merge --no-ff to main
+   unattended:  cleanup worktrees, leave winner branch, STOP (commit-to-branch)
+   |
+   v
+[Step 6: write run-log]  ->  [Step 7: notify (file + push)]
+(cost backstop checked at SPAWN / post-JUDGE / post-ADVERSARIAL boundaries)
 ```
 
 ---
@@ -156,36 +167,46 @@ Ogni variante riceve un **prompt self-contained** che include:
 
 ---
 
-## Step 4 — agenthub session
+## Step 4 — agenthub session (real 2.9.0 contract)
 
-```text
-# Init
-agenthub:init  --name "<task-slug>"  --agents <N>  --base-branch main
+Drive agenthub via the EXACT commands in `references/agenthub-contract.md`. Do
+NOT use `--name` or `--criteria` (they don't exist). Do NOT invoke the
+`--state` flag with `merged` (it does not exist).
 
-# Spawn e configura ogni variante
-agenthub:spawn  --variant A  --prompt "<variant-A-prompt>"
-agenthub:spawn  --variant B  --prompt "<variant-B-prompt>"
-agenthub:spawn  --variant C  --prompt "<variant-C-prompt>"
+1. **INIT** — `hub_init.py --task "<task; no embedded quotes/newlines>" --agents 3
+   --base-branch main --format json`; capture `session_id`; ASSERT
+   `config.yaml base_branch: main` (else ABORT). hub_init failure / no session_id → ABORT.
+   - interactive: confirm the depth/team plan with the user before spawning.
+2. **SPAWN** — all variant `Agent(...)` calls in ONE message, `isolation:
+   "worktree"`, each with its self-contained prompt (templates). Disable push in
+   each worktree. If <2 variants materialize → unresolved failure.
+3. **OBJECTIVE GATE (G3)** — `pnpm check` (non-interactive, 20-min timeout) in each
+   worktree; disqualify fail/timeout. All fail → unresolved failure.
+4. **JUDGE** — LLM judge mode: read `git diff main...hub/{session}/agent-{N}/attempt-1`;
+   rank by the Step 5 rubric; tie-break fewer lines.
+5. **ADVERSARIAL (G4, fail-closed)** — `engineering-skills:adversarial-reviewer` on
+   the winner diff. CRITICAL → unresolved failure. Unattended: MEDIUM touching
+   pricing/auth/session/middleware escalates to a stop. Reviewer error/no verdict →
+   treat as CRITICAL. Non-escalated MEDIUM/LOW → `_followup.md`.
+6. **WRITE CEILING (mode-dependent):**
+   - interactive: present winner + rationale; ask "merge variant <X> to main?".
+     Yes → INTERACTIVE MERGE sequence. No → abort + clean up.
+   - unattended: UNATTENDED STOP sequence — cleanup worktrees, leave the winning
+     branch, STOP. NEVER merge/push.
 
-# Esegui in parallelo
-agenthub:run
-
-# Monitora
-agenthub:status
-agenthub:board
-
-# Valuta con LLM judge
-agenthub:eval  --criteria "<judge-criteria-for-this-task-type>"
-
-# Fondi il winner
-agenthub:merge  --winner <variant>
-```
+Check the cost backstop (`references/execution-modes.md`) at the SPAWN, post-JUDGE,
+and post-ADVERSARIAL boundaries: if `RUN_AGENT_CEILING` (12) or
+`RUN_WALLCLOCK_MINUTES` (45) is exceeded → unresolved failure (abort + notify).
 
 Template concreti per ogni task type in `templates/`.
 
 ---
 
-## Step 5 — Judge criteria (per task type)
+## Step 5 — Judge rubric (per task type — used in LLM judge mode, NOT a CLI flag)
+
+These weighted criteria are the rubric applied when reading variant diffs in
+Step 4's JUDGE step. There is no `--criteria` flag; this is prose for the judge.
+Weights sum to 100.
 
 | Task type | Criteri primari (peso) | Criteri secondari |
 |---|---|---|
@@ -194,6 +215,24 @@ Template concreti per ogni task type in `templates/`.
 | create-endpoint | validation completeness 30% / idempotency handling 25% / error response shape 20% / test coverage 15% / convention 10% | Security: no PII leak |
 | refactor | convention adherence 30% / type safety gain 25% / diff minimality 20% / test retention 15% / reversibility 10% | No scope creep |
 | audit | finding severity accuracy 35% / actionability 30% / completeness 25% / false positive rate 10% | Followup radar entries |
+
+---
+
+## Step 6 — Write the run-log record (always, every terminal state)
+
+Write exactly one file per `references/run-log-format.md`:
+`_orchestrator-runs/<YYYY-MM-DD>-<slug>.md`. Fill every field (task,
+classification + confidence, depth, variant leads, per-variant objective-gate
+results, judge winner + rationale, adversarial verdict, cost audit, terminal
+state). Never reopen a prior run's file; on date+slug collision append `-2`.
+Commit it. NEVER read a prior run-log into any agent prompt (audit-only).
+
+## Step 7 — Notify (every terminal state)
+
+1. The run-log file (Step 6) is the source of truth — already written.
+2. Best-effort `PushNotification({ message: "<one line, <200 chars, no md>",
+   status: "proactive" })`. "not sent" → do nothing. Never fails the run. On
+   `aborted-DIRTY`, the message must flag that manual cleanup is needed.
 
 ---
 
@@ -221,6 +260,31 @@ Queste regole si applicano a **tutte** le varianti. Inserirle in ogni variant pr
 7. Currency math: sempre via `roundCurrency()` in `lib/pricing.ts`.
 8. `orders.ts`/`session.ts` hanno guard `MVP-ONLY` — non rimuovere senza approvazione esplicita.
 
+### v2 execution guardrails (in addition to the 8 above)
+
+- **G1** Unattended NEVER push / merge / `gh pr merge`. Enforced at the write
+  ceiling AND structurally: push is disabled in every variant worktree at SPAWN,
+  and variant prompts forbid push/merge/checkout-main.
+- **G2** Mode fail-safe: default interactive; unattended treats any "ask human"
+  branch as ABORT (never blocks). Every long op (`pnpm check`, spawn) is timeout-bounded.
+- **G3** Objective gate (`pnpm check`) is hard, per-worktree, timeout-bounded, run
+  via direct Bash (never the 120s ranker eval-cmd). No override.
+- **G4** Adversarial pass is FAIL-CLOSED: CRITICAL (or reviewer error / no verdict)
+  stops the run; unattended escalates pricing/auth/session/middleware MEDIUMs.
+- **G5** Abort is clean AND verified: cleanup worktrees, then assert `git status`
+  + `git worktree list` are clean; residue → terminal state `aborted-DIRTY` + notify.
+- **G6** Cost backstop is structural: `RUN_AGENT_CEILING`=12, `RUN_WALLCLOCK_MINUTES`=45,
+  checked at phase boundaries (a prose skill can't live-meter subagent tokens; token
+  cost is post-hoc audit only).
+- **G7** Run log (`_orchestrator-runs/<date>-<slug>.md`) is append-only at the
+  directory level, one file per run, committed, AUDIT-ONLY (never fed to agents).
+- **G8 Secrets hygiene**: never place secrets/env values into any variant/judge/
+  adversarial prompt. Operator is the trusted task source; over-reach bounded by
+  forbidden actions + the write ceiling.
+- **G9 Project** "agents" in `.claude/AGENTS.md` are PROMPT TEMPLATES, not
+  `subagent_type`s. Route out-of-scope as `Agent(subagent_type=<host type>,
+  prompt=<mandate>)`; `claude-md-management:revise-claude-md` is a Skill.
+
 ---
 
 ## Riferimenti
@@ -231,3 +295,6 @@ Queste regole si applicano a **tutte** le varianti. Inserirle in ogni variant pr
 - `templates/agenthub-session-fix-bug.md` — template concreto per "fixa bug"
 - `templates/agenthub-session-create-endpoint.md` — template concreto per "crea endpoint"
 - `examples/walkthrough-create-dashboard.md` — narrazione end-to-end di un task reale
+- `references/execution-modes.md` — the interactive vs unattended mode axis
+- `references/agenthub-contract.md` — the real agenthub 2.9.0 interface
+- `references/run-log-format.md` — run-log location + record template
