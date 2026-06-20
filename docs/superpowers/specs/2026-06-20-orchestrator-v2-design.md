@@ -96,12 +96,14 @@ Mode changes **only** the diamonds (ask vs abort) and the final write ceiling. T
 
 ## 5. Cost backstop
 
-Quality is the optimizer, but unattended runs need a hard ceiling so a runaway competition can't burn unbounded tokens.
+Quality is the optimizer, but unattended runs need a hard ceiling so a runaway competition can't burn unbounded resources.
 
-- A **generous but finite token ceiling** governs a single orchestrator run (competition + judge + adversarial).
-- The ceiling is a **hard backstop, not a budget optimizer** — the orchestrator does not scale depth down to save cost; it scales depth by complexity (§3) and only aborts if the ceiling is breached.
-- On breach: **abort + notify**, same as any unresolved failure.
-- Default value: documented in the skill as a constant, generous enough that no legitimate Depth-2 run hits it, low enough to catch a loop. Tune from real run-log data.
+- **Realization constraint:** the orchestrator is a prose skill running in the main loop. It **cannot reliably live-meter the token consumption** of parallel detached worktree agents. So the backstop is **structural**, not a token meter.
+- **Enforceable backstop (the constants documented in the skill):** `RUN_AGENT_CEILING = 12` total dispatched agents per run (covers Depth-2's ≤9 + margin; the orchestrator counts the Agent calls it issues), and `RUN_WALLCLOCK_MINUTES = 45` per run (start time noted at Step 0, elapsed checked at phase boundaries). Plus inherent caps: ≤3 variants, Depth ≤2, single attempt (no retry loops).
+- **Checked** at the SPAWN, post-JUDGE, and post-ADVERSARIAL boundaries. On breach: **abort + notify**, same as any unresolved failure.
+- **Hard backstop, not a budget optimizer** — the orchestrator scales depth by complexity (§3), never down to save cost; it only aborts if a ceiling is breached.
+- **Token cost is recorded post-hoc** in the run-log Cost field for audit/tuning — it is not the enforcement trigger.
+- A *true* token ceiling would require moving orchestration into a Workflow (which exposes `budget.spent()`); that is a Phase-3 consideration, out of scope for v2.
 
 ---
 
@@ -169,7 +171,7 @@ The judge receives diffs **blind to which lead produced which** (anti-bias). Tok
 | Question | Default chosen | Rationale |
 | --- | --- | --- |
 | Interactive merge | **Human approves the merge.** | Matches v1; keeps the irreversible step human-owned. |
-| Cost ceiling | **Generous but finite, hard backstop** (§5). | Catches runaway loops without throttling legitimate quality. |
+| Cost ceiling | **Structural backstop: 12 agents / 45 min, checked at phase boundaries** (§5). Token cost is post-hoc audit only. | A prose skill can't live-meter subagent tokens; agent-count + wall-clock is enforceable. True token ceiling deferred to a Phase-3 Workflow. |
 | Judge | **Single judge retained for v2.** | No evidence yet of unreliability; panel deferred until run-log data shows a problem. |
 
 ---
