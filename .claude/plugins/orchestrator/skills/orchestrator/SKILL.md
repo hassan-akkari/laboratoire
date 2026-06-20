@@ -1,7 +1,7 @@
 ---
 name: orchestrator
 description: Use when the user asks to create, fix, refactor, or audit a feature, page, endpoint, component, or config in this monorepo and wants automatic team assembly with competitive variant selection via agenthub. Accepts a runtime mode (interactive | unattended); defaults to interactive. Do NOT use for single-character fixes, content-only edits, or tasks resolvable with one inline edit.
-version: "2.0.0"
+version: "2.0.1"
 author: Hassan Akkari
 created: 2026-05-08
 updated: 2026-06-20
