@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "orchestrator",
   "description": "Classifies natural-language tasks for the laboratoire monorepo and assembles competing AgentHub variants via adaptive depth (simple=3 lone specialists, complex=3 mini-teams). Includes templates for create-page, fix-bug, and create-endpoint task types, with self-contained variant prompts that snapshot repo invariants (i18n parity, atomic commits, MVP guards, no Redux in web-next).",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Hassan Akkari",
     "email": "h.akkari@sibyllanetwork.com"
