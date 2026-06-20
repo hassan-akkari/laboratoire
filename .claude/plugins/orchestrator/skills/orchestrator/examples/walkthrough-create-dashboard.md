@@ -158,7 +158,7 @@ DELIVERABLE:
 
 **Lead**: `engineering-skills:senior-frontend`
 **Sub-specialists**:
-- `product-skills:ux-researcher-designer` (UX layout e information architecture)
+- `ui-ux-pro-max` (UX layout e information architecture)
 - `engineering-skills:senior-fullstack` (data layer)
 
 **Prompt Variant B** (estratto):
