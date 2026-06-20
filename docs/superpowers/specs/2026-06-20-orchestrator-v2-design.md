@@ -9,6 +9,8 @@
 
 ## 1. Scope & intent
 
+v2 extends the existing orchestrator with an unattended mode. It preserves the v1 classification / depth-selection / competition / judge flow, but **switches the human gates, write ceiling, and failure behavior depending on mode**. Interactive still requires approval for merge; unattended may only commit to a branch, must abort on unresolved failure, and records every run in an append-only log with notification on completion or abort.
+
 v2 is an **evolution of v1, not a rewrite**. The v1 spine is kept verbatim:
 
 ```
