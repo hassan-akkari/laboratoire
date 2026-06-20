@@ -28,6 +28,14 @@
 - "terminal state" in our run-log (merged / committed-to-branch / aborted /
   aborted-DIRTY) is an ORCHESTRATOR concept, distinct from agenthub session state;
   only the word `merged` coincides.
+- **Windows (rehearsal-verified 2026-06-20):** agenthub's Python scripts emit and
+  read UTF-8 but assume a UTF-8 console. Under the default Windows cp1252 codec they
+  raise `UnicodeEncodeError`/`UnicodeDecodeError`. ALWAYS invoke them with
+  `PYTHONIOENCODING=utf-8` (e.g. `PYTHONIOENCODING=utf-8 python <agenthub-scripts>/hub_init.py …`).
+  `hub_init.py` / `session_manager.py` work fine with this set. `dry_run.py` is
+  additionally broken on Windows (reads markdown with the platform codec, and
+  mis-resolves `plugin.json`) — treat its failure as a known tool bug, not an
+  install problem. Without `PYTHONIOENCODING=utf-8`, unattended runs crash on Windows.
 
 ## INIT
 
