@@ -170,8 +170,9 @@ Ogni variante riceve un **prompt self-contained** che include:
 ## Step 4 — agenthub session (real 2.9.0 contract)
 
 Drive agenthub via the EXACT commands in `references/agenthub-contract.md`. Do
-NOT use `--name` or `--criteria` (they don't exist). Do NOT invoke the
-`--state` flag with `merged` (it does not exist).
+NOT use `--name` or `--criteria` (they don't exist). Do NOT set the session
+state to `merged` — the `init→merged` transition is rejected by agenthub, and
+the git merge does the real integration work.
 
 1. **INIT** — `hub_init.py --task "<task; no embedded quotes/newlines>" --agents 3
    --base-branch main --format json`; capture `session_id`; ASSERT
@@ -278,10 +279,10 @@ Queste regole si applicano a **tutte** le varianti. Inserirle in ogni variant pr
   cost is post-hoc audit only).
 - **G7** Run log (`_orchestrator-runs/<date>-<slug>.md`) is append-only at the
   directory level, one file per run, committed, AUDIT-ONLY (never fed to agents).
-- **G8 Secrets hygiene**: never place secrets/env values into any variant/judge/
+- **G8** Secrets hygiene: never place secrets/env values into any variant/judge/
   adversarial prompt. Operator is the trusted task source; over-reach bounded by
   forbidden actions + the write ceiling.
-- **G9 Project** "agents" in `.claude/AGENTS.md` are PROMPT TEMPLATES, not
+- **G9** Project "agents" in `.claude/AGENTS.md` are PROMPT TEMPLATES, not
   `subagent_type`s. Route out-of-scope as `Agent(subagent_type=<host type>,
   prompt=<mandate>)`; `claude-md-management:revise-claude-md` is a Skill.
 
@@ -294,7 +295,7 @@ Queste regole si applicano a **tutte** le varianti. Inserirle in ogni variant pr
 - `templates/agenthub-session-create-page.md` — template concreto per "crea pagina"
 - `templates/agenthub-session-fix-bug.md` — template concreto per "fixa bug"
 - `templates/agenthub-session-create-endpoint.md` — template concreto per "crea endpoint"
-- `examples/walkthrough-create-dashboard.md` — narrazione end-to-end di un task reale
+- `examples/walkthrough-create-dashboard.md` — narrazione end-to-end di un task reale ⚠️ (v1 command forms — superseded by `references/agenthub-contract.md`; rewrite deferred to Phase 2)
 - `references/execution-modes.md` — the interactive vs unattended mode axis
 - `references/agenthub-contract.md` — the real agenthub 2.9.0 interface
 - `references/run-log-format.md` — run-log location + record template
