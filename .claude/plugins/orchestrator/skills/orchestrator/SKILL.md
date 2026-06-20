@@ -1,9 +1,11 @@
 ---
 name: orchestrator
-description: Use when the user asks to create, fix, refactor, or audit a feature, page, endpoint, component, or config in this monorepo and wants automatic team assembly with competitive variant selection via agenthub. Do NOT use for single-character fixes, content-only edits, or tasks resolvable with one inline edit.
-version: "1.0.0"
+description: Use when the user asks to create, fix, refactor, or audit a feature, page, endpoint, component, or config in this monorepo and wants automatic team assembly with competitive variant selection via agenthub. Accepts a runtime mode (interactive | unattended); defaults to interactive. Do NOT use for single-character fixes, content-only edits, or tasks resolvable with one inline edit.
+version: "2.0.0"
 author: Hassan Akkari
 created: 2026-05-08
+updated: 2026-06-20
+modes: [interactive, unattended]
 requires:
   agenthub: [init, spawn, eval, merge, run, status, board]
   post-competition: engineering-skills:adversarial-reviewer
@@ -60,6 +62,25 @@ competing     sub-specialists via Agent
 
 ---
 
+## Step 0 — Resolve execution mode (do this FIRST)
+
+Inspect the args for a mode keyword (see `references/execution-modes.md`):
+
+- `mode=unattended`, `--unattended`, "unattended", "headless", "non-interactive" → **MODE = unattended**
+- `mode=interactive`, `--interactive`, "interactive", "ask me" → **MODE = interactive**
+- no keyword → **MODE = interactive** (fail-safe default)
+
+Strip the mode keyword from the args; the remainder is the task description.
+
+MODE governs three switches for the rest of this skill: human gates (interactive
+asks/confirms; unattended treats any "ask the human" branch as ABORT), write
+ceiling (interactive merges after approval; unattended commits-to-branch and
+STOPS), and failure (interactive surfaces & waits; unattended aborts clean +
+notifies). Note the run start time for the wall-clock cost backstop. Whatever the
+outcome, Step 6 writes a run-log record and Step 7 notifies.
+
+---
+
 ## Step 1 — Classification
 
 Read the task and fill this mental YAML:
@@ -70,6 +91,11 @@ domain:   # frontend | backend | fullstack | devops
 action:   # create | refactor | fix | audit
 complexity: # simple | complex
 ```
+
+**Confidence.** Also emit a confidence level for the classification: `high` /
+`med` / `low`. If you cannot confidently fix stack/domain/action/complexity →
+confidence = low → **unresolved failure**: interactive asks the user; unattended
+ABORTS + notifies (Steps 6–7). Record the confidence in the run-log.
 
 ### Stack resolution rules
 
@@ -105,7 +131,12 @@ complexity: # simple | complex
 | **1 (lone specialists)** | complexity = simple | 3 varianti, ognuna condotta da un singolo specialist con prospettiva diversa |
 | **2 (mini-teams)** | complexity = complex | 3 varianti, ognuna con un lead + 2-3 sub-specialist chiamati via `Agent` tool internamente |
 
-**Regola dei costi**: Depth-2 moltiplica il token cost per ~3-4x rispetto a Depth-1. Non attivare Depth-2 se il task è ambiguamente simple/complex — chiedi chiarimento o declassa a Depth-1 con adversarial pass.
+**Regola dei costi**: Depth-2 ≈ 3-4× il costo di Depth-1. Se il task è
+ambiguamente simple/complex:
+- **interactive** → chiedi chiarimento all'utente.
+- **unattended** → NON abortire: declassa a **Depth-1 + adversarial pass**
+  (cost-safe default). Questo è l'unico trigger di failure che in unattended NON
+  porta ad abort.
 
 ---
 
