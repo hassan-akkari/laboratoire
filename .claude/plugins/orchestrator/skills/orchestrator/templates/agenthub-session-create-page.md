@@ -9,16 +9,16 @@
 > `{{PAGE_ROUTE}}` — es. `/dashboard`, `/about`, `/stats`
 > `{{ACCEPTANCE_CRITERIA}}` — lista puntata dei criteri di accettazione
 > `{{COMPLEXITY}}` — `simple` | `complex` (determina --agents e depth interna)
+> `{{MODE}}` — interactive | unattended (default interactive)
 
 ---
 
 ## Init session
 
 ```bash
-agenthub:init \
-  --name "create-page-{{PAGE_ROUTE | slugify}}" \
-  --agents 3 \
-  --base-branch main
+python <agenthub-scripts>/hub_init.py --task "{{TASK}}" --agents 3 --base-branch main --format json
+# Capture session_id; assert config base_branch: main (else ABORT).
+# Task text: avoid embedded double-quotes and newlines. Interior colons are SAFE — do NOT strip them.
 ```
 
 ---
@@ -79,6 +79,8 @@ For apps/docs:
 - Do NOT use raw float math for currency
 - Do NOT remove MVP-ONLY guard comments in orders.ts / session.ts
 - Do NOT hand-edit pnpm-lock.yaml. If you change package.json deps/peerDeps/devDeps, run `pnpm install --no-frozen-lockfile` and include the regenerated lock in the SAME commit (`.npmrc` enforces frozen-lockfile in CI — splitting them breaks the build)
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 1. All files created/modified with complete content
@@ -143,6 +145,8 @@ Same as Variant A (see above).
 Same as Variant A (see above).
 Additionally: do NOT introduce new runtime npm dependencies for charting/data-viz
 without flagging it explicitly to the user.
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 Same as Variant A.
@@ -186,6 +190,8 @@ TypeScript strict: same constraints as Variant A/B.
 
 == FORBIDDEN ACTIONS ==
 Same as Variant A.
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 1. Test file FIRST (even if implementation comes after in the same response)
@@ -204,14 +210,9 @@ zod validation, pricing calculations, data transformation, server action logic.
 ## Eval config
 
 ```bash
-agenthub:eval \
-  --criteria "
-    correctness: 30       # does the output satisfy acceptance criteria exactly?
-    ts_strictness: 25     # no TS errors, no any, unused vars, strict compliance
-    ux_accessibility: 20  # ARIA, keyboard nav, loading states, error states
-    test_coverage: 15     # business logic covered, edge cases present
-    convention: 10        # naming, folder structure, import order, atomic commit
-  "
+# JUDGE: LLM judge mode (no --criteria flag). Read each surviving variant's
+#   git diff main...hub/{session_id}/agent-{N}/attempt-1
+# rank by this task type's rubric (references/task-taxonomy.md); tie-break fewer lines.
 ```
 
 ---
@@ -235,6 +236,14 @@ usage, MVP-ONLY guards). Output a severity-ranked list of issues."
 ## Merge
 
 ```bash
-agenthub:merge --winner <A|B|C>
-# Then: one atomic commit per the project memory rule
+# WRITE CEILING — depends on {{MODE}}:
+# interactive: ask "merge variant <X> to main?" then run INTERACTIVE MERGE in
+#   references/agenthub-contract.md (git merge --no-ff + archive/delete losers +
+#   session_manager.py --cleanup). Do NOT set state=merged via any flag. Then atomic commit
+#   per this task type's rule below.
+# unattended: UNATTENDED STOP — session_manager.py --cleanup {session_id}; leave
+#   hub/{session_id}/agent-<winner>/attempt-1 intact; STOP. Never merge/push.
+# Both: write _orchestrator-runs/<date>-<slug>.md (Step 6) and notify (Step 7).
+
+# Commit rule (interactive): one atomic commit per the project memory rule.
 ```

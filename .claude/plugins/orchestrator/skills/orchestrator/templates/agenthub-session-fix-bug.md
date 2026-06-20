@@ -8,6 +8,7 @@
 > `{{EXPECTED}}` — cosa dovrebbe succedere
 > `{{AFFECTED_FILE_OR_ROUTE}}` — file o route coinvolti (se noti)
 > `{{TARGET_APP}}` — app target
+> `{{MODE}}` — interactive | unattended (default interactive)
 
 ---
 
@@ -25,10 +26,9 @@ Se il bug è chiaramente un singolo-file fix: risolvi inline senza agenthub.
 ## Init session
 
 ```bash
-agenthub:init \
-  --name "fix-{{AFFECTED_FILE_OR_ROUTE | slugify}}" \
-  --agents 3 \
-  --base-branch main
+python <agenthub-scripts>/hub_init.py --task "{{TASK}}" --agents 3 --base-branch main --format json
+# Capture session_id; assert config base_branch: main (else ABORT).
+# Task text: avoid embedded double-quotes and newlines. Interior colons are SAFE — do NOT strip them.
 ```
 
 ---
@@ -77,6 +77,8 @@ Tests: Vitest 3.2.4, pattern <feature>.test.ts co-located.
 - Do not hand-edit pnpm-lock.yaml. If a fix requires a deps/peerDeps/devDeps change, run `pnpm install --no-frozen-lockfile` and include the regenerated lock in the SAME commit (.npmrc enforces frozen-lockfile in CI)
 - Do not change session model without explicit request
 - Do not use raw float math for currency
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 - Root cause statement (1-2 sentences)
@@ -125,6 +127,8 @@ Relevant domain code:
 
 == FORBIDDEN ==
 Same as Variant A.
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 - Failing test (written first, clearly marked)
@@ -173,6 +177,8 @@ Same stack context as Variant A/B (see above).
 == CONSTRAINT ==
 The followup entries are OBSERVATIONS, not scope creep. They go to
 _followup.md — they do NOT expand the current PR.
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 ```
 
 ---
@@ -180,13 +186,9 @@ _followup.md — they do NOT expand the current PR.
 ## Eval config
 
 ```bash
-agenthub:eval \
-  --criteria "
-    root_cause_addressed: 35   # does the fix actually eliminate the bug?
-    no_regression: 30          # no other behavior changed
-    minimal_diff: 20           # fewest lines changed to achieve the fix
-    test_added: 15             # test that proves the fix and would catch regress
-  "
+# JUDGE: LLM judge mode (no --criteria flag). Read each surviving variant's
+#   git diff main...hub/{session_id}/agent-{N}/attempt-1
+# rank by this task type's rubric (references/task-taxonomy.md); tie-break fewer lines.
 ```
 
 ---
@@ -209,7 +211,15 @@ Check: (1) does the fix address root cause or just symptoms?
 ## Merge
 
 ```bash
-agenthub:merge --winner <A|B|C>
-# Atomic commit. Se Variant C ha prodotto followup entries: secondo commit separato
-# SOLO per _followup.md. Due commit, non uno.
+# WRITE CEILING — depends on {{MODE}}:
+# interactive: ask "merge variant <X> to main?" then run INTERACTIVE MERGE in
+#   references/agenthub-contract.md (git merge --no-ff + archive/delete losers +
+#   session_manager.py --cleanup). Do NOT set state=merged via any flag. Then atomic commit
+#   per this task type's rule below.
+# unattended: UNATTENDED STOP — session_manager.py --cleanup {session_id}; leave
+#   hub/{session_id}/agent-<winner>/attempt-1 intact; STOP. Never merge/push.
+# Both: write _orchestrator-runs/<date>-<slug>.md (Step 6) and notify (Step 7).
+
+# Commit rule (interactive): atomic commit. Se Variant C ha prodotto followup entries:
+# secondo commit separato SOLO per _followup.md. Due commit, non uno.
 ```
