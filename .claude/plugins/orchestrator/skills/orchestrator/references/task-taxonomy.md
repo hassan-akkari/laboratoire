@@ -49,7 +49,7 @@ Caratteristiche:
 
 **Team consigliato (Depth-2, 3 mini-team)**:
 - Variant A — lead: `engineering-skills:senior-architect` + sub: `engineering-skills:senior-frontend` + `engineering-skills:senior-qa`
-- Variant B — lead: `engineering-skills:senior-frontend` + sub: `product-skills:ux-researcher-designer` + `engineering-skills:senior-fullstack`
+- Variant B — lead: `engineering-skills:senior-frontend` + sub: `ui-ux-pro-max` + `engineering-skills:senior-fullstack`
 - Variant C — lead: `engineering-skills:tdd-guide` + sub: `engineering-skills:senior-frontend` + `engineering-advanced-skills:api-design-reviewer`
 
 **Judge focus**: data fetching strategy correctness, type safety of aggregated data, test coverage, UX/loading states.
@@ -152,7 +152,7 @@ Caratteristiche:
 
 **Team consigliato (Depth-1)**:
 - Variant A — `engineering-skills:senior-frontend` (API design + a11y)
-- Variant B — `product-skills:ui-design-system` (design system consistency, token usage)
+- Variant B — `ui-ux-pro-max` (design system consistency, token usage)
 - Variant C — `apple-hig-expert:apple-hig-expert` (se targeting Apple-like polish — altrimenti sostituire con `engineering-skills:senior-qa`)
 
 **Agent specializzato pre-esistente**: `ui-component-author` da AGENTS.md — usare quello direttamente se il task è esclusivamente un componente UI, senza competition necessaria.
@@ -202,7 +202,7 @@ Caratteristiche:
 - Test sia in `packages/ui` che in `apps/web-next`
 
 **Team consigliato (Depth-2)**:
-- Variant A — lead: `engineering-skills:senior-architect` + sub: `engineering-skills:senior-frontend` + `product-skills:ui-design-system`
+- Variant A — lead: `engineering-skills:senior-architect` + sub: `engineering-skills:senior-frontend` + `ui-ux-pro-max`
 - Variant B — lead: `engineering-skills:senior-fullstack` + sub: `engineering-skills:senior-frontend` + `engineering-skills:senior-qa`
 - Variant C — lead: `engineering-skills:tdd-guide` + sub: `engineering-skills:senior-frontend` + `engineering-advanced-skills:api-design-reviewer`
 
