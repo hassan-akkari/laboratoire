@@ -84,7 +84,7 @@ Caratteristiche:
 **Team consigliato (Depth-1)**:
 - Variant A — `engineering-skills:senior-backend` (minimal-diff-first: identifica root cause, fix mirato)
 - Variant B — `engineering-skills:tdd-guide` (TDD-led: scrivi test failing, poi fix)
-- Variant C — `engineering-skills:adversarial-reviewer` (refactor-opportunity: fix + hardening)
+- Variant C — `engineering-skills:senior-fullstack` (root-cause investigation + fix). NOTA: `adversarial-reviewer` NON è un lead qui — gira come pass post-competition sul winner.
 
 **Judge focus**: root cause addressed, nessuna regressione, test aggiunto, diff minimo.
 
@@ -153,7 +153,7 @@ Caratteristiche:
 **Team consigliato (Depth-1)**:
 - Variant A — `engineering-skills:senior-frontend` (API design + a11y)
 - Variant B — `ui-ux-pro-max` (design system consistency, token usage)
-- Variant C — `apple-hig-expert:apple-hig-expert` (se targeting Apple-like polish — altrimenti sostituire con `engineering-skills:senior-qa`)
+- Variant C — `engineering-skills:senior-qa` (a11y + edge-case coverage). `apple-hig-expert:apple-hig-expert` solo se il componente target esplicitamente HIG / Apple-like polish.
 
 **Agent specializzato pre-esistente**: `ui-component-author` da AGENTS.md — usare quello direttamente se il task è esclusivamente un componente UI, senza competition necessaria.
 
