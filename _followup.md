@@ -117,3 +117,29 @@ installed v3 3.2.1 type surface). The merge into `feat` is safe. Open items:
   a future untyped consumer of a dropped v2 prop loses it silently). `onClick` in the
   button branch passes a react-aria `PressEvent` double-cast to `MouseEvent` — fine for
   current arg-less docs handlers, but document that `onClick` receives a PressEvent.
+
+## Slice 2 — F1 (v3 styles in docs) + F2 (pin 3.2.1) + m3-ripple (session 20260621-181235, winner C, merged)
+
+Shipped: apps/docs now imports a SURGICAL subset of `@heroui-v3/styles` layers (themes/default
++ utilities + variants + components/button.css + card.css; v3 `base` layer deliberately SKIPPED to
+avoid a global `*{border-color}` reset; warmThemeV3.css last) — 411kB CSS. `@heroui-v3/styles` added
+to apps/docs/package.json. v3 specifiers pinned `@latest`→`@3.2.1`. m3-ripple@1.1.3 added to
+packages/ui; ripple on BOTH AppButton render paths (button + anchor), inert when disabled/pending,
+opt-out via new `disableRipple` prop (default false = ON), SSR-safe + aria-hidden. 5 new tests.
+
+Open follow-ups from the slice-2 adversarial review (none blocked merge):
+- **MEDIUM — add a CSS sideEffects carve-out (do before Vite 8).** `packages/ui/package.json` declares
+  `"sideEffects": false`, but AppButton now relies on the bare side-effect import `import "m3-ripple/ripple.css"`
+  surviving bundling. Works under Vite 7/Rollup today (docs build ships the CSS), but is fragile against the
+  in-flight Vite 8 bump. Fix: `"sideEffects": ["**/*.css"]` in packages/ui/package.json.
+- **DEPLOY FLAG (pre-existing, now load-bearing).** Vercel `buildCommand: pnpm -F docs build` runs vite build
+  directly, bypassing turbo `^build`; `packages/ui/dist` is gitignored. Now that dist carries a RUNTIME dep
+  (m3-ripple), a clean Vercel checkout could hit the `apps/docs/vite.config.ts` "dist is missing" guard. Confirm
+  Vercel rebuilds packages/ui (monorepo turbo detection or an install hook) before feat→main deploys. Combine
+  with slice-1 F1 (v3 styles are now wired into docs, so that pre-deploy gate is CLEARED for docs).
+- **LOW (cosmetic).** Tighten the disabled-ripple rationale comment in AppButton.tsx (inertness comes from
+  m3-ripple skipping listeners when `disabled`, not from an aria-disabled CSS rule). Document the v2/v3 CSS
+  layering order in apps/docs/src/index.css.
+- Surgical-layer maintenance: each future v3 wrapper that needs new component CSS must add its layer import to
+  apps/docs/src/index.css (overlay wrappers — Modal/Tooltip — also need `tw-animate-css` wired, which is why the
+  full `@heroui-v3/styles` barrel was rejected for the surgical subset).
