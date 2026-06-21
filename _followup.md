@@ -87,3 +87,33 @@ This is the reusable seam this slice paid for. To migrate wrapper N:
 - **`onlyBuiltDependencies`.** Install reported NO ignored build scripts for the
   v3 packages (they are React-Aria/JS, no native postinstall). No change needed
   to the `onlyBuiltDependencies` allowlist.
+
+## Adversarial review verdict — orchestrator session 20260621-160400 (MEDIUM/LOW-only; no CRITICAL)
+
+All 8 repo invariants + every spike-contract bullet PASSED (verified by fresh,
+non-cached UI typecheck/lint/test, docs typecheck, frozen lockfile, and the
+installed v3 3.2.1 type surface). The merge into `feat` is safe. Open items:
+
+- **F1 — MEDIUM — PRE-DEPLOY GATE (do NOT deploy docs off this branch until fixed).**
+  The migrated v3 AppButton/AppCard emit v3 class names (`button`, `button--primary`,
+  `card`, …) and read v3 CSS vars, but `@heroui-v3/styles` + `warmThemeV3.css` are
+  imported ONLY in Storybook `preview.css` — NOT in `apps/docs/src/index.css`. So a
+  docs deploy off this branch would render ~60 live buttons UNSTYLED. `pnpm check`
+  cannot catch this (no test renders against app CSS). Fix before docs reaches a
+  deploy: add `@import "@heroui-v3/styles";` (after tailwind) + the warm-v3 import to
+  `apps/docs/src/index.css`. (Same applies to web-react when it renders v3.) This is
+  the same item as the "wiring v3 styles into the apps" punt above — now flagged as a
+  hard pre-deploy blocker, not just a nicety.
+- **F2 — MEDIUM — pin the v3 specifier off `@latest`.** `package.json` uses
+  `npm:@heroui/react@latest` / `@heroui/styles@latest`. v3 still ships frequent
+  releases; the lockfile pins 3.2.1 today (and `.npmrc` frozen-lockfile holds CI), but
+  the SPECIFIER should be pinned: `npm:@heroui/react@3.2.1` / `@heroui/styles@3.2.1`.
+- **F3 — LOW — harden the `as="a"` anchor branch.** It drops `isLoading`/`type`/
+  `onPress` (button-only) and sets `aria-disabled` without removing `href` — a disabled
+  anchor stays navigable. No docs `as="a"` site currently passes those props, so latent.
+  If `as="a"` && `isDisabled`: drop `href` + `tabIndex={-1}`.
+- **F4/F5 — LOW (note).** Public prop types narrowed from broad v2 `ButtonProps`/
+  `CardProps` to hand-written allow-list interfaces (intended anti-corruption design;
+  a future untyped consumer of a dropped v2 prop loses it silently). `onClick` in the
+  button branch passes a react-aria `PressEvent` double-cast to `MouseEvent` — fine for
+  current arg-less docs handlers, but document that `onClick` receives a PressEvent.
