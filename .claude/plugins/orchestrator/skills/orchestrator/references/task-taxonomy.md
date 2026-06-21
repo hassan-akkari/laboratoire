@@ -49,7 +49,7 @@ Caratteristiche:
 
 **Team consigliato (Depth-2, 3 mini-team)**:
 - Variant A — lead: `engineering-skills:senior-architect` + sub: `engineering-skills:senior-frontend` + `engineering-skills:senior-qa`
-- Variant B — lead: `engineering-skills:senior-frontend` + sub: `product-skills:ux-researcher-designer` + `engineering-skills:senior-fullstack`
+- Variant B — lead: `engineering-skills:senior-frontend` + sub: `ui-ux-pro-max` + `engineering-skills:senior-fullstack`
 - Variant C — lead: `engineering-skills:tdd-guide` + sub: `engineering-skills:senior-frontend` + `engineering-advanced-skills:api-design-reviewer`
 
 **Judge focus**: data fetching strategy correctness, type safety of aggregated data, test coverage, UX/loading states.
@@ -84,7 +84,7 @@ Caratteristiche:
 **Team consigliato (Depth-1)**:
 - Variant A — `engineering-skills:senior-backend` (minimal-diff-first: identifica root cause, fix mirato)
 - Variant B — `engineering-skills:tdd-guide` (TDD-led: scrivi test failing, poi fix)
-- Variant C — `engineering-skills:adversarial-reviewer` (refactor-opportunity: fix + hardening)
+- Variant C — `engineering-skills:senior-fullstack` (root-cause investigation + fix). NOTA: `adversarial-reviewer` NON è un lead qui — gira come pass post-competition sul winner.
 
 **Judge focus**: root cause addressed, nessuna regressione, test aggiunto, diff minimo.
 
@@ -152,8 +152,8 @@ Caratteristiche:
 
 **Team consigliato (Depth-1)**:
 - Variant A — `engineering-skills:senior-frontend` (API design + a11y)
-- Variant B — `product-skills:ui-design-system` (design system consistency, token usage)
-- Variant C — `apple-hig-expert:apple-hig-expert` (se targeting Apple-like polish — altrimenti sostituire con `engineering-skills:senior-qa`)
+- Variant B — `ui-ux-pro-max` (design system consistency, token usage)
+- Variant C — `engineering-skills:senior-qa` (a11y + edge-case coverage). `apple-hig-expert:apple-hig-expert` solo se il componente target esplicitamente HIG / Apple-like polish.
 
 **Agent specializzato pre-esistente**: `ui-component-author` da AGENTS.md — usare quello direttamente se il task è esclusivamente un componente UI, senza competition necessaria.
 
@@ -202,7 +202,7 @@ Caratteristiche:
 - Test sia in `packages/ui` che in `apps/web-next`
 
 **Team consigliato (Depth-2)**:
-- Variant A — lead: `engineering-skills:senior-architect` + sub: `engineering-skills:senior-frontend` + `product-skills:ui-design-system`
+- Variant A — lead: `engineering-skills:senior-architect` + sub: `engineering-skills:senior-frontend` + `ui-ux-pro-max`
 - Variant B — lead: `engineering-skills:senior-fullstack` + sub: `engineering-skills:senior-frontend` + `engineering-skills:senior-qa`
 - Variant C — lead: `engineering-skills:tdd-guide` + sub: `engineering-skills:senior-frontend` + `engineering-advanced-skills:api-design-reviewer`
 

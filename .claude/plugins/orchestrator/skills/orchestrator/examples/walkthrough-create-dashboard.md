@@ -1,5 +1,7 @@
 # Walkthrough: "crea pagina /dashboard con grafici per i tuoi 3 apps"
 
+> ⚠️ **v1 command forms — superseded.** This walkthrough still shows the pre-v2 agenthub vocabulary (`--name`, `--criteria`, numeric judge scores, `agenthub:merge --winner`). For the real, current contract see `references/agenthub-contract.md` and `references/execution-modes.md`. A v2 rewrite of this example is deferred to Phase 2.
+
 > Narrazione end-to-end di come l'orchestrator gestisce questo task reale.
 > Mostra ogni step: classificazione, decisioni, config agenthub, winner, adversarial pass.
 
@@ -156,7 +158,7 @@ DELIVERABLE:
 
 **Lead**: `engineering-skills:senior-frontend`
 **Sub-specialists**:
-- `product-skills:ux-researcher-designer` (UX layout e information architecture)
+- `ui-ux-pro-max` (UX layout e information architecture)
 - `engineering-skills:senior-fullstack` (data layer)
 
 **Prompt Variant B** (estratto):
