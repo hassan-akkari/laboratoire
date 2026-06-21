@@ -12,6 +12,7 @@
 > `{{INPUT_SHAPE}}` — descrizione dei parametri/body attesi
 > `{{OUTPUT_SHAPE}}` — descrizione del response JSON atteso
 > `{{ACCEPTANCE_CRITERIA}}` — lista criteri
+> `{{MODE}}` — interactive | unattended (default interactive)
 
 ---
 
@@ -34,10 +35,9 @@
 ## Init session
 
 ```bash
-agenthub:init \
-  --name "create-endpoint-{{ENDPOINT_PATH | slugify}}" \
-  --agents 3 \
-  --base-branch main
+python <agenthub-scripts>/hub_init.py --task "{{TASK}}" --agents 3 --base-branch main --format json
+# Capture session_id; assert config base_branch: main (else ABORT).
+# Task text: avoid embedded double-quotes and newlines. Interior colons are SAFE — do NOT strip them.
 ```
 
 ---
@@ -92,6 +92,8 @@ TypeScript: strict, no any. Route handler signature:
 - No new session model (single cookie pair in lib/session.ts is MVP-ONLY)
 - Do not remove idempotency handling if applicable
 - Do not store PII in cookies
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 1. Zod schema (in bookingSchemas.ts or new file)
@@ -148,6 +150,8 @@ NextResponse from "next/server".
 
 == FORBIDDEN ==
 Same as Variant A.
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 Same as Variant A, with added: explicit contract documentation as a comment
@@ -199,6 +203,8 @@ Existing test helpers: none — create ad-hoc helpers in the test file.
 
 == FORBIDDEN ==
 Same as Variant A.
+- Do NOT run git push, git merge, git checkout main, or gh pr merge. You have NO authority to integrate. Commit ONLY to your own hub/... branch.
+- Do NOT write outside your worktree (no repo-root or absolute-path writes).
 
 == DELIVERABLE ==
 1. Test file (written and clearly labelled as written first)
@@ -212,14 +218,9 @@ Same as Variant A.
 ## Eval config
 
 ```bash
-agenthub:eval \
-  --criteria "
-    validation_completeness: 30   # all inputs validated, all zod error paths handled
-    idempotency_handling: 25      # correct if applicable, explicitly N/A if not
-    error_response_shape: 20      # consistent with existing /api/quote pattern
-    test_coverage: 15             # business logic + edge cases covered
-    convention: 10                # naming, file location, import style
-  "
+# JUDGE: LLM judge mode (no --criteria flag). Read each surviving variant's
+#   git diff main...hub/{session_id}/agent-{N}/attempt-1
+# rank by this task type's rubric (references/task-taxonomy.md); tie-break fewer lines.
 ```
 
 ---
@@ -240,6 +241,14 @@ Check: (1) any input that bypasses zod validation and reaches business logic raw
 ## Merge
 
 ```bash
-agenthub:merge --winner <A|B|C>
-# One atomic commit. Route + schema + test in one commit.
+# WRITE CEILING — depends on {{MODE}}:
+# interactive: ask "merge variant <X> to main?" then run INTERACTIVE MERGE in
+#   references/agenthub-contract.md (git merge --no-ff + archive/delete losers +
+#   session_manager.py --cleanup). Do NOT set state=merged via any flag. Then atomic commit
+#   per this task type's rule below.
+# unattended: UNATTENDED STOP — session_manager.py --cleanup {session_id}; leave
+#   hub/{session_id}/agent-<winner>/attempt-1 intact; STOP. Never merge/push.
+# Both: write _orchestrator-runs/<date>-<slug>.md (Step 6) and notify (Step 7).
+
+# Commit rule (interactive): one atomic commit. Route + schema + test in one commit.
 ```
