@@ -4,7 +4,7 @@ description: Use when the user asks to create, fix, refactor, or audit a feature
 version: "2.1.0"
 author: Hassan Akkari
 created: 2026-05-08
-updated: 2026-06-20
+updated: 2026-06-21
 modes: [interactive, unattended]
 requires:
   agenthub: [init, spawn, eval, merge, run, status, board]
@@ -86,6 +86,7 @@ Inspect the args for a mode keyword (see `references/execution-modes.md`):
 - no keyword → **MODE = interactive** (fail-safe default)
 
 Strip the mode keyword from the args; the remainder is the task description.
+Leave any `--challenge` flag in place — it is a recognized passthrough consumed at Step 1.5 (do not strip it).
 
 MODE governs three switches for the rest of this skill: human gates (interactive
 asks/confirms; unattended treats any "ask the human" branch as ABORT), write
@@ -154,7 +155,7 @@ after the out-of-scope check, before Step 2 depth.
 - the task is strategic in nature (planning / architecture / tradeoff-evaluation / "should we…?").
 
 Otherwise (simple AND high-confidence AND mechanical) → SKIP; record
-`entp_preflight: skipped (gate)` in the run-log.
+`entp_preflight: skipped (gate: simple+high-confidence)` in the run-log.
 
 **Pre-flight mode (the named scoped invocation):** invoke the `entp` skill — or
 dispatch `Agent(subagent_type=<host type>, prompt=<the entp pre-flight contract>)` —
