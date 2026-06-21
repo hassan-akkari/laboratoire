@@ -1,7 +1,7 @@
 ---
 name: orchestrator
 description: Use when the user asks to create, fix, refactor, or audit a feature, page, endpoint, component, or config in this monorepo and wants automatic team assembly with competitive variant selection via agenthub. Accepts a runtime mode (interactive | unattended); defaults to interactive. Do NOT use for single-character fixes, content-only edits, or tasks resolvable with one inline edit.
-version: "2.0.1"
+version: "2.1.0"
 author: Hassan Akkari
 created: 2026-05-08
 updated: 2026-06-20
@@ -41,6 +41,10 @@ INPUT: task + mode (default interactive)
    v
 [Out-of-scope?] --YES--> route to AGENTS.md handler / inline (do not compete)
    |
+   v
+[Step 1.5: ENTP PRE-FLIGHT? gate: complex | conf!=high | --challenge | strategy task]
+   |   interactive: surface reframings -> human picks proceed|reframe|abort
+   |   unattended:  advisory only -> entp_preflight run-log; NEVER blocks; error->log+proceed
    v
 [Step 2: DEPTH] simple->Depth-1 | complex->Depth-2
    |
@@ -132,6 +136,49 @@ ABORTS + notifies (Steps 6–7). Record the confidence in the run-log.
 - Tocca 2+ workspace (e.g., `packages/ui` + `apps/web-next`)
 - Richiede decisioni architetturali (state shape, data fetching strategy)
 - Business logic con promo/pricing/auth ramificazioni
+
+---
+
+## Step 1.5 — ENTP pre-flight critic (gated; advisory)
+
+Optionally invoke the global `entp` skill in **pre-flight mode** to stress-test the
+task's FRAMING / RISK / SCOPE before spending competition budget. ENTP is advisory:
+it can recommend `don't-build`, but it NEVER blocks, aborts, merges, or downgrades a
+gate (preserves G2). Runs after Step 1 (so it has real complexity + confidence) and
+after the out-of-scope check, before Step 2 depth.
+
+**Gate — run ENTP only when it can find leverage. Run if ANY:**
+- `complexity = complex`, OR
+- `confidence != high`, OR
+- the (mode-stripped) args contain `--challenge`, OR
+- the task is strategic in nature (planning / architecture / tradeoff-evaluation / "should we…?").
+
+Otherwise (simple AND high-confidence AND mechanical) → SKIP; record
+`entp_preflight: skipped (gate)` in the run-log.
+
+**Pre-flight mode (the named scoped invocation):** invoke the `entp` skill — or
+dispatch `Agent(subagent_type=<host type>, prompt=<the entp pre-flight contract>)` —
+handing it ONLY:
+- the verbatim task text,
+- minimal repo context (the smallest CLAUDE.md constraints relevant to framing),
+- the Step 1 classification + confidence.
+
+Instruct it explicitly: **pre-flight mode — no code, no diffs, no run logs; advisory
+only; run `analyze + challenge + decide` on FRAMING / SCOPE only.** Withholding code
+is what keeps the 3-role boundary clean (ENTP ≠ adversarial-reviewer ≠ judge). Take
+ENTP's CORE structured set (reframings · risky assumptions · scope verdict · optional
+better target).
+
+**Mode contract (preserves G2 — ENTP NEVER blocks):**
+- **interactive** → surface ENTP's reframings + verdict; the human picks
+  `proceed | reframe | abort`. `reframe` = restate the task and re-run from Step 1;
+  `abort` = clean stop (Steps 6–7).
+- **unattended** → **advisory only**: write the verdict to the run-log
+  `entp_preflight` field and PROCEED regardless. ENTP adds no "ask-human" branch and
+  gains no abort power. If ENTP errors → record `entp_preflight: skipped (error)` and
+  PROCEED — the OPPOSITE of the adversarial pass's fail-closed behavior (by design;
+  pre-commitment advice is not a safety gate). ENTP is NOT an unresolved-failure
+  trigger (see `references/execution-modes.md`).
 
 ---
 
