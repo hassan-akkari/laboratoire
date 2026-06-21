@@ -52,3 +52,27 @@ export const Loading: Story = {
     children: "Submitting…",
   },
 };
+
+/**
+ * v3 Button has no built-in ripple; AppButton nests the Material-3 `m3-ripple`
+ * recipe. The ripple is ON by default — press this story to see the Material
+ * press/hover feedback expand from the click point. Both the button and the
+ * `as="a"` anchor paths carry it (see `RippleDisabled` / `AsAnchor`).
+ */
+export const Ripple: Story = {
+  args: {
+    children: "Press for ripple",
+  },
+};
+
+/**
+ * Opt OUT of the ripple via `disableRipple` (no `<Ripple>` node is rendered).
+ * Use on quiet text/link-style buttons where the press wave would be noise.
+ */
+export const RippleDisabled: Story = {
+  args: {
+    disableRipple: true,
+    variant: "flat",
+    children: "No ripple",
+  },
+};
