@@ -20,6 +20,7 @@
 | `frontend-design:frontend-design` | Pagine e componenti con forte identità visiva, non-AI-aesthetic | Task backend o infra; wrapper/primitive utilitari (usa senior-frontend + ui-ux-pro-max) | `engineering-skills:epic-design`, `ui-ux-pro-max` | "pagina distintiva / non generica / design forte" |
 | `engineering-skills:epic-design` | Cinematic 2.5D, scrollytelling, parallax, hero animations con framer-motion — **opt-in, solo intento visivo forte** | Componenti utilitari o sezioni ordinarie senza scrollytelling (collassa su frontend-design) | `frontend-design:frontend-design`, `engineering-skills:senior-frontend` | "effetto cinematico / scrollytelling / hero animation" |
 | `apple-hig-expert:apple-hig-expert` | Liquid Glass polish, Apple HIG compliance, visionOS/iOS targeting — **opt-in, solo se target Apple** | Qualsiasi task non orientato a piattaforme Apple (default: sostituire con senior-qa) | `ui-ux-pro-max` | "HIG / Liquid Glass / Apple polish" |
+| `entp` *(global skill)* | **Pre-flight strategic critic (orchestrator Step 1.5)**: stress-test task FRAMING / risky assumptions / SCOPE verdict before competition spend; standalone idea/plan/spec/decision challenge | Dentro una competition come variant lead (non costruisce nulla); "come si costruisce" (→ `senior-architect`); "quale tech/dipendenza" (→ `tech-stack-evaluator`); task semplici, high-confidence, meccanici | *(pre-flight only — non si accoppia a nessun lead in-competition)* | "stress-test / sfida questo piano / è il framing giusto? / dovremmo costruirlo?" |
 
 > **Rimossi dal roster (2026-06-20, roster assessment):** `rag-architect`, `agent-designer`, `senior-ml-engineer`, `senior-data-engineer`, `senior-data-scientist`, `senior-prompt-engineer` — zero superficie in un monorepo frontend (3 app + UI-lib) + booking MVP. Reintrodurre **solo** se emerge un task reale AI/RAG/ML/data/prompt.
 
@@ -45,6 +46,7 @@
 ## Chi non usare come variant lead
 
 - `adversarial-reviewer` — mai lead di una variante **costruttiva** (build/fix). Eccezione: task **audit-only** (es. "Audit sicurezza", "Audit config") dove *trovare problemi* È il deliverable — lì può guidare.
+- `entp` — **mai dentro una competition.** È il critico **pre-flight** (Step 1.5): divergente e *advisory*, stressa il *framing/scope* del task PRIMA della spesa e non produce codice. È lo specchio inverso dell'`adversarial-reviewer` (che gira solo POST-competition sul winner). ENTP non può bloccare/abortire/mergere/declassare un gate — raccomanda soltanto.
 - `senior-secops` — ottimo sub, mai lead: troppo orientato alla threat-analysis rispetto alla produzione di codice. In "Audit sicurezza" entra come sub sotto `senior-security`.
 - `apple-hig-expert` — solo se il task target esplicitamente HIG / Liquid Glass / Apple platform; altrimenti default `senior-qa`.
 - `epic-design` — solo se la sezione/pagina ha intento scrollytelling/cinematic; per sezioni ordinarie collassa su `frontend-design` (non usarli entrambi nello stesso triple).
