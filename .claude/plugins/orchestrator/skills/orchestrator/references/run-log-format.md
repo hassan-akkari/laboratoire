@@ -28,6 +28,11 @@
     - depth: <1|2>
     - variant leads: <lead-A>, <lead-B>, <lead-C>
 
+    ## ENTP pre-flight (Step 1.5 — advisory)
+    - entp_preflight: <ran | skipped (gate: simple+high-confidence) | skipped (error)>
+    - verdict: <as-framed | descope | expand | split | don't-build> — <one-line reason>
+    - reframings surfaced: <n>  (interactive: human chose proceed|reframe|abort)
+
     ## Objective gate (pnpm check per variant)
     | variant | pnpm check | note |
     |---|---|---|
