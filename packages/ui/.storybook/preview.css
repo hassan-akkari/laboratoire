@@ -1,5 +1,13 @@
 @import "tailwindcss";
-/* Unified: load the canonical warm HeroUI plugin (single source) instead of a
+/* HeroUI v3 CSS-first styles (NO plugin). Tailwind MUST be imported first; the
+ * v3 styles layer reads/declares the semantic `--accent` / `--surface` / ...
+ * variables the v3-migrated wrappers (AppButton, AppCard) consume. v2 and v3
+ * coexist: v2 wrappers still use the `heroui()` plugin below. */
+@import "@heroui-v3/styles";
+/* Warm-palette overrides for the v3 variables, scoped to `.heroui-v3-warm`
+ * (the migrated wrappers self-apply this class). NEW foundation module. */
+@import "../src/theme/v3/warmThemeV3.css";
+/* Unified: load the canonical warm HeroUI v2 plugin (single source) instead of a
  * local Storybook-only palette. */
 @plugin "../src/theme/heroTheme.ts";
 /* Shared `--app-*` design tokens so `var(--app-*)` resolves in stories. */
