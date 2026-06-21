@@ -36,6 +36,17 @@ Resolved in Step 0 from the args. NEVER auto-inferred to unattended.
 (Trigger 2 is the one exception: ambiguous depth is NOT an abort — it resolves to
 Depth-1 + adversarial in unattended.)
 
+## ENTP pre-flight is ADVISORY (NOT a failure trigger)
+
+Step 1.5's ENTP critic (the global `entp` skill) is deliberately ABSENT from the
+unresolved-failure list above. It never blocks, never aborts, never gains a write
+ceiling. In unattended its verdict is recorded in the run-log `entp_preflight` field
+and the run PROCEEDS regardless; if ENTP errors, record `entp_preflight: skipped
+(error)` and PROCEED — the OPPOSITE of the adversarial gate's fail-closed behavior,
+by design (pre-commitment advice is not a safety gate). The only human-facing branch
+ENTP can open is in **interactive** mode (surface reframings → human picks
+proceed | reframe | abort); in unattended that branch collapses to "proceed".
+
 ## Write ceiling detail
 
 - **interactive:** after eval + adversarial + objective gate, present winner +
