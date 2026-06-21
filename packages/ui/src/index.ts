@@ -187,6 +187,23 @@ export {
 export type { HeroColorSet, AppTokenName } from "./theme/tokens";
 
 // ---------------------------------------------------------------------------
+// HeroUI v3 WARM THEME FOUNDATION (incremental v2 -> v3 migration).
+//
+// NEW module — does NOT touch the v2 `tokens.ts` single-source. The v3-migrated
+// wrappers (AppButton, AppCard, and the 20 to come) consume these to scope the
+// warm-palette v3 CSS variables. Values are derived from `tokens.ts` in oklch;
+// see `./theme/v3/warmThemeV3.css` for the mapping + extension pattern.
+// ---------------------------------------------------------------------------
+export {
+  HEROUI_V3_THEME_CLASS,
+  V3_TOKEN_MAP,
+  withV3Theme,
+} from "./theme/v3/warmThemeV3";
+export type { V3ThemedVar } from "./theme/v3/warmThemeV3";
+export type { AppButtonVariant } from "./components/heroui/AppButton";
+export type { AppCardVariant } from "./components/heroui/AppCard";
+
+// ---------------------------------------------------------------------------
 // tw-ui RETIREMENT (Phase 2 public-API standardization).
 //
 // The tw-ui `Input`, `InputGroup`, and `Textarea` primitives previously exported
