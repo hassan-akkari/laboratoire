@@ -27,9 +27,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
-    "@heroui-v3/react": "npm:@heroui/react@latest",
-    "@heroui-v3/styles": "npm:@heroui/styles@latest",
-    "clsx": "^2.1.1"
+    "@heroui-v3/react": "npm:@heroui/react@3.2.1",
+    "@heroui-v3/styles": "npm:@heroui/styles@3.2.1",
+    "clsx": "^2.1.1",
+    "m3-ripple": "^1.1.3"
   },
   "peerDependencies": {
     "@heroui/react": "^2.8.8",

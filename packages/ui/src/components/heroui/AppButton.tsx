@@ -22,7 +22,11 @@
  *   - `radius` removed -> baseline Tailwind `rounded-[12px]` (matches v2 sm).
  *   - `isLoading` -> v3 `isPending` + a render-prop spinner.
  *   - `startContent` / `endContent` removed -> rendered as children (icons).
- *   - `classNames` / `disableRipple` / `disableAnimation` removed -> dropped.
+ *   - `classNames` / `disableAnimation` removed -> dropped.
+ *   - `disableRipple` REINSTATED as a public prop: v3 Button has no built-in
+ *     ripple, so we add the Material-3 `m3-ripple` recipe. Ripple is ON by
+ *     default (mirroring v2's `disableRipple={false}` default); pass
+ *     `disableRipple` to opt a specific call site out (e.g. quiet link buttons).
  *   - `as="a"` is LOAD-BEARING (docs renders anchors). v3 Button is a
  *     react-aria <button> and its `render` prop may NOT change the element type
  *     to <a>. So `as="a"` branches to a styled <a> built from `buttonVariants()`
@@ -41,6 +45,30 @@ import {
   buttonVariants,
   type ButtonProps as HeroV3ButtonProps,
 } from "@heroui-v3/react";
+import { Ripple } from "m3-ripple";
+// Side-effect CSS for the ripple (Material-3 recipe — v3 Button ships no ripple).
+//
+// WHY A BARE SIDE-EFFECT IMPORT IS THE ROBUST CHOICE HERE (tsc + Vite + SSR):
+//   1. packages/ui builds with `tsc` (no CSS bundling) and its tsconfig does NOT
+//      set `noUncheckedSideEffectImports`, so `tsc` accepts this import and
+//      *preserves it verbatim* in the emitted `dist/*.js` — the stylesheet
+//      request travels with the compiled wrapper instead of being dropped.
+//   2. Vite consumers (docs) resolve `m3-ripple/ripple.css` (exports map ->
+//      dist/ripple.css) and inject the stylesheet at bundle time. This holds
+//      whether docs consumes the SOURCE (dev/`VITE_UI_SOURCE`) or the built
+//      `dist` (prod) because the import string is identical in both.
+//   3. docs typechecks this file THROUGH its `@laboratoire/ui` source path
+//      alias under `noUncheckedSideEffectImports: true`. That is satisfied by
+//      the ambient `declare module "*.css" {}` from `vite/client` (referenced in
+//      docs' `src/vite-env.d.ts`), whose wildcard matches `m3-ripple/ripple.css`.
+//   4. SSR-safe: a side-effect CSS import is erased on the server by every React
+//      SSR bundler (Next/Vite SSR extract CSS to a stylesheet, never execute it),
+//      and m3-ripple itself touches no DOM at module scope (see Ripple note),
+//      so importing it cannot crash a future web-next server render.
+// Alternatives rejected: (a) importing the CSS from the app's index.css couples
+// every consumer to remember it (fragile); (b) inlining the CSS as a JS string +
+// runtime <style> injection reintroduces the SSR/document hazard we are avoiding.
+import "m3-ripple/ripple.css";
 import { withV3Theme } from "../../theme/v3/warmThemeV3";
 
 /** v3 visual variants (the only style axis v3 Button exposes). */
@@ -102,6 +130,16 @@ export interface AppButtonProps {
   startContent?: ReactNode;
   endContent?: ReactNode;
   className?: string;
+  /**
+   * Opt OUT of the Material-3 press/hover ripple. Default `false` (ripple ON),
+   * preserving the v2 intent where the ripple was the baseline affordance. Set
+   * `disableRipple` on quiet text/link-style buttons where a ripple is noise.
+   * Applies to BOTH render paths (the v3 Button AND the `as="a"` anchor) so the
+   * two stay visually identical. The ripple is purely client-side (all DOM work
+   * runs inside the component's `useEffect`/handlers — never during render), so
+   * it is SSR-safe and will not break a future web-next server render.
+   */
+  disableRipple?: boolean;
   /** Element to render. `"a"` => styled anchor; otherwise the v3 Button. */
   as?: "a" | "button";
   // Anchor props (only meaningful with `as="a"`, but always accepted).
@@ -210,6 +248,7 @@ export function AppButton({
   startContent,
   endContent,
   className,
+  disableRipple = false,
   as,
   href,
   target,
@@ -222,6 +261,26 @@ export function AppButton({
 }: AppButtonProps) {
   const v3Variant = toV3Variant(variant, color);
   const radiusClass = RADIUS_CLASS[radius];
+
+  // m3-ripple's overlay is `position:absolute; inset:0`, so its host element must
+  // be a positioning + clipping context. `buttonVariants()` already yields a
+  // relative, overflow-hidden surface, but we pin `relative overflow-hidden`
+  // explicitly so the ripple is contained on BOTH paths regardless of variant.
+  //
+  // `renderRipple(active)` centralizes the gating so every render path stays
+  // consistent:
+  //   - `disableRipple` (call-site opt-out)  -> no <Ripple> node at all.
+  //   - non-interactive (`isDisabled`, or the pending/loading button) -> the
+  //     <Ripple> is mounted but `disabled`, so it shows neither hover nor press
+  //     feedback. A press affordance on a button you cannot press is misleading,
+  //     so we suppress it rather than letting m3-ripple fire on a dead control.
+  // m3-ripple is SSR-safe (it touches `document`/`window` ONLY inside
+  // `useEffect`/event handlers, never at module or render scope — verified
+  // against m3-ripple@1.1.3), so mounting it is safe even in a future web-next
+  // server render; the gating above is purely about UX, not about avoiding a
+  // crash.
+  const renderRipple = (active: boolean) =>
+    disableRipple ? null : <Ripple disabled={!active} />;
 
   // Icons (v2 start/endContent) become children in v3.
   const content: ReactNode = (
@@ -241,7 +300,8 @@ export function AppButton({
       size,
       fullWidth,
       isIconOnly,
-      className: `${radiusClass} ${className ?? ""}`.trim(),
+      // `relative overflow-hidden` host the ripple overlay (see note above).
+      className: `relative overflow-hidden ${radiusClass} ${className ?? ""}`.trim(),
     });
     return (
       <a
@@ -256,12 +316,18 @@ export function AppButton({
         {...rest}
       >
         {content}
+        {/* Anchor "disabled" is communicated via aria-disabled; gate the ripple
+            on the same condition so a disabled CTA gives no press feedback. */}
+        {renderRipple(!isDisabled)}
       </a>
     );
   }
 
   // ---- Button branch: `as="button"` or unset -----------------------------
-  const buttonClass = withV3Theme(`${radiusClass} ${className ?? ""}`.trim());
+  // `relative overflow-hidden` host the ripple overlay (see note above).
+  const buttonClass = withV3Theme(
+    `relative overflow-hidden ${radiusClass} ${className ?? ""}`.trim(),
+  );
 
   // v3 Button is a react-aria <button>: its DOCUMENTED handler is `onPress`,
   // and `ButtonRoot` actively strips a native DOM `onClick` (`delete
@@ -303,11 +369,19 @@ export function AppButton({
             {isPending ? <HeroV3Spinner size="sm" /> : startContent}
             {children}
             {!isPending ? endContent : null}
+            {/* No press feedback while the button is pending or disabled. */}
+            {renderRipple(!isPending && !isDisabled)}
           </>
         )}
       </HeroV3Button>
     );
   }
 
-  return <HeroV3Button {...buttonProps}>{content}</HeroV3Button>;
+  return (
+    <HeroV3Button {...buttonProps}>
+      {content}
+      {/* Ripple only when the button is actually pressable. */}
+      {renderRipple(!isDisabled)}
+    </HeroV3Button>
+  );
 }
