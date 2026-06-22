@@ -32,10 +32,15 @@
  *   --accent                 heroColorTokens.<mode>.primary.DEFAULT
  *   --accent-foreground      heroColorTokens.<mode>.primary.foreground
  *
- * v3 derives hover/soft variants automatically via `color-mix()` from these
- * roots (e.g. `--accent-hover = color-mix(in oklab, var(--accent) 90%,
- * var(--accent-foreground) 10%)`), so overriding the ROOTS is enough — we do
- * not hand-author every hover/soft token.
+ * DERIVED ACCENT VARS MUST BE RE-DECLARED HERE (do NOT rely on auto-derive).
+ * `@heroui/styles` defines `--accent-hover` / `--accent-soft` / ... as
+ * `color-mix(... var(--accent) ...)` on `:root` (the DEFAULT theme). Those are
+ * computed/registered there against the default (blue) `--accent` and INHERIT
+ * down as CONCRETE blue colors — overriding only `--accent` in this scope does
+ * NOT recompute them (this is why the primary Button HOVER stayed v3-default
+ * blue). Re-declaring the same color-mix expressions INSIDE this scope forces
+ * them to recompute against the warm `--accent`. Keep this list in sync with the
+ * derived accent vars any migrated component actually reads.
  *
  * SCOPING
  * -------
@@ -90,6 +95,13 @@
      primary token distinct from the accent). */
   --primary: var(--accent);
   --primary-foreground: var(--accent-foreground);
+  /* Derived accent vars — recomputed from the warm --accent (see header note).
+     `--accent-hover` drives the primary Button hover/pressed bg; the soft family
+     drives soft fills + the secondary Button foreground. */
+  --accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
+  --accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);
+  --accent-soft-foreground: var(--accent);
 }
 
 /* LIGHT mode — activated by the repo-wide light switch. `useTheme` sets BOTH a
@@ -122,4 +134,9 @@
   /* Alias the v3 `--primary` family to `--accent` (see the dark block note). */
   --primary: var(--accent);
   --primary-foreground: var(--accent-foreground);
+  /* Derived accent vars — recomputed from the warm --accent (see header note). */
+  --accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
+  --accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);
+  --accent-soft-foreground: var(--accent);
 }
