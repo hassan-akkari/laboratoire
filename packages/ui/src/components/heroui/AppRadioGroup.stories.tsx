@@ -2,33 +2,26 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { AppRadioGroup, AppRadio } from "./AppRadioGroup";
 
 /**
- * Variant C story: shows BOTH compound-usage forms (the named `AppRadio` import
- * and the `AppRadioGroup.Radio` dot form), exercises edge states, autodocs on.
- * The group's `label` provides the accessible name; each radio's children label
- * the option.
+ * v3 stories. Exercises the v3 prop surface only — the v2 `color`/`size`/`radius`
+ * axes are GONE (selected color is the warm `--primary` theme alias; sizing is
+ * Tailwind). Shows BOTH compound forms (named `AppRadio` and the
+ * `AppRadioGroup.Radio` dot member), vertical + horizontal layouts, per-radio
+ * descriptions, and the disabled state. The group's `label` provides the
+ * accessible name; each radio's children label the option.
  */
 const meta = {
   title: "HeroUI/AppRadioGroup",
   component: AppRadioGroup,
   tags: ["autodocs"],
   argTypes: {
-    color: {
-      control: "select",
-      options: [
-        "default",
-        "primary",
-        "secondary",
-        "success",
-        "warning",
-        "danger",
-      ],
-    },
-    size: { control: "inline-radio", options: ["sm", "md", "lg"] },
+    variant: { control: "inline-radio", options: ["primary", "secondary"] },
     orientation: {
       control: "inline-radio",
       options: ["vertical", "horizontal"],
     },
     isDisabled: { control: "boolean" },
+    isRequired: { control: "boolean" },
+    isInvalid: { control: "boolean" },
   },
   args: {
     label: "Pricing model",
@@ -40,7 +33,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** Default group using the named-import `AppRadio` form. */
+/** Default vertical group using the named-import `AppRadio` form. */
 export const Default: Story = {
   render: (args) => (
     <AppRadioGroup {...args}>
@@ -62,9 +55,27 @@ export const DotNamespaceForm: Story = {
   ),
 };
 
-/** Horizontal layout with radios that carry descriptions. */
+/** Horizontal layout with per-radio descriptions. */
 export const HorizontalWithDescriptions: Story = {
   args: { orientation: "horizontal" },
+  render: (args) => (
+    <AppRadioGroup {...args}>
+      <AppRadio value="per-person" description="Charged for each guest">
+        Per person
+      </AppRadio>
+      <AppRadio value="minimum_group" description="Flat floor for small groups">
+        Minimum group
+      </AppRadio>
+    </AppRadioGroup>
+  ),
+};
+
+/** Group-level helper text via the `description` prop, plus per-radio descriptions. */
+export const WithGroupDescription: Story = {
+  args: {
+    label: "Pricing model",
+    description: "How guests are charged for this experience.",
+  },
   render: (args) => (
     <AppRadioGroup {...args}>
       <AppRadio value="per-person" description="Charged for each guest">

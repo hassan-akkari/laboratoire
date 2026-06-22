@@ -82,6 +82,14 @@
   /* #decbc6 — v2 primary.foreground (dark) */
   --accent-foreground: oklch(85.64% 0.0225 35.12);
   --focus: var(--accent);
+  /* v2 `primary` === the warm indigo accent. Some v3 form controls still read
+     the `--primary` family (TextField/TextArea borders, Radio/Checkbox selected
+     fills). Alias it to `--accent` so they stay on warm-brand instead of falling
+     back to the @heroui-v3/styles default-theme blue. This is an ALIAS to the
+     existing accent source, not an invented value (tokens.ts has no separate
+     primary token distinct from the accent). */
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
 }
 
 /* LIGHT mode — activated by the repo-wide light switch. `useTheme` sets BOTH a
@@ -111,4 +119,7 @@
   /* #f8f7f4 — v2 primary.foreground (light) */
   --accent-foreground: oklch(97.61% 0.0041 91.45);
   --focus: var(--accent);
+  /* Alias the v3 `--primary` family to `--accent` (see the dark block note). */
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
 }

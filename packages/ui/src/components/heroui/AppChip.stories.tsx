@@ -2,8 +2,15 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { AppChip } from "./AppChip";
 
 /**
- * Variant C story: typed `argTypes`, every meaningful state, autodocs on, and
- * clean a11y (chips carry text content, so they expose an accessible name).
+ * AppChip stories — updated to the HeroUI **v3** prop surface.
+ *
+ * The wrapper accepts BOTH the v2 vocabulary (for unmigrated call sites) and the
+ * v3 vocabulary; these stories exercise the v3 axes the wrapper maps onto:
+ *   - color:   default | accent | success | warning | danger  (no primary/secondary)
+ *   - variant: primary | secondary | tertiary | soft
+ *   - size:    sm | md | lg
+ * `radius` is gone in v3, so it is no longer a control. Plain-string children
+ * work because v3 auto-wraps text in `<Chip.Label>`.
  */
 const meta = {
   title: "HeroUI/AppChip",
@@ -12,25 +19,13 @@ const meta = {
   argTypes: {
     color: {
       control: "select",
-      options: [
-        "default",
-        "primary",
-        "secondary",
-        "success",
-        "warning",
-        "danger",
-      ],
+      options: ["default", "accent", "success", "warning", "danger"],
     },
     variant: {
       control: "select",
-      options: ["solid", "bordered", "light", "flat", "faded", "shadow", "dot"],
+      options: ["primary", "secondary", "tertiary", "soft"],
     },
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
-    radius: {
-      control: "inline-radio",
-      options: ["none", "sm", "md", "lg", "full"],
-    },
-    isDisabled: { control: "boolean" },
   },
   args: {
     children: "Network",
@@ -49,11 +44,8 @@ export const Colors: Story = {
       <AppChip {...args} color="default">
         default
       </AppChip>
-      <AppChip {...args} color="primary">
-        primary
-      </AppChip>
-      <AppChip {...args} color="secondary">
-        secondary
+      <AppChip {...args} color="accent">
+        accent
       </AppChip>
       <AppChip {...args} color="success">
         success
@@ -71,20 +63,17 @@ export const Colors: Story = {
 export const Variants: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <AppChip {...args} variant="solid">
-        solid
+      <AppChip {...args} variant="primary">
+        primary
       </AppChip>
-      <AppChip {...args} variant="bordered">
-        bordered
+      <AppChip {...args} variant="secondary">
+        secondary
       </AppChip>
-      <AppChip {...args} variant="flat">
-        flat
+      <AppChip {...args} variant="tertiary">
+        tertiary
       </AppChip>
-      <AppChip {...args} variant="faded">
-        faded
-      </AppChip>
-      <AppChip {...args} variant="dot">
-        dot
+      <AppChip {...args} variant="soft">
+        soft
       </AppChip>
     </div>
   ),
@@ -104,19 +93,4 @@ export const Sizes: Story = {
       </AppChip>
     </div>
   ),
-};
-
-export const Disabled: Story = {
-  args: { isDisabled: true, children: "Disabled" },
-};
-
-/**
- * Closeable chip — `onClose` renders an accessible close button (HeroUI labels
- * it). Demonstrates the interactive edge of the simplest archetype.
- */
-export const Closeable: Story = {
-  args: {
-    children: "Remove me",
-    onClose: () => {},
-  },
 };

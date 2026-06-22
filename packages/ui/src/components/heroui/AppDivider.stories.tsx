@@ -2,8 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { AppDivider } from "./AppDivider";
 
 /**
- * Variant C story: typed `argTypes`, meaningful states, autodocs on. A divider
- * is `role="separator"`; HeroUI sets the correct `aria-orientation`.
+ * Variant C story: typed `argTypes`, meaningful states, autodocs on. A separator
+ * is `role="separator"`; HeroUI v3 sets the correct `aria-orientation`.
+ *
+ * v3 prop surface only: `orientation` ('horizontal' | 'vertical') and `variant`
+ * (the CONTRAST scale 'default' | 'secondary' | 'tertiary'). The v2 axes
+ * (color/radius/size) are gone in v3 and are not exercised here.
  */
 const meta = {
   title: "HeroUI/AppDivider",
@@ -13,6 +17,10 @@ const meta = {
     orientation: {
       control: "inline-radio",
       options: ["horizontal", "vertical"],
+    },
+    variant: {
+      control: "inline-radio",
+      options: ["default", "secondary", "tertiary"],
     },
   },
 } satisfies Meta<typeof AppDivider>;
@@ -32,7 +40,7 @@ export const Horizontal: Story = {
   ),
 };
 
-/** Vertical divider sitting between inline items (needs a sized container). */
+/** Vertical separator sitting between inline items (needs a sized container). */
 export const Vertical: Story = {
   args: { orientation: "vertical" },
   render: (args) => (
@@ -42,6 +50,29 @@ export const Vertical: Story = {
       <span>Quote</span>
       <AppDivider {...args} />
       <span>Checkout</span>
+    </div>
+  ),
+};
+
+/**
+ * The v3 CONTRAST scale. `secondary`/`tertiary` step the rule down in prominence
+ * (this replaces v2's color/intent `variant` axis, which no longer exists).
+ */
+export const ContrastScale: Story = {
+  render: () => (
+    <div style={{ maxWidth: 320, display: "grid", gap: 16 }}>
+      <div>
+        <p style={{ margin: 0 }}>default</p>
+        <AppDivider variant="default" style={{ marginTop: 8 }} />
+      </div>
+      <div>
+        <p style={{ margin: 0 }}>secondary</p>
+        <AppDivider variant="secondary" style={{ marginTop: 8 }} />
+      </div>
+      <div>
+        <p style={{ margin: 0 }}>tertiary</p>
+        <AppDivider variant="tertiary" style={{ marginTop: 8 }} />
+      </div>
     </div>
   ),
 };

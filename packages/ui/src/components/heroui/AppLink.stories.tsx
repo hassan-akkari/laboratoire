@@ -2,34 +2,22 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { AppLink } from "./AppLink";
 
 /**
- * Variant C story: typed `argTypes`, every meaningful state, autodocs on. The
- * link text (children) is its accessible name; `href` makes it a real anchor.
+ * v3 stories. The v2 style axes (`color` / `size` / `underline` / `isBlock`) are
+ * gone as live props in v3 — those are now expressed with Tailwind utilities via
+ * `className`. The remaining controls map to the real v3 surface: the icon
+ * composition (`isExternal` / `showAnchorIcon` → `<Link.Icon />`) and the
+ * v3-native `isDisabled`. The link text (children) is its accessible name;
+ * `href` makes it a real anchor.
  */
 const meta = {
   title: "HeroUI/AppLink",
   component: AppLink,
   tags: ["autodocs"],
   argTypes: {
-    color: {
-      control: "select",
-      options: [
-        "foreground",
-        "primary",
-        "secondary",
-        "success",
-        "warning",
-        "danger",
-      ],
-    },
-    size: { control: "inline-radio", options: ["sm", "md", "lg"] },
-    underline: {
-      control: "select",
-      options: ["none", "hover", "always", "active", "focus"],
-    },
-    isBlock: { control: "boolean" },
     isExternal: { control: "boolean" },
     showAnchorIcon: { control: "boolean" },
     isDisabled: { control: "boolean" },
+    className: { control: "text" },
   },
   args: {
     children: "Browse experiences",
@@ -41,50 +29,49 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+/** Default: warm-accent link, underline appears on hover (v3 default). */
 export const Default: Story = {};
 
+/**
+ * v3 colors come from Tailwind utilities, not a `color` prop. The wrapper
+ * defaults to the warm accent; override with `text-*` / `decoration-*` classes.
+ */
 export const Colors: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-      <AppLink {...args} color="foreground">
+      <AppLink {...args}>accent (default)</AppLink>
+      <AppLink {...args} className="text-foreground decoration-foreground">
         foreground
       </AppLink>
-      <AppLink {...args} color="primary">
-        primary
-      </AppLink>
-      <AppLink {...args} color="secondary">
-        secondary
-      </AppLink>
-      <AppLink {...args} color="success">
-        success
-      </AppLink>
-      <AppLink {...args} color="warning">
-        warning
-      </AppLink>
-      <AppLink {...args} color="danger">
-        danger
+      <AppLink {...args} className="text-muted decoration-muted">
+        muted
       </AppLink>
     </div>
   ),
 };
 
+/**
+ * v3 underlines on hover by default. Use Tailwind `underline` (always-on) or
+ * `no-underline` (off), plus `decoration-*` / `underline-offset-*` to tune it.
+ */
 export const Underlines: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-      <AppLink {...args} underline="none">
+      <AppLink {...args} className="no-underline">
         none
       </AppLink>
-      <AppLink {...args} underline="hover">
-        hover
-      </AppLink>
-      <AppLink {...args} underline="always">
+      <AppLink {...args}>hover (default)</AppLink>
+      <AppLink {...args} className="underline underline-offset-4">
         always
       </AppLink>
     </div>
   ),
 };
 
-/** External link with the anchor icon — opens in a new tab with rel safety. */
+/**
+ * External link with the trailing anchor icon. `isExternal` also applies safe
+ * `target="_blank"` + `rel="noopener noreferrer"` defaults.
+ */
 export const External: Story = {
   args: {
     children: "Open docs",

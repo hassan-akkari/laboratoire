@@ -44,6 +44,13 @@ export const V3_TOKEN_MAP = {
   "--border": "appTokens.<mode>.border",
   "--accent": "heroColorTokens.<mode>.primary.DEFAULT",
   "--accent-foreground": "heroColorTokens.<mode>.primary.foreground",
+  // `--primary` family is an ALIAS to `--accent` (v2 `primary` === the warm
+  // indigo accent). Some v3 form controls (TextField/TextArea borders,
+  // Radio/Checkbox selected fills) still read `--primary`; aliasing keeps them
+  // on warm-brand. Same source token as `--accent`, so it carries no separate
+  // tokens.ts mapping.
+  "--primary": "heroColorTokens.<mode>.primary.DEFAULT (alias of --accent)",
+  "--primary-foreground": "heroColorTokens.<mode>.primary.foreground (alias of --accent-foreground)",
 } as const;
 
 export type V3ThemedVar = keyof typeof V3_TOKEN_MAP;
