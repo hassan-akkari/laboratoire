@@ -43,6 +43,9 @@ import { withV3Theme } from "../../theme/v3/warmThemeV3";
 /** v3 semantic prominence variants. */
 export type AppCardVariant = "transparent" | "default" | "secondary" | "tertiary";
 
+/** v2-style radius vocabulary, applied via inline style (see RADIUS_PX). */
+export type AppCardRadius = "none" | "sm" | "md" | "lg" | "full";
+
 /**
  * PUBLIC, PRESERVED root props. `variant` is the v3 axis; `className` replaces
  * v2 `classNames`. The removed v2 props (shadow/radius/isPressable/...) are not
@@ -51,6 +54,13 @@ export type AppCardVariant = "transparent" | "default" | "secondary" | "tertiary
 export interface AppCardProps {
   children: ReactNode;
   variant?: AppCardVariant;
+  /**
+   * Corner radius. v2 cards rendered at ~14px ("lg"); v3 `.card` instead bakes
+   * `border-radius: min(32px, var(--radius-3xl))` (24px) UNLAYERED, which beats
+   * Tailwind utilities — so it is overridden here via inline style (see
+   * RADIUS_PX), defaulting to the v2 "lg" corner. Same fix shape as AppButton.
+   */
+  radius?: AppCardRadius;
   className?: string;
   id?: string;
   style?: React.CSSProperties;
@@ -80,12 +90,37 @@ export function AppCardFooter(props: AppCardFooterProps) {
   return <HeroV3Card.Footer {...props} />;
 }
 
-function AppCardRoot({ variant = "default", className, ...props }: AppCardProps) {
-  const cardProps = props as Omit<HeroV3CardProps, "variant" | "className">;
+/**
+ * v3 `.card` bakes `border-radius: min(32px, var(--radius-3xl))` (24px) and is
+ * shipped UNLAYERED, so it outranks Tailwind utilities in the cascade. We restore
+ * the v2 corner via INLINE STYLE (beats any class regardless of layer) — mirrors
+ * the AppButton radius fix. Defaults to "lg" (14px, the v2 Card default).
+ */
+const RADIUS_PX: Record<AppCardRadius, string> = {
+  none: "0px",
+  sm: "8px",
+  md: "12px",
+  lg: "14px",
+  full: "9999px",
+};
+
+function AppCardRoot({
+  variant = "default",
+  radius = "lg",
+  className,
+  style,
+  ...props
+}: AppCardProps) {
+  const cardProps = props as Omit<
+    HeroV3CardProps,
+    "variant" | "className" | "style"
+  >;
   return (
     <HeroV3Card
       variant={variant}
       className={withV3Theme(className)}
+      // Inline radius beats v3 `.card`'s baked 24px; consumer `style` wins.
+      style={{ borderRadius: RADIUS_PX[radius], ...style }}
       {...cardProps}
     />
   );
