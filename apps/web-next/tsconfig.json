@@ -20,6 +20,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@laboratoire/ui": [
+        "../../packages/ui/src/index.ts"
       ]
     },
     "plugins": [

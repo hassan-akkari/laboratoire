@@ -1,5 +1,102 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
 
+/* ===========================================================================
+ * HeroUI v3 + Tailwind v4 wiring — VARIANT B: explicit-config, LAYER-DISCIPLINED
+ * ===========================================================================
+ *
+ * THE CONFLICT THIS SOLVES
+ * ------------------------
+ * `@heroui-v3/styles/components/{button,card}.css` ship UNLAYERED rules that
+ * define bare `.button` and `.card` selectors. web-next's OWN design system (the
+ * rules further down this file) ALSO defines bare `.button` and `.card`, used by
+ * the plain markup on listing / checkout / admin / login. Identical class names,
+ * identical specificity → with both unlayered the only tie-breaker is source
+ * order, which is fragile and would regress every plain page the moment v3 CSS is
+ * imported. The v3 React wrappers (`AppCard` / `AppButton`) emit those SAME
+ * `.card` / `.button` classes (via `cardVariants()` / `buttonVariants()`) PLUS a
+ * `data-slot` and the `.heroui-v3-warm` scope class on the same element.
+ *
+ * THE DISCIPLINED FIX — explicit @layer order + ONE scoped guard
+ * --------------------------------------------------------------
+ * 1. We `@layer`-rank everything so precedence is deterministic. The ONE
+ *    invariant that matters for the selector war is: the legacy app rules MUST
+ *    outrank the v3 component recipes. The effective compiled cascade order
+ *    (earlier = LOWER priority), verified against the built CSS, is:
+ *
+ *       theme < base < utilities < heroui-v3 < app
+ *
+ *    - `theme` / `base` / `utilities`  → emitted by `@import "tailwindcss"`
+ *      (theme vars, Preflight reset, and Tailwind utility classes). Tailwind
+ *      registers its own `utilities` layer DURING that import, so it lands below
+ *      `heroui-v3` / `app` here. That is fine: the cart wrappers express their
+ *      look via the v3 recipe + inline styles, not via utility-class overrides,
+ *      so no `className` utility needs to beat a component recipe in this app.
+ *    - `heroui-v3`                     → the v3 `button.css` / `card.css` recipes
+ *      are force-imported into THIS layer (see the `layer(heroui-v3)` imports
+ *      below). Being below `app`, the v3 bare `.card` / `.button` rules can NEVER
+ *      leak onto the plain pages — Goal A (preserve the existing warm look) holds
+ *      by construction, independent of source order.
+ *    - `app`                           → web-next's existing design system (this
+ *      file's rules, wrapped in `@layer app`). HIGHEST → wins over `heroui-v3`
+ *      everywhere (this is the load-bearing relationship).
+ *    - `components`                    → v3's default-theme component token tweaks
+ *      land here (from `themes/default`); used only for v3-internal token
+ *      resolution, not the `.card` / `.button` selector war.
+ *
+ *    The `@layer theme, base, heroui-v3, app, components, utilities;` statement
+ *    below names the layers; Tailwind/Lightning then flattens precedence to the
+ *    first-seen order above. The app > heroui-v3 invariant is preserved either way.
+ *
+ * 2. Because `app` outranks `heroui-v3`, the bare `.card` / `.button` BASE rules
+ *    would also win on the cart wrappers — defeating Goal B (cart must look v3).
+ *    The collision is on TWO base selectors only, so it is resolved with ONE
+ *    zero-specificity guard: those two base rules are wrapped in
+ *    `:where(:not(.heroui-v3-warm))`. `:where()` adds ZERO specificity, so the
+ *    plain-page rendering is byte-identical, while the v3 wrappers (which DO carry
+ *    `.heroui-v3-warm`) no longer match the legacy base rule and fall through to
+ *    the v3 recipe in `heroui-v3`. Goal B met, still deterministic.
+ *    NOTE: descendant typography rules (`.card h1`, `.card p`, ...) are left
+ *    UNSCOPED on purpose — they harmonize headings/copy inside the v3 card too and
+ *    do not fight the v3 structural recipe.
+ *
+ * WHY NOT the full `@import "@heroui-v3/styles"` barrel?
+ *    The barrel's overlay components `@apply` `tw-animate-css` utilities
+ *    (`fade-in-0`, ...) that this Tailwind context does not register, failing the
+ *    build (verified in apps/docs). The cart needs only Button + Card, so we
+ *    import exactly the layers those two need — same selective set docs uses.
+ *
+ * Tailwind MUST be imported first; the warm override (`warmThemeV3.css`) is the
+ * LAST v3 import so it overrides the v3 default-theme variables.
+ * --------------------------------------------------------------------------- */
+@import "tailwindcss";
+@layer theme, base, heroui-v3, app, components, utilities;
+
+/* v3 token system + @utility / @custom-variant registrations.
+ * `themes/default` self-assigns its sub-imports to `theme` + `components`;
+ * `utilities` and `variants` register Tailwind @utility / @custom-variant defs
+ * that MUST stay global (unlayered) so `@apply` in the component recipes resolves. */
+@import "@heroui-v3/styles/themes/default";
+@import "@heroui-v3/styles/utilities";
+@import "@heroui-v3/styles/variants";
+
+/* The two component recipes the cart needs — forced into the LOW `heroui-v3`
+ * layer so their bare `.button` / `.card` rules sit below `@layer app`. */
+@import "@heroui-v3/styles/components/button.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/card.css" layer(heroui-v3);
+
+/* Warm-palette overrides for the v3 semantic vars — scoped to `.heroui-v3-warm`.
+ * Path: app/ -> web-next -> apps -> repo root -> packages/ui/... (3 levels up). */
+@import "../../../packages/ui/src/theme/v3/warmThemeV3.css";
+
+/* Make Tailwind scan the lib's wrapper source so any utility classes the v3
+ * wrappers emit (e.g. buttonVariants output) are generated. */
+@source "../../../packages/ui/src/**/*.{js,ts,jsx,tsx}";
+
+/* web-next's existing design system. Wrapped in `@layer app` so it deterministically
+ * outranks the v3 `heroui-v3` layer on the plain pages (see header). Existing rules
+ * are otherwise verbatim; only the two colliding BASE selectors (`.card` / `.button`)
+ * gained a zero-specificity `:where(:not(.heroui-v3-warm))` guard. */
+@layer app {
 :root {
   color-scheme: dark;
   --app-bg: #080808;
@@ -216,7 +313,11 @@ section {
   color: color-mix(in srgb, var(--app-fg) 64%, var(--app-muted));
 }
 
-.button {
+/* Bare `.button` base rules are guarded with `:where(:not(.heroui-v3-warm))`
+ * (zero added specificity) so the v3 `AppButton` wrapper — which carries
+ * `.heroui-v3-warm` on the same element — escapes them and renders via the v3
+ * recipe. Plain-page buttons (no warm scope) are unaffected, byte-identical. */
+.button:where(:not(.heroui-v3-warm)) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -236,7 +337,7 @@ section {
   cursor: pointer;
 }
 
-.button {
+.button:where(:not(.heroui-v3-warm)) {
   cursor: pointer;
   border-color: color-mix(in srgb, var(--app-accent) 62%, var(--app-border));
   color: #ffffff;
@@ -251,12 +352,12 @@ section {
     0 8px 16px -10px color-mix(in srgb, var(--app-accent) 72%, transparent);
 }
 
-.button:hover {
+.button:where(:not(.heroui-v3-warm)):hover {
   filter: brightness(1.05);
   transform: translateY(-1px);
 }
 
-.button:active {
+.button:where(:not(.heroui-v3-warm)):active {
   transform: translateY(0);
 }
 
@@ -287,8 +388,8 @@ section {
   background: color-mix(in srgb, var(--app-accent-soft) 58%, transparent);
 }
 
-.button:disabled,
-.button[aria-disabled="true"] {
+.button:where(:not(.heroui-v3-warm)):disabled,
+.button:where(:not(.heroui-v3-warm))[aria-disabled="true"] {
   opacity: 0.64;
   cursor: not-allowed;
   filter: none;
@@ -301,7 +402,11 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
 }
 
-.card {
+/* Bare `.card` base guarded like `.button` above — the v3 `AppCard` wrapper carries
+ * `.heroui-v3-warm` so it escapes this and renders via the v3 card recipe. The
+ * descendant typography rules below (`.card h1`/`.card p`/...) stay UNSCOPED so
+ * headings & copy inside the v3 card stay on-brand. */
+.card:where(:not(.heroui-v3-warm)) {
   border-radius: 20px;
   border: 1px solid color-mix(in srgb, var(--app-border) 74%, transparent);
   background: color-mix(in srgb, var(--app-card) 90%, transparent);
@@ -626,3 +731,4 @@ section {
     padding: 10px 10px;
   }
 }
+} /* end @layer app */
