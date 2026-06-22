@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppButton, AppCard } from "@laboratoire/ui";
 import { parseQuoteSearchParams } from "../../lib/bookingSchemas";
 import { getExperienceBySlug } from "../../lib/data";
 import { formatCurrency, quoteBooking } from "../../lib/pricing";
@@ -33,18 +33,20 @@ export default async function CartPage({ searchParams }: CartPageProps) {
 
   if (!params || !getExperienceBySlug(params.slug)) {
     return (
-      <section className="card">
+      // v3 wrapper: AppCard emits the v3 `.card` recipe + `.heroui-v3-warm` scope.
+      <AppCard>
         <h1>Cart</h1>
         <p className="notice">
           Missing or invalid booking parameters. Open an experience and build a
           quote first.
         </p>
         <div className="button-row">
-          <Link href="/" className="button">
+          {/* `as="a"` renders the v3 button-styled anchor (full nav, MVP-fine). */}
+          <AppButton as="a" href="/">
             Back to listing
-          </Link>
+          </AppButton>
         </div>
-      </section>
+      </AppCard>
     );
   }
 
@@ -53,7 +55,7 @@ export default async function CartPage({ searchParams }: CartPageProps) {
 
   return (
     <section className="layout-two">
-      <article className="card">
+      <AppCard>
         <h1>Cart summary</h1>
         <p>{quote.experience.title}</p>
         <p className="section-subtitle">
@@ -86,29 +88,32 @@ export default async function CartPage({ searchParams }: CartPageProps) {
           Pricing rule: <strong>{quote.pricingRule}</strong>
           {quote.promoLabel ? ` / Promo: ${quote.promoLabel}` : ""}
         </p>
-      </article>
+      </AppCard>
 
-      <article className="card">
+      <AppCard>
         <h2>Proceed</h2>
         <p className="section-subtitle">
           Checkout is protected: if not authenticated you will be redirected to
           login and then returned here.
         </p>
         <div className="button-row">
-          <Link href={checkoutHref} className="button">
+          {/* Primary CTA: default v3 primary variant (warm accent via scope). */}
+          <AppButton as="a" href={checkoutHref}>
             Continue to checkout
-          </Link>
-          <Link
+          </AppButton>
+          {/* `bordered` -> v3 `secondary`; `flat` -> v3 `tertiary` (see AppButton). */}
+          <AppButton
+            as="a"
             href={`/experiences/${quote.experience.slug}`}
-            className="button button--bordered"
+            variant="bordered"
           >
             Edit booking
-          </Link>
-          <Link href="/" className="button button--flat">
+          </AppButton>
+          <AppButton as="a" href="/" variant="flat">
             Back to listing
-          </Link>
+          </AppButton>
         </div>
-      </article>
+      </AppCard>
     </section>
   );
 }
