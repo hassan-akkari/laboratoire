@@ -143,3 +143,44 @@ Open follow-ups from the slice-2 adversarial review (none blocked merge):
 - Surgical-layer maintenance: each future v3 wrapper that needs new component CSS must add its layer import to
   apps/docs/src/index.css (overlay wrappers — Modal/Tooltip — also need `tw-animate-css` wired, which is why the
   full `@heroui-v3/styles` barrel was rejected for the surgical subset).
+
+## web-next HeroUI v3 + Tailwind wiring + cart conversion (session 20260622-p0-infra, agent-2, VARIANT B layer-disciplined)
+
+Shipped: apps/web-next now consumes `@laboratoire/ui` (added `workspace:*`). Tailwind v4 wired via an
+explicit `apps/web-next/postcss.config.mjs` (`@tailwindcss/postcss`). `app/globals.css` imports the SAME
+surgical v3 layer subset docs uses (themes/default + utilities + variants + components/button.css +
+card.css + warmThemeV3.css last), with the two v3 component recipes force-imported into a LOW `@layer
+heroui-v3` and the existing app rules wrapped in a HIGH `@layer app`. The two colliding bare base
+selectors (`.card` / `.button`) got a zero-specificity `:where(:not(.heroui-v3-warm))` guard so the v3
+wrappers (which carry `.heroui-v3-warm`) escape the legacy look while plain pages stay byte-identical.
+`.heroui-v3-warm` + `color-scheme:dark` are server-rendered on `<html>` in `layout.tsx` (no theme flash).
+A dedicated `app/Providers.tsx` ("use client") mounts `UiProvider` (HeroUI v2 provider — a no-op for the
+v3-only cart, included as the forward-looking router boundary for future v2-backed form pages). Cart page
+converted to `AppCard` + `AppButton` (`as="a"`). Consumes the lib from `dist` (Next 16 Turbopack rejects
+aliasing a bare specifier to an absolute `.ts` → "external module"); a `web-next` `prebuild` script builds
+the lib so `pnpm -F web-next build` is self-contained. `turbopack.root` pinned to the monorepo root to
+silence the worktree dual-lockfile warning.
+
+Open follow-ups (none blocked the commit):
+- **GATE FALLBACK USED — `pnpm -F web-next build` is environment-blocked, NOT by this change.** The prod
+  build reaches `✓ Compiled successfully` + `Running TypeScript` (both clean), then fails in
+  `lib/db/client.ts:15` (`DATABASE_URL is not set`) while collecting page data for the pre-existing
+  `/api/site-config` route. `next build` forces `NODE_ENV=production`, which disables the `DEV_NO_DB=1`
+  escape hatch, so a clean prod build needs a real `DATABASE_URL`. Verified via the dispatch's documented
+  fallback instead: lint + typecheck clean, `dev:next` boots, cart SSR HTML inspected. A future
+  deploy/CI for web-next must provide `DATABASE_URL` (or make `/api/site-config` build-safe without DB).
+- **MEDIUM — same CSS sideEffects fragility as slice-2 applies here.** web-next now ALSO relies on
+  `import "m3-ripple/ripple.css"` surviving the lib's `dist` through Next's transpile. Confirm the
+  pending `packages/ui` `"sideEffects": ["**/*.css"]` carve-out covers Next/Turbopack too.
+- **DECISION (source-vs-dist).** Chose dist + `prebuild` over TS-source alias because Turbopack on Next 16
+  cannot bundle a bare-specifier→absolute-`.ts` alias (treats it as external; also rejects Windows
+  backslash paths). If a future Next/Turbopack supports source aliasing cleanly, revisit to drop the
+  `prebuild` step. tsconfig `paths` still points `@laboratoire/ui`→source `index.ts` for the typecheck.
+- **LOW (routing).** Cart CTAs use `AppButton as="a"` (styled anchor) rather than Next `<Link>`, so they
+  do a full navigation instead of a soft client transition. Acceptable for this MVP prototype; revisit if
+  AppButton gains an `asChild`/render-element escape hatch to wrap `next/link`.
+- **LOW (layer order nuance).** Tailwind registers its own `utilities` layer during `@import "tailwindcss"`,
+  so the effective compiled order is `theme < base < utilities < heroui-v3 < app` (utilities below the
+  component layers, not above). Harmless here (cart wrappers don't override via utility classes), but a
+  future page that needs a `className` utility to beat the v3 recipe would have to rely on specificity or
+  an explicit higher layer. Documented inline in globals.css.
