@@ -222,17 +222,26 @@ export function toV3Variant(
 }
 
 /**
- * v3 dropped the `radius` prop; the equivalent is a Tailwind rounded utility.
- * Map the v2 `radius` vocabulary onto Tailwind classes, defaulting to the v2
- * `radius="sm"` corner (8px) the old wrapper used. This is applied on BOTH the
- * Button and the styled-anchor render paths so they stay pixel-identical.
+ * v3 dropped the `radius` prop. We map the v2 `radius` vocabulary onto explicit
+ * border-radius PIXEL values applied via INLINE STYLE (not a Tailwind class),
+ * defaulting to the v2 `radius="sm"` corner (8px).
+ *
+ * WHY INLINE STYLE (not `rounded-[Npx]`): the v3 `.button` recipe class bakes in
+ * `rounded-3xl` (1.5rem / 24px) via `@apply`, and `@heroui-v3/styles` ships its
+ * component CSS UNLAYERED — so `.button` outranks Tailwind's `@layer utilities`
+ * (`rounded-[8px]`) in the cascade regardless of source order, and the v2 corner
+ * never won (buttons rendered at 24px — "too curved"). An inline style beats any
+ * class regardless of layer/specificity, so the wrapper's radius wins uniformly
+ * across EVERY consumer (docs' surgical CSS subset, Storybook's full barrel, a
+ * future web-react) without depending on how each app layers the v3 imports.
+ * Applied on BOTH the Button and the styled-anchor paths so they stay identical.
  */
-const RADIUS_CLASS: Record<NonNullable<AppButtonProps["radius"]>, string> = {
-  none: "rounded-none",
-  sm: "rounded-[8px]",
-  md: "rounded-[12px]",
-  lg: "rounded-[14px]",
-  full: "rounded-full",
+const RADIUS_PX: Record<NonNullable<AppButtonProps["radius"]>, string> = {
+  none: "0px",
+  sm: "8px",
+  md: "12px",
+  lg: "14px",
+  full: "9999px",
 };
 
 export function AppButton({
@@ -248,6 +257,7 @@ export function AppButton({
   startContent,
   endContent,
   className,
+  style,
   disableRipple = false,
   as,
   href,
@@ -260,7 +270,12 @@ export function AppButton({
   ...rest
 }: AppButtonProps) {
   const v3Variant = toV3Variant(variant, color);
-  const radiusClass = RADIUS_CLASS[radius];
+  // Inline border-radius (see RADIUS_PX) — wins over the v3 `.button` baked
+  // `rounded-3xl`. Consumer `style` is spread LAST so a call site can override.
+  const radiusStyle: React.CSSProperties = {
+    borderRadius: RADIUS_PX[radius],
+    ...style,
+  };
 
   // m3-ripple's overlay is `position:absolute; inset:0`, so its host element must
   // be a positioning + clipping context. `buttonVariants()` already yields a
@@ -301,7 +316,7 @@ export function AppButton({
       fullWidth,
       isIconOnly,
       // `relative overflow-hidden` host the ripple overlay (see note above).
-      className: `relative overflow-hidden ${radiusClass} ${className ?? ""}`.trim(),
+      className: `relative overflow-hidden ${className ?? ""}`.trim(),
     });
     return (
       <a
@@ -310,6 +325,8 @@ export function AppButton({
         target={target}
         rel={rel}
         className={withV3Theme(anchorClass)}
+        // Inline radius beats the v3 `.button` baked `rounded-3xl` (see RADIUS_PX).
+        style={radiusStyle}
         // Anchors have no native disabled; mirror v3 button semantics.
         aria-disabled={isDisabled || undefined}
         onClick={onClick}
@@ -326,7 +343,7 @@ export function AppButton({
   // ---- Button branch: `as="button"` or unset -----------------------------
   // `relative overflow-hidden` host the ripple overlay (see note above).
   const buttonClass = withV3Theme(
-    `relative overflow-hidden ${radiusClass} ${className ?? ""}`.trim(),
+    `relative overflow-hidden ${className ?? ""}`.trim(),
   );
 
   // v3 Button is a react-aria <button>: its DOCUMENTED handler is `onPress`,
@@ -357,6 +374,8 @@ export function AppButton({
     onPress: mergedOnPress,
     ref: ref as Ref<HTMLButtonElement>,
     className: buttonClass,
+    // Inline radius beats the v3 `.button` baked `rounded-3xl` (see RADIUS_PX).
+    style: radiusStyle,
     ...rest,
   };
 
