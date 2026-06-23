@@ -79,10 +79,26 @@
 @import "@heroui-v3/styles/utilities";
 @import "@heroui-v3/styles/variants";
 
-/* The two component recipes the cart needs — forced into the LOW `heroui-v3`
- * layer so their bare `.button` / `.card` rules sit below `@layer app`. */
+/* tw-animate-css MUST be registered (unlayered, like utilities/variants) BEFORE the
+ * select/popover recipes that `@apply` its utilities (animate-in/fade-in-0/zoom-in-95).
+ * Without it the build dies on an unknown utility class — verified in apps/docs during
+ * the P1 field-slice migration. */
+@import "tw-animate-css";
+
+/* v3 component recipes the funnel needs — forced into the LOW `heroui-v3` layer so
+ * their bare `.button`/`.card` rules sit below `@layer app`. Field set added so the
+ * v3 AppInput / AppSelect / AppTextarea wrappers render styled (mirrors apps/docs). */
 @import "@heroui-v3/styles/components/button.css" layer(heroui-v3);
 @import "@heroui-v3/styles/components/card.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/input.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/textfield.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/textarea.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/label.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/field-error.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/select.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/list-box.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/list-box-item.css" layer(heroui-v3);
+@import "@heroui-v3/styles/components/popover.css" layer(heroui-v3);
 
 /* Warm-palette overrides for the v3 semantic vars — scoped to `.heroui-v3-warm`.
  * Path: app/ -> web-next -> apps -> repo root -> packages/ui/... (3 levels up). */

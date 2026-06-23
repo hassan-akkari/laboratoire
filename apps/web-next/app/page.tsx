@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppButton, AppCard, AppCardBody, AppChip, AppInput } from "@laboratoire/ui";
 import { getDateWithOffset } from "../lib/date";
 import { experiences } from "../lib/data";
 
@@ -54,51 +54,55 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           Search by title, location, or vibe — then open a detail to build your booking.
         </p>
         <form className="search-row" method="get">
-          <input
-            className="field"
-            type="search"
-            name="q"
-            defaultValue={query}
-            placeholder="Search experiences..."
-            aria-label="Search experiences"
-          />
-          <button className="button" type="submit">
-            Search
-          </button>
+          <div style={{ flex: 1, minWidth: 220 }}>
+            <AppInput
+              type="search"
+              name="q"
+              defaultValue={query}
+              placeholder="Search experiences..."
+              aria-label="Search experiences"
+            />
+          </div>
+          <AppButton type="submit">Search</AppButton>
           {query ? (
-            <Link className="button button--flat" href="/">
+            <AppButton as="a" variant="flat" href="/">
               Clear
-            </Link>
+            </AppButton>
           ) : null}
         </form>
       </section>
 
       <section className="cards-grid">
         {filtered.map((experience) => (
-          <article key={experience.slug} className="card">
-            <h3>{experience.title}</h3>
-            <p>{experience.summary}</p>
-            <div className="meta-row">
-              <span className="chip">{experience.location}</span>
-              <span className="chip">{experience.durationHours}h</span>
-              <span className="chip">
-                {experience.priceModel === "minimum_group"
-                  ? "minimum group"
-                  : "per person"}
-              </span>
-            </div>
-            <div className="button-row">
-              <Link className="button" href={`/experiences/${experience.slug}`}>
-                Open detail
-              </Link>
-              <Link
-                className="button button--bordered"
-                href={`/cart?slug=${experience.slug}&guests=2&date=${seedDate}`}
-              >
-                Quick add (sample)
-              </Link>
-            </div>
-          </article>
+          <AppCard key={experience.slug}>
+            <AppCardBody>
+              <div style={{ display: "grid", gap: 10 }}>
+                <h3>{experience.title}</h3>
+                <p>{experience.summary}</p>
+                <div className="meta-row">
+                  <AppChip>{experience.location}</AppChip>
+                  <AppChip>{experience.durationHours}h</AppChip>
+                  <AppChip>
+                    {experience.priceModel === "minimum_group"
+                      ? "minimum group"
+                      : "per person"}
+                  </AppChip>
+                </div>
+                <div className="button-row">
+                  <AppButton as="a" href={`/experiences/${experience.slug}`}>
+                    Open detail
+                  </AppButton>
+                  <AppButton
+                    as="a"
+                    variant="bordered"
+                    href={`/cart?slug=${experience.slug}&guests=2&date=${seedDate}`}
+                  >
+                    Quick add (sample)
+                  </AppButton>
+                </div>
+              </div>
+            </AppCardBody>
+          </AppCard>
         ))}
       </section>
     </>

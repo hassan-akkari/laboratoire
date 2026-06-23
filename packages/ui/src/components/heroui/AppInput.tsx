@@ -181,6 +181,10 @@ export function AppInput({
       isReadOnly={isReadOnly}
       fullWidth={fullWidth}
       variant={v3Variant}
+      // Uncontrolled initial value lives on the FIELD (react-aria TextField owns
+      // the input's value via context) — putting defaultValue on the <Input>
+      // primitive collides with that context value ("both value and defaultValue").
+      defaultValue={value === undefined ? defaultValue : undefined}
       className={withV3Theme(className)}
       aria-label={label ? undefined : ariaLabel}
       aria-labelledby={ariaLabelledBy}
@@ -188,10 +192,11 @@ export function AppInput({
       {label ? <HeroV3Label>{label}</HeroV3Label> : null}
       <HeroV3Input
         ref={ref}
-        // value/onChange (event) ride on the primitive — native DOM semantics,
-        // identical to v2 + ContactForm's expectation.
-        value={value}
-        defaultValue={defaultValue}
+        // CONTROLLED value/onChange (event) ride the primitive — native DOM
+        // semantics, identical to v2 + ContactForm. Uncontrolled defaultValue is
+        // handled on the TextField above (react-aria owns the value via context),
+        // so the primitive never receives both value and defaultValue.
+        {...(value !== undefined ? { value } : {})}
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}

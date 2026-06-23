@@ -41,7 +41,12 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={HEROUI_V3_THEME_CLASS}
+      // `dark` activates @heroui-v3/styles' dark NEUTRALS (--field-background,
+      // --default, ... are gated behind `.dark`; without it v3 fields/secondary
+      // surfaces fall back to the light :root => white inputs). The warm scope
+      // (HEROUI_V3_THEME_CLASS) is imported AFTER themes/default, so its BRAND
+      // overrides (--accent/--background/--surface/...) still win on top.
+      className={`dark ${HEROUI_V3_THEME_CLASS}`}
       style={{ colorScheme: "dark" }}
     >
       <body>
