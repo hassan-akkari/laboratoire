@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web-next",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev:next"],
+      "port": 3001
+    }
+  ]
+}
