@@ -14,18 +14,27 @@
  * `@config`/`@plugin` setup), so the full barrel fails the build with
  * "Cannot apply unknown utility class `fade-in-0`". Verified empirically.
  *
- * ROBUST FIX — import ONLY the layers the two migrated v3 wrappers need:
+ * ROBUST FIX — import ONLY the layers the migrated v3 wrappers need:
  *   1. themes/default  -> the v3 design tokens + `@theme` (every var button.css
  *      `@apply`s: --accent*, --button-*, --danger*, --ease-*, --default*, ...).
  *   2. utilities       -> the custom utilities button.css `@apply`s
  *      (focus-ring, status-focused, status-disabled, status-pending,
  *      no-highlight).
  *   3. variants        -> the `buttonVariants()` recipe + motion variants.
- *   4. components/button.css + card.css -> the two migrated wrappers' styles.
- * None of these reference `tw-animate-css`, so the build is clean AND we never
- * ship CSS for the 20 unmigrated v3 components. When a wrapper is migrated, add
- * its one `components/<name>.css` line here (and, if it is an overlay, wire
- * `tw-animate-css` into docs' Tailwind at that time).
+ *   4. components/<name>.css -> the migrated wrappers' styles. Currently:
+ *      button, card (P0) PLUS the FIELD SLICE — input/textfield/textarea/label/
+ *      field-error (AppInput + AppTextarea) and select/list-box/list-box-item/
+ *      popover (AppSelect, an overlay). When a wrapper is migrated, add its one
+ *      `components/<name>.css` line here.
+ * The field CSS (input/textfield/textarea/label/field-error) is CLEAN. The Select
+ * is an OVERLAY: `select.css` AND `popover.css` `@apply` `tw-animate-css`
+ * utilities (`animate-in`, `fade-in-0`, `zoom-in-95`, `slide-in-from-bottom-1`,
+ * ...). docs' Tailwind v4 context does NOT auto-register `tw-animate-css`, so we
+ * EXPLICITLY `@import "tw-animate-css"` BELOW (right after Tailwind, before the
+ * select/popover imports) — without it the build fails with "Cannot apply unknown
+ * utility class `fade-in-0`". `tw-animate-css` is installed at
+ * node_modules/tw-animate-css (a dep of @heroui-v3/styles). We still never ship
+ * CSS for the unmigrated v3 components.
  *
  * GLOBAL-RESET SAFETY: we deliberately SKIP `@heroui-v3/styles/base`
  * (`base/base.css`), whose only global side-effect is
@@ -41,11 +50,27 @@
  * keep using the `heroui()` plugin below.
  * --------------------------------------------------------------------------- */
 @import "tailwindcss";
+/* Required by the v3 Select overlay: select.css + popover.css `@apply`
+ * `tw-animate-css` utilities (animate-in/fade-in-0/zoom-in-95/...). Must come
+ * BEFORE those component imports so the utilities are registered. */
+@import "tw-animate-css";
 @import "@heroui-v3/styles/themes/default";
 @import "@heroui-v3/styles/utilities";
 @import "@heroui-v3/styles/variants";
 @import "@heroui-v3/styles/components/button.css";
 @import "@heroui-v3/styles/components/card.css";
+/* Field slice — AppInput + AppTextarea (TextField field model). All CLEAN. */
+@import "@heroui-v3/styles/components/input.css";
+@import "@heroui-v3/styles/components/textfield.css";
+@import "@heroui-v3/styles/components/textarea.css";
+@import "@heroui-v3/styles/components/label.css";
+@import "@heroui-v3/styles/components/field-error.css";
+/* Field slice — AppSelect (overlay). select.css + popover.css need tw-animate-css
+ * (imported above). list-box.css / list-box-item.css are clean. */
+@import "@heroui-v3/styles/components/select.css";
+@import "@heroui-v3/styles/components/list-box.css";
+@import "@heroui-v3/styles/components/list-box-item.css";
+@import "@heroui-v3/styles/components/popover.css";
 @import "../../../packages/ui/src/theme/v3/warmThemeV3.css";
 @config "../tailwind.config.ts";
 @plugin "../../../packages/ui/src/theme/heroTheme.ts";
