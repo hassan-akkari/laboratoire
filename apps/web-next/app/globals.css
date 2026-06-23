@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 /* ===========================================================================
  * HeroUI v3 + Tailwind v4 wiring — VARIANT B: explicit-config, LAYER-DISCIPLINED
@@ -135,6 +135,9 @@ body {
     radial-gradient(700px 420px at 88% -12%, rgba(238, 146, 108, 0.18), transparent 70%),
     var(--app-bg);
   color: var(--app-fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -143,6 +146,7 @@ h3,
 .brand,
 .section-title {
   font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
 }
 
 a {
@@ -158,16 +162,20 @@ button {
 }
 
 .app-shell {
+  --nav-offset: clamp(56px, 12vh, 120px);
+  --stage-fill: calc(100dvh - var(--nav-offset));
   min-height: 100dvh;
-  padding: 12px 0 52px;
+  padding: 0 0 52px;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-nav {
   position: sticky;
-  top: 10px;
+  top: 0;
   z-index: 30;
   width: min(1240px, 100%);
-  margin: 0 auto;
+  margin: 12px auto 0;
   padding: 0 clamp(20px, 6vw, 92px);
 }
 
@@ -224,6 +232,9 @@ button {
   padding: 24px clamp(20px, 6vw, 92px) 0;
   display: grid;
   gap: 24px;
+  flex: 1;
+  min-height: var(--stage-fill);
+  align-content: start;
 }
 
 section {
@@ -253,7 +264,7 @@ section {
 .hero-card h1 {
   font-size: clamp(34px, 6vw, 62px);
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .hero-card p {
@@ -299,10 +310,15 @@ section {
 
 .field {
   border-radius: 12px;
-  border: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
-  background: color-mix(in srgb, var(--app-card) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-fg) 22%, var(--app-border));
+  background: color-mix(in srgb, var(--app-card) 72%, var(--app-bg));
   color: var(--app-fg);
   padding: 10px 12px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.field:hover {
+  border-color: color-mix(in srgb, var(--app-accent) 50%, var(--app-border));
 }
 
 .field {
@@ -730,5 +746,34 @@ section {
   .admin-table td {
     padding: 10px 10px;
   }
+}
+/* Short pages (login, admin login, confirmation, error fallbacks) center their
+ * card in the viewport stage instead of marooning a tiny box at the top. */
+.stage-center {
+  flex: 1;
+  min-height: var(--stage-fill);
+  display: grid;
+  place-items: center;
+  padding: 24px clamp(20px, 6vw, 92px);
+}
+
+.hero-card .hero-eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: color-mix(in srgb, var(--app-accent) 60%, var(--app-fg));
+}
+
+.admin-brand {
+  margin: 0 0 6px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.admin-brand span {
+  color: var(--app-muted);
+  font-weight: 600;
 }
 } /* end @layer app */

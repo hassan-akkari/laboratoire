@@ -9,9 +9,9 @@ import { Providers } from "./Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Web Next | Booking Checkout Engine",
+  title: "Cammino — Curated Rome experiences",
   description:
-    "Production-style Next.js booking and checkout flow with protected routes and pricing rules.",
+    "Hand-picked Rome experiences — food walks, skip-the-line entries, sunset rivers. Booked in seconds, confirmed instantly, priced with no surprises.",
 };
 
 export default async function RootLayout({
@@ -51,7 +51,7 @@ export default async function RootLayout({
               <nav className="app-nav">
                 <div className="app-nav__content">
                   <Link href="/" className="brand">
-                    web-<span>next</span>
+                    Cam<span>mino</span>
                   </Link>
                   <div className="nav-links">
                     <Link href="/">Listing</Link>

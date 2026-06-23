@@ -34,11 +34,13 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <section
-      className="card"
-      style={{ maxWidth: 440, margin: "60px auto", padding: 28 }}
-    >
-      <h1 style={{ margin: 0, fontSize: "clamp(26px, 3.5vw, 32px)" }}>Admin sign in</h1>
+    <div className="stage-center">
+      <section
+        className="card"
+        style={{ maxWidth: 440, width: "100%", padding: 28 }}
+      >
+        <p className="admin-brand">Cammino <span>· Admin</span></p>
+        <h1 style={{ margin: 0, fontSize: "clamp(26px, 3.5vw, 32px)" }}>Admin sign in</h1>
       <p style={{ margin: "8px 0 18px", color: "var(--app-muted)" }}>
         Restricted to itshassan.it administrators.
       </p>
@@ -72,6 +74,7 @@ export default function AdminLoginPage() {
           {loading ? "Signing in…" : "Sign in"}
         </button>
       </form>
-    </section>
+      </section>
+    </div>
   );
 }

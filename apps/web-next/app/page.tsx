@@ -34,24 +34,24 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   return (
     <>
       <section className="hero-card">
-        <h1>Booking and Checkout Engine (MVP)</h1>
+        <p className="hero-eyebrow">ROME · CURATED EXPERIENCES</p>
+        <h1>Book Rome like someone who lives here.</h1>
         <p>
-          Next.js App Router demo focused on concrete capability proof: protected checkout,
-          server-validated pricing rules, and idempotent order confirmation.
+          Hand-picked food walks, skip-the-line entries, and sunset rivers — booked in
+          seconds, confirmed instantly, and priced with no surprises at checkout.
         </p>
         <div className="signal-grid">
-          <div className="signal-pill">SSR-ready listing + details</div>
-          <div className="signal-pill">Route handler API boundaries</div>
-          <div className="signal-pill">Auth gate + redirect to original route</div>
-          <div className="signal-pill">Price rules engine with unit tests</div>
+          <div className="signal-pill">Instant confirmation</div>
+          <div className="signal-pill">No surprise fees — tax &amp; service shown upfront</div>
+          <div className="signal-pill">Secure checkout</div>
+          <div className="signal-pill">Hand-picked local experiences</div>
         </div>
       </section>
 
       <section>
-        <h2 className="section-title">Experience listing</h2>
+        <h2 className="section-title">Browse Rome experiences</h2>
         <p className="section-subtitle">
-          Search by title, location, or short description. Then open detail and
-          continue to cart.
+          Search by title, location, or vibe — then open a detail to build your booking.
         </p>
         <form className="search-row" method="get">
           <input
@@ -95,7 +95,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 className="button button--bordered"
                 href={`/cart?slug=${experience.slug}&guests=2&date=${seedDate}`}
               >
-                Quick cart
+                Quick add (sample)
               </Link>
             </div>
           </article>
