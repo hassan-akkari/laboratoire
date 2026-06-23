@@ -202,6 +202,10 @@ export {
 export type { V3ThemedVar } from "./theme/v3/warmThemeV3";
 export type { AppButtonVariant } from "./components/heroui/AppButton";
 export type { AppCardVariant } from "./components/heroui/AppCard";
+// Field-slice v3 visual variants (the v3 `primary | secondary` field axis).
+export type { AppInputVariant } from "./components/heroui/AppInput";
+export type { AppTextareaVariant } from "./components/heroui/AppTextarea";
+export type { AppSelectVariant } from "./components/heroui/AppSelect";
 
 // ---------------------------------------------------------------------------
 // tw-ui RETIREMENT (Phase 2 public-API standardization).
