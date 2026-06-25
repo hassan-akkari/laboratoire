@@ -117,6 +117,11 @@ export interface AppInputProps {
   minLength?: number;
   maxLength?: number;
   pattern?: string;
+  /** Range bounds for `type="number"`/`type="date"` (string or number per HTML). */
+  min?: number | string;
+  max?: number | string;
+  /** Step for `type="number"`. */
+  step?: number | string;
   /** v2 visual axes — accepted for call-site compatibility. */
   variant?: V2InputVariant | AppInputVariant;
   /** v2 `color` — accepted but NO-OP (no v3 field color axis). */
@@ -164,6 +169,9 @@ export function AppInput({
   minLength,
   maxLength,
   pattern,
+  min,
+  max,
+  step,
   variant,
   // NOTE: `color`, `size`, `labelPlacement` are part of the public interface for
   // call-site compatibility but have NO v3 field axis — they are intentionally
@@ -215,6 +223,9 @@ export function AppInput({
         minLength={minLength}
         maxLength={maxLength}
         pattern={pattern}
+        min={min}
+        max={max}
+        step={step}
         variant={v3Variant}
         fullWidth={fullWidth}
         aria-describedby={ariaDescribedBy}

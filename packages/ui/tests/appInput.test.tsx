@@ -68,6 +68,18 @@ describe("AppInput (v3 field-slice)", () => {
     expect(markup).toContain('pattern="[A-Za-z ]+"');
   });
 
+  it("forwards range attrs (min/max/step) for number/date inputs", () => {
+    // Drives the web-next experiences/[slug] migration: guests uses min/max,
+    // date uses min (earliest bookable day).
+    const markup = renderToStaticMarkup(
+      <AppInput type="number" name="guests" min={1} max={12} step={1} />,
+    );
+    expect(markup).toContain('type="number"');
+    expect(markup).toContain('min="1"');
+    expect(markup).toContain('max="12"');
+    expect(markup).toContain('step="1"');
+  });
+
   it("shows the error message only when isInvalid", () => {
     const invalid = renderToStaticMarkup(
       <AppInput
