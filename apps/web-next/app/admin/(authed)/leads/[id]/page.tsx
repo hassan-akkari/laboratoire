@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { AppButton, AppCard } from "@laboratoire/ui";
 import { getLeadById, updateLead, type LeadStatus } from "@/lib/admin/leads";
 
 export const dynamic = "force-dynamic";
@@ -50,13 +50,14 @@ export default async function LeadDetailPage({
             Received {createdAt} · <span className={`tag tag--${lead.source}`}>{lead.source}</span>
           </p>
         </div>
-        <Link className="button button--flat" href="/admin">← Back to leads</Link>
+        {/* `as="a"` -> v3 button-styled anchor; `flat` -> v3 tertiary. */}
+        <AppButton as="a" variant="flat" href="/admin">← Back to leads</AppButton>
       </header>
 
       {saved === "1" ? <div className="notice ok">Saved.</div> : null}
 
       <div className="layout-two">
-        <div className="card" style={{ padding: 18, display: "grid", gap: 12 }}>
+        <AppCard style={{ padding: 18, display: "grid", gap: 12 }}>
           <h2 style={{ margin: 0, fontSize: 18 }}>Contact</h2>
           <div className="summary-grid">
             <div className="summary-row"><span>Email</span><strong>{lead.email}</strong></div>
@@ -86,10 +87,12 @@ export default async function LeadDetailPage({
               <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{lead.message}</p>
             </>
           ) : null}
-        </div>
+        </AppCard>
 
-        <div className="card" style={{ padding: 18, display: "grid", gap: 12 }}>
+        <AppCard style={{ padding: 18, display: "grid", gap: 12 }}>
           <h2 style={{ margin: 0, fontSize: 18 }}>Admin</h2>
+          {/* Server-action form: <select> stays native (posts via `name`);
+              <textarea> kept native (no wrapper in scope for this variant). */}
           <form action={saveLead} className="form-grid">
             <input type="hidden" name="id" value={lead.id} />
             <label className="form-label">
@@ -111,7 +114,7 @@ export default async function LeadDetailPage({
               />
             </label>
             <div className="button-row">
-              <button className="button" type="submit">Save</button>
+              <AppButton type="submit">Save</AppButton>
             </div>
           </form>
 
@@ -120,7 +123,7 @@ export default async function LeadDetailPage({
               <strong>Notification error:</strong> {lead.notificationError}
             </div>
           ) : null}
-        </div>
+        </AppCard>
       </div>
     </section>
   );
