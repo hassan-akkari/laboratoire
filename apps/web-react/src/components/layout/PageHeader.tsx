@@ -1,4 +1,4 @@
-import { Button } from "@heroui/react";
+import { AppButton } from "@laboratoire/ui";
 import type { ThemeMode } from "../../hooks/useTheme";
 
 type PageHeaderProps = {
@@ -21,13 +21,13 @@ export default function PageHeader({ theme, onToggleTheme }: PageHeaderProps) {
         </p>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        <Button variant="bordered" onPress={onToggleTheme}>
+        <AppButton variant="bordered" onPress={onToggleTheme}>
           Switch to {theme === "dark" ? "light" : "dark"}
-        </Button>
-        <Button color="primary">Primary action</Button>
-        <Button variant="flat" color="secondary">
+        </AppButton>
+        <AppButton color="primary">Primary action</AppButton>
+        <AppButton variant="flat" color="secondary">
           Secondary
-        </Button>
+        </AppButton>
       </div>
     </header>
   );
