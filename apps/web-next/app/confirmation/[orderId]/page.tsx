@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppButton, AppCard } from "@laboratoire/ui";
 import { notFound } from "next/navigation";
 import { getOrderById } from "../../../lib/orders";
 import { formatCurrency } from "../../../lib/pricing";
@@ -28,7 +28,7 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
 
   return (
     <section className="layout-two">
-      <article className="card">
+      <AppCard>
         <h1>Order confirmed</h1>
         <p className="notice ok">
           Confirmation ID: <strong>{order.id}</strong>
@@ -46,13 +46,13 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
           </li>
         </ul>
         <div className="button-row">
-          <Link href="/" className="button">
+          <AppButton as="a" href="/">
             Create another booking
-          </Link>
+          </AppButton>
         </div>
-      </article>
+      </AppCard>
 
-      <article className="card">
+      <AppCard>
         <h2>Final total</h2>
         <div className="summary-grid">
           <div className="summary-row">
@@ -76,7 +76,7 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
             <strong>{formatCurrency(order.quote.total)}</strong>
           </div>
         </div>
-      </article>
+      </AppCard>
     </section>
   );
 }
