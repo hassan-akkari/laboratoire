@@ -50,6 +50,24 @@ describe("AppInput (v3 field-slice)", () => {
     expect(markup).toContain('placeholder="you@example.com"');
   });
 
+  it("forwards native constraint attrs (minLength/maxLength/pattern) to the input", () => {
+    // Drives the web-next checkout migration: the fullName field relies on
+    // minLength={2} as a client-side hint (server zod re-validates regardless).
+    const markup = renderToStaticMarkup(
+      <AppInput
+        label="Full name"
+        name="fullName"
+        minLength={2}
+        maxLength={80}
+        pattern="[A-Za-z ]+"
+      />,
+    );
+    // react-aria's <Input> emits the React-style camelCase attribute names.
+    expect(markup).toContain('minLength="2"');
+    expect(markup).toContain('maxLength="80"');
+    expect(markup).toContain('pattern="[A-Za-z ]+"');
+  });
+
   it("shows the error message only when isInvalid", () => {
     const invalid = renderToStaticMarkup(
       <AppInput

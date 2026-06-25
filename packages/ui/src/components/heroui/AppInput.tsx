@@ -113,6 +113,10 @@ export interface AppInputProps {
   isReadOnly?: boolean;
   fullWidth?: boolean;
   autoComplete?: string;
+  /** Native input constraints forwarded to the `<input>` primitive. */
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
   /** v2 visual axes — accepted for call-site compatibility. */
   variant?: V2InputVariant | AppInputVariant;
   /** v2 `color` — accepted but NO-OP (no v3 field color axis). */
@@ -157,6 +161,9 @@ export function AppInput({
   isReadOnly,
   fullWidth = true,
   autoComplete,
+  minLength,
+  maxLength,
+  pattern,
   variant,
   // NOTE: `color`, `size`, `labelPlacement` are part of the public interface for
   // call-site compatibility but have NO v3 field axis — they are intentionally
@@ -205,6 +212,9 @@ export function AppInput({
         id={id}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        minLength={minLength}
+        maxLength={maxLength}
+        pattern={pattern}
         variant={v3Variant}
         fullWidth={fullWidth}
         aria-describedby={ariaDescribedBy}
