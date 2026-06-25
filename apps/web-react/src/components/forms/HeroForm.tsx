@@ -1,17 +1,16 @@
 import { useState } from "react";
-import type { Key } from "react";
 import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Checkbox,
-  Input,
-  Select,
-  SelectItem,
-  Switch,
-  Textarea,
-} from "@heroui/react";
+  AppButton,
+  AppCard,
+  AppCardBody,
+  AppCardHeader,
+  AppCheckbox,
+  AppInput,
+  AppSelect,
+  AppSelectItem,
+  AppSwitch,
+  AppTextarea,
+} from "@laboratoire/ui";
 import {
   heroFormSchema,
   initialHeroFormValues,
@@ -19,6 +18,11 @@ import {
   type HeroFormValues,
 } from "./heroForm.schema";
 
+// Mirrors HeroUI's react-aria `Selection` (`"all" | Set<Key>`, where the
+// react-aria `Key` is `string | number`). Kept LOCAL so this component file
+// imports nothing from raw HeroUI; the AppSelect wrapper accepts this exact
+// surface (`selectedKeys?: Selection` / `onSelectionChange?: (keys) => void`).
+type Key = string | number;
 type Selection = "all" | Set<Key>;
 
 export default function HeroForm() {
@@ -63,85 +67,87 @@ export default function HeroForm() {
   };
 
   return (
-    <Card className="border border-[--app-border] bg-[--app-card]">
-      <CardHeader>
+    <AppCard className="border border-[--app-border] bg-[--app-card]">
+      <AppCardHeader>
         <div>
           <h2 className="text-lg font-semibold">HeroUI form</h2>
           <p className="text-sm text-[--app-muted]">
             Input, select, textarea e toggle con stile uniforme.
           </p>
         </div>
-      </CardHeader>
-      <CardBody>
+      </AppCardHeader>
+      <AppCardBody>
         <form className="grid gap-4" onSubmit={handleSubmit}>
           <div className="grid gap-4 md:grid-cols-2">
-            <Input
+            <AppInput
               label="Nome"
               placeholder="Hassan"
               variant="bordered"
               value={values.name}
-              onValueChange={(value) => updateField("name", value)}
+              onChange={(event) => updateField("name", event.target.value)}
               isInvalid={Boolean(errors.name)}
               errorMessage={errors.name}
             />
-            <Input
+            <AppInput
               label="Email"
               placeholder="nome@email.com"
               type="email"
               variant="bordered"
               value={values.email}
-              onValueChange={(value) => updateField("email", value)}
+              onChange={(event) => updateField("email", event.target.value)}
               isInvalid={Boolean(errors.email)}
               errorMessage={errors.email}
             />
           </div>
 
-          <Select
+          <AppSelect
             label="Ruolo"
             placeholder="Seleziona un ruolo"
             variant="bordered"
-            selectedKeys={[values.role]}
+            selectedKeys={
+              values.role ? new Set<Key>([values.role]) : new Set<Key>()
+            }
             onSelectionChange={handleRoleChange}
             isInvalid={Boolean(errors.role)}
             errorMessage={errors.role}
           >
             {roles.map((role) => (
-              <SelectItem key={role.key}>{role.label}</SelectItem>
+              <AppSelectItem key={role.key}>{role.label}</AppSelectItem>
             ))}
-          </Select>
+          </AppSelect>
 
-          <Textarea
+          <AppTextarea
             label="Messaggio"
             placeholder="Scrivi qui..."
             variant="bordered"
             minRows={3}
             value={values.message}
-            onValueChange={(value) => updateField("message", value)}
+            onChange={(event) => updateField("message", event.target.value)}
             isInvalid={Boolean(errors.message)}
             errorMessage={errors.message}
           />
 
           <div className="flex flex-wrap items-center gap-4">
-            <Checkbox
+            <AppCheckbox
               isSelected={Boolean(values.newsletter)}
               onValueChange={(value) => updateField("newsletter", value)}
             >
               Newsletter
-            </Checkbox>
-            <Switch
+            </AppCheckbox>
+            <AppSwitch
               isSelected={Boolean(values.priority)}
               onValueChange={(value) => updateField("priority", value)}
               size="sm"
             >
               Priorità alta
-            </Switch>
+            </AppSwitch>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Button color="primary" type="submit">
+            <AppButton color="primary" type="submit">
               Invia
-            </Button>
-            <Button
+            </AppButton>
+            <AppButton
               variant="bordered"
               type="button"
               onPress={() => {
@@ -151,17 +157,17 @@ export default function HeroForm() {
               }}
             >
               Annulla
-            </Button>
-            <Button variant="flat" color="secondary" type="button">
+            </AppButton>
+            <AppButton variant="flat" color="secondary" type="button">
               Salva bozza
-            </Button>
+            </AppButton>
           </div>
 
           {status ? (
             <p className="text-xs text-[--app-muted]">{status}</p>
           ) : null}
         </form>
-      </CardBody>
-    </Card>
+      </AppCardBody>
+    </AppCard>
   );
 }
