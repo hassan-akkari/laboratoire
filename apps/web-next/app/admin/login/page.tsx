@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { AppButton, AppCard, AppInput } from "@laboratoire/ui";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -35,10 +36,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="stage-center">
-      <section
-        className="card"
-        style={{ maxWidth: 440, width: "100%", padding: 28 }}
-      >
+      <AppCard style={{ maxWidth: 440, width: "100%", padding: 28 }}>
         <p className="admin-brand">Cammino <span>· Admin</span></p>
         <h1 style={{ margin: 0, fontSize: "clamp(26px, 3.5vw, 32px)" }}>Admin sign in</h1>
       <p style={{ margin: "8px 0 18px", color: "var(--app-muted)" }}>
@@ -47,34 +45,36 @@ export default function AdminLoginPage() {
 
       {error ? <div className="notice err">{error}</div> : null}
 
+      {/* Client form keeps onSubmit/state; inputs adopt AppInput (controlled
+          value+event onChange). AppButton uses isDisabled (no native `disabled`). */}
       <form className="form-grid" onSubmit={handleSubmit} noValidate>
         <label className="form-label">
           Email
-          <input
-            className="field"
+          <AppInput
             type="email"
             autoComplete="username"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            aria-label="Email"
           />
         </label>
         <label className="form-label">
           Password
-          <input
-            className="field"
+          <AppInput
             type="password"
             autoComplete="current-password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            aria-label="Password"
           />
         </label>
-        <button className="button" type="submit" disabled={loading || !email || !password}>
+        <AppButton type="submit" isDisabled={loading || !email || !password}>
           {loading ? "Signing in…" : "Sign in"}
-        </button>
+        </AppButton>
       </form>
-      </section>
+      </AppCard>
     </div>
   );
 }

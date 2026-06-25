@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AppButton } from "@laboratoire/ui";
 
 export function TestEmailButton() {
   const [state, setState] = useState<
@@ -27,14 +28,15 @@ export function TestEmailButton() {
 
   return (
     <div style={{ display: "grid", gap: 8 }}>
-      <button
-        className="button button--bordered"
+      {/* `isDisabled` (not native `disabled`); `bordered` -> v3 secondary. */}
+      <AppButton
+        variant="bordered"
         type="button"
         onClick={handleClick}
-        disabled={state.kind === "loading"}
+        isDisabled={state.kind === "loading"}
       >
         {state.kind === "loading" ? "Sending…" : "Send test email"}
-      </button>
+      </AppButton>
       {state.kind === "ok" ? (
         <div className="notice ok">Test email sent to <strong>{state.recipient}</strong>.</div>
       ) : null}
