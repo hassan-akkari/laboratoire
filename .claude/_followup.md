@@ -282,4 +282,60 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Where**: open-menu button. The close button (FaTimes) was given `aria-hidden="true"` when its `<li>` wrapper was added in this audit pass; the open button still lacks it.
 - **Suggested fix**: add `aria-hidden="true"` for parity. Trivial.
 
+---
+
+---
+
+## 2026-06-25 — HeroUI P5 (web-next) migration — open items
+
+> Surfaced during the public-funnel + admin migration of `apps/web-next` onto the shared
+> `@laboratoire/ui` `App*` wrappers (branch `feat/heroui-universal-ui-system`). Funnel (7 pages)
+> + admin (7 files, Variant B via orchestrator competition) are merged + green.
+
+### H1 — `apps/web-next/next-env.d.ts` flaps between `dev` and `build` variants
+
+- **Where**: `apps/web-next/next-env.d.ts` (tracked since `4925b17`).
+- **Behavior**: Next.js auto-regenerates this file. `next dev` writes
+  `import "./.next/dev/types/routes.d.ts"`; `next build` writes `import "./.next/types/routes.d.ts"`.
+  Because the file is committed, switching between dev and a prod build shows it as Modified
+  every time (Hassan noticed it dirty in the IDE). The file header says "should not be edited".
+- **Suggested fix**: gitignore `apps/web-next/next-env.d.ts` (Next regenerates it on every build,
+  so it never needs to be tracked) — OR pin it to the `build` variant and accept dev-time dirt.
+  Trivial; isolate in its own chore commit. Confirm CI (`pnpm check`) still typechecks web-next
+  without the tracked file (Next recreates it before `tsc`).
+
+### H2 — admin in-app nav uses full-page anchors instead of Next `<Link>` (from the admin migration)
+
+- **Where**: `apps/web-next/app/admin/(authed)/page.tsx` ("Clear"),
+  `(authed)/leads/[id]/page.tsx` ("← Back to leads"), `not-found.tsx` (3 links). All now
+  `AppButton as="a" href=…` (full-page navigation, no prefetch) where they were `next/link` before.
+- **Why it matters**: client-side nav + prefetch lost on these admin links. Tolerable for a
+  single-operator internal tool; flagged by the adversarial pass (MEDIUM) during the Variant-B merge.
+- **Suggested fix**: give `packages/ui` a router-aware link path (the [A5] `LinkContext` idea), or
+  use `<Link>` wrapped in button styling for in-app admin nav. Pairs with A5.
+
+### H3 — redundant `aria-label` on AppInputs already inside `<label className="form-label">`
+
+- **Where**: `apps/web-next/app/admin/login/page.tsx`, `(authed)/site-config/page.tsx` (and the
+  same pattern in the migrated funnel forms — checkout/experiences). Each `AppInput` carries an
+  `aria-label` while also being wrapped in a visible `<label>`; the `aria-label` overrides the
+  wrapping label's implicit association (announced text is identical, so no functional impact).
+- **Why it matters**: minor a11y redundancy; flagged LOW by the adversarial pass.
+- **Suggested fix**: either drop the `aria-label` and rely on the wrapping `<label>` (needs the
+  label associated via `htmlFor`/`id` to be correct), or pass the label text through AppInput's
+  own `label` prop and drop the outer `<label>`. Decide one labelling convention for the wrappers
+  and apply it consistently across web-next forms.
+
+### H4 — `apps/web-next` admin: maximal HeroUI adoption (AppTable + AppChip) deferred
+
+- **Where**: `(authed)/page.tsx` leads dashboard — kept native `<table className="admin-table">`
+  and `.tag--*` status spans (Variant B, parity-first, won the competition).
+- **Why deferred**: Variant A's AppTable+AppChip adoption was the competition runner-up — it drops
+  the hand-tuned `.admin-table`/`.tag` CSS, is the first in-app use of AppTable (no visual test),
+  and its AppChip color-map collapses `new`(blue)+`cal`(purple) onto one accent color. Parity won
+  for the internal tool. Variant A is archived at tag `hub/archive/20260625-164205/agent-1` if the
+  team later wants the full-system look (would need AppChip to gain more colors + a visual check).
+- **Suggested approach**: revisit only if the admin gets a visual refresh; pair with extending
+  AppChip's v3 color axis. Not urgent.
+
 
