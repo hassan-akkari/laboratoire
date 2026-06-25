@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import Link from "next/link";
+import { AppButton, AppCard, AppInput } from "@laboratoire/ui";
 import { redirect } from "next/navigation";
 import { checkoutRequestSchema, parseQuoteSearchParams } from "../../lib/bookingSchemas";
 import { getExperienceBySlug } from "../../lib/data";
@@ -34,15 +34,15 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
 
   if (!params || !getExperienceBySlug(params.slug)) {
     return (
-      <section className="card">
+      <AppCard>
         <h1>Checkout</h1>
         <p className="notice">Invalid booking context. Start from an experience page.</p>
         <div className="button-row">
-          <Link href="/" className="button">
+          <AppButton as="a" href="/">
             Back to listing
-          </Link>
+          </AppButton>
         </div>
-      </section>
+      </AppCard>
     );
   }
 
@@ -74,7 +74,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
 
   return (
     <section className="layout-two">
-      <article className="card">
+      <AppCard>
         <h1>Checkout</h1>
         <p className="section-subtitle">
           Protected route unlocked. Submit once or multiple times: same idempotency
@@ -89,28 +89,31 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
 
           <label className="form-label">
             Full name
-            <input
-              className="field"
+            <AppInput
               name="fullName"
               placeholder="Hassan Akkari"
               required
               minLength={2}
+              aria-label="Full name"
             />
           </label>
 
           <label className="form-label">
             Email
-            <input
-              className="field"
+            <AppInput
               type="email"
               name="email"
               placeholder="you@example.com"
               required
+              aria-label="Email"
             />
           </label>
 
           <label className="form-label">
             Payment method
+            {/* Native <select>: a server-action form posts via `name`; AppSelect
+                (v3 react-aria ListBox) needs client state, so keep the native
+                control here — themed by globals.css `.field`. */}
             <select className="field" name="paymentMethod" defaultValue="card">
               <option value="card">Card</option>
               <option value="wallet">Wallet</option>
@@ -118,17 +121,16 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
           </label>
 
           <div className="button-row">
-            <button className="button" type="submit">
-              Confirm order
-            </button>
-            <Link className="button button--bordered" href={`/cart?${queryString}`}>
+            <AppButton type="submit">Confirm order</AppButton>
+            {/* `bordered` -> v3 `secondary` (see AppButton). */}
+            <AppButton as="a" href={`/cart?${queryString}`} variant="bordered">
               Back to cart
-            </Link>
+            </AppButton>
           </div>
         </form>
-      </article>
+      </AppCard>
 
-      <article className="card">
+      <AppCard>
         <h2>Order preview</h2>
         <p>{quote.experience.title}</p>
         <p className="section-subtitle">
@@ -160,7 +162,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
           Rule: <strong>{quote.pricingRule}</strong>
           {quote.promoLabel ? ` / Promo: ${quote.promoLabel}` : ""}
         </p>
-      </article>
+      </AppCard>
     </section>
   );
 }
