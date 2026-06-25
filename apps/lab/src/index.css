@@ -1,0 +1,97 @@
+/* ---------------------------------------------------------------------------
+ * apps/lab — the standalone @laboratoire/ui playground.
+ *
+ * This CSS recipe is cloned from apps/docs/src/index.css (the live consumer), so
+ * the gallery renders every wrapper exactly as the real apps do. The library
+ * ships TWO coexisting systems and lab needs BOTH:
+ *
+ *   - HeroUI **v3** (CSS-first, no Provider/plugin) for the field-slice wrappers
+ *     already migrated: Button, Card, Input, Textarea, Select. We import ONLY the
+ *     v3 layers those wrappers need (the full `@heroui-v3/styles` barrel `@apply`s
+ *     `tw-animate-css` utilities the overlay components pull in, which fail to
+ *     build unless `tw-animate-css` is imported first — so we import it explicitly
+ *     before the select/popover component CSS, mirroring docs).
+ *   - HeroUI **v2** (the `heroui()` Tailwind plugin) for every still-v2 wrapper:
+ *     Modal, Dropdown, Tooltip, Accordion, Tabs, Table, Navbar, Pagination, Alert,
+ *     Avatar, Divider, Spinner, Checkbox, Switch, Radio. The `@plugin
+ *     heroTheme.ts` + `@source @heroui/theme/dist` lines below generate their CSS.
+ *
+ * We deliberately SKIP `@heroui-v3/styles/base` (its only global side-effect is a
+ * universal `border-color`, which Tailwind Preflight already sets), same as docs.
+ * --------------------------------------------------------------------------- */
+@import "tailwindcss";
+/* Required by the v3 Select overlay (select.css + popover.css `@apply`
+ * tw-animate-css utilities). Must come BEFORE those component imports. */
+@import "tw-animate-css";
+@import "@heroui-v3/styles/themes/default";
+@import "@heroui-v3/styles/utilities";
+@import "@heroui-v3/styles/variants";
+@import "@heroui-v3/styles/components/button.css";
+@import "@heroui-v3/styles/components/card.css";
+/* Field slice — AppInput + AppTextarea (TextField field model). All CLEAN. */
+@import "@heroui-v3/styles/components/input.css";
+@import "@heroui-v3/styles/components/textfield.css";
+@import "@heroui-v3/styles/components/textarea.css";
+@import "@heroui-v3/styles/components/label.css";
+@import "@heroui-v3/styles/components/field-error.css";
+/* Field slice — AppSelect (overlay). select.css + popover.css need tw-animate-css. */
+@import "@heroui-v3/styles/components/select.css";
+@import "@heroui-v3/styles/components/list-box.css";
+@import "@heroui-v3/styles/components/list-box-item.css";
+@import "@heroui-v3/styles/components/popover.css";
+@import "../../../packages/ui/src/theme/v3/warmThemeV3.css";
+@config "../tailwind.config.ts";
+@plugin "../../../packages/ui/src/theme/heroTheme.ts";
+@source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/ui/src/**/*.{js,ts,jsx,tsx}";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
+  }
+
+  :root[data-theme="light"],
+  .light {
+    color-scheme: light;
+    --app-bg: #f5f1ea;
+    --app-fg: #1b1814;
+    --app-muted: #75695f;
+    --app-card: #fbf8f3;
+    --app-border: #e8dfd2;
+    --app-accent: #3d4368;
+    --app-accent-soft: rgba(61, 67, 104, 0.18);
+  }
+
+  :root[data-theme="dark"],
+  .dark {
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
+  }
+
+  body {
+    margin: 0;
+    background: var(--app-bg);
+    color: var(--app-fg);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+}
