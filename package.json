@@ -11,11 +11,13 @@
     "dev:docs": "pnpm -F docs dev",
     "dev:react": "pnpm -F web-react dev",
     "dev:next": "pnpm -F web-next dev",
-    "dev:all": "concurrently -n UI,SB,DOCS,REACT,NEXT -c magenta,yellow,green,cyan,blue \"pnpm -F @laboratoire/ui dev\" \"pnpm -F @laboratoire/ui storybook\" \"pnpm -F docs dev\" \"pnpm -F web-react dev\" \"pnpm -F web-next dev\"",
+    "dev:lab": "pnpm -F lab dev",
+    "dev:all": "concurrently -n UI,SB,DOCS,REACT,NEXT,LAB -c magenta,yellow,green,cyan,blue,red \"pnpm -F @laboratoire/ui dev\" \"pnpm -F @laboratoire/ui storybook\" \"pnpm -F docs dev\" \"pnpm -F web-react dev\" \"pnpm -F web-next dev\" \"pnpm -F lab dev\"",
     "build": "pnpm turbo run build",
     "build:docs": "pnpm -F docs build",
     "build:react": "pnpm -F web-react build",
     "build:next": "pnpm -F web-next build",
+    "build:lab": "pnpm -F lab build",
     "lint": "pnpm turbo run lint",
     "typecheck": "pnpm turbo run typecheck",
     "test": "pnpm turbo run test",
@@ -23,6 +25,7 @@
     "preview": "pnpm -F docs preview",
     "preview:docs": "pnpm -F docs preview",
     "preview:react": "pnpm -F web-react preview",
+    "preview:lab": "pnpm -F lab preview",
     "start:next": "pnpm -F web-next start"
   },
   "devDependencies": {

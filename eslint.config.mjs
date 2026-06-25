@@ -70,6 +70,7 @@ export default [
       "apps/docs/**/*.{ts,tsx}",
       "apps/web-react/**/*.{ts,tsx}",
       "apps/web-next/**/*.{ts,tsx}",
+      "apps/lab/**/*.{ts,tsx}",
       "packages/ui/**/*.{ts,tsx}",
     ],
     languageOptions: {
@@ -80,6 +81,8 @@ export default [
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
           "apps/web-next/tsconfig.json",
+          "apps/lab/tsconfig.app.json",
+          "apps/lab/tsconfig.node.json",
           "packages/ui/tsconfig.json",
         ],
         tsconfigRootDir: __dirname,
