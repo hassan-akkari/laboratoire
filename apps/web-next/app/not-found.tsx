@@ -1,18 +1,19 @@
-import Link from "next/link";
+import { AppButton, AppCard } from "@laboratoire/ui";
 
 export default function NotFoundPage() {
   return (
-    <section className="card">
+    <AppCard>
       <h1>Page not found</h1>
       <p className="notice">
         The requested route does not exist in this demo. If you came from a
         confirmation link, the in-memory order state may have expired.
       </p>
       <div className="button-row">
-        <Link href="/" className="button">
+        {/* `as="a"` renders the v3 button-styled anchor (full nav, MVP-fine). */}
+        <AppButton as="a" href="/">
           Back to listing
-        </Link>
+        </AppButton>
       </div>
-    </section>
+    </AppCard>
   );
 }
