@@ -339,3 +339,45 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
   AppChip's v3 color axis. Not urgent.
 
 
+
+---
+
+## P4 web-react migration follow-ups (2026-06-25)
+
+### H5 — StatusCard status chips use v3-DEFAULT colors, not warm-tuned
+
+- **Where**: `apps/web-react/src/components/sections/StatusCard.tsx` — AppChip with
+  `color="success"|"warning"|"danger"|"default"` (online/offline/checking/unknown).
+- **What**: `packages/ui/src/theme/v3/warmThemeV3.css` defines NO warm
+  `--success`/`--warning`/`--danger` tokens, so those chips fall back to the
+  `@heroui-v3/styles/themes/default` palette (green hue 150 / amber 72 / red 24).
+  Fully styled + semantically distinct — just not warm-tuned. Same gap docs has;
+  documented at `AppChip.tsx:32-37`. NOT introduced by P4 (flagged LOW by the
+  adversarial pass).
+- **Suggested fix**: add warm `--success`/`--warning`/`--danger` (+ `-soft`) tokens
+  to `warmThemeV3.css` — a `packages/ui` change benefiting every app's status chips.
+  Pair with a visual check. Not urgent.
+
+### H6 — orphaned worktree dirs locked on disk (Windows)
+
+- **Where**: `.claude/worktrees/agent-a9a74d341c61eece7`, `-ac73358334358d18c`,
+  `-ae1f9dfc10b443128` (the 3 P4 competition worktrees).
+- **What**: `git worktree remove` + `git worktree prune` succeeded (git metadata
+  clean; `git worktree list` = main only), but the dirs can't be `rm`'d — the native
+  `tailwindcss-oxide.win32-x64-msvc.node` is memory-mapped/locked by the gate's pnpm
+  process. Dirs are gitignored, invisible to git — purely disk residue, NOT dirty git
+  state.
+- **Suggested fix**: `Remove-Item -Recurse -Force .claude/worktrees/agent-*` after the
+  locking process exits (new shell / next session). Harmless to leave.
+
+### C1 (CLAUDE.md drift) — gotcha #2 now doubly wrong
+
+- **Where**: `.claude/CLAUDE.md` gotcha #2 + the architecture mermaid edge
+  (`ui -.alias declared but no import.-> webreact`).
+- **What**: web-react DID import `UiProvider` (RouterUiProvider.tsx) even before P4,
+  and after P4 it imports the full App* set (AppButton/Card/Chip/Input/Textarea/
+  Select/Checkbox/Switch) across 4 component files. The "dead alias, zero imports"
+  claim is false. The mermaid `ui --> webreact` edge is now a real solid dependency.
+- **Suggested fix**: `bootstrap audit` or a targeted CLAUDE.md edit — rewrite gotcha
+  #2, flip the mermaid edge to solid, and update gotcha #4 (web-react index.css now
+  carries the v3 coexistence block). Out of P4 commit scope.
