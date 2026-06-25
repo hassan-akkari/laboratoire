@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppButton, AppCard, AppChip, AppInput } from "@laboratoire/ui";
 import { notFound } from "next/navigation";
 import { getExperienceBySlug } from "../../../lib/data";
 import { getDateWithOffset } from "../../../lib/date";
@@ -32,18 +32,18 @@ export default async function ExperienceDetailPage({
         <h1 className="section-title">{experience.title}</h1>
         <p className="section-subtitle">{experience.summary}</p>
         <div className="meta-row">
-          <span className="chip">{experience.location}</span>
-          <span className="chip">{experience.durationHours} hours</span>
-          <span className="chip">
+          <AppChip>{experience.location}</AppChip>
+          <AppChip>{experience.durationHours} hours</AppChip>
+          <AppChip>
             {experience.priceModel === "minimum_group"
               ? "Minimum group pricing"
               : "Per-person pricing"}
-          </span>
+          </AppChip>
         </div>
       </section>
 
       <section className="layout-two">
-        <article className="card">
+        <AppCard>
           <h2>Why this route matters</h2>
           <ul className="list">
             {experience.highlights.map((item) => (
@@ -54,54 +54,53 @@ export default async function ExperienceDetailPage({
             Price input is validated server-side later in cart and checkout to avoid
             inconsistent totals.
           </p>
-        </article>
+        </AppCard>
 
-        <article className="card">
+        <AppCard>
           <h2>Build quote</h2>
           <form className="form-grid" action="/cart" method="get">
             <input type="hidden" name="slug" value={experience.slug} />
             <label className="form-label">
               Guests
-              <input
-                className="field"
+              <AppInput
                 type="number"
                 min={1}
                 max={12}
                 name="guests"
-                defaultValue={2}
+                defaultValue="2"
                 required
+                aria-label="Guests"
               />
             </label>
             <label className="form-label">
               Date
-              <input
-                className="field"
+              <AppInput
                 type="date"
                 name="date"
                 min={getMinDate()}
                 defaultValue={getDefaultBookingDate()}
                 required
+                aria-label="Date"
               />
             </label>
             <label className="form-label">
               Promo code (optional)
-              <input
-                className="field"
+              <AppInput
                 type="text"
                 name="promoCode"
                 placeholder="NETWORK10"
+                aria-label="Promo code (optional)"
               />
             </label>
-            <button className="button" type="submit">
-              Continue to cart
-            </button>
+            <AppButton type="submit">Continue to cart</AppButton>
           </form>
           <div className="button-row">
-            <Link href="/" className="button button--bordered">
+            {/* `bordered` -> v3 `secondary` (see AppButton). */}
+            <AppButton as="a" href="/" variant="bordered">
               Back to listing
-            </Link>
+            </AppButton>
           </div>
-        </article>
+        </AppCard>
       </section>
     </>
   );
