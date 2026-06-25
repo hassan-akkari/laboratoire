@@ -11,9 +11,32 @@ of all three apps onto it. Full design + rationale: [spec](specs/2026-06-18-hero
 Second, deferred job ("Job 2"): make `admin.itshassan.it` land on `/admin` (host
 routing in `apps/web-next/proxy.ts`) instead of forcing the `/admin` path.
 
-## Branch & commit state
+## ⚡ CURRENT STATUS — updated 2026-06-25 (READ THIS FIRST)
 
-All work is on `feat/heroui-universal-ui-system` (off `main`). Tree is clean.
+Roadmap progress on `feat/heroui-universal-ui-system` (off `main`, **NOT merged to main** — 35 commits ahead; pushed to `origin`):
+
+| Phase | State |
+|---|---|
+| P0 setup · P1 theme/provider · P2 22 wrappers + stories | ✅ done (green) |
+| **P2.5 v3 field-slice migration** | ✅ done — Button/Card/Input/Textarea/Select migrated to HeroUI **v3** (`@heroui-v3/react` via pnpm aliases); rest of inventory still v2. Apps wire v3 CSS layers + keep the v2 `heroui()` plugin (coexistence). |
+| **P5 web-next universal adoption** | ✅ done — Tailwind v4 + `app/providers.tsx` + ALL public funnel pages (home, cart, checkout, confirmation, experiences/[slug], login, not-found) AND the admin surface (7 admin files) migrated onto `App*`. Admin done via an orchestrator agenthub competition (Variant B parity-first won; run-log in `_orchestrator-runs/2026-06-25-*`). |
+| **P3 apps/lab playground** | ✅ done (2026-06-25) — `apps/lab` standalone Vite SPA, categorized live gallery of all 22 wrappers. `pnpm dev:lab` / `build:lab` / `preview:lab`. Local-only. |
+| **P4 web-react migration** | ⬜ NOT done — web-react still imports raw `@heroui/react` (HeroForm/PageHeader/StatusCard). Next obvious work. |
+| **P6 / Job 2 admin subdomain** | ⬜ NOT done — host-route `admin.itshassan.it` → `/admin` in `apps/web-next/proxy.ts`. |
+
+Verified green this session: `pnpm check` (5/5 workspaces — docs/web-react/web-next/ui/lab), `pnpm build` (all apps incl lab), 78 ui + 108 web-next + 16 docs + 2 web-react tests.
+
+**Key facts that drifted from the original spec/handover below:**
+- The field-slice wrappers are **v3 now**, styled via selective `@heroui-v3/styles` CSS layers (NOT the v2 `heroui()` plugin). The plugin is still loaded for the remaining v2 wrappers — both systems coexist. `apps/lab/src/index.css` and `apps/docs/src/index.css` are the canonical example of the dual recipe.
+- `AppInput` now forwards native constraint attrs (`minLength/maxLength/pattern/min/max/step`) — added this session for the web-next forms.
+- web-next forms keep **native `<select>`** inside server-action/GET forms (AppSelect v3 = react-aria ListBox, needs client state — would break form submission). Documented inline at every site.
+- Open follow-ups from this session live in `.claude/_followup.md` H1–H4 (next-env.d.ts flapping, admin `<Link>`→anchor nav, redundant aria-label, deferred maximal AppTable/AppChip admin adoption archived at tag `hub/archive/20260625-164205/agent-1`).
+
+---
+
+## Branch & commit state (original — phases 0–2)
+
+All work is on `feat/heroui-universal-ui-system` (off `main`).
 
 | Commit | What |
 |---|---|
@@ -24,7 +47,8 @@ All work is on `feat/heroui-universal-ui-system` (off `main`). Tree is clean.
 | `eba0d2bc` | **Phase 2a** — 5 archetype wrappers + Storybook unify + tw-ui retired |
 | `e6585910` | **Phase 2b** — remaining 14 wrappers + stories (22 total) |
 
-Not yet merged to `main`. Nothing is deployed from this branch.
+(Phases after 2b — v3 field-slice, P5 web-next, P3 lab — are summarized in the
+CURRENT STATUS block above; see git log + `_orchestrator-runs/` for detail.)
 
 ## Done (verified green: `pnpm check` + `pnpm build` + `build-storybook`)
 
