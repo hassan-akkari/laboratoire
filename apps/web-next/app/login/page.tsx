@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppButton, AppCard } from "@laboratoire/ui";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SESSION_COOKIE_NAME, SESSION_COOKIE_VALUE, sanitizeNextPath } from "../../lib/session";
@@ -45,7 +45,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
   return (
     <section className="layout-two">
-      <article className="card">
+      <AppCard>
         <h1>Login required</h1>
         <p className="section-subtitle">
           Checkout is protected to show a realistic auth gate and redirect flow.
@@ -57,25 +57,24 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </p>
         <form action={continueToCheckout} className="form-grid">
           <input type="hidden" name="next" value={nextPath} />
-          <button type="submit" className="button">
-            Continue to checkout
-          </button>
+          <AppButton type="submit">Continue to checkout</AppButton>
         </form>
         <div className="button-row">
-          <Link href="/" className="button button--bordered">
+          {/* `bordered` -> v3 `secondary` (see AppButton). */}
+          <AppButton as="a" href="/" variant="bordered">
             Back to listing
-          </Link>
+          </AppButton>
         </div>
-      </article>
+      </AppCard>
 
-      <article className="card">
+      <AppCard>
         <h2>Auth behavior</h2>
         <ul className="list">
           <li>Unauthenticated access to checkout redirects to this page.</li>
           <li>After login, user returns to original path via next query param.</li>
           <li>Cookie is HTTP-only and expires automatically.</li>
         </ul>
-      </article>
+      </AppCard>
     </section>
   );
 }
