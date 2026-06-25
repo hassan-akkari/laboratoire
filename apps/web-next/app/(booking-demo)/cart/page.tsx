@@ -1,7 +1,7 @@
 import { AppButton, AppCard } from "@laboratoire/ui";
-import { parseQuoteSearchParams } from "../../lib/bookingSchemas";
-import { getExperienceBySlug } from "../../lib/data";
-import { formatCurrency, quoteBooking } from "../../lib/pricing";
+import { parseQuoteSearchParams } from "@/lib/bookingSchemas";
+import { getExperienceBySlug } from "@/lib/data";
+import { formatCurrency, quoteBooking } from "@/lib/pricing";
 
 type CartPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -9,7 +9,7 @@ type CartPageProps = {
 
 function buildCheckoutHref(
   params: ReturnType<typeof parseQuoteSearchParams>,
-  fallback = "/",
+  fallback = "/browse",
 ) {
   if (!params) {
     return fallback;
@@ -42,7 +42,7 @@ export default async function CartPage({ searchParams }: CartPageProps) {
         </p>
         <div className="button-row">
           {/* `as="a"` renders the v3 button-styled anchor (full nav, MVP-fine). */}
-          <AppButton as="a" href="/">
+          <AppButton as="a" href="/browse">
             Back to listing
           </AppButton>
         </div>
@@ -109,7 +109,7 @@ export default async function CartPage({ searchParams }: CartPageProps) {
           >
             Edit booking
           </AppButton>
-          <AppButton as="a" href="/" variant="flat">
+          <AppButton as="a" href="/browse" variant="flat">
             Back to listing
           </AppButton>
         </div>
