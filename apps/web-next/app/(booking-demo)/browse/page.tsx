@@ -2,7 +2,10 @@ import { AppButton, AppCard, AppCardBody, AppChip, AppInput } from "@laboratoire
 import { getDateWithOffset } from "@/lib/date";
 import { experiences } from "@/lib/data";
 
-export const revalidate = 300;
+// NOTE: no `revalidate` — the root layout sets `dynamic = "force-dynamic"`, which
+// makes the whole tree render on demand. An ISR `revalidate` here would be dead
+// (force-dynamic wins). The app reads request state everywhere, so dynamic is
+// correct; if /browse ever needs ISR it must move out from under the dynamic root.
 
 type BrowsePageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
