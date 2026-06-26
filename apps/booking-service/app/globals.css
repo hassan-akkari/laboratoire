@@ -7,6 +7,7 @@
 /* Make Tailwind scan this app's source. */
 @source "./**/*.{ts,tsx}";
 @source "../features/**/*.{ts,tsx}";
+@source "../components/**/*.{ts,tsx}";
 
 :root {
   color-scheme: light;
@@ -50,8 +51,20 @@ body {
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
+  /* ── Fonts ──────────────────────────────────────────────────────────────
+     Three designs, three display faces — namespaced so they never collide.
+     Each is loaded in layout.tsx and exposed on <html> as a CSS variable; the
+     `--font-*` entries below register matching `font-*` utility classes so a
+     variant's components can opt into ITS OWN face (e.g. `font-editorial`).
+     `--font-heading` (consumed by shadcn CardTitle) defaults to the sans here
+     and is repointed per-variant by the `.theme-*` wrapper classes below. */
   --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-editorial: var(--font-editorial), Georgia, "Times New Roman", serif;
+  --font-warm: var(--font-warm), Georgia, "Times New Roman", serif;
+  --font-bold-display: var(--font-bold-display), var(--font-sans),
+    ui-sans-serif, sans-serif;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -89,6 +102,7 @@ body {
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
+  /* bold design's oversized corner scale */
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
@@ -135,5 +149,200 @@ body {
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   PER-VARIANT HEADING FONT
+   shadcn's CardTitle renders with `font-heading`. Each design wants its own
+   display face there, so the variant wrapper sets `--font-heading` locally.
+   These wrappers are applied on each variant component's outermost element.
+   ──────────────────────────────────────────────────────────────────────── */
+.theme-editorial {
+  --font-heading: var(--font-editorial), Georgia, "Times New Roman", serif;
+}
+.theme-warm {
+  --font-heading: var(--font-warm), Georgia, "Times New Roman", serif;
+}
+.theme-bold {
+  --font-heading: var(--font-bold-display), var(--font-sans), ui-sans-serif,
+    sans-serif;
+}
+
+@layer utilities {
+  /* bold design — big, confident display headings (Space Grotesk). */
+  .font-display {
+    font-family: var(--font-bold-display), var(--font-sans), ui-sans-serif,
+      sans-serif;
+  }
+  /* bold design — tabular figures so prices line up across cards. */
+  .nums-tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   WARM LUXE accent layer — "Atelier de Beauté"
+   Additive only. The shadcn :root / @theme inline / .dark token system above
+   is untouched; these are extra warm-neutral accents (cream / sand / rose /
+   blush) layered ON TOP via plain CSS custom properties + utility classes.
+   Used by the warm marketing variant (home + services).
+   ──────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Warm neutrals + a softened plum drawn from the violet --primary. */
+  --warm-cream: oklch(0.985 0.012 75);
+  --warm-sand: oklch(0.955 0.022 70);
+  --warm-rose: oklch(0.93 0.035 25);
+  --warm-blush: oklch(0.95 0.028 18);
+  --warm-plum: oklch(0.457 0.24 277.023); /* == --primary */
+  /* Deeper, accessible warm-brown ink for body copy on cream (≥7:1 on cream). */
+  --warm-ink: oklch(0.3 0.03 55);
+  --warm-ink-soft: oklch(0.44 0.028 50); /* ≥4.5:1 on cream for secondary copy */
+  --warm-line: oklch(0.9 0.02 60);
+}
+
+.dark {
+  /* Warm-dark: deep cocoa-plum so the page stays cosseting in dark mode and
+     contrast stays high. Shadcn .dark tokens above still drive components. */
+  --warm-cream: oklch(0.2 0.018 35);
+  --warm-sand: oklch(0.24 0.022 30);
+  --warm-rose: oklch(0.3 0.04 20);
+  --warm-blush: oklch(0.27 0.035 15);
+  --warm-plum: oklch(0.72 0.13 300);
+  --warm-ink: oklch(0.96 0.01 70);
+  --warm-ink-soft: oklch(0.82 0.015 70);
+  --warm-line: oklch(1 0 0 / 12%);
+}
+
+/* Soft cosseting backdrop for the marketing canvas: layered radial washes of
+   blush + sand over the cream base. Fixed attachment so it feels like a room,
+   not a panel. */
+.warm-canvas {
+  background-color: var(--warm-cream);
+  color: var(--warm-ink);
+  background-image:
+    radial-gradient(
+      120% 90% at 12% -10%,
+      color-mix(in oklch, var(--warm-blush), transparent 25%),
+      transparent 55%
+    ),
+    radial-gradient(
+      90% 80% at 95% 0%,
+      color-mix(in oklch, var(--warm-rose), transparent 45%),
+      transparent 50%
+    ),
+    radial-gradient(
+      100% 70% at 50% 120%,
+      color-mix(in oklch, var(--warm-sand), transparent 30%),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+/* Hero "spa light" — a soft, indulgent gradient wash card. */
+.warm-hero {
+  background-image:
+    radial-gradient(
+      80% 120% at 100% 0%,
+      color-mix(in oklch, var(--warm-rose), transparent 35%),
+      transparent 60%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--warm-blush), transparent 20%),
+      var(--warm-cream) 55%,
+      color-mix(in oklch, var(--warm-sand), transparent 10%)
+    );
+}
+
+/* Per-category card tints — gentle diagonal washes. Each layers a faint
+   category hue over the card surface so cards feel touchable, never flat. */
+.warm-tint-hair {
+  background-image: linear-gradient(
+    160deg,
+    color-mix(in oklch, var(--warm-blush), transparent 55%),
+    transparent 65%
+  );
+}
+.warm-tint-braids {
+  background-image: linear-gradient(
+    160deg,
+    color-mix(in oklch, var(--warm-sand), transparent 45%),
+    transparent 65%
+  );
+}
+.warm-tint-treatment {
+  background-image: linear-gradient(
+    160deg,
+    color-mix(in oklch, var(--warm-rose), transparent 60%),
+    transparent 65%
+  );
+}
+.warm-tint-default {
+  background-image: linear-gradient(
+    160deg,
+    color-mix(in oklch, var(--warm-plum), transparent 88%),
+    transparent 60%
+  );
+}
+
+/* Gentle hover lift — transform + shadow only (composited, cheap). */
+.warm-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.warm-lift:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 1px 2px oklch(0.45 0.05 40 / 8%),
+    0 18px 40px -12px oklch(0.45 0.08 30 / 22%);
+}
+
+/* Staggered, indulgent page-load reveal. */
+@keyframes warm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.warm-reveal {
+  animation: warm-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .warm-canvas {
+    background-attachment: scroll;
+  }
+  .warm-lift {
+    transition: none;
+  }
+  .warm-lift:hover {
+    transform: none;
+  }
+  .warm-reveal {
+    animation: none;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   GLOBAL reduced-motion reset (bold design carried this; it now guards every
+   variant + the framer-motion islands' CSS fallbacks). Components additionally
+   honour reduced motion in JS via framer-motion's useReducedMotion().
+   ──────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
