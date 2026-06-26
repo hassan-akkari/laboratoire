@@ -12,12 +12,14 @@
     "dev:react": "pnpm -F web-react dev",
     "dev:next": "pnpm -F web-next dev",
     "dev:lab": "pnpm -F lab dev",
-    "dev:all": "concurrently -n UI,SB,DOCS,REACT,NEXT,LAB -c magenta,yellow,green,cyan,blue,red \"pnpm -F @laboratoire/ui dev\" \"pnpm -F @laboratoire/ui storybook\" \"pnpm -F docs dev\" \"pnpm -F web-react dev\" \"pnpm -F web-next dev\" \"pnpm -F lab dev\"",
+    "dev:booking": "pnpm -F booking-service dev",
+    "dev:all": "concurrently -n UI,SB,DOCS,REACT,NEXT,LAB,BOOK -c magenta,yellow,green,cyan,blue,red,white \"pnpm -F @laboratoire/ui dev\" \"pnpm -F @laboratoire/ui storybook\" \"pnpm -F docs dev\" \"pnpm -F web-react dev\" \"pnpm -F web-next dev\" \"pnpm -F lab dev\" \"pnpm -F booking-service dev\"",
     "build": "pnpm turbo run build",
     "build:docs": "pnpm -F docs build",
     "build:react": "pnpm -F web-react build",
     "build:next": "pnpm -F web-next build",
     "build:lab": "pnpm -F lab build",
+    "build:booking": "pnpm -F booking-service build",
     "lint": "pnpm turbo run lint",
     "typecheck": "pnpm turbo run typecheck",
     "test": "pnpm turbo run test",
@@ -26,7 +28,8 @@
     "preview:docs": "pnpm -F docs preview",
     "preview:react": "pnpm -F web-react preview",
     "preview:lab": "pnpm -F lab preview",
-    "start:next": "pnpm -F web-next start"
+    "start:next": "pnpm -F web-next start",
+    "start:booking": "pnpm -F booking-service start"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
