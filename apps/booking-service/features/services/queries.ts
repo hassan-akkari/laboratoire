@@ -53,3 +53,46 @@ export async function getActiveServiceBySlug(
     .limit(1);
   return rows[0] ?? null;
 }
+
+// ── Admin queries ───────────────────────────────────────────────────────────
+// The admin area needs the FULL catalogue (active AND inactive); the public
+// helpers above filter to active only. Same demo-fallback discipline so the
+// admin pages render in preview mode before Neon is provisioned.
+
+/** Admin list: ALL services (active + inactive), ordered for the table. */
+export async function listAllServices(): Promise<Service[]> {
+  if (!dbReady) return mockServices();
+  return db
+    .select()
+    .from(schema.services)
+    .orderBy(asc(schema.services.sortOrder), asc(schema.services.title));
+}
+
+/**
+ * Single service by id, REGARDLESS of active state (admin edit page). Null when
+ * not found or when no DB is configured (the edit page then renders notFound).
+ */
+export async function getServiceById(id: string): Promise<Service | null> {
+  if (!dbReady) return null;
+  const rows = await db
+    .select()
+    .from(schema.services)
+    .where(eq(schema.services.id, id))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+/**
+ * Single service by slug, REGARDLESS of active state. Used by the create/update
+ * actions to pre-check slug uniqueness (slug is UNIQUE in the DB) so a duplicate
+ * returns a friendly error instead of a 500. Null when not found / no DB.
+ */
+export async function getServiceBySlugAny(slug: string): Promise<Service | null> {
+  if (!dbReady) return null;
+  const rows = await db
+    .select()
+    .from(schema.services)
+    .where(eq(schema.services.slug, slug))
+    .limit(1);
+  return rows[0] ?? null;
+}
