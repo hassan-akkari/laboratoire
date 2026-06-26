@@ -1,0 +1,16 @@
+# next
+/.next/
+/out/
+
+# env
+.env*.local
+
+# turbo
+.turbo
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
