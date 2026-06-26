@@ -381,3 +381,43 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Suggested fix**: `bootstrap audit` or a targeted CLAUDE.md edit — rewrite gotcha
   #2, flip the mermaid edge to solid, and update gotcha #4 (web-react index.css now
   carries the v3 coexistence block). Out of P4 commit scope.
+
+---
+
+## P6/Job2 web-next admin-primary restructure follow-ups (2026-06-26)
+
+### J1 — admin.itshassan.it DNS + deploy still human-gated (the infra half of Job 2)
+
+- **Where**: `apps/web-next/proxy.ts` host-route is DONE + unit-tested — when host is
+  `admin.itshassan.it`, `/` rewrites to `/admin` (admin gate still applies via the
+  (authed) layout's requireAdminSession()). 
+- **What's left (NOT code, can't verify from repo)**: point the subdomain at the
+  deployment — a CNAME on OVH + add `admin.itshassan.it` as a domain on the web-next
+  Vercel project. BUT web-next has NO deploy target yet (CLAUDE.md gotcha #5), so this
+  is moot until web-next is actually hosted. The proxy is ready for when it is.
+- **Suggested**: when web-next gets a deploy target, (1) create the Vercel project,
+  (2) add both `itshassan.it`/apex behavior + `admin.itshassan.it` domains, (3) OVH
+  CNAME `admin` → Vercel. Then verify the live subdomain serves /admin at root.
+
+### J2 — proxy host×path comment matrix under-documents /checkout rewrite (LOW)
+
+- **Where**: `apps/web-next/proxy.ts` host-routing block + its comment matrix.
+- **What**: on the admin host, the `!startsWith("/admin")` guard also rewrites
+  `/checkout` + `/api/checkout` → `/admin` (subdomain is admin-only, so this is
+  CORRECT behavior — booking funnel isn't served on the admin host), but the comment
+  matrix only spells out `/` → /admin. The doc under-describes actual behavior.
+- **Suggested fix**: add a `/checkout*` row to the matrix comment. Cosmetic; no
+  behavior change. Flagged LOW by the adversarial pass.
+
+### J3 — route-group moves poison the main checkout's .next cache (process note)
+
+- **What**: after merging the restructure, `pnpm check` failed with stale
+  `.next/dev/types/validator.ts` referencing pre-move paths (`app/cart/page.js`).
+  Variant gates were green (fresh worktree `.next`); the MAIN checkout's `.next` was
+  stale. `rm -rf apps/web-next/.next` fixed it.
+- **Suggested**: whenever a Next route move/rename merges, clear `apps/web-next/.next`
+  before trusting a local `pnpm check` in the main checkout. Not a code issue.
+
+### Resolved this session
+- **H6** (locked P4 worktree dirs): the 3 dirs were removed during the P6 cleanup once
+  the locking processes exited. `.claude/worktrees/` is now empty. DONE.
