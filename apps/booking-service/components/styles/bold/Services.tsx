@@ -135,13 +135,23 @@ function ServiceCard({ service: s }: { service: Service }) {
           </p>
         </CardContent>
 
-        <CardFooter>
-          <Button asChild size="lg" className="h-11 w-full text-base">
+        <CardFooter className="gap-2.5">
+          <Button asChild size="lg" className="h-11 flex-1 text-base">
             {/* Visible label stays decisive ("Book"); the aria-label disambiguates
                 for screen readers so each card's link has a unique, clear name. */}
             <Link href={`/book/${s.slug}`} aria-label={`Book ${s.title}`}>
               <span aria-hidden="true">Book</span>
               <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+          {/* Sibling link (not nested) to the detail page. Unique accessible
+              name disambiguates it from "Book" for screen readers. */}
+          <Button asChild variant="outline" size="lg" className="h-11 text-base">
+            <Link
+              href={`/services/${s.slug}`}
+              aria-label={`View details for ${s.title}`}
+            >
+              Details
             </Link>
           </Button>
         </CardFooter>

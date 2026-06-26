@@ -118,7 +118,7 @@ export function Services({
                     </div>
                   </CardContent>
 
-                  <CardFooter className="bg-transparent">
+                  <CardFooter className="flex-col items-stretch gap-2.5 bg-transparent">
                     <Button
                       asChild
                       className="h-11 w-full rounded-full text-base shadow-[0_10px_24px_-12px_oklch(0.457_0.24_277/55%)]"
@@ -127,6 +127,15 @@ export function Services({
                         Book {s.title.toLowerCase()}
                       </Link>
                     </Button>
+                    {/* Sibling link (not nested) to the detail page — soft warm
+                        idiom. Unique accessible name per card. */}
+                    <Link
+                      href={`/services/${s.slug}`}
+                      aria-label={`View details for ${s.title}`}
+                      className="rounded-full py-1 text-center text-sm font-medium text-(--warm-ink-soft) transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    >
+                      View details
+                    </Link>
                   </CardFooter>
                 </Card>
               </StaggerItem>

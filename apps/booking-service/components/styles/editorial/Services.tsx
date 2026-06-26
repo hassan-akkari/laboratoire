@@ -94,14 +94,25 @@ export function Services({
                     </span>
                   </CardContent>
 
-                  <CardFooter className="border-t-0 bg-transparent pt-0">
+                  <CardFooter className="flex-col items-stretch gap-3 border-t-0 bg-transparent pt-0">
                     <Button
                       asChild
                       variant="outline"
                       className="w-full transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary motion-reduce:transition-none"
                     >
-                      <Link href={`/book/${s.slug}`}>Book this service</Link>
+                      <Link href={`/book/${s.slug}`} aria-label={`Book ${s.title}`}>
+                        Book this service
+                      </Link>
                     </Button>
+                    {/* Sibling link (not nested) to the detail page — keeps the
+                        editorial uppercase-eyebrow idiom. Unique accessible name. */}
+                    <Link
+                      href={`/services/${s.slug}`}
+                      aria-label={`View details for ${s.title}`}
+                      className="text-center text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      View details
+                    </Link>
                   </CardFooter>
                 </Card>
               </HoverLift>
