@@ -11,9 +11,9 @@ of all three apps onto it. Full design + rationale: [spec](specs/2026-06-18-hero
 Second, deferred job ("Job 2"): make `admin.itshassan.it` land on `/admin` (host
 routing in `apps/web-next/proxy.ts`) instead of forcing the `/admin` path.
 
-## ⚡ CURRENT STATUS — updated 2026-06-25 (READ THIS FIRST)
+## ⚡ CURRENT STATUS — updated 2026-06-26 (READ THIS FIRST)
 
-Roadmap progress on `feat/heroui-universal-ui-system` (off `main`, **NOT merged to main** — 35 commits ahead; pushed to `origin`):
+Roadmap progress on `feat/heroui-universal-ui-system` (off `main`, **NOT merged to main**; pushed to `origin`):
 
 | Phase | State |
 |---|---|
@@ -21,16 +21,20 @@ Roadmap progress on `feat/heroui-universal-ui-system` (off `main`, **NOT merged 
 | **P2.5 v3 field-slice migration** | ✅ done — Button/Card/Input/Textarea/Select migrated to HeroUI **v3** (`@heroui-v3/react` via pnpm aliases); rest of inventory still v2. Apps wire v3 CSS layers + keep the v2 `heroui()` plugin (coexistence). |
 | **P5 web-next universal adoption** | ✅ done — Tailwind v4 + `app/providers.tsx` + ALL public funnel pages (home, cart, checkout, confirmation, experiences/[slug], login, not-found) AND the admin surface (7 admin files) migrated onto `App*`. Admin done via an orchestrator agenthub competition (Variant B parity-first won; run-log in `_orchestrator-runs/2026-06-25-*`). |
 | **P3 apps/lab playground** | ✅ done (2026-06-25) — `apps/lab` standalone Vite SPA, categorized live gallery of all 22 wrappers. `pnpm dev:lab` / `build:lab` / `preview:lab`. Local-only. |
-| **P4 web-react migration** | ⬜ NOT done — web-react still imports raw `@heroui/react` (HeroForm/PageHeader/StatusCard). Next obvious work. |
-| **P6 / Job 2 admin subdomain** | ⬜ NOT done — host-route `admin.itshassan.it` → `/admin` in `apps/web-next/proxy.ts`. |
+| **P4 web-react migration** | ✅ done (2026-06-25) — the 4 raw `@heroui/react` files (PageHeader/StatusCard/ThemeTokensCard/HeroForm) migrated onto `App*`; web-react `index.css` got the v2+v3 coexistence block (incl chip/checkbox/switch CSS). Orchestrator competition, parity-first variant won (type-led variant DQ'd for silently dropping checkbox.css/switch.css). Run-log `_orchestrator-runs/2026-06-25-web-react-p4-*`. |
+| **P6 / Job 2 admin-primary restructure** | ✅ done (2026-06-26) — apex `/` → redirect `/admin`; `admin.itshassan.it` host-routes to `/admin` in `proxy.ts`; booking funnel parked under `app/(booking-demo)/` (URLs unchanged); the fragile `x-pathname`/`isAdmin` nav hack removed (nav scoped to `(booking-demo)/layout.tsx`). `/admin` name KEPT. Orchestrator competition, structure-first variant won. Run-log `_orchestrator-runs/2026-06-25-web-next-admin-primary-*`. **DNS/Vercel half still human-gated + moot until web-next has a deploy target** (gotcha #5) — see `_followup.md` J1. |
 
-Verified green this session: `pnpm check` (5/5 workspaces — docs/web-react/web-next/ui/lab), `pnpm build` (all apps incl lab), 78 ui + 108 web-next + 16 docs + 2 web-react tests.
+ALL roadmap phases (P0–P6) done + green. Only remaining work = land feat → main (whole branch unmerged) + the human-gated admin-subdomain DNS once web-next is hosted.
+
+Verified green: `pnpm check` (5/5 workspaces — docs/web-react/web-next/ui/lab), `pnpm build`/`next build` per app, 78 ui + 108 web-next + 16 docs + (web-react: 2 schema; A's variant added 11 proxy tests but the structure-first winner kept 108 web-next) tests.
 
 **Key facts that drifted from the original spec/handover below:**
-- The field-slice wrappers are **v3 now**, styled via selective `@heroui-v3/styles` CSS layers (NOT the v2 `heroui()` plugin). The plugin is still loaded for the remaining v2 wrappers — both systems coexist. `apps/lab/src/index.css` and `apps/docs/src/index.css` are the canonical example of the dual recipe.
-- `AppInput` now forwards native constraint attrs (`minLength/maxLength/pattern/min/max/step`) — added this session for the web-next forms.
-- web-next forms keep **native `<select>`** inside server-action/GET forms (AppSelect v3 = react-aria ListBox, needs client state — would break form submission). Documented inline at every site.
-- Open follow-ups from this session live in `.claude/_followup.md` H1–H4 (next-env.d.ts flapping, admin `<Link>`→anchor nav, redundant aria-label, deferred maximal AppTable/AppChip admin adoption archived at tag `hub/archive/20260625-164205/agent-1`).
+- The field-slice wrappers are **v3 now**, styled via selective `@heroui-v3/styles` CSS layers (NOT the v2 `heroui()` plugin). The plugin is still loaded for the remaining v2 wrappers — both systems coexist. `apps/lab/src/index.css`, `apps/docs/src/index.css`, AND now `apps/web-react/src/index.css` are the canonical examples of the dual recipe.
+- `AppInput`/`AppTextarea` use **event-style `onChange`** (not v2 `onValueChange`); `AppSelect` takes a `Selection` Set (not an array). web-react's HeroForm migration adapted all of these (P4).
+- `AppInput` forwards native constraint attrs (`minLength/maxLength/pattern/min/max/step`).
+- web-next is now **admin-primary**: apex redirects to `/admin`, booking demo parked under `(booking-demo)` route group, entry point is `/browse`. Root `app/layout.tsx` is a pure document shell; per-surface nav lives in route-group layouts. Root is `dynamic = "force-dynamic"`.
+- web-next forms keep **native `<select>`** inside server-action/GET forms (AppSelect v3 = react-aria ListBox).
+- Open follow-ups in `.claude/_followup.md`: H1–H4 (earlier), H5 (warm status-chip tokens), C1 (CLAUDE.md gotcha #2 drift — web-react NOW imports `@laboratoire/ui`), J1–J3 (admin DNS, proxy matrix doc, .next cache after route moves). H6 resolved.
 
 ---
 
