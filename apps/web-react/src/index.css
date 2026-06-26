@@ -1,5 +1,60 @@
+/* ---------------------------------------------------------------------------
+ * HeroUI v3 CSS-first styles (CSS-only; v3 needs NO Provider/plugin).
+ *
+ * web-react renders v3-migrated wrappers — AppButton (PageHeader, HeroForm),
+ * AppCard (StatusCard, ThemeTokensCard, HeroForm), AppChip (StatusCard), and the
+ * full field slice in HeroForm: AppInput / AppTextarea / AppSelect / AppCheckbox
+ * / AppSwitch. v3 components read SEMANTIC vars (`--accent` / `--surface` /
+ * `--foreground` / `--border` / `--success` / ...) + recipe classes from
+ * `@heroui-v3/styles`. Without these imports those wrappers render UNSTYLED —
+ * total visual regression. This block is ported from apps/docs/src/index.css
+ * (the canonical dual recipe) with three EXTRA component imports web-react needs
+ * but docs does not: chip.css (AppChip), checkbox.css (AppCheckbox),
+ * switch.css (AppSwitch).
+ *
+ * WHY NOT `@import "@heroui-v3/styles"` (the full barrel)? It pulls in EVERY
+ * component's CSS, and the overlay components `@apply` `tw-animate-css`
+ * utilities (`fade-in-0`, ...) that web-react's Tailwind v4 context does not
+ * auto-register, failing the build with "Cannot apply unknown utility class
+ * `fade-in-0`". So we import ONLY the layers the migrated wrappers need.
+ *
+ * ORDERING: Tailwind MUST be first. `tw-animate-css` MUST come BEFORE
+ * select.css/popover.css (they `@apply` animate-in/fade-in-0/zoom-in-95/...; a
+ * missing registration is a hard build error). The warm override
+ * (warmThemeV3.css) is the LAST v3 import so it overrides the v3 default theme
+ * variables. v2 + v3 coexist: the v2 wrappers keep using the `heroui()` plugin
+ * below. NOTE: web-react has NO tailwind.config.ts (repo gotcha #3), so there is
+ * deliberately NO `@config` line here (docs has one; web-react must not).
+ * --------------------------------------------------------------------------- */
 @import "tailwindcss";
-@plugin "./hero.ts";
+/* Required by the v3 Select overlay: select.css + popover.css `@apply`
+ * `tw-animate-css` utilities. Must come BEFORE those component imports. */
+@import "tw-animate-css";
+@import "@heroui-v3/styles/themes/default";
+@import "@heroui-v3/styles/utilities";
+@import "@heroui-v3/styles/variants";
+@import "@heroui-v3/styles/components/button.css";
+@import "@heroui-v3/styles/components/card.css";
+/* AppChip (StatusCard) — NOT in docs' recipe; web-react needs it. */
+@import "@heroui-v3/styles/components/chip.css";
+/* Field slice — AppInput + AppTextarea (TextField field model). All CLEAN. */
+@import "@heroui-v3/styles/components/input.css";
+@import "@heroui-v3/styles/components/textfield.css";
+@import "@heroui-v3/styles/components/textarea.css";
+@import "@heroui-v3/styles/components/label.css";
+@import "@heroui-v3/styles/components/field-error.css";
+/* Field slice — AppSelect (overlay). select.css + popover.css need tw-animate-css
+ * (imported above). list-box.css / list-box-item.css are clean. */
+@import "@heroui-v3/styles/components/select.css";
+@import "@heroui-v3/styles/components/list-box.css";
+@import "@heroui-v3/styles/components/list-box-item.css";
+@import "@heroui-v3/styles/components/popover.css";
+/* AppCheckbox + AppSwitch (HeroForm) — NOT in docs' recipe; web-react needs them.
+ * Neither `@apply`s tw-animate-css utilities (verified). */
+@import "@heroui-v3/styles/components/checkbox.css";
+@import "@heroui-v3/styles/components/switch.css";
+@import "../../../packages/ui/src/theme/v3/warmThemeV3.css";
+@plugin "../../../packages/ui/src/theme/heroTheme.ts";
 @source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @source "../../../packages/ui/src/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:where(.dark, .dark *));
@@ -10,24 +65,45 @@ body,
   height: 100%;
 }
 
+/*
+ * --app-* tokens below are the canonical WARM values, shared with apps/docs and
+ * derived from packages/ui `appTokens` (see packages/ui/src/theme/tokens.ts).
+ * The packages/ui regression test asserts these stay byte-identical to the
+ * single source. Do NOT hand-edit individual values — change tokens.ts instead.
+ */
 @layer base {
   :root {
-    color-scheme: light;
-    --app-bg: #f8f7f4;
-    --app-fg: #1b1a17;
-    --app-muted: #6b6b6b;
-    --app-card: #ffffff;
-    --app-border: #e6e3df;
-    --app-accent: #1f6feb;
+    color-scheme: dark;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
   }
 
+  :root[data-theme="light"],
+  .light {
+    color-scheme: light;
+    --app-bg: #f5f1ea;
+    --app-fg: #1b1814;
+    --app-muted: #75695f;
+    --app-card: #fbf8f3;
+    --app-border: #e8dfd2;
+    --app-accent: #3d4368;
+    --app-accent-soft: rgba(61, 67, 104, 0.18);
+  }
+
+  :root[data-theme="dark"],
   .dark {
     color-scheme: dark;
-    --app-bg: #0f1115;
-    --app-fg: #eceff4;
-    --app-muted: #9aa0a6;
-    --app-card: #151922;
-    --app-border: #2a2f3a;
-    --app-accent: #7aa2ff;
+    --app-bg: #080808;
+    --app-fg: #decbc6;
+    --app-muted: #9a8f8c;
+    --app-card: #151515;
+    --app-border: #262626;
+    --app-accent: #4a4e69;
+    --app-accent-soft: rgba(74, 78, 105, 0.24);
   }
 }

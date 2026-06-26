@@ -54,10 +54,23 @@ export default [
     },
   },
   {
+    // HeroUI wrappers are a COMPILED LIBRARY surface, not Vite-HMR app modules,
+    // so React Fast Refresh does not apply to them. Compound wrappers
+    // intentionally co-export a component built via `Object.assign(...)` (for the
+    // `AppX.Slot` static-member API) and, for AppModal, a re-exported disclosure
+    // hook — both of which the `react-refresh` heuristic cannot recognize. The
+    // rule is irrelevant here, so it is scoped off for the wrapper directory.
+    files: ["packages/ui/src/components/heroui/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
+  {
     files: [
       "apps/docs/**/*.{ts,tsx}",
       "apps/web-react/**/*.{ts,tsx}",
       "apps/web-next/**/*.{ts,tsx}",
+      "apps/lab/**/*.{ts,tsx}",
       "packages/ui/**/*.{ts,tsx}",
     ],
     languageOptions: {
@@ -68,6 +81,8 @@ export default [
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
           "apps/web-next/tsconfig.json",
+          "apps/lab/tsconfig.app.json",
+          "apps/lab/tsconfig.node.json",
           "packages/ui/tsconfig.json",
         ],
         tsconfigRootDir: __dirname,

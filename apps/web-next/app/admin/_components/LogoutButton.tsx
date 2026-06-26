@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AppButton } from "@laboratoire/ui";
 
 export function LogoutButton() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,9 @@ export function LogoutButton() {
   }
 
   return (
-    <button className="button button--bordered" type="button" onClick={handleClick} disabled={loading}>
+    // `isDisabled` (not native `disabled`); `bordered` -> v3 secondary.
+    <AppButton variant="bordered" type="button" onClick={handleClick} isDisabled={loading}>
       {loading ? "Signing out…" : "Sign out"}
-    </button>
+    </AppButton>
   );
 }

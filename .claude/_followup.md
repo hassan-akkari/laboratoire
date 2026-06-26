@@ -282,4 +282,142 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 - **Where**: open-menu button. The close button (FaTimes) was given `aria-hidden="true"` when its `<li>` wrapper was added in this audit pass; the open button still lacks it.
 - **Suggested fix**: add `aria-hidden="true"` for parity. Trivial.
 
+---
 
+---
+
+## 2026-06-25 — HeroUI P5 (web-next) migration — open items
+
+> Surfaced during the public-funnel + admin migration of `apps/web-next` onto the shared
+> `@laboratoire/ui` `App*` wrappers (branch `feat/heroui-universal-ui-system`). Funnel (7 pages)
+> + admin (7 files, Variant B via orchestrator competition) are merged + green.
+
+### H1 — `apps/web-next/next-env.d.ts` flaps between `dev` and `build` variants
+
+- **Where**: `apps/web-next/next-env.d.ts` (tracked since `4925b17`).
+- **Behavior**: Next.js auto-regenerates this file. `next dev` writes
+  `import "./.next/dev/types/routes.d.ts"`; `next build` writes `import "./.next/types/routes.d.ts"`.
+  Because the file is committed, switching between dev and a prod build shows it as Modified
+  every time (Hassan noticed it dirty in the IDE). The file header says "should not be edited".
+- **Suggested fix**: gitignore `apps/web-next/next-env.d.ts` (Next regenerates it on every build,
+  so it never needs to be tracked) — OR pin it to the `build` variant and accept dev-time dirt.
+  Trivial; isolate in its own chore commit. Confirm CI (`pnpm check`) still typechecks web-next
+  without the tracked file (Next recreates it before `tsc`).
+
+### H2 — admin in-app nav uses full-page anchors instead of Next `<Link>` (from the admin migration)
+
+- **Where**: `apps/web-next/app/admin/(authed)/page.tsx` ("Clear"),
+  `(authed)/leads/[id]/page.tsx` ("← Back to leads"), `not-found.tsx` (3 links). All now
+  `AppButton as="a" href=…` (full-page navigation, no prefetch) where they were `next/link` before.
+- **Why it matters**: client-side nav + prefetch lost on these admin links. Tolerable for a
+  single-operator internal tool; flagged by the adversarial pass (MEDIUM) during the Variant-B merge.
+- **Suggested fix**: give `packages/ui` a router-aware link path (the [A5] `LinkContext` idea), or
+  use `<Link>` wrapped in button styling for in-app admin nav. Pairs with A5.
+
+### H3 — redundant `aria-label` on AppInputs already inside `<label className="form-label">`
+
+- **Where**: `apps/web-next/app/admin/login/page.tsx`, `(authed)/site-config/page.tsx` (and the
+  same pattern in the migrated funnel forms — checkout/experiences). Each `AppInput` carries an
+  `aria-label` while also being wrapped in a visible `<label>`; the `aria-label` overrides the
+  wrapping label's implicit association (announced text is identical, so no functional impact).
+- **Why it matters**: minor a11y redundancy; flagged LOW by the adversarial pass.
+- **Suggested fix**: either drop the `aria-label` and rely on the wrapping `<label>` (needs the
+  label associated via `htmlFor`/`id` to be correct), or pass the label text through AppInput's
+  own `label` prop and drop the outer `<label>`. Decide one labelling convention for the wrappers
+  and apply it consistently across web-next forms.
+
+### H4 — `apps/web-next` admin: maximal HeroUI adoption (AppTable + AppChip) deferred
+
+- **Where**: `(authed)/page.tsx` leads dashboard — kept native `<table className="admin-table">`
+  and `.tag--*` status spans (Variant B, parity-first, won the competition).
+- **Why deferred**: Variant A's AppTable+AppChip adoption was the competition runner-up — it drops
+  the hand-tuned `.admin-table`/`.tag` CSS, is the first in-app use of AppTable (no visual test),
+  and its AppChip color-map collapses `new`(blue)+`cal`(purple) onto one accent color. Parity won
+  for the internal tool. Variant A is archived at tag `hub/archive/20260625-164205/agent-1` if the
+  team later wants the full-system look (would need AppChip to gain more colors + a visual check).
+- **Suggested approach**: revisit only if the admin gets a visual refresh; pair with extending
+  AppChip's v3 color axis. Not urgent.
+
+
+
+---
+
+## P4 web-react migration follow-ups (2026-06-25)
+
+### H5 — StatusCard status chips use v3-DEFAULT colors, not warm-tuned
+
+- **Where**: `apps/web-react/src/components/sections/StatusCard.tsx` — AppChip with
+  `color="success"|"warning"|"danger"|"default"` (online/offline/checking/unknown).
+- **What**: `packages/ui/src/theme/v3/warmThemeV3.css` defines NO warm
+  `--success`/`--warning`/`--danger` tokens, so those chips fall back to the
+  `@heroui-v3/styles/themes/default` palette (green hue 150 / amber 72 / red 24).
+  Fully styled + semantically distinct — just not warm-tuned. Same gap docs has;
+  documented at `AppChip.tsx:32-37`. NOT introduced by P4 (flagged LOW by the
+  adversarial pass).
+- **Suggested fix**: add warm `--success`/`--warning`/`--danger` (+ `-soft`) tokens
+  to `warmThemeV3.css` — a `packages/ui` change benefiting every app's status chips.
+  Pair with a visual check. Not urgent.
+
+### H6 — orphaned worktree dirs locked on disk (Windows)
+
+- **Where**: `.claude/worktrees/agent-a9a74d341c61eece7`, `-ac73358334358d18c`,
+  `-ae1f9dfc10b443128` (the 3 P4 competition worktrees).
+- **What**: `git worktree remove` + `git worktree prune` succeeded (git metadata
+  clean; `git worktree list` = main only), but the dirs can't be `rm`'d — the native
+  `tailwindcss-oxide.win32-x64-msvc.node` is memory-mapped/locked by the gate's pnpm
+  process. Dirs are gitignored, invisible to git — purely disk residue, NOT dirty git
+  state.
+- **Suggested fix**: `Remove-Item -Recurse -Force .claude/worktrees/agent-*` after the
+  locking process exits (new shell / next session). Harmless to leave.
+
+### C1 (CLAUDE.md drift) — gotcha #2 now doubly wrong
+
+- **Where**: `.claude/CLAUDE.md` gotcha #2 + the architecture mermaid edge
+  (`ui -.alias declared but no import.-> webreact`).
+- **What**: web-react DID import `UiProvider` (RouterUiProvider.tsx) even before P4,
+  and after P4 it imports the full App* set (AppButton/Card/Chip/Input/Textarea/
+  Select/Checkbox/Switch) across 4 component files. The "dead alias, zero imports"
+  claim is false. The mermaid `ui --> webreact` edge is now a real solid dependency.
+- **Suggested fix**: `bootstrap audit` or a targeted CLAUDE.md edit — rewrite gotcha
+  #2, flip the mermaid edge to solid, and update gotcha #4 (web-react index.css now
+  carries the v3 coexistence block). Out of P4 commit scope.
+
+---
+
+## P6/Job2 web-next admin-primary restructure follow-ups (2026-06-26)
+
+### J1 — admin.itshassan.it DNS + deploy still human-gated (the infra half of Job 2)
+
+- **Where**: `apps/web-next/proxy.ts` host-route is DONE + unit-tested — when host is
+  `admin.itshassan.it`, `/` rewrites to `/admin` (admin gate still applies via the
+  (authed) layout's requireAdminSession()). 
+- **What's left (NOT code, can't verify from repo)**: point the subdomain at the
+  deployment — a CNAME on OVH + add `admin.itshassan.it` as a domain on the web-next
+  Vercel project. BUT web-next has NO deploy target yet (CLAUDE.md gotcha #5), so this
+  is moot until web-next is actually hosted. The proxy is ready for when it is.
+- **Suggested**: when web-next gets a deploy target, (1) create the Vercel project,
+  (2) add both `itshassan.it`/apex behavior + `admin.itshassan.it` domains, (3) OVH
+  CNAME `admin` → Vercel. Then verify the live subdomain serves /admin at root.
+
+### J2 — proxy host×path comment matrix under-documents /checkout rewrite (LOW)
+
+- **Where**: `apps/web-next/proxy.ts` host-routing block + its comment matrix.
+- **What**: on the admin host, the `!startsWith("/admin")` guard also rewrites
+  `/checkout` + `/api/checkout` → `/admin` (subdomain is admin-only, so this is
+  CORRECT behavior — booking funnel isn't served on the admin host), but the comment
+  matrix only spells out `/` → /admin. The doc under-describes actual behavior.
+- **Suggested fix**: add a `/checkout*` row to the matrix comment. Cosmetic; no
+  behavior change. Flagged LOW by the adversarial pass.
+
+### J3 — route-group moves poison the main checkout's .next cache (process note)
+
+- **What**: after merging the restructure, `pnpm check` failed with stale
+  `.next/dev/types/validator.ts` referencing pre-move paths (`app/cart/page.js`).
+  Variant gates were green (fresh worktree `.next`); the MAIN checkout's `.next` was
+  stale. `rm -rf apps/web-next/.next` fixed it.
+- **Suggested**: whenever a Next route move/rename merges, clear `apps/web-next/.next`
+  before trusting a local `pnpm check` in the main checkout. Not a code issue.
+
+### Resolved this session
+- **H6** (locked P4 worktree dirs): the 3 dirs were removed during the P6 cleanup once
+  the locking processes exited. `.claude/worktrees/` is now empty. DONE.

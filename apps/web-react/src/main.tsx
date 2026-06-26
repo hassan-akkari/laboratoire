@@ -1,11 +1,11 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { HeroUIProvider } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/react";
 import { store } from "./store/store";
 import App from "./App";
 import "./index.css";
+import { RouterUiProvider } from "./RouterUiProvider";
 
 const THEME_KEY = "laboratoire-theme";
 
@@ -49,14 +49,14 @@ async function bootstrap() {
   await enableMocksIfPossible();
 
   ReactDOM.createRoot(document.getElementById("root")!).render(
-    <HeroUIProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <RouterUiProvider>
         <Provider store={store}>
           <App />
           <Analytics />
         </Provider>
-      </BrowserRouter>
-    </HeroUIProvider>
+      </RouterUiProvider>
+    </BrowserRouter>
   );
 }
 

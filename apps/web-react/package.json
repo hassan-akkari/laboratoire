@@ -15,6 +15,7 @@
   "dependencies": {
     "@heroui/react": "^2.8.8",
     "@heroui/theme": "^2.4.26",
+    "@laboratoire/ui": "workspace:*",
     "@reduxjs/toolkit": "^2.11.2",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.29.2",

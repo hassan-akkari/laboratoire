@@ -23,3 +23,5 @@ admin-cookie.txt
 
 # AgentHub orchestration scratch (session board, worktree coordination)
 .agenthub/
+# Harness-managed subagent worktrees
+.claude/worktrees/

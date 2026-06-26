@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AppButton } from "@laboratoire/ui";
 import { getLeads, type LeadSource, type LeadStatus } from "@/lib/admin/leads";
 
 export const dynamic = "force-dynamic";
@@ -78,8 +79,11 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
             <option value="cal">Cal.com</option>
           </select>
         </label>
-        <button className="button button--bordered" type="submit">Apply</button>
-        <Link className="button button--flat" href="/admin">Clear</Link>
+        {/* GET filter form: selects stay native (server-submitted via `name`);
+            only the action buttons adopt the v3 wrappers. */}
+        <AppButton variant="bordered" type="submit">Apply</AppButton>
+        {/* `as="a"` -> v3 button-styled anchor (full nav). `flat` -> v3 tertiary. */}
+        <AppButton as="a" variant="flat" href="/admin">Clear</AppButton>
       </form>
 
       {filtered.length === 0 ? (

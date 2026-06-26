@@ -1,0 +1,142 @@
+/*
+ * ============================================================================
+ *  HeroUI v3 WARM THEME — the reusable token foundation for the v2 -> v3
+ *  incremental migration (first slice: AppButton + AppCard).
+ * ============================================================================
+ *
+ * WHY THIS FILE EXISTS
+ * --------------------
+ * HeroUI v3 is CSS-first: components read SEMANTIC CSS custom properties
+ * (`--accent`, `--surface`, `--foreground`, ...) defined by `@heroui/styles`
+ * instead of the v2 `heroui()` Tailwind plugin. To keep the migrated wrappers
+ * on-brand we re-point those v3 variables at the canonical WARM palette.
+ *
+ * This is a NEW module. It does NOT edit `../tokens.ts` / `../tokens.css`
+ * (the v2 single-source the vitest suite pins) and it does NOT touch
+ * `heroTheme.ts`. The two systems coexist:
+ *   - v2 wrappers  -> `heroui()` plugin + `--app-*` / `--heroui-*` vars (unchanged)
+ *   - v3 wrappers  -> `@heroui-v3/styles` + the `--*` vars overridden below
+ *
+ * VALUES ARE DERIVED, NOT INVENTED
+ * --------------------------------
+ * Every oklch() below is the exact OKLCH conversion of the warm hex token in
+ * `../tokens.ts` (sRGB -> linear -> OKLab -> OKLCH, D65). Mapping table:
+ *
+ *   v3 variable              warm source (tokens.ts)        hex        oklch
+ *   ----------------------   ----------------------------   --------   ------------------------
+ *   --background             appTokens.<mode>.bg            see below
+ *   --foreground             appTokens.<mode>.fg
+ *   --surface                appTokens.<mode>.card          (cards/accordions/non-overlay)
+ *   --muted                  appTokens.<mode>.muted
+ *   --border                 appTokens.<mode>.border
+ *   --accent                 heroColorTokens.<mode>.primary.DEFAULT
+ *   --accent-foreground      heroColorTokens.<mode>.primary.foreground
+ *
+ * DERIVED ACCENT VARS MUST BE RE-DECLARED HERE (do NOT rely on auto-derive).
+ * `@heroui/styles` defines `--accent-hover` / `--accent-soft` / ... as
+ * `color-mix(... var(--accent) ...)` on `:root` (the DEFAULT theme). Those are
+ * computed/registered there against the default (blue) `--accent` and INHERIT
+ * down as CONCRETE blue colors — overriding only `--accent` in this scope does
+ * NOT recompute them (this is why the primary Button HOVER stayed v3-default
+ * blue). Re-declaring the same color-mix expressions INSIDE this scope forces
+ * them to recompute against the warm `--accent`. Keep this list in sync with the
+ * derived accent vars any migrated component actually reads.
+ *
+ * SCOPING
+ * -------
+ * The overrides live under `.heroui-v3-warm` (NOT `:root`) so they NEVER leak
+ * into v2 components during coexistence. Wrap a v3 subtree (or the whole app,
+ * once fully migrated) in an element carrying this class. Light/dark follow the
+ * existing `.light` / `.dark` / `[data-theme]` convention used repo-wide.
+ *
+ * EXTENSION PATTERN FOR THE REMAINING 20 WRAPPERS
+ * -----------------------------------------------
+ * 1. A new wrapper imports its component from `@heroui-v3/react`.
+ * 2. It inherits these tokens automatically — no per-wrapper CSS needed for the
+ *    happy path. If a component needs a v3 var not yet mapped here (e.g.
+ *    `--overlay` for AppModal/AppTooltip, `--field-*` for AppInput), add ONE
+ *    line per token to the blocks below, deriving the value from tokens.ts the
+ *    same way (keep the conversion comment).
+ * 3. Radius: v3 `--radius` (0.5rem default) shrinks the v2 look; we pin it to
+ *    `0.5rem` here and individual wrappers may still pass a Tailwind
+ *    `rounded-[Npx]` className to match a specific v2 radius (see AppButton /
+ *    AppCard, which use `rounded-[12px]` to reproduce v2 `radius="sm"`).
+ */
+
+.heroui-v3-warm {
+  /* Radius — v2 `radius="sm"` was 8px; v3 default --radius is 0.5rem (8px).
+     Keep parity; wrappers override per-element with `rounded-[Npx]`. */
+  --radius: 0.5rem;
+
+  /* DARK is the default mode (matches tokens.ts + index.css convention). */
+  color-scheme: dark;
+
+  /* #080808 */
+  --background: oklch(13.44% 0 89.88);
+  /* #decbc6 */
+  --foreground: oklch(85.64% 0.0225 35.12);
+  /* #151515 — non-overlay surface (cards) */
+  --surface: oklch(19.57% 0 89.88);
+  --surface-foreground: var(--foreground);
+  /* #9a8f8c */
+  --muted: oklch(65.87% 0.0139 35.72);
+  /* #262626 */
+  --border: oklch(26.86% 0 89.88);
+  /* #4a4e69 — warm indigo accent (v2 primary.DEFAULT) */
+  --accent: oklch(43.14% 0.0449 277.8);
+  /* #decbc6 — v2 primary.foreground (dark) */
+  --accent-foreground: oklch(85.64% 0.0225 35.12);
+  --focus: var(--accent);
+  /* v2 `primary` === the warm indigo accent. Some v3 form controls still read
+     the `--primary` family (TextField/TextArea borders, Radio/Checkbox selected
+     fills). Alias it to `--accent` so they stay on warm-brand instead of falling
+     back to the @heroui-v3/styles default-theme blue. This is an ALIAS to the
+     existing accent source, not an invented value (tokens.ts has no separate
+     primary token distinct from the accent). */
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  /* Derived accent vars — recomputed from the warm --accent (see header note).
+     `--accent-hover` drives the primary Button hover/pressed bg; the soft family
+     drives soft fills + the secondary Button foreground. */
+  --accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
+  --accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);
+  --accent-soft-foreground: var(--accent);
+}
+
+/* LIGHT mode — activated by the repo-wide light switch. `useTheme` sets BOTH a
+ * `.light` class AND `data-theme="light"` on <html>, so the warm v3 scope (a
+ * descendant) matches via either ancestor selector. The self-carrying variants
+ * (`.heroui-v3-warm.light` / `.heroui-v3-warm[data-theme]`) cover the case where
+ * a consumer puts the theme flag directly on the v3 wrapper element. */
+.light .heroui-v3-warm,
+:root[data-theme="light"] .heroui-v3-warm,
+.heroui-v3-warm.light,
+.heroui-v3-warm[data-theme="light"] {
+  color-scheme: light;
+
+  /* #f5f1ea */
+  --background: oklch(95.93% 0.0103 81.8);
+  /* #1b1814 */
+  --foreground: oklch(21.1% 0.009 75.13);
+  /* #fbf8f3 */
+  --surface: oklch(98.01% 0.0074 80.72);
+  --surface-foreground: var(--foreground);
+  /* #75695f */
+  --muted: oklch(52.9% 0.0216 62.16);
+  /* #e8dfd2 */
+  --border: oklch(90.72% 0.0201 77.31);
+  /* #3d4368 — warm indigo accent (v2 primary.DEFAULT, light) */
+  --accent: oklch(39.45% 0.0631 276.08);
+  /* #f8f7f4 — v2 primary.foreground (light) */
+  --accent-foreground: oklch(97.61% 0.0041 91.45);
+  --focus: var(--accent);
+  /* Alias the v3 `--primary` family to `--accent` (see the dark block note). */
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  /* Derived accent vars — recomputed from the warm --accent (see header note). */
+  --accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
+  --accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);
+  --accent-soft-foreground: var(--accent);
+}
