@@ -202,3 +202,16 @@ Open follow-ups (none blocked the commit):
   with `!important`. The global `!important` clobbers the specific block (visually identical — 0.01ms
   vs none — so harmless). Fix: merge the warm-specific reset into the global block, or move the global
   block first and drop `!important`.
+
+---
+
+# Follow-up — booking-service admin (2026-06-26)
+
+> From the adversarial pass on the admin auth+dashboard build (run-log:
+> `_orchestrator-runs/2026-06-26-booking-service-admin-auth-dashboard.md`). LOW, deferred.
+
+- **LOW (cookie hardening for staging).** `apps/booking-service/lib/adminSession.ts` sets the admin
+  session cookie `secure: process.env.NODE_ENV === "production"`. Standard for local HTTP dev, but a
+  non-prod STAGING deploy served over HTTP would transmit the admin cookie in clear. Fix when a
+  staging env exists: set `NODE_ENV=production` there, or change to
+  `secure: process.env.NODE_ENV !== "development"` so only true local dev allows insecure cookies.
