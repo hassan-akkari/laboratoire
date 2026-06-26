@@ -53,6 +53,17 @@ function euroStrToCents(value: string): number | null {
   return Math.round(euros * 100);
 }
 
+/** Gallery textarea ↔ RHF value. The user types ONE URL per line; we split on
+ *  newlines, trim each, and drop blank lines so trailing/empty lines don't
+ *  become invalid "" entries (which the schema's url() check would reject). The
+ *  resulting array is what serviceSchema validates and the action persists. */
+function linesToUrls(value: string): string[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+}
+
 export type ServiceFormProps = {
   mode: "create" | "edit";
   /** Pre-fill for edit; omit for create. */
@@ -75,6 +86,9 @@ export function ServiceForm({ mode, defaultValues, action }: ServiceFormProps) {
       priceFromCents: defaultValues?.priceFromCents ?? 0,
       priceToCents: defaultValues?.priceToCents ?? null,
       imageUrl: defaultValues?.imageUrl ?? null,
+      // Gallery: always an array (never undefined) so the RHF value type stays
+      // `string[]` and lines up with serviceSchema's required `images` field.
+      images: defaultValues?.images ?? [],
       active: defaultValues?.active ?? true,
       sortOrder: defaultValues?.sortOrder ?? 0,
     },
@@ -87,6 +101,12 @@ export function ServiceForm({ mode, defaultValues, action }: ServiceFormProps) {
   );
   const [priceToStr, setPriceToStr] = React.useState(() =>
     centsToEuroStr(defaultValues?.priceToCents ?? null),
+  );
+  // Local textarea text for the gallery (one URL per line). Pre-fills on EDIT by
+  // joining the saved array; the underlying RHF value stays a string[] (kept in
+  // sync on every keystroke via linesToUrls).
+  const [galleryStr, setGalleryStr] = React.useState(() =>
+    (defaultValues?.images ?? []).join("\n"),
   );
 
   const isSubmitting = form.formState.isSubmitting;
@@ -306,7 +326,7 @@ export function ServiceForm({ mode, defaultValues, action }: ServiceFormProps) {
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URL</FormLabel>
+              <FormLabel>Hero image URL</FormLabel>
               <FormControl>
                 <Input
                   type="url"
@@ -323,7 +343,43 @@ export function ServiceForm({ mode, defaultValues, action }: ServiceFormProps) {
                   ref={field.ref}
                 />
               </FormControl>
-              <FormDescription>Optional.</FormDescription>
+              <FormDescription>
+                Optional. The main image at the top of the detail page. If left
+                blank, the first gallery image is used as the hero.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="images"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Gallery image URLs (one per line)</FormLabel>
+              <FormControl>
+                <Textarea
+                  rows={4}
+                  inputMode="url"
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder={"https://…\nhttps://…"}
+                  className="min-h-24 font-mono text-sm"
+                  value={galleryStr}
+                  onChange={(e) => {
+                    setGalleryStr(e.target.value);
+                    field.onChange(linesToUrls(e.target.value));
+                  }}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                />
+              </FormControl>
+              <FormDescription>
+                Optional. One image URL per line (up to 12). Shown as a gallery
+                below the hero on the public detail page.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
