@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { headers } from "next/headers";
 import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { HEROUI_V3_THEME_CLASS } from "@laboratoire/ui";
-import { getDateWithOffset } from "../lib/date";
 import { Providers } from "./Providers";
 import "./globals.css";
+
+// This app is dynamic by nature: every surface reads request state at runtime
+// (admin cookie gate + DB, booking-demo session cookie, server actions, the
+// in-memory order store, and `searchParams`). Declaring the tree dynamic here
+// makes that explicit. It also replaces the implicit whole-tree dynamic render
+// the old root layout got as a side effect of calling `headers()` — without it,
+// Next would try to statically prerender leaf pages (e.g. /admin/login) that
+// rely on runtime-only client hooks.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Cammino — Curated Rome experiences",
@@ -14,22 +20,21 @@ export const metadata: Metadata = {
     "Hand-picked Rome experiences — food walks, skip-the-line entries, sunset rivers. Booked in seconds, confirmed instantly, priced with no surprises.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const seedDate = getDateWithOffset(7);
-  const seedQuery = new URLSearchParams({
-    slug: "rome-night-food-tour",
-    guests: "2",
-    date: seedDate,
-  }).toString();
-
-  const headerList = await headers();
-  const pathname = headerList.get("x-pathname") ?? "";
-  const isAdmin = pathname.startsWith("/admin");
-
+  // ROOT LAYOUT = DOCUMENT SHELL ONLY (<html>/<body>/theme/providers + `.app-shell`
+  // full-height column). Per-surface chrome and content wrappers live with their
+  // routes:
+  //   - booking nav + `.app-main` -> app/(booking-demo)/layout.tsx
+  //   - admin topbar + `.admin-shell` -> app/admin/(authed)/layout.tsx
+  //   - admin login `.stage-center` -> app/admin/login/page.tsx
+  // This removes the old `x-pathname` / `isAdmin` runtime check: the booking nav
+  // is structurally scoped to the booking route group and can never leak onto
+  // admin pages or the apex redirect.
+  //
   // THEME-FLASH MITIGATION BY CONSTRUCTION (VARIANT B):
   // The `.heroui-v3-warm` v3 theme scope is rendered on <html> by the SERVER, so
   // the very first HTML byte already carries the warm-token scope — no client
@@ -51,30 +56,7 @@ export default async function RootLayout({
     >
       <body>
         <Providers>
-          <div className="app-shell">
-            {!isAdmin && (
-              <nav className="app-nav">
-                <div className="app-nav__content">
-                  <Link href="/" className="brand">
-                    Cam<span>mino</span>
-                  </Link>
-                  <div className="nav-links">
-                    <Link href="/">Listing</Link>
-                    <Link href={`/cart?${seedQuery}`}>
-                      Cart
-                    </Link>
-                    <Link href={`/checkout?${seedQuery}`}>
-                      Checkout
-                    </Link>
-                    <Link href={`/login?next=${encodeURIComponent(`/checkout?${seedQuery}`)}`}>
-                      Login
-                    </Link>
-                  </div>
-                </div>
-              </nav>
-            )}
-            <main className="app-main">{children}</main>
-          </div>
+          <div className="app-shell">{children}</div>
         </Providers>
         <Analytics />
       </body>

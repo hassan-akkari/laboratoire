@@ -1,7 +1,7 @@
 import { AppButton, AppCard } from "@laboratoire/ui";
 import { notFound } from "next/navigation";
-import { getOrderById } from "../../../lib/orders";
-import { formatCurrency } from "../../../lib/pricing";
+import { getOrderById } from "@/lib/orders";
+import { formatCurrency } from "@/lib/pricing";
 
 type ConfirmationPageProps = {
   params: Promise<{ orderId: string }>;
@@ -46,7 +46,7 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
           </li>
         </ul>
         <div className="button-row">
-          <AppButton as="a" href="/">
+          <AppButton as="a" href="/browse">
             Create another booking
           </AppButton>
         </div>

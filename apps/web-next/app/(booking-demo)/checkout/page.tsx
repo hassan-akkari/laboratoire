@@ -1,10 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { AppButton, AppCard, AppInput } from "@laboratoire/ui";
 import { redirect } from "next/navigation";
-import { checkoutRequestSchema, parseQuoteSearchParams } from "../../lib/bookingSchemas";
-import { getExperienceBySlug } from "../../lib/data";
-import { processCheckout } from "../../lib/orders";
-import { formatCurrency, quoteBooking } from "../../lib/pricing";
+import { checkoutRequestSchema, parseQuoteSearchParams } from "@/lib/bookingSchemas";
+import { getExperienceBySlug } from "@/lib/data";
+import { processCheckout } from "@/lib/orders";
+import { formatCurrency, quoteBooking } from "@/lib/pricing";
 
 type CheckoutPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -38,7 +38,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
         <h1>Checkout</h1>
         <p className="notice">Invalid booking context. Start from an experience page.</p>
         <div className="button-row">
-          <AppButton as="a" href="/">
+          <AppButton as="a" href="/browse">
             Back to listing
           </AppButton>
         </div>
