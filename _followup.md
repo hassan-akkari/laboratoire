@@ -215,3 +215,27 @@ Open follow-ups (none blocked the commit):
   non-prod STAGING deploy served over HTTP would transmit the admin cookie in clear. Fix when a
   staging env exists: set `NODE_ENV=production` there, or change to
   `secure: process.env.NODE_ENV !== "development"` so only true local dev allows insecure cookies.
+
+---
+
+# Follow-up — booking-service admin services CRUD (2026-06-26)
+
+> From the adversarial pass on the admin services-CRUD build (run-log:
+> `_orchestrator-runs/2026-06-26-booking-service-admin-services-crud.md`). All non-blocking.
+
+- **MEDIUM (invariant 6 — type export from a `"use server"` module).** Both
+  `apps/booking-service/app/admin/(authed)/services/actions.ts` (`ServiceActionResult`) and the
+  earlier-shipped `apps/booking-service/app/admin/(authed)/actions.ts` (`UpdateStatusResult`) export a
+  result TYPE directly from a `"use server"` file. The invariant says these modules should export only
+  async functions; pure types belong in a plain module. No runtime exposure (TypeScript erases
+  type-only exports before the server-action compiler pass), and it is a consistent pre-existing
+  pattern — so it did not block the merge. Fix BOTH together: move the result types to a plain module
+  (e.g. `lib/adminActionTypes.ts` or alongside the zod schemas) and import them as types.
+- **LOW (dead error-probe branch).** `actions.ts` `isUniqueViolation` checks `err.message` contains
+  `"23505"` as a fallback when `err.code` isn't `"23505"`. Neon/node-postgres always sets `.code`, so
+  the message branch is dead. Harmless (returns a boolean, never echoes the message), but unnecessary
+  surface — drop the message-string check, keep the `.code` check.
+- **LOW (edit-page pre-DB uuid check).** `app/admin/(authed)/services/[id]/page.tsx` passes the raw
+  `[id]` segment to `getServiceById` without a `z.string().uuid()` pre-check. No security issue
+  (Drizzle parameterizes; a non-uuid simply returns null → `notFound()`), just one wasted DB
+  round-trip on a crafted path. Optional: `safeParse` the id and `notFound()` early on a miss.
