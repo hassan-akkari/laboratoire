@@ -48,7 +48,7 @@ export default [
     },
   },
   {
-    files: ["apps/web-next/**/*.{ts,tsx}"],
+    files: ["apps/web-next/**/*.{ts,tsx}", "apps/booking-service/**/*.{ts,tsx}"],
     rules: {
       "react-refresh/only-export-components": "off",
     },
@@ -70,6 +70,7 @@ export default [
       "apps/docs/**/*.{ts,tsx}",
       "apps/web-react/**/*.{ts,tsx}",
       "apps/web-next/**/*.{ts,tsx}",
+      "apps/booking-service/**/*.{ts,tsx}",
       "apps/lab/**/*.{ts,tsx}",
       "packages/ui/**/*.{ts,tsx}",
     ],
@@ -81,6 +82,7 @@ export default [
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
           "apps/web-next/tsconfig.json",
+          "apps/booking-service/tsconfig.json",
           "apps/lab/tsconfig.app.json",
           "apps/lab/tsconfig.node.json",
           "packages/ui/tsconfig.json",
