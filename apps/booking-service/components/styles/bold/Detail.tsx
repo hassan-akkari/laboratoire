@@ -120,7 +120,7 @@ export function Detail({
                 alt={service.title}
                 width={1200}
                 height={800}
-                loading="lazy"
+                loading="eager"
                 className="h-full w-full max-w-full object-cover"
               />
             </div>
