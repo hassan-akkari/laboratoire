@@ -1,0 +1,1 @@
+ALTER TABLE "booking_services" ADD COLUMN "images" jsonb DEFAULT '[]'::jsonb NOT NULL;

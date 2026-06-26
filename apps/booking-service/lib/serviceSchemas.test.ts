@@ -17,6 +17,7 @@ function base() {
     priceFromCents: 3500,
     priceToCents: null,
     imageUrl: "",
+    images: [] as string[],
     active: true,
     sortOrder: 1,
   };
@@ -110,6 +111,7 @@ describe("serviceSchema", () => {
       sortOrder: 0,
       category: "",
       imageUrl: "",
+      images: [],
     });
     expect(parsed.success).toBe(true);
     if (parsed.success) {
@@ -122,6 +124,50 @@ describe("serviceSchema", () => {
 
   it("rejects an invalid image URL", () => {
     const parsed = serviceSchema.safeParse({ ...base(), imageUrl: "not a url" });
+    expect(parsed.success).toBe(false);
+  });
+
+  // ── Gallery (images[]) ──────────────────────────────────────────────────
+  // The gallery is validated by the SAME shared schema the form + action use,
+  // so an invalid URL can never reach the DB. Default-empty is accepted; each
+  // entry must be a valid URL; the array is capped.
+  it("accepts an empty gallery", () => {
+    const parsed = serviceSchema.safeParse({ ...base(), images: [] });
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.data.images).toEqual([]);
+    }
+  });
+
+  it("accepts a gallery of valid URLs and preserves them", () => {
+    const urls = [
+      "https://images.example.com/a.jpg",
+      "https://images.example.com/b.jpg",
+    ];
+    const parsed = serviceSchema.safeParse({ ...base(), images: urls });
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.data.images).toEqual(urls);
+    }
+  });
+
+  it("rejects a gallery containing an invalid URL", () => {
+    const parsed = serviceSchema.safeParse({
+      ...base(),
+      images: ["https://ok.example.com/a.jpg", "not a url"],
+    });
+    expect(parsed.success).toBe(false);
+    if (!parsed.success) {
+      expect(parsed.error.issues.some((i) => i.path[0] === "images")).toBe(true);
+    }
+  });
+
+  it("rejects a gallery over the 12-image cap", () => {
+    const tooMany = Array.from(
+      { length: 13 },
+      (_, i) => `https://images.example.com/${i}.jpg`,
+    );
+    const parsed = serviceSchema.safeParse({ ...base(), images: tooMany });
     expect(parsed.success).toBe(false);
   });
 });

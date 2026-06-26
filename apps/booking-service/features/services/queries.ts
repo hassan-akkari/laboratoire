@@ -24,6 +24,7 @@ function mockServices(): Service[] {
     priceFromCents: s.priceFromCents ?? 0,
     priceToCents: s.priceToCents ?? null,
     imageUrl: s.imageUrl ?? null,
+    images: s.images ?? [],
     active: true,
     sortOrder: s.sortOrder ?? 0,
     createdAt: now,

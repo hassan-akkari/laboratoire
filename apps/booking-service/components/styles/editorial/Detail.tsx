@@ -19,6 +19,14 @@ export function Detail({
   service: Service;
   dbReady: boolean;
 }) {
+  // Effective hero = explicit imageUrl, else the first gallery image, else none.
+  // When the hero is sourced FROM the gallery (no imageUrl), drop images[0] so it
+  // isn't shown twice; otherwise show the whole gallery.
+  const heroSrc = service.imageUrl ?? service.images[0] ?? null;
+  const galleryImages = service.imageUrl
+    ? service.images
+    : service.images.slice(1);
+
   return (
     <main className="theme-editorial mx-auto max-w-3xl px-6 py-16 sm:px-10 sm:py-24">
       <FadeUp className="border-b pb-10">
@@ -66,14 +74,14 @@ export function Detail({
         </dl>
       </FadeUp>
 
-      {service.imageUrl ? (
+      {heroSrc ? (
         <FadeUp delay={0.08} className="mt-14">
           {/* Plain <img> (not next/image): no images config is wired, so a
               remote URL would 500 under next/image. width/height + the
               aspect-ratio wrapper reserve space to avoid CLS. */}
-          <div className="aspect-[3/2] overflow-hidden border border-foreground/[0.08]">
+          <div className="aspect-3/2 overflow-hidden border border-foreground/8">
             <img
-              src={service.imageUrl}
+              src={heroSrc}
               alt={service.title}
               width={1200}
               height={800}
@@ -81,6 +89,32 @@ export function Detail({
               className="h-full w-full max-w-full object-cover"
             />
           </div>
+        </FadeUp>
+      ) : null}
+
+      {/* Gallery: editorial idiom — square hairline-framed plates, airy gap, no
+          fill or rounding (matches the framed hero). Empty gallery renders
+          nothing. Each plate reserves its aspect ratio (no CLS), lazy-loads, and
+          carries a unique, meaningful alt. */}
+      {galleryImages.length > 0 ? (
+        <FadeUp delay={0.1} className="mt-6">
+          <ul className="grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-3">
+            {galleryImages.map((src, i) => (
+              <li
+                key={src}
+                className="aspect-square overflow-hidden border border-foreground/8"
+              >
+                <img
+                  src={src}
+                  alt={`${service.title} — photo ${i + 1}`}
+                  width={600}
+                  height={600}
+                  loading="lazy"
+                  className="h-full w-full max-w-full object-cover"
+                />
+              </li>
+            ))}
+          </ul>
         </FadeUp>
       ) : null}
 

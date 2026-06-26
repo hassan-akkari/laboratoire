@@ -73,6 +73,7 @@ export default async function EditServicePage({
               priceFromCents: service.priceFromCents,
               priceToCents: service.priceToCents,
               imageUrl: service.imageUrl,
+              images: service.images,
               active: service.active,
               sortOrder: service.sortOrder,
             }}

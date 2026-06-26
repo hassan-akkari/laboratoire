@@ -81,6 +81,18 @@ export const serviceSchema = z
       .or(z.literal(""))
       .nullable()
       .transform((value) => (value && value.length > 0 ? value : null)),
+    // Gallery: the extra images shown below the hero on the public detail page.
+    // Each entry must be a valid URL; capped so a paste-bomb can't reach the DB.
+    // NO `.default([])` here ON PURPOSE: a default makes the INPUT optional
+    // (`string[] | undefined`) while the OUTPUT stays `string[]`, which would
+    // break the `z.input === z.output` invariant this module relies on (see the
+    // TYPING NOTE above) and desync `useForm<ServiceInput>` + zodResolver. The
+    // field is therefore REQUIRED at the type level; the form always supplies an
+    // array (defaultValues `images: []`, the Textarea editor maps lines → array),
+    // and the server action receives a validated `string[]`.
+    images: z
+      .array(z.string().trim().url("Each gallery item must be a valid URL."))
+      .max(12, "Up to 12 gallery images."),
     active: z.boolean(),
     sortOrder: z
       .number({ message: "Sort order is required." })

@@ -72,6 +72,7 @@ export async function createService(
       priceFromCents: data.priceFromCents,
       priceToCents: data.priceToCents,
       imageUrl: data.imageUrl,
+      images: data.images,
       active: data.active,
       sortOrder: data.sortOrder,
     });
@@ -134,6 +135,7 @@ export async function updateService(
         priceFromCents: data.priceFromCents,
         priceToCents: data.priceToCents,
         imageUrl: data.imageUrl,
+        images: data.images,
         active: data.active,
         sortOrder: data.sortOrder,
         updatedAt: new Date(),
