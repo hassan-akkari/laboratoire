@@ -25,3 +25,7 @@ admin-cookie.txt
 .agenthub/
 # Harness-managed subagent worktrees
 .claude/worktrees/
+
+# Python bytecode (e.g. vendored skill scripts)
+__pycache__/
+*.pyc
