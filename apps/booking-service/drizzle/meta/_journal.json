@@ -15,6 +15,13 @@
       "when": 1782476952283,
       "tag": "0001_loud_red_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782487426663,
+      "tag": "0002_steady_speed_demon",
+      "breakpoints": true
     }
   ]
 }

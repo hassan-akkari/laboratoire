@@ -4,6 +4,7 @@ import {
   check,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -43,6 +44,13 @@ export const services = pgTable(
     priceFromCents: integer("price_from_cents").notNull().default(0),
     priceToCents: integer("price_to_cents"),
     imageUrl: text("image_url"),
+    // Gallery of additional image URLs. `imageUrl` above is the HERO; this is the
+    // extra gallery shown on the public detail page. JSON array of URL strings,
+    // NOT NULL with an empty-array default so a row always has a usable value.
+    // Drizzle's $type<string[]>() makes Service/NewService carry `images:
+    // string[]` (no nullable juggling). URLs are validated by `serviceSchema`
+    // (each entry must be a valid URL) before any write — see lib/serviceSchemas.
+    images: jsonb("images").$type<string[]>().notNull().default([]),
     active: boolean("active").notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at", { withTimezone: true })

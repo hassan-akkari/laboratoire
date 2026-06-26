@@ -18,6 +18,14 @@ export function Detail({
   service: Service;
   dbReady: boolean;
 }) {
+  // Effective hero = explicit imageUrl, else the first gallery image, else none.
+  // When the hero is sourced FROM the gallery (no imageUrl), drop images[0] from
+  // the gallery so it isn't shown twice; otherwise show the whole gallery.
+  const heroSrc = service.imageUrl ?? service.images[0] ?? null;
+  const galleryImages = service.imageUrl
+    ? service.images
+    : service.images.slice(1);
+
   return (
     <div className="theme-bold flex min-h-dvh flex-col">
       <header className="border-b">
@@ -102,13 +110,13 @@ export function Detail({
 
         {/* ── Detail body: image + full description + CTAs ───────────────── */}
         <FadeUp delay={0.15}>
-          {service.imageUrl ? (
+          {heroSrc ? (
             // Plain <img> (not next/image): no images config is wired, so a
             // remote URL would 500 under next/image. width/height + the
             // aspect-ratio wrapper reserve space to avoid CLS.
-            <div className="mb-8 aspect-[3/2] overflow-hidden rounded-4xl ring-1 ring-foreground/10">
+            <div className="mb-8 aspect-3/2 overflow-hidden rounded-4xl ring-1 ring-foreground/10">
               <img
-                src={service.imageUrl}
+                src={heroSrc}
                 alt={service.title}
                 width={1200}
                 height={800}
@@ -116,6 +124,29 @@ export function Detail({
                 className="h-full w-full max-w-full object-cover"
               />
             </div>
+          ) : null}
+
+          {/* Gallery: bold idiom — rounded-4xl tiles with a ring, matching the
+              hero. Empty gallery renders nothing. Each tile reserves its aspect
+              ratio (no CLS) and lazy-loads with a unique, meaningful alt. */}
+          {galleryImages.length > 0 ? (
+            <ul className="mb-8 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3">
+              {galleryImages.map((src, i) => (
+                <li
+                  key={src}
+                  className="aspect-square overflow-hidden rounded-4xl ring-1 ring-foreground/10"
+                >
+                  <img
+                    src={src}
+                    alt={`${service.title} — photo ${i + 1}`}
+                    width={600}
+                    height={600}
+                    loading="lazy"
+                    className="h-full w-full max-w-full object-cover"
+                  />
+                </li>
+              ))}
+            </ul>
           ) : null}
 
           <div className="rounded-4xl bg-card p-6 ring-1 ring-foreground/10 sm:p-8">
