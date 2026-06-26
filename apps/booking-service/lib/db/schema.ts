@@ -14,19 +14,25 @@ import {
 
 // Booking lifecycle. Generic on purpose: this app is a service-booking engine,
 // "beauty/hair" is just the seeded demo vertical (swap the seed → any business).
-export const bookingStatusEnum = pgEnum("booking_status", [
+//
+// TABLE-PREFIX DISCIPLINE: all SQL identifiers (tables, enum, indexes) are
+// prefixed `booking_` because this app shares a Neon database with web-next
+// (users/leads/site_config) for cross-project reads. The prefix keeps the two
+// apps' tables isolated and obvious. The Drizzle EXPORT names stay unprefixed
+// (services/bookings/…) so app code is unaffected — only the on-DB names change.
+export const bookingStatusEnum = pgEnum("booking_service_status", [
   "pending",
   "confirmed",
   "completed",
   "cancelled",
 ]);
 
-// ── services ──────────────────────────────────────────────────────────────
+// ── booking_services ────────────────────────────────────────────────────────
 // The public catalogue. `category` is free text so the same schema serves any
 // vertical (beauty, tutoring, cleaning, photography…). Prices in minor units
 // (cents) to avoid float drift; `priceToCents` nullable for "from X" pricing.
 export const services = pgTable(
-  "services",
+  "booking_services",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     title: text("title").notNull(),
@@ -47,16 +53,16 @@ export const services = pgTable(
       .defaultNow(),
   },
   (t) => [
-    index("services_active_idx").on(t.active),
-    index("services_sort_idx").on(t.sortOrder),
+    index("booking_services_active_idx").on(t.active),
+    index("booking_services_sort_idx").on(t.sortOrder),
   ],
 );
 
-// ── bookings ──────────────────────────────────────────────────────────────
+// ── booking_bookings ──────────────────────────────────────────────────────
 // A customer's request against a service. `serviceId` FK with onDelete:set null
 // so deleting a service never destroys booking history.
 export const bookings = pgTable(
-  "bookings",
+  "booking_bookings",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     serviceId: uuid("service_id").references(() => services.id, {
@@ -77,16 +83,16 @@ export const bookings = pgTable(
       .defaultNow(),
   },
   (t) => [
-    index("bookings_created_at_idx").on(t.createdAt.desc()),
-    index("bookings_status_idx").on(t.status),
-    index("bookings_service_id_idx").on(t.serviceId),
+    index("booking_bookings_created_at_idx").on(t.createdAt.desc()),
+    index("booking_bookings_status_idx").on(t.status),
+    index("booking_bookings_service_id_idx").on(t.serviceId),
   ],
 );
 
-// ── settings ──────────────────────────────────────────────────────────────
+// ── booking_settings ──────────────────────────────────────────────────────
 // Singleton row (id must equal 1) holding business-level config.
 export const settings = pgTable(
-  "settings",
+  "booking_settings",
   {
     id: integer("id").primaryKey(),
     businessName: text("business_name").notNull().default(""),
@@ -98,12 +104,12 @@ export const settings = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (t) => [check("settings_singleton", sql`${t.id} = 1`)],
+  (t) => [check("booking_settings_singleton", sql`${t.id} = 1`)],
 );
 
-// ── admin_users ───────────────────────────────────────────────────────────
+// ── booking_admin_users ─────────────────────────────────────────────────────
 export const adminUsers = pgTable(
-  "admin_users",
+  "booking_admin_users",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     email: text("email").notNull(),
@@ -112,7 +118,7 @@ export const adminUsers = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (t) => [uniqueIndex("admin_users_email_uq").on(t.email)],
+  (t) => [uniqueIndex("booking_admin_users_email_uq").on(t.email)],
 );
 
 export type Service = typeof services.$inferSelect;
