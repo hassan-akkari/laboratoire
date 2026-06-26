@@ -3,8 +3,9 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { toast } from "sonner";
-import { CalendarCheck, CheckCircle2, Loader2 } from "lucide-react";
+import { CalendarCheck, CalendarIcon, CheckCircle2, Loader2 } from "lucide-react";
 
 import {
   createBookingSchema,
@@ -13,7 +14,13 @@ import {
 import { createBooking } from "@/app/actions/createBooking";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
@@ -32,21 +39,44 @@ import {
 // place. Client-only: it imports the schema (pure) and the server-action
 // FUNCTION (the documented boundary), never server-only modules.
 
-/** Local YYYY-MM-DD (no UTC shift) for the date input's `min`. */
-function todayLocal(): string {
+/**
+ * Local-midnight Date for the START of today (no UTC shift). The date-picker
+ * uses this to disable past days (`{ before: today }`, exclusive — today stays
+ * selectable), exactly replacing the old native `min` attribute.
+ */
+function todayLocalStart(): Date {
   const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, "0");
-  const d = String(now.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
+
+/**
+ * Parse a `YYYY-MM-DD` string to a LOCAL-midnight Date — the inverse of
+ * `format(date, "yyyy-MM-dd")`. We construct from numeric parts (never
+ * `new Date("2026-07-01")`, which would parse as UTC and shift the day in
+ * negative-offset timezones). Returns `undefined` for an empty/invalid value so
+ * the calendar renders unselected.
+ */
+function parseDateValue(value: string): Date | undefined {
+  if (!value) return undefined;
+  const [y, m, d] = value.split("-").map(Number);
+  if (!y || !m || !d) return undefined;
+  const date = new Date(y, m - 1, d);
+  return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
 /** Per-variant styling hooks so each chrome can theme the shared fields. */
 export type BookingFieldStyles = {
   /** Wrapper around the whole form. */
   formClassName?: string;
-  /** Applied to each text/date input + the textarea. */
+  /** Applied to each text/time input + the textarea. */
   controlClassName?: string;
+  /**
+   * Applied to the date-picker trigger button. Falls back to
+   * `controlClassName` when unset so a variant can theme everything at once.
+   */
+  datePickerTriggerClassName?: string;
+  /** Applied to the date-picker popover surface (the Calendar's container). */
+  datePickerPopoverClassName?: string;
   /** Applied to the submit button. */
   submitClassName?: string;
   /** Applied to the success confirmation panel. */
@@ -71,7 +101,12 @@ export function BookingFormFields({
 
   const form = useForm<CreateBookingInput>({
     resolver: zodResolver(createBookingSchema),
-    mode: "onBlur",
+    // Validate only AFTER a submit attempt, then live-correct as the user fixes
+    // each field. This is the fix for the punitive "Choose a valid date" that
+    // used to fire the instant a user blurred the empty, required date field
+    // (the old `mode: "onBlur"`). Nothing errors on initial load or on blur.
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       serviceSlug,
       customerName: "",
@@ -83,7 +118,7 @@ export function BookingFormFields({
     },
   });
 
-  const minDate = React.useMemo(() => todayLocal(), []);
+  const today = React.useMemo(() => todayLocalStart(), []);
   const isSubmitting = form.formState.isSubmitting;
 
   async function onSubmit(values: CreateBookingInput) {
@@ -263,30 +298,41 @@ export function BookingFormFields({
           <FormField
             control={form.control}
             name="preferredDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Preferred date <RequiredMark />
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="date"
-                    min={minDate}
-                    autoComplete="off"
-                    className={cn("h-11", styles?.controlClassName)}
-                    {...field}
+            render={({ field }) => {
+              const selected = parseDateValue(field.value);
+              return (
+                <FormItem className="flex flex-col">
+                  <FormLabel>
+                    Preferred date <RequiredMark />
+                  </FormLabel>
+                  <DatePickerControl
+                    value={field.value}
+                    selected={selected}
+                    onSelect={(date) =>
+                      // Bridge Date → the exact YYYY-MM-DD string zod expects
+                      // (`z.string().date()`). Local format, not toISOString,
+                      // so there is no UTC day-shift. Empty string when cleared.
+                      field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                    }
+                    onBlur={field.onBlur}
+                    disabledBefore={today}
+                    triggerClassName={cn(
+                      styles?.controlClassName,
+                      styles?.datePickerTriggerClassName,
+                    )}
+                    popoverClassName={styles?.datePickerPopoverClassName}
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           <FormField
             control={form.control}
             name="preferredTime"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex flex-col">
                 <FormLabel>Preferred time</FormLabel>
                 <FormControl>
                   <Input
@@ -342,6 +388,93 @@ export function BookingFormFields({
         </Button>
       </form>
     </Form>
+  );
+}
+
+/**
+ * The shadcn date-picker pattern: an outline `Button` trigger that shows the
+ * chosen date (or a placeholder) and opens a `Popover` containing a single-mode
+ * `Calendar`. Past dates are disabled. Selecting a day closes the popover.
+ *
+ * The RHF field stays a YYYY-MM-DD string end-to-end; this component only
+ * bridges to/from `Date` at the Calendar boundary (see `parseDateValue` and the
+ * `format(...)` in `onSelect`).
+ *
+ * A11y:
+ *  - The trigger has an explicit `aria-label` that announces the current value
+ *    (or "no date selected"), on top of the visible label wired by FormControl.
+ *  - `FormControl` slots onto the trigger so `aria-invalid` + `aria-describedby`
+ *    (error/description ids) land on the focusable element.
+ *  - The Calendar (react-day-picker) is a keyboard-operable grid by default;
+ *    focus moves into it on open and returns to the trigger on close.
+ */
+function DatePickerControl({
+  value,
+  selected,
+  onSelect,
+  onBlur,
+  disabledBefore,
+  triggerClassName,
+  popoverClassName,
+}: {
+  value: string;
+  selected: Date | undefined;
+  onSelect: (date: Date | undefined) => void;
+  onBlur: () => void;
+  disabledBefore: Date;
+  triggerClassName?: string;
+  popoverClassName?: string;
+}) {
+  const [open, setOpen] = React.useState(false);
+  const label = selected ? format(selected, "d MMM yyyy") : "Pick a date";
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <FormControl>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            // RHF still tracks touched/blur on the date control.
+            onBlur={onBlur}
+            aria-label={
+              selected
+                ? `Preferred date: ${format(selected, "d MMMM yyyy")}. Change date.`
+                : "Pick a preferred date"
+            }
+            data-empty={!value}
+            className={cn(
+              "h-11 w-full justify-start gap-2 px-3 text-left font-normal data-[empty=true]:text-muted-foreground",
+              triggerClassName,
+            )}
+          >
+            <CalendarIcon
+              className="size-4 shrink-0 opacity-70"
+              aria-hidden="true"
+            />
+            {label}
+          </Button>
+        </PopoverTrigger>
+      </FormControl>
+      <PopoverContent
+        align="start"
+        className={cn("w-auto p-0", popoverClassName)}
+      >
+        <Calendar
+          mode="single"
+          autoFocus
+          selected={selected}
+          defaultMonth={selected ?? disabledBefore}
+          onSelect={(date) => {
+            onSelect(date);
+            // Close on select (shadcn date-picker behaviour); focus returns to
+            // the trigger via Radix's focus management.
+            setOpen(false);
+          }}
+          disabled={{ before: disabledBefore }}
+        />
+      </PopoverContent>
+    </Popover>
   );
 }
 
