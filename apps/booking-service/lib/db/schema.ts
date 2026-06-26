@@ -71,7 +71,7 @@ export const bookings = pgTable(
     customerName: text("customer_name").notNull(),
     customerPhone: text("customer_phone"),
     customerEmail: text("customer_email"),
-    preferredDate: text("preferred_date"), // YYYY-MM-DD (no TZ ambiguity for a date)
+    preferredDate: text("preferred_date").notNull(), // YYYY-MM-DD; required (zod + DB-level)
     preferredTime: text("preferred_time"), // HH:mm
     notes: text("notes"),
     status: bookingStatusEnum("status").notNull().default("pending"),

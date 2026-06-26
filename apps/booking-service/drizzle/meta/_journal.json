@@ -8,6 +8,13 @@
       "when": 1782471300858,
       "tag": "0000_talented_franklin_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782476952283,
+      "tag": "0001_loud_red_skull",
+      "breakpoints": true
     }
   ]
 }

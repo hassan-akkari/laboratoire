@@ -1,0 +1,1 @@
+ALTER TABLE "booking_bookings" ALTER COLUMN "preferred_date" SET NOT NULL;
