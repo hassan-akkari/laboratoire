@@ -100,17 +100,30 @@ export function Book({
 
         {/* ── The shared booking form ──────────────────────────────────── */}
         <FadeUp delay={0.15}>
-          <div className="rounded-2xl bg-card p-6 ring-1 ring-foreground/10 sm:p-8">
-            <h2 className="font-display text-xl font-semibold tracking-tight">
+          <div className="rounded-4xl bg-card p-6 ring-1 ring-foreground/10 sm:p-8">
+            <h2 className="font-display text-2xl font-bold tracking-tight">
               Send your request
             </h2>
-            <p className="mt-2 mb-7 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 mb-8 text-sm leading-relaxed text-muted-foreground">
               No accounts, no phone tag. Tell us when works and how to reach you
               — we&rsquo;ll lock in your slot.
             </p>
             <BookingFormFields
               serviceSlug={service.slug}
               serviceTitle={service.title}
+              styles={{
+                // Bold = confident, violet-forward. Slightly larger controls,
+                // muted-fill inputs that snap to a strong violet focus ring,
+                // a pill submit and a generously rounded popover.
+                formClassName: "gap-6",
+                controlClassName:
+                  "h-12 rounded-xl border-transparent bg-muted/60 focus-visible:border-primary focus-visible:bg-background focus-visible:ring-primary/30",
+                datePickerTriggerClassName:
+                  "h-12 rounded-xl border-transparent bg-muted/60 hover:bg-muted focus-visible:border-primary focus-visible:bg-background focus-visible:ring-primary/30 aria-expanded:border-primary aria-expanded:bg-background",
+                datePickerPopoverClassName: "rounded-2xl",
+                submitClassName: "mt-1 h-12 rounded-4xl font-display font-semibold",
+                panelClassName: "rounded-4xl",
+              }}
             />
           </div>
         </FadeUp>

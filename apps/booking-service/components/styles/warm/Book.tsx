@@ -65,7 +65,10 @@ export function Book({
 
         <FadeUp delay={0.1}>
           <div className="warm-hero relative overflow-hidden rounded-[2rem] border border-(--warm-line) px-6 py-8 shadow-[0_30px_70px_-40px_oklch(0.45_0.08_30/35%)] sm:px-10 sm:py-10">
-            <p className="mb-7 max-w-prose leading-relaxed text-(--warm-ink-soft)">
+            <h2 className="font-heading text-2xl font-medium tracking-tight text-(--warm-ink)">
+              Request your chair
+            </h2>
+            <p className="mt-2 mb-8 max-w-prose leading-relaxed text-(--warm-ink-soft)">
               No card needed — send a request and we&rsquo;ll hold a quiet,
               unhurried chair just for you.
             </p>
@@ -73,12 +76,19 @@ export function Book({
               serviceSlug={service.slug}
               serviceTitle={service.title}
               styles={{
+                // Warm = soft, rounded, cream-tinted controls on warm lines,
+                // with a gentle primary focus ring. Comfortable spacing.
+                formClassName: "gap-6",
                 controlClassName:
-                  "border-(--warm-line) bg-[color-mix(in_oklch,var(--warm-cream),transparent_25%)] text-(--warm-ink) placeholder:text-(--warm-ink-soft)/70 rounded-xl",
+                  "h-12 rounded-xl border-(--warm-line) bg-[color-mix(in_oklch,var(--warm-cream),transparent_25%)] text-(--warm-ink) shadow-sm placeholder:text-(--warm-ink-soft)/70 focus-visible:border-primary/50 focus-visible:ring-primary/25",
+                datePickerTriggerClassName:
+                  "h-12 rounded-xl border-(--warm-line) bg-[color-mix(in_oklch,var(--warm-cream),transparent_25%)] text-(--warm-ink) shadow-sm hover:bg-[color-mix(in_oklch,var(--warm-cream),transparent_10%)] focus-visible:border-primary/50 focus-visible:ring-primary/25 aria-expanded:bg-[color-mix(in_oklch,var(--warm-cream),transparent_10%)]",
+                datePickerPopoverClassName:
+                  "rounded-2xl border-(--warm-line) bg-(--warm-cream)",
                 submitClassName:
-                  "rounded-full shadow-[0_12px_30px_-12px_oklch(0.457_0.24_277/55%)]",
+                  "mt-1 h-12 rounded-full shadow-[0_12px_30px_-12px_oklch(0.457_0.24_277/55%)]",
                 panelClassName:
-                  "border-(--warm-line) bg-[color-mix(in_oklch,var(--warm-cream),transparent_20%)]",
+                  "rounded-2xl border-(--warm-line) bg-[color-mix(in_oklch,var(--warm-cream),transparent_20%)]",
               }}
             />
           </div>

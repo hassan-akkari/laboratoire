@@ -65,14 +65,34 @@ export function Book({
         </dl>
       </FadeUp>
 
-      <FadeUp delay={0.1} className="mt-12">
-        <p className="mb-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty">
+      <FadeUp delay={0.1} className="mt-14">
+        <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-primary">
+          <span aria-hidden className="h-px w-8 bg-primary/60" />
+          Your details
+        </p>
+        <h2 className="mt-4 font-editorial text-2xl font-medium tracking-tight sm:text-3xl">
+          Request an appointment
+        </h2>
+        <p className="mt-3 mb-10 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty">
           Choose a date that suits you and tell us how to reach you. There&rsquo;s
           no deposit to enquire — we&rsquo;ll confirm a time by hand.
         </p>
         <BookingFormFields
           serviceSlug={service.slug}
           serviceTitle={service.title}
+          styles={{
+            // Editorial = airy + hairline. Inputs read as fine rules, not
+            // boxes: a near-square corner, a quiet hairline border that
+            // firms up to a thin ring on focus, and roomy vertical rhythm.
+            formClassName: "gap-7",
+            controlClassName:
+              "h-12 rounded-none border-0 border-b border-border bg-transparent px-0 shadow-none focus-visible:border-foreground focus-visible:ring-0 aria-invalid:border-destructive aria-invalid:ring-0",
+            datePickerTriggerClassName:
+              "h-12 rounded-none border-0 border-b border-border bg-transparent px-0 shadow-none hover:bg-transparent focus-visible:border-foreground focus-visible:ring-0 aria-expanded:bg-transparent",
+            submitClassName:
+              "mt-2 h-12 rounded-none text-sm font-medium uppercase tracking-[0.18em]",
+            panelClassName: "rounded-none border-x-0 border-b-0 border-t px-0",
+          }}
         />
       </FadeUp>
     </main>
