@@ -1,7 +1,7 @@
 import { AppButton, AppCard } from "@laboratoire/ui";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { SESSION_COOKIE_NAME, SESSION_COOKIE_VALUE, sanitizeNextPath } from "../../lib/session";
+import { SESSION_COOKIE_NAME, SESSION_COOKIE_VALUE, sanitizeNextPath } from "@/lib/session";
 
 type LoginPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -61,7 +61,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </form>
         <div className="button-row">
           {/* `bordered` -> v3 `secondary` (see AppButton). */}
-          <AppButton as="a" href="/" variant="bordered">
+          <AppButton as="a" href="/browse" variant="bordered">
             Back to listing
           </AppButton>
         </div>

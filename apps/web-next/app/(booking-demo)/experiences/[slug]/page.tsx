@@ -1,7 +1,7 @@
 import { AppButton, AppCard, AppChip, AppInput } from "@laboratoire/ui";
 import { notFound } from "next/navigation";
-import { getExperienceBySlug } from "../../../lib/data";
-import { getDateWithOffset } from "../../../lib/date";
+import { getExperienceBySlug } from "@/lib/data";
+import { getDateWithOffset } from "@/lib/date";
 
 type ExperienceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -96,7 +96,7 @@ export default async function ExperienceDetailPage({
           </form>
           <div className="button-row">
             {/* `bordered` -> v3 `secondary` (see AppButton). */}
-            <AppButton as="a" href="/" variant="bordered">
+            <AppButton as="a" href="/browse" variant="bordered">
               Back to listing
             </AppButton>
           </div>
