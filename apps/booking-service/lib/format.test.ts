@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { formatPriceRange, formatDuration } from "./format";
+import {
+  formatPriceRange,
+  formatDuration,
+  formatPreferredSlot,
+} from "./format";
 
 describe("formatPriceRange", () => {
   it("formats a single 'from' price when no upper bound", () => {
@@ -27,5 +31,15 @@ describe("formatDuration", () => {
 
   it("shows hours and minutes", () => {
     expect(formatDuration(90)).toBe("1 h 30 min");
+  });
+});
+
+describe("formatPreferredSlot", () => {
+  it("appends the time when present", () => {
+    expect(formatPreferredSlot("2026-07-15", "14:30")).toBe("15 Jul 2026 · 14:30");
+  });
+
+  it("omits the time separator when no time is given", () => {
+    expect(formatPreferredSlot("2026-07-15", null)).toBe("15 Jul 2026");
   });
 });

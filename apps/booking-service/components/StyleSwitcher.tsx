@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { setStyle } from "@/app/actions/setStyle";
 import {
@@ -23,8 +23,14 @@ import { cn } from "@/lib/utils";
 // rendered with the shadcn tokens so it reads clearly over any variant.
 export function StyleSwitcher({ active }: { active: StyleVariant }) {
   const router = useRouter();
+  const pathname = usePathname();
   const reduce = useReducedMotion();
   const [isPending, startTransition] = useTransition();
+
+  // The admin is a single clean internal UI — the marketing variant switcher
+  // has no place there. Hide it on every /admin route (it still renders on the
+  // public catalogue/booking pages).
+  if (pathname?.startsWith("/admin")) return null;
 
   function choose(variant: StyleVariant) {
     if (variant === active) return;
