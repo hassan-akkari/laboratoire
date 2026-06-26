@@ -184,3 +184,21 @@ Open follow-ups (none blocked the commit):
   component layers, not above). Harmless here (cart wrappers don't override via utility classes), but a
   future page that needs a `className` utility to beat the v3 recipe would have to rely on specificity or
   an explicit higher layer. Documented inline in globals.css.
+
+---
+
+# Follow-up — booking-service style switcher (2026-06-26)
+
+> From the adversarial pass on the style-switcher merge (run-log:
+> `_orchestrator-runs/2026-06-26-booking-service-style-switcher-merge.md`).
+> Both MEDIUM, non-blocking, deferred. App: `apps/booking-service`.
+
+- **M1 (a11y, MEDIUM).** `components/StyleSwitcher.tsx` sets `aria-busy={isPending}` on the
+  `role="group"` wrapper. Valid ARIA but semantically imprecise — `group` has no implicit live
+  region, and the per-button `disabled={isPending}` already conveys non-interactivity. Fix: drop
+  `aria-busy` from the group; rely on `disabled` + the `aria-pressed` change on completion.
+- **M2 (CSS tidiness, MEDIUM).** `app/globals.css` has TWO `@media (prefers-reduced-motion: reduce)`
+  blocks: a warm-specific one (`.warm-canvas/.warm-lift/.warm-reveal`) and a later global `*` reset
+  with `!important`. The global `!important` clobbers the specific block (visually identical — 0.01ms
+  vs none — so harmless). Fix: merge the warm-specific reset into the global block, or move the global
+  block first and drop `!important`.
