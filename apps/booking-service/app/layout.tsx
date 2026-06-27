@@ -10,6 +10,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { StyleSwitcher } from "@/components/StyleSwitcher";
+import { DemoModeBanner } from "@/components/DemoModeBanner";
+import { dbReady } from "@/lib/db/client";
 import { getStyle } from "@/lib/style";
 
 // All three competing designs ship together. To avoid a font-variable collision
@@ -74,6 +76,9 @@ export default async function RootLayout({
       <body className="min-h-dvh">
         {children}
         <StyleSwitcher active={style} />
+        {/* Public-surface demo notice — only when no DB is connected. The
+            component self-hides on /admin (which has its own setup cards). */}
+        {!dbReady ? <DemoModeBanner /> : null}
         <Toaster />
       </body>
     </html>
