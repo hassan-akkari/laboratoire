@@ -157,15 +157,19 @@ pnpm -F booking-service db:generate
 # Apply migrations to the database
 pnpm -F booking-service db:migrate
 
-# Or push the schema directly (fast path for dev)
-pnpm -F booking-service db:push
-
 # Seed: admin user (bcrypt), settings singleton, and demo services
 pnpm -F booking-service db:seed
 
 # Inspect with Drizzle Studio
 pnpm -F booking-service db:studio
 ```
+
+> ⚠️ **Use `db:migrate`, never `db:push`, on a shared database.** This app is
+> designed to share a Neon database with sibling projects (hence the `booking_`
+> table prefix). `db:push` reconciles the database to *this* app's schema and
+> will **drop any table it doesn't know about** (e.g. another project's
+> `users` / `leads`). `db:migrate` only applies the versioned migrations, which
+> create the `booking_*` tables additively and touch nothing else.
 
 **Tables:** `booking_services`, `booking_bookings`, `booking_settings` (singleton), `booking_admin_users`. See the [data model summary in the case study](PORTFOLIO_CASE_STUDY.md#database-model).
 
