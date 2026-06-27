@@ -84,6 +84,7 @@ export type Messages = {
     downloadOriginal: string;
     summary: string;
     impact: string;
+    projects: string;
     stack: string;
     experience: string;
     education: string;
@@ -191,6 +192,7 @@ export const messages: Record<Locale, Messages> = {
       downloadOriginal: "Download original PDF",
       summary: "Professional summary",
       impact: "Impact highlights",
+      projects: "Selected projects",
       stack: "Tech stack",
       experience: "Experience",
       education: "Education",
@@ -325,6 +327,7 @@ export const messages: Record<Locale, Messages> = {
       downloadOriginal: "Scarica PDF originale",
       summary: "Profilo professionale",
       impact: "Risultati",
+      projects: "Progetti selezionati",
       stack: "Stack tecnico",
       experience: "Esperienza",
       education: "Formazione",
@@ -460,6 +463,7 @@ export const messages: Record<Locale, Messages> = {
       downloadOriginal: "Télécharger PDF original",
       summary: "Résumé professionnel",
       impact: "Impact",
+      projects: "Projets sélectionnés",
       stack: "Stack technique",
       experience: "Expérience",
       education: "Formation",

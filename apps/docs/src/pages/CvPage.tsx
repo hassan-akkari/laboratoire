@@ -92,7 +92,7 @@ export default function CvPage({
 
           <motion.section className="cv-section" variants={fadeUpVariants}>
             <h2>{labels.cv.impact}</h2>
-            <ul>
+            <ul className="cv-impact-list">
               {content.highlights.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -111,6 +111,33 @@ export default function CvPage({
               <strong>{labels.about.exploring}:</strong> {content.stack.exploring.join(" / ")}
             </p>
           </motion.section>
+
+          {content.cvProjects && content.cvProjects.length > 0 ? (
+            <motion.section className="cv-section" variants={fadeUpVariants}>
+              <h2>{labels.cv.projects}</h2>
+              {content.cvProjects.map((project) => (
+                <article key={project.name} className="cv-block">
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <p className="cv-meta">{project.stack.join(" / ")}</p>
+                  {project.liveUrl || project.repoUrl ? (
+                    <p className="cv-project-links">
+                      {project.liveUrl ? (
+                        <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                          {project.liveUrl.replace(/^https?:\/\//, "")}
+                        </a>
+                      ) : null}
+                      {project.repoUrl ? (
+                        <a href={project.repoUrl} target="_blank" rel="noreferrer">
+                          {project.repoUrl.replace(/^https?:\/\//, "")}
+                        </a>
+                      ) : null}
+                    </p>
+                  ) : null}
+                </article>
+              ))}
+            </motion.section>
+          ) : null}
 
           <motion.section className="cv-section" variants={fadeUpVariants}>
             <h2>{labels.cv.experience}</h2>

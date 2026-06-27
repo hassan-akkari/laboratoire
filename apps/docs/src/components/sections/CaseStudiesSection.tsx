@@ -3,6 +3,7 @@ import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
 import { getCaseStudiesContent } from "../../data/caseStudies";
+import BookableShowcase from "./BookableShowcase";
 import {
   fadeUpVariants,
   getInViewReveal,
@@ -12,6 +13,8 @@ import {
 type CaseStudiesSectionProps = {
   locale: Locale;
 };
+
+const baseUrl = import.meta.env.BASE_URL;
 
 export default function CaseStudiesSection({
   locale,
@@ -53,6 +56,16 @@ export default function CaseStudiesSection({
                   {study.context}
                 </p>
               </header>
+
+              {study.variants && study.variants.length > 1 ? (
+                <div className="mt-5 overflow-hidden rounded-xl border border-(--app-border)">
+                  <BookableShowcase
+                    variants={study.variants}
+                    resolveSrc={(image) => `${baseUrl}${image}`}
+                    title={study.title}
+                  />
+                </div>
+              ) : null}
 
               <div className="mt-5 grid gap-6 md:grid-cols-3">
                 <div>
@@ -100,6 +113,20 @@ export default function CaseStudiesSection({
                   {content.labels.proves}: {study.proves}
                 </span>
               </div>
+
+              {study.liveUrl ? (
+                <div className="mt-4">
+                  <a
+                    href={study.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-(--app-accent) bg-(--app-accent) px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                  >
+                    {content.labels.viewLive}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              ) : null}
             </motion.article>
           ))}
         </motion.div>

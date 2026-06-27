@@ -605,6 +605,131 @@ nav a:has(> .logo) {
   display: block;
 }
 
+/* Bookable interactive style-switcher showcase */
+.bookable-showcase {
+  display: block;
+}
+
+.bookable-showcase__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--app-card) 70%, #000000);
+}
+
+.bookable-showcase__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: opacity;
+}
+
+.bookable-showcase__hint {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: color-mix(in srgb, #000000 46%, transparent);
+  border: 1px solid color-mix(in srgb, #ffffff 26%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.bookable-showcase__hint::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--app-accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-accent) 70%, transparent);
+  animation: bookable-pulse 2.4s ease-out infinite;
+}
+
+@keyframes bookable-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-accent) 60%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--app-accent) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-accent) 0%, transparent);
+  }
+}
+
+.bookable-showcase__tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 70%, transparent);
+  background: color-mix(in srgb, var(--app-card) 80%, transparent);
+}
+
+.bookable-showcase__tab {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: color-mix(in srgb, var(--app-fg) 70%, var(--app-muted));
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.bookable-showcase__tab:hover {
+  color: color-mix(in srgb, var(--app-fg) 90%, #ffffff);
+}
+
+.bookable-showcase__tab.is-active {
+  color: #ffffff;
+}
+
+.bookable-showcase__tab-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--app-accent) 60%, var(--app-border));
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--app-accent) 80%, #ffffff 20%),
+      color-mix(in srgb, var(--app-accent) 94%, #000000 6%));
+}
+
+.bookable-showcase__tab-label {
+  position: relative;
+  z-index: 1;
+}
+
+.bookable-showcase__tab:focus-visible {
+  outline: 2px solid var(--app-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bookable-showcase__hint::before {
+    animation: none;
+  }
+}
+
 .project-content {
   padding: 18px;
   display: grid;
@@ -952,6 +1077,26 @@ nav a:has(> .logo) {
 .cv-block {
   display: grid;
   gap: 8px;
+}
+
+/* Impact highlights carry "Title\nBefore:\nAfter:\nResult:" — keep the breaks. */
+.cv-impact-list li {
+  white-space: pre-line;
+}
+
+.cv-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.cv-project-links a {
+  color: var(--app-accent);
+  text-decoration: none;
+}
+
+.cv-project-links a:hover {
+  text-decoration: underline;
 }
 
 .cv-meta {

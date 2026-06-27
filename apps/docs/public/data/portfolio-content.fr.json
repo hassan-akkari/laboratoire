@@ -1,36 +1,34 @@
 {
   "profile": {
     "name": "Hassan Akkari",
-    "role": "Software Developer · Frontend — React 19, TypeScript",
-    "focus": "Reconstructions greenfield, machines à états de paiement, revue adversariale AI-augmented.",
+    "role": "Software Engineer · Full-Stack, Frontend-led",
+    "focus": "Rebuilds greenfield, flux de paiement exactly-once, engineering AI-augmented.",
     "location": "Rome, Italie",
-    "metric": "3+ ans en production · Reconstruction React 19 + intégration Nexi",
+    "metric": "~2,5 ans en production · migration React 19 + flux de paiement Nexi exactly-once",
     "about": [
-      "Software Developer (spécialiste Frontend) avec 3+ ans d'expérience en production. Je pilote actuellement la reconstruction React 19 / TypeScript d'une plateforme hospitality e-commerce chez Sibylla, après que le développement externe précédent n'avait pas répondu aux exigences.",
-      "J'ai livré l'intégration end-to-end du paiement Nexi — callback server-to-server, machine à états idempotente (pending → nexi_paid → sibylla_confirmed | failed), handler MediatR fire-and-forget et un outil PowerShell de replay pour le debug des race conditions de callback.",
-      "J'ai conçu les formulaires avec react-hook-form + Zod qui normalisent les payloads backend legacy au boundary; auth JWT avec refresh tokens et protection XSRF; gestion autonome des tâches via Azure DevOps avec UI depuis Figma.",
-      "J'ai construit un workflow d'engineering AI-augmented sur Claude Code — 5 subagents read-only (revue adversariale, audit SOLID, contract-drift TS↔C#, tracing forensique du payment flow), une knowledge base CLAUDE.md à 3 niveaux et 4 slash commands SRP-scoped; 3 bugs latents du flow paiements détectés au premier run.",
+      "Software engineer full-stack, plus fort sur le frontend, avec ~2,5 ans a livrer des systemes en production pour une entreprise de logiciels hospitality. Je dirige la migration page-by-page d'un SaaS de gestion multi-tenant de Razor/jQuery legacy vers React 19, et je possede end-to-end les surfaces paiement, kiosque et marketplace d'une plateforme e-commerce — dont un flux de paiement Nexi exactly-once sur un downstream non idempotent.",
+      "J'ai architecture le frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query : une couche d'auth avec refresh 401 single-flight, une architecture de paiement ports-and-adapters (Nexi / wallet / remises derriere une seule interface provider), et react-hook-form + Zod sur des payloads legacy incoherents. J'ai aussi mene un audit de securite et de tenancy qui a fait emerger des acces cross-tenant (IDOR) et un token CSRF emis mais jamais valide.",
+      "J'ai construit le workflow d'engineering AI-augmented de l'equipe sur Claude Code — fichiers d'instructions par layer, subagents specialises a outils restreints, une skill d'orchestration qui injecte les bons invariants, et un processus plan-first ou un humain approuve avant toute modification ; les subagents de review ont fait emerger trois bugs latents du flux de paiement avant la mise en production.",
       "Je partage approche et impact ouvertement; certains détails internes restent hors scope."
     ],
-    "now": "Sur Sibylla Network je pilote la reconstruction React 19 / TypeScript d'une plateforme hospitality e-commerce; j'ai récemment livré l'intégration end-to-end du paiement Nexi avec machine à états idempotente, et construit un workflow de revue adversariale AI-augmented sur Claude Code qui a détecté 3 bugs latents du flow paiements au premier run.",
+    "now": "Je dirige la migration React 19 du Portal, je possede les surfaces paiement, kiosque et marketplace de Network — dont le flux de paiement Nexi exactly-once — et je fais tourner le workflow d'engineering AI-augmented de l'equipe sur Claude Code.",
     "philosophy": "Résous le problème, puis rends-le difficile à répéter — avec standards, contrats typés et revue adversariale.",
     "githubUsername": "Dark-lIl-Demon"
   },
   "contact": {
     "email": "hassan.akkari01@gmail.com",
-    "resumePath": "pdf/CV-ENG-05-2026.pdf",
+    "resumePath": "pdf/CV-ENG-06-2026.pdf",
     "github": "https://github.com/Dark-lIl-Demon",
     "linkedin": "https://www.linkedin.com/in/hassan-akkari",
     "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Intégration paiement Nexi (end-to-end)\nAvant: le flow paiements avait des race conditions de callback récurrentes et aucun état rejouable.\nAprès: handler callback S2S avec machine à états idempotente (pending → nexi_paid → sibylla_confirmed | failed), handler MediatR fire-and-forget et un outil PowerShell de replay pour le debug.\nRésultat: récupération déterministe des race conditions de callback; bugs récurrents de race condition éliminés.",
-    "Reconstruction React 19 + TypeScript depuis zéro\nAvant: le développement externe n'avait pas répondu aux exigences de la plateforme hospitality.\nAprès: ~20 modules API, ~60 endpoints query/mutation, ~35 routes, ~12 zones de features (booking, checkout, paiements, wallet, account) construites en interne avec Redux Toolkit + RTK Query.\nRésultat: pleine ownership de l'architecture et direction frontend, en travaillant avec un backend developer.",
-    "Revue adversariale AI-augmented (subagents Claude Code)\nAvant: la code review dépendait de la disponibilité d'équipe et manquait le drift cross-stack.\nAprès: 5 subagents Claude Code read-only — revue adversariale, audit SOLID, contract-drift TS↔C#, tracing forensique du payment flow — sur le codebase ASP.NET Core 10 / React 19.\nRésultat: 3 bugs latents du flow paiements détectés au premier run; revue AI-assistée reproductible dans une sandbox à permissions minimales.",
-    "Knowledge base projet à 3 niveaux (CLAUDE.md × 3)\nAvant: les règles métier, la payment state machine et les gotchas vivaient seulement dans les têtes.\nAprès: 3 niveaux de CLAUDE.md (root + frontend + backend) codifiant glossaire métier, payment state machine et gotchas non évidents; 4 slash commands SRP (/challenge, /audit-solid, /check-drift, /trace-payment).\nRésultat: revue adversariale intégrée au workflow de PR; reproductible sur toute nouvelle feature.",
-    "Architecture formulaires + auth JWT (react-hook-form + Zod)\nAvant: payloads backend legacy incohérents cassaient la validation côté client.\nAprès: formulaires typés normalisant les payloads au boundary avec Zod; auth JWT avec refresh tokens et protection XSRF.\nRésultat: validation prévisible sur booking, checkout, paiements, wallet.",
-    "Standards UI sur stack legacy (ASP.NET MVC / Razor / jQuery)\nAvant: chaque nouvelle page réinventait classes, styles et utilitaires.\nAprès: système de classes CSS réutilisables et fichiers utilitaires JS partagés devenus la référence d'équipe pour les nouvelles pages.\nRésultat: duplication et incohérences visuelles réduites entre modules; encore utilisé après la migration React."
+    "Flux de paiement Nexi exactly-once\nAvant: un downstream non idempotent renvoyait parfois des reponses \"HTTP 200 mais echouees\", au risque de confirmer des paiements sans reservation reelle.\nApres: payment-lock + machine a etats MediatR (pending -> nexi_paid -> confirmed | failed) qui ne fait rien sur les replays et se protege contre les reponses \"HTTP 200 mais echouees\".\nResultat: aucun paiement confirme sans reservation reelle, meme sous callbacks rejoues ou concurrents.",
+    "Frontend React 19 en trois SPA independantes\nAvant: une seule surface monolithique melait marketplace, kiosque et landing de devis sans frontiere claire.\nApres: trois SPA independantes (marketplace / kiosque / landing devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight, paiement ports-and-adapters et react-hook-form + Zod.\nResultat: contributeur principal et premier auteur par volume de commits, de zero a la production.",
+    "Migration SaaS multi-tenant sans reecriture big-bang\nAvant: un SaaS de gestion legacy en ASP.NET MVC / Razor / jQuery impossible a moderniser d'un seul coup.\nApres: migration page-by-page vers React 19 derriere un backend-for-frontend, avec un route manifest qui decide SPA-navigate ou full-reload.\nResultat: migration incrementale sans big-bang, pipeline durcie contre les bundles obsoletes.",
+    "Audit de securite et de tenancy (IDOR + CSRF)\nAvant: un claim tenant filtre sur la ligne et non via un join parent, et un token CSRF jamais re-verifie.\nApres: audit systematique des chemins d'acces et de la validation cote serveur sur les surfaces multi-tenant.\nResultat: acces cross-tenant IDOR et token CSRF emis-mais-jamais-valide decouverts et documentes.",
+    "Framework d'engineering AI-augmented (Claude Code)\nAvant: la review dependait de la disponibilite d'equipe et manquait le drift cross-stack.\nApres: instructions par layer, subagents a outils restreints et orchestration plan-first ou un humain approuve avant toute modification.\nResultat: pipeline repetable, trois bugs de paiement latents trouves avant la release."
   ],
   "stack": {
     "daily": [
@@ -52,60 +50,56 @@
       "MediatR",
       "SQL Server",
       "Dapper",
-      "Razor / MVC (legacy)",
       "Vitest",
       "Playwright (e2e + a11y)",
       "Storybook",
       "MSW",
-      "Sass",
-      "Framer Motion",
       "Azure DevOps",
       "CI/CD (YAML)",
-      "Figma",
-      "Jira"
+      "Figma"
     ],
     "exploring": [
       "Claude Code custom subagents",
       "Agentic adversarial review",
-      "Angular",
-      "GraphQL"
+      "Drizzle ORM / Neon Postgres",
+      "Angular"
     ]
   },
   "experience": [
     {
-      "company": "Sibylla S.r.l. — Sibylla Network",
+      "company": "Sibylla S.r.l. — Network",
       "location": "Rome, Italie",
-      "role": "Frontend Developer — React 19 · TypeScript · ASP.NET Core 10",
+      "role": "Software Engineer — Network (e-commerce hospitality) · React 19 · ASP.NET Core 10",
       "start": "Mar 2025",
-      "end": "Présent",
+      "end": "Present",
       "bullets": [
-        "Pris en charge le frontend d'une plateforme hospitality / e-commerce greenfield, en la reconstruisant en interne après que le développement externe précédent n'avait pas répondu aux exigences; travail avec un backend developer.",
-        "App React + TypeScript construite depuis zéro avec Redux Toolkit + RTK Query: ~20 modules API, ~60 endpoints query/mutation, ~35 routes, ~12 zones de features sur booking, checkout, paiements, wallet, account.",
-        "Livraison de l'intégration end-to-end du paiement Nexi: callback S2S, machine à états idempotente (pending → nexi_paid → sibylla_confirmed | failed), handler MediatR fire-and-forget et un outil PowerShell de replay pour le debug des race conditions de callback.",
-        "Workflow d'engineering AI-augmented sur Claude Code: 5 subagents read-only (revue adversariale, audit SOLID, contract-drift TS↔C#, tracing du payment flow) + knowledge base CLAUDE.md à 3 niveaux + 4 slash commands SRP-scoped; 3 bugs latents du flow paiements détectés au premier run.",
-        "Architecture formulaires avec react-hook-form + Zod; auth JWT avec refresh tokens et protection XSRF; Vitest (unit) + Playwright (e2e + a11y); gestion des mises à jour pipeline CI/CD (YAML) et résolution des blocages pipeline."
+        "Livraison du flux de paiement Nexi exactly-once sur un downstream non idempotent : payment-lock + machine a etats MediatR (pending -> nexi_paid -> confirmed | failed) qui ne fait rien sur les replays et se protege contre les reponses \"HTTP 200 mais echouees\", de sorte qu'aucun paiement n'est confirme sans reservation reelle.",
+        "Architecture du frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight et paiement ports-and-adapters (Nexi / wallet / remises derriere une seule interface provider).",
+        "Formulaires en react-hook-form + Zod normalisant des payloads legacy incoherents au boundary ; contributeur principal et premier auteur par volume de commits, de zero a la production.",
+        "Construction du workflow d'engineering AI-augmented de l'equipe sur Claude Code : instructions par layer, subagents a outils restreints et orchestration plan-first ; trois bugs de paiement latents trouves avant la release."
       ]
     },
     {
-      "company": "Sibylla S.r.l. — Sibylla Platform",
+      "company": "Sibylla S.r.l. — Portal",
       "location": "Rome, Italie",
-      "role": "Frontend Developer — ASP.NET MVC · Razor · jQuery",
-      "start": "Sept 2023",
-      "end": "Mar 2025",
+      "role": "Software Engineer — Portal (SaaS de gestion multi-tenant) · React 19 · ASP.NET Core · BFF",
+      "start": "Sep 2023",
+      "end": "Present",
       "bullets": [
-        "UI sur ASP.NET MVC avec Razor et JavaScript/jQuery; système de classes CSS réutilisables et fichiers utilitaires JS partagés devenus la référence d'équipe pour les nouvelles pages, réduisant la duplication et les incohérences visuelles entre modules.",
-        "Refactor: suppression HTML/CSS/JS inutilisés, standardisation des conventions de nommage; Jira + FileZilla pour le tracking et le déploiement."
+        "Direction de la migration page-by-page d'un SaaS de gestion multi-tenant legacy (ASP.NET MVC / Razor / jQuery) vers React 19 derriere un backend-for-frontend, avec un route manifest qui decide SPA-navigate ou full-reload.",
+        "Audit de securite et de tenancy : mise en evidence d'un acces cross-tenant IDOR (claim tenant filtre sur la ligne et non via un join parent) et d'un token CSRF emis mais jamais valide.",
+        "Plus tot : systeme de classes CSS et de fichiers utilitaires JS reutilisables devenu la reference d'equipe, et durcissement de la pipeline de deploiement contre les bundles obsoletes."
       ]
     },
     {
       "company": "BetterTogether S.r.l.",
       "location": "Rome, Italie",
-      "role": "Frontend Developer Intern",
+      "role": "Frontend Developer · Stage",
       "start": "Oct 2022",
-      "end": "Mai 2023",
+      "end": "May 2023",
       "bullets": [
-        "Front-end pour facturation automatique (B2C / B2B2C) avec HTML, CSS, JS et C# / ASP.NET MVC.",
-        "Intégration des API Aruba pour la facturation électronique; standardisation UI et refactoring du code legacy avant livraison."
+        "Front-end pour la facturation automatique (B2C / B2B2C) avec HTML, CSS, JS et C# / ASP.NET MVC.",
+        "Integration des API Aruba pour la facturation electronique et refactor du code legacy avant livraison."
       ]
     }
   ],
@@ -247,6 +241,20 @@
         "Ajouter workflow review: draft, review, published avec audit trail.",
         "Implementer table filtrable avec export CSV et couverture de tests."
       ]
+    }
+  ],
+  "cvProjects": [
+    {
+      "name": "Bookable — Multi-Style Booking Platform",
+      "description": "Plateforme de reservation full-stack live : un seul modele de contenu rendu dans trois design systems commutables a l'execution, un flux de demande de reservation valide et un dashboard admin securise.",
+      "stack": ["Next.js 16", "React 19", "Drizzle ORM", "Neon Postgres", "iron-session", "Zod"],
+      "liveUrl": "https://bookable.itshassan.it"
+    },
+    {
+      "name": "laboratoire — monorepo React 19 / TypeScript",
+      "description": "Monorepo personnel pnpm + Turbo. Construit le core server-side d'un flux de reservation sur Next.js App Router — order processing idempotent, re-validation des prix cote serveur et un webhook Cal.com avec verification HMAC timing-safe — derriere une auth admin iron-session et une CI gate sans secrets.",
+      "stack": ["Next.js", "TypeScript", "Drizzle ORM", "Neon Postgres", "Vitest"],
+      "repoUrl": "https://github.com/Dark-lIl-Demon"
     }
   ]
 }

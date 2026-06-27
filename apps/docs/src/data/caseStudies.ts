@@ -1,5 +1,10 @@
 import type { Locale } from "../i18n/locale";
 
+export type CaseStudyVariant = {
+  label: string;
+  image: string;
+};
+
 export type CaseStudy = {
   id: string;
   title: string;
@@ -9,6 +14,10 @@ export type CaseStudy = {
   stack: string[];
   result: string[];
   proves: string;
+  /** When set, the card renders a "Live" link to the deployed product. */
+  liveUrl?: string;
+  /** When set, the card renders the interactive style-switcher showcase. */
+  variants?: CaseStudyVariant[];
 };
 
 export type CaseStudiesContent = {
@@ -21,6 +30,7 @@ export type CaseStudiesContent = {
     result: string;
     stack: string;
     proves: string;
+    viewLive: string;
   };
   caseStudies: CaseStudy[];
 };
@@ -36,6 +46,7 @@ const it: CaseStudiesContent = {
     result: "Risultato",
     stack: "Stack",
     proves: "Cosa dimostra",
+    viewLive: "Vai al sito live",
   },
   caseStudies: [
     {
@@ -93,25 +104,38 @@ const it: CaseStudiesContent = {
     },
     {
       id: "booking-checkout",
-      title: "Lab tecnico — Booking + checkout MVP (Next.js)",
+      title: "Bookable — Multi-Style Booking Platform",
       context:
-        "Progetto interno di laboratorio per validare un flusso di prenotazione/pagamento end-to-end con regole di prezzo reali.",
+        "Una piattaforma di prenotazione full-stack in produzione per attività di servizi locali — catalogo pubblico, flusso di richiesta prenotazione validato e dashboard admin sicura. Online su bookable.itshassan.it.",
       problem:
-        "Serviva un riferimento concreto per mostrare come gestisco un flusso che mescola listing, dettaglio, carrello, checkout, gate di accesso e regole di sconto.",
+        "Le attività vogliono un'identità propria, non l'ennesimo template identico — e proporre un solo design fisso è una posizione debole. Volevo mostrare un vero flusso backend e dimostrare che lo stesso contenuto può uscire in identità visive davvero diverse, all'istante.",
       solution: [
-        "Architettura Next.js App Router con Server Actions e Route Handlers",
-        "Motore di prezzo con promo code, fasce a persona / minimo gruppo, IVA e service fee",
-        "Gate di accesso al checkout con redirect puliti e idempotenza ordini",
-        "Validazione con Zod e test su pricing/sessione/ordini",
+        "Un solo modello di contenuti reso in tre design system completi (Editorial / Warm / Bold), cambiati live da cookie lato server senza flicker",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, con un repository layer che tiene le pagine leggere",
+        "Admin sicuro: iron-session + bcrypt, login timing- ed enumeration-safe, protezione delle route a tre livelli",
+        "Validazione Zod end-to-end condivisa tra client e server; prezzi salvati in cent interi",
       ],
-      stack: ["Next.js", "TypeScript", "Server Actions", "Zod", "Vitest"],
+      stack: [
+        "Next.js 16",
+        "React 19",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "iron-session",
+        "Zod",
+      ],
       result: [
-        "Flusso completo navigabile in locale dal browse al checkout",
-        "Codice testato sui punti critici (pricing, idempotency, redirect)",
-        "Base riutilizzabile per progetti reali di prenotazione/booking",
+        "Online in produzione su dominio custom con SSL valido (Vercel + OVH)",
+        "Tre design system completi da un solo codebase — zero duplicazione di contenuti",
+        "Data layer build-safe: parte e fa demo senza database, poi passa al Neon live quando configurato",
       ],
       proves:
-        "So gestire flussi tecnici complessi (pagamenti, regole di prezzo, sessioni) con codice pulito e testato, non solo siti vetrina.",
+        "So progettare e portare in produzione un vero prodotto full-stack end-to-end — data layer, auth, validazione e un design system distintivo — non solo siti vetrina.",
+      liveUrl: "https://bookable.itshassan.it",
+      variants: [
+        { label: "Editorial", image: "image/bookable-variant-1.png" },
+        { label: "Warm", image: "image/bookable-variant-2.png" },
+        { label: "Bold", image: "image/bookable-variant-3.png" },
+      ],
     },
   ],
 };
@@ -127,6 +151,7 @@ const en: CaseStudiesContent = {
     result: "Result",
     stack: "Stack",
     proves: "What it proves",
+    viewLive: "Visit the live site",
   },
   caseStudies: [
     {
@@ -184,25 +209,38 @@ const en: CaseStudiesContent = {
     },
     {
       id: "booking-checkout",
-      title: "Technical lab — Booking + checkout MVP (Next.js)",
+      title: "Bookable — Multi-Style Booking Platform",
       context:
-        "Internal lab project to validate an end-to-end booking/payment flow with real pricing rules.",
+        "A deployed, full-stack booking platform for local service businesses — public catalogue, validated booking-request flow, and a secure admin dashboard. Live at bookable.itshassan.it.",
       problem:
-        "I needed a concrete reference to show how I handle a flow mixing listing, detail, cart, checkout, access gate, and discount rules.",
+        "Businesses want their own look, not another identical template — and pitching one fixed design is a weak position. I wanted to show a real backend flow and prove the same content can ship in genuinely different visual identities, instantly.",
       solution: [
-        "Next.js App Router architecture with Server Actions and Route Handlers",
-        "Pricing engine with promo codes, per-person / minimum-group tiers, VAT, and service fee",
-        "Access gate on checkout with clean redirects and order idempotency",
-        "Zod validation and tests on pricing/session/orders",
+        "One content model rendered in three full design systems (Editorial / Warm / Bold), switched live from a server-side cookie with no flicker",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, with a repository layer keeping pages thin",
+        "Secure admin: iron-session + bcrypt, timing- and enumeration-safe login, three-layer route protection",
+        "End-to-end Zod validation shared between client and server; prices stored as integer cents",
       ],
-      stack: ["Next.js", "TypeScript", "Server Actions", "Zod", "Vitest"],
+      stack: [
+        "Next.js 16",
+        "React 19",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "iron-session",
+        "Zod",
+      ],
       result: [
-        "Full flow navigable locally from browse to checkout",
-        "Code tested on critical points (pricing, idempotency, redirect)",
-        "Reusable base for real booking projects",
+        "Live in production on a custom domain with valid SSL (Vercel + OVH)",
+        "Three complete design systems from one codebase — zero content duplication",
+        "Build-safe data layer: boots and demos with no database, then switches to live Neon when configured",
       ],
       proves:
-        "I can handle complex technical flows (payments, pricing rules, sessions) with clean and tested code — not just brochure sites.",
+        "I can design and ship a real, deployed full-stack product end to end — data layer, auth, validation, and a distinctive design system — not just brochure sites.",
+      liveUrl: "https://bookable.itshassan.it",
+      variants: [
+        { label: "Editorial", image: "image/bookable-variant-1.png" },
+        { label: "Warm", image: "image/bookable-variant-2.png" },
+        { label: "Bold", image: "image/bookable-variant-3.png" },
+      ],
     },
   ],
 };
@@ -218,6 +256,7 @@ const fr: CaseStudiesContent = {
     result: "Résultat",
     stack: "Stack",
     proves: "Ce que ça prouve",
+    viewLive: "Voir le site live",
   },
   caseStudies: [
     {
@@ -275,25 +314,38 @@ const fr: CaseStudiesContent = {
     },
     {
       id: "booking-checkout",
-      title: "Labo technique — Booking + checkout MVP (Next.js)",
+      title: "Bookable — Multi-Style Booking Platform",
       context:
-        "Projet labo interne pour valider un flux réservation/paiement end-to-end avec de vraies règles de prix.",
+        "Une plateforme de réservation full-stack en production pour des activités de services locales — catalogue public, flux de demande de réservation validé et dashboard admin sécurisé. En ligne sur bookable.itshassan.it.",
       problem:
-        "Il me fallait une référence concrète pour montrer comment je gère un flux mêlant listing, détail, panier, checkout, gate d'accès et règles de remise.",
+        "Les activités veulent leur propre identité, pas un énième template identique — et proposer un seul design figé est une position faible. Je voulais montrer un vrai flux backend et prouver que le même contenu peut sortir dans des identités visuelles vraiment différentes, instantanément.",
       solution: [
-        "Architecture Next.js App Router avec Server Actions et Route Handlers",
-        "Moteur de prix avec promo codes, tarifs par personne / minimum groupe, TVA et frais de service",
-        "Gate d'accès au checkout avec redirects propres et idempotence des commandes",
-        "Validation Zod et tests sur pricing/session/orders",
+        "Un seul modèle de contenu rendu dans trois design systems complets (Editorial / Warm / Bold), changés en live via un cookie côté serveur sans flicker",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, avec un repository layer qui garde les pages légères",
+        "Admin sécurisé : iron-session + bcrypt, login timing- et enumeration-safe, protection des routes à trois niveaux",
+        "Validation Zod end-to-end partagée entre client et serveur ; prix stockés en cents entiers",
       ],
-      stack: ["Next.js", "TypeScript", "Server Actions", "Zod", "Vitest"],
+      stack: [
+        "Next.js 16",
+        "React 19",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "iron-session",
+        "Zod",
+      ],
       result: [
-        "Flux complet navigable en local du browse au checkout",
-        "Code testé sur les points critiques (pricing, idempotence, redirect)",
-        "Base réutilisable pour de vrais projets de réservation",
+        "En ligne en production sur un domaine custom avec SSL valide (Vercel + OVH)",
+        "Trois design systems complets depuis un seul codebase — zéro duplication de contenu",
+        "Data layer build-safe : démarre et fait la démo sans base de données, puis bascule sur Neon live une fois configuré",
       ],
       proves:
-        "Je gère des flux techniques complexes (paiements, règles de prix, sessions) avec du code propre et testé — pas juste des sites vitrine.",
+        "Je sais concevoir et mettre en production un vrai produit full-stack de bout en bout — data layer, auth, validation et un design system distinctif — pas juste des sites vitrine.",
+      liveUrl: "https://bookable.itshassan.it",
+      variants: [
+        { label: "Editorial", image: "image/bookable-variant-1.png" },
+        { label: "Warm", image: "image/bookable-variant-2.png" },
+        { label: "Bold", image: "image/bookable-variant-3.png" },
+      ],
     },
   ],
 };

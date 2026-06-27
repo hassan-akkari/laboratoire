@@ -80,7 +80,7 @@ export default function App() {
         ...fallbackPortfolioContent,
         contact: {
           ...fallbackPortfolioContent.contact,
-          resumePath: "pdf/CV-ITA-05-2026.pdf",
+          resumePath: "pdf/CV-ITA-06-2026.pdf",
         },
       };
     }
@@ -89,7 +89,7 @@ export default function App() {
       ...fallbackPortfolioContent,
       contact: {
         ...fallbackPortfolioContent.contact,
-        resumePath: "pdf/CV-ENG-05-2026.pdf",
+        resumePath: "pdf/CV-ENG-06-2026.pdf",
       },
     };
   }, [locale]);
