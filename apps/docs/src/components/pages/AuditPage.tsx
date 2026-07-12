@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { AppButton, ThemeToggle } from "@laboratoire/ui";
 import {
@@ -9,54 +11,33 @@ import {
   FaMinus,
   FaCheck,
 } from "react-icons/fa";
-import Container from "../components/layout/Container";
-import Section from "../components/layout/Section";
-import LocaleSwitcher from "../components/ui/LocaleSwitcher";
-import type { Locale } from "../i18n/locale";
-import type { Messages } from "../i18n/messages";
-import { getAuditContent } from "../data/auditContent";
-import { useSiteContactOverrides } from "../lib/useSiteConfig";
+import Container from "../layout/Container";
+import Section from "../layout/Section";
+import LocaleSwitcher from "../ui/LocaleSwitcher";
+import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
+import type { Messages } from "../../i18n/messages";
+import { getAuditContent } from "../../data/auditContent";
+import { useSiteContactOverrides } from "../../lib/useSiteConfig";
 import {
   fadeUpVariants,
   getInViewReveal,
   getMountReveal,
   staggerChildrenVariants,
-} from "../components/ui/motionPresets";
+} from "../ui/motionPresets";
 
 type AuditPageProps = {
   locale: Locale;
-  onLocaleChange: (locale: Locale) => void;
   labels: Messages;
 };
 
-export default function AuditPage({
-  locale,
-  onLocaleChange,
-  labels,
-}: AuditPageProps) {
+export default function AuditPage({ locale, labels }: AuditPageProps) {
   const reduceMotion = Boolean(useReducedMotion());
   const { phoneDigits, email } = useSiteContactOverrides();
   const content = getAuditContent(locale, phoneDigits, email);
   const [openFaqId, setOpenFaqId] = useState<string | null>(
     content.faq.items[0]?.id ?? null,
   );
-
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = content.seoTitle;
-    const meta = document.querySelector<HTMLMetaElement>(
-      'meta[name="description"]',
-    );
-    const previousDescription = meta?.getAttribute("content") ?? null;
-    meta?.setAttribute("content", content.seoDescription);
-
-    return () => {
-      document.title = previousTitle;
-      if (previousDescription !== null) {
-        meta?.setAttribute("content", previousDescription);
-      }
-    };
-  }, [content.seoTitle, content.seoDescription]);
 
   const toggleFaq = (id: string) => {
     setOpenFaqId((current) => (current === id ? null : id));
@@ -70,10 +51,10 @@ export default function AuditPage({
             variants={fadeUpVariants}
             {...getMountReveal(reduceMotion)}
           >
-            <Link to="/" aria-label="Home">
+            <Link href={localePath(locale)} aria-label="Home">
               <img
                 className="logo"
-                src="favicon.png"
+                src="/favicon.png"
                 alt="Laboratoire logo"
                 width={42}
                 height={38}
@@ -81,14 +62,13 @@ export default function AuditPage({
             </Link>
             <ul id="sidemenu">
               <li>
-                <Link to="/">{content.backToHome}</Link>
+                <Link href={localePath(locale)}>{content.backToHome}</Link>
               </li>
             </ul>
             <div className="nav-actions">
               <ThemeToggle />
               <LocaleSwitcher
                 locale={locale}
-                onChange={onLocaleChange}
                 labels={labels.locale}
                 className="nav-locale-switcher"
               />

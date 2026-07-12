@@ -1,13 +1,16 @@
-import { Link } from "react-router-dom";
-import Container from "../components/layout/Container";
-import Section from "../components/layout/Section";
-import type { Messages } from "../i18n/messages";
+import Link from "next/link";
+import Container from "../layout/Container";
+import Section from "../layout/Section";
+import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
+import type { Messages } from "../../i18n/messages";
 
 type PrivacyPageProps = {
+  locale: Locale;
   labels: Messages;
 };
 
-export default function PrivacyPage({ labels }: PrivacyPageProps) {
+export default function PrivacyPage({ locale, labels }: PrivacyPageProps) {
   const { privacy } = labels;
   return (
     <Section id="privacy">
@@ -22,7 +25,7 @@ export default function PrivacyPage({ labels }: PrivacyPageProps) {
             </section>
           ))}
           <p style={{ marginTop: 32 }}>
-            <Link to="/">← {privacy.backToSite}</Link>
+            <Link href={localePath(locale)}>← {privacy.backToSite}</Link>
           </p>
         </div>
       </Container>

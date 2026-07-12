@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo, useState, type FormEvent } from "react";
 import { AppButton, AppInput, AppTextarea } from "@laboratoire/ui";
 import {
@@ -9,6 +11,7 @@ import type { Messages } from "../../i18n/messages";
 
 type ContactFormProps = {
   labels: Messages["contact"];
+  privacyHref?: string;
 };
 
 type SubmitState =
@@ -17,12 +20,9 @@ type SubmitState =
   | { kind: "success" }
   | { kind: "error"; message: string };
 
-const adminBaseUrl = (import.meta.env.VITE_ADMIN_API_BASE as string | undefined)?.replace(
-  /\/$/,
-  "",
-);
+const adminBaseUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE?.replace(/\/$/, "");
 
-export default function ContactForm({ labels }: ContactFormProps) {
+export default function ContactForm({ labels, privacyHref = "/privacy" }: ContactFormProps) {
   const [values, setValues] = useState<ContactValues>(() => initialContactValues());
   const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>({});
   const [submit, setSubmit] = useState<SubmitState>({ kind: "idle" });
@@ -167,7 +167,7 @@ export default function ContactForm({ labels }: ContactFormProps) {
         />
         <label htmlFor="contact-privacy" style={{ fontSize: 14 }}>
           {labels.privacyLabel}{" "}
-          <a href={`${import.meta.env.BASE_URL}privacy`} target="_blank" rel="noreferrer">
+          <a href={privacyHref} target="_blank" rel="noreferrer">
             {labels.privacyLink}
           </a>
           .

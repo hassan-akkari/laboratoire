@@ -1,3 +1,5 @@
+"use client";
+
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import { AppButton } from "@laboratoire/ui";
@@ -11,7 +13,6 @@ import {
 } from "../ui/motionPresets";
 
 type PortfolioSectionProps = {
-  baseUrl: string;
   projects: PortfolioProject[];
   labels: Messages["portfolio"];
 };
@@ -21,7 +22,6 @@ function isExternalLink(url: string) {
 }
 
 export default function PortfolioSection({
-  baseUrl,
   projects,
   labels,
 }: PortfolioSectionProps) {
@@ -31,7 +31,7 @@ export default function PortfolioSection({
     if (href.startsWith("#") || href.startsWith("mailto:") || isExternalLink(href)) {
       return href;
     }
-    return `${baseUrl}${href.replace(/^\//, "")}`;
+    return `/${href.replace(/^\//, "")}`;
   };
 
   return (
@@ -59,7 +59,7 @@ export default function PortfolioSection({
               whileHover={reduceMotion ? undefined : { y: -6 }}
             >
               <img
-                src={`${baseUrl}${project.image}`}
+                src={`/${project.image.replace(/^\//, "")}`}
                 alt={`${project.title} preview`}
                 className="project-image"
               />

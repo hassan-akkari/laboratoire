@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import Container from "../layout/Container";
 import Section from "../layout/Section";

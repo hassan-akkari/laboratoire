@@ -1,3 +1,5 @@
+"use client";
+
 import { FaBolt, FaCheckCircle } from "react-icons/fa";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Messages } from "../../i18n/messages";

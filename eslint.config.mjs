@@ -48,7 +48,14 @@ export default [
     },
   },
   {
-    files: ["apps/web-next/**/*.{ts,tsx}", "apps/booking-service/**/*.{ts,tsx}"],
+    // Next.js apps: App Router files legitimately co-export metadata /
+    // generateMetadata / generateStaticParams alongside components, and Fast
+    // Refresh is handled by Next itself — the Vite-oriented rule is noise.
+    files: [
+      "apps/docs/**/*.{ts,tsx}",
+      "apps/web-next/**/*.{ts,tsx}",
+      "apps/booking-service/**/*.{ts,tsx}",
+    ],
     rules: {
       "react-refresh/only-export-components": "off",
     },
@@ -77,8 +84,7 @@ export default [
     languageOptions: {
       parserOptions: {
         project: [
-          "apps/docs/tsconfig.app.json",
-          "apps/docs/tsconfig.node.json",
+          "apps/docs/tsconfig.json",
           "apps/web-react/tsconfig.app.json",
           "apps/web-react/tsconfig.node.json",
           "apps/web-next/tsconfig.json",

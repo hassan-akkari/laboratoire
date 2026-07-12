@@ -1,9 +1,12 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
 import { FaArrowRight } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
 import { getHeroContent } from "../../data/heroContent";
 import {
   fadeUpVariants,
@@ -15,7 +18,7 @@ type HeroSectionProps = {
   locale: Locale;
 };
 
-const PORTRAIT_SRC = `${import.meta.env.BASE_URL}image/portrait.png`;
+const PORTRAIT_SRC = "/image/portrait.png";
 
 export default function HeroSection({ locale }: HeroSectionProps) {
   const reduceMotion = Boolean(useReducedMotion());
@@ -47,7 +50,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
             <div className="mt-8 grid grid-cols-1 gap-3 sm:max-w-lg sm:grid-cols-2">
               <AppButton
                 as="a"
-                href={content.primaryCtaHref}
+                href={localePath(locale, content.primaryCtaHref)}
                 size="lg"
                 fullWidth
                 endContent={<FaArrowRight aria-hidden="true" />}

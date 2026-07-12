@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import {
   fetchPublicSiteConfig,
@@ -10,10 +12,7 @@ export type SiteContactOverrides = {
   email: string | undefined;
 };
 
-const adminBaseUrl = (import.meta.env.VITE_ADMIN_API_BASE as string | undefined)?.replace(
-  /\/$/,
-  "",
-);
+const adminBaseUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE?.replace(/\/$/, "");
 
 export function useSiteConfig(): PublicSiteConfig {
   const [config, setConfig] = useState<PublicSiteConfig>(PUBLIC_SITE_CONFIG_FALLBACK);
