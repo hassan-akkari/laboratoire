@@ -1,34 +1,29 @@
+"use client";
+
 import { AppButton } from "@laboratoire/ui";
 import { motion, useReducedMotion } from "framer-motion";
-import Container from "../components/layout/Container";
-import type { PortfolioContent } from "../content/portfolioContent";
-import type { Locale } from "../i18n/locale";
-import type { Messages } from "../i18n/messages";
-import LocaleSwitcher from "../components/ui/LocaleSwitcher";
+import Container from "../layout/Container";
+import type { PortfolioContent } from "../../content/portfolioContent";
+import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
+import type { Messages } from "../../i18n/messages";
+import LocaleSwitcher from "../ui/LocaleSwitcher";
 import {
   fadeUpVariants,
   getMountReveal,
   staggerChildrenVariants,
-} from "../components/ui/motionPresets";
+} from "../ui/motionPresets";
 
 type CvPageProps = {
-  baseUrl: string;
   content: PortfolioContent;
   locale: Locale;
-  onLocaleChange: (locale: Locale) => void;
   labels: Messages;
 };
 
-export default function CvPage({
-  baseUrl,
-  content,
-  locale,
-  onLocaleChange,
-  labels,
-}: CvPageProps) {
+export default function CvPage({ content, locale, labels }: CvPageProps) {
   const reduceMotion = Boolean(useReducedMotion());
   const handlePrint = () => window.print();
-  const resumeHref = `${baseUrl}${content.contact.resumePath}`;
+  const resumeHref = content.contact.resumePath;
 
   return (
     <main id="cv-page">
@@ -47,13 +42,9 @@ export default function CvPage({
           variants={fadeUpVariants}
           {...getMountReveal(reduceMotion)}
         >
-          <LocaleSwitcher
-            locale={locale}
-            onChange={onLocaleChange}
-            labels={labels.locale}
-          />
+          <LocaleSwitcher locale={locale} labels={labels.locale} />
           <div className="cv-actions">
-            <AppButton as="a" href={baseUrl} variant="bordered">
+            <AppButton as="a" href={localePath(locale)} variant="bordered">
               {labels.cv.backToSite}
             </AppButton>
             <AppButton type="button" onClick={handlePrint}>

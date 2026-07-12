@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
 import type { RoadmapProject } from "../../content/portfolioContent";

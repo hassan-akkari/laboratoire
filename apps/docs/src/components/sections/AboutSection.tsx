@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AppButton } from "@laboratoire/ui";
@@ -17,7 +19,6 @@ import {
 } from "../ui/motionPresets";
 
 type AboutSectionProps = {
-  baseUrl: string;
   content: PortfolioContent;
   githubProfile: GithubProfile | null;
   isFallbackData: boolean;
@@ -29,7 +30,6 @@ type AboutSectionProps = {
 type AboutTab = "stack" | "experience" | "education" | "general";
 
 export default function AboutSection({
-  baseUrl,
   content,
   githubProfile,
   isFallbackData,
@@ -149,7 +149,7 @@ export default function AboutSection({
         >
           <motion.div className="about-col-1" variants={fadeUpVariants}>
             <motion.img
-              src={`${baseUrl}image/mePNG.png`}
+              src="/image/mePNG.png"
               alt="Hassan portrait"
               whileHover={reduceMotion ? undefined : { y: -3, scale: 1.015 }}
               transition={{ duration: 0.26 }}

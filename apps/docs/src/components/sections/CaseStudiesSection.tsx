@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
@@ -13,8 +15,6 @@ import {
 type CaseStudiesSectionProps = {
   locale: Locale;
 };
-
-const baseUrl = import.meta.env.BASE_URL;
 
 export default function CaseStudiesSection({
   locale,
@@ -61,7 +61,7 @@ export default function CaseStudiesSection({
                 <div className="mt-5 overflow-hidden rounded-xl border border-(--app-border)">
                   <BookableShowcase
                     variants={study.variants}
-                    resolveSrc={(image) => `${baseUrl}${image}`}
+                    resolveSrc={(image) => `/${image.replace(/^\//, "")}`}
                     title={study.title}
                   />
                 </div>

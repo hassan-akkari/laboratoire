@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { CaseStudyVariant } from "../../data/caseStudies";
@@ -5,7 +7,7 @@ import { easeOutQuart } from "../ui/motionPresets";
 
 type BookableShowcaseProps = {
   variants: CaseStudyVariant[];
-  /** Already resolved to an absolute/base-prefixed URL by the parent. */
+  /** Already resolved to a root-absolute URL by the parent. */
   resolveSrc: (image: string) => string;
   title: string;
 };

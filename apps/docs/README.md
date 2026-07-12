@@ -1,73 +1,44 @@
-# React + TypeScript + Vite
+# docs — portfolio (Next.js 16, App Router)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio/marketing site for Hassan Akkari (`itshassan.it`), migrated from a
+Vite + React Router SPA to **Next.js 16 App Router** for real server-side SEO.
 
-Currently, two official plugins are available:
+## Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Locale-prefixed routes** — every page lives under `/{it|en|fr}`:
+  `/it`, `/en/cv`, `/fr/audit`, `/it/privacy`. `src/proxy.ts` (Next 16
+  middleware) redirects bare paths (`/`, `/cv`, ...) to the visitor's locale:
+  cookie `laboratoire-locale` → `Accept-Language` → `it`.
+  `LocaleCookieSync` bridges returning SPA visitors (localStorage → cookie).
+- **SEO server-side** — per-page `generateMetadata` (title/description per
+  locale from `src/data/seoContent.ts` and `src/data/auditContent.ts`),
+  canonical + hreflang alternates (`src/seo/`), Open Graph/Twitter cards,
+  `sitemap.ts`, `robots.ts`, and localized JSON-LD (`src/seo/JsonLd.tsx`:
+  Person + ProfessionalService with the live services catalog).
+- **Content build-time, not fetch-time** — the old RTK Query fetch of
+  `public/data/portfolio-content*.json` is replaced by static imports in
+  `src/content/loader.ts` (zod-validated at build, asset paths normalized to
+  root-absolute). Redux is gone.
+- **Sections are client components** (framer-motion + HeroUI) composed by
+  server pages under `src/app/[locale]/`. Pages in `src/pages/` are the
+  client page bodies (audit, cv, privacy).
+- **Theme** — dark default, inline pre-paint script in
+  `src/app/[locale]/layout.tsx` reads `laboratoire-theme` (same key the
+  `@laboratoire/ui` `useTheme` hook writes).
+- **Fonts** — `next/font/google` (Outfit + Space Grotesk) exposed as
+  `--font-outfit` / `--font-space-grotesk`; no render-blocking CSS `@import`.
 
-## React Compiler
+## Commands (from repo root)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm dev:docs      # next dev, port 3000
+pnpm build:docs    # builds @laboratoire/ui first (prebuild), then next build
+pnpm start:docs    # next start, port 3000
+pnpm -F docs lint && pnpm -F docs typecheck && pnpm -F docs test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Env
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+See `.env.example`: `NEXT_PUBLIC_ADMIN_API_BASE` (admin API on web-next),
+`NEXT_PUBLIC_CAL_LINK` (Cal.com event). Both are optional — components fall
+back gracefully.

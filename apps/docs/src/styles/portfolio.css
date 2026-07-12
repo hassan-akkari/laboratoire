@@ -1,8 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+/* Fonts are loaded via next/font (Outfit + Space Grotesk) in
+ * src/app/[locale]/layout.tsx, which self-hosts them and exposes
+ * --font-outfit / --font-space-grotesk on <html> — no render-blocking
+ * Google Fonts @import anymore. */
 
 * {
   box-sizing: border-box;
-  font-family: "Outfit", sans-serif;
+  font-family: var(--font-outfit, "Outfit"), sans-serif;
 }
 
 html {
@@ -23,7 +26,7 @@ h2,
 h3,
 .tab-links,
 nav ul li a {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
 }
 
 section {
