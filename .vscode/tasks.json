@@ -41,9 +41,48 @@
       }
     },
     {
+      "label": "dev:booking-service",
+      "type": "shell",
+      "command": "pnpm dev:booking",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "dev:lab",
+      "type": "shell",
+      "command": "pnpm dev:lab",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
       "label": "dev:all",
       "type": "shell",
       "command": "pnpm dev:all",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "storybook (ui)",
+      "type": "shell",
+      "command": "pnpm -F @laboratoire/ui storybook",
       "options": {
         "cwd": "${workspaceFolder}"
       },
