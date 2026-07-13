@@ -17,7 +17,7 @@
   },
   "contact": {
     "email": "hassan.akkari01@gmail.com",
-    "resumePath": "pdf/CV-ENG-06-2026.pdf",
+    "resumePath": "pdf/CV-ENG-07-2026.pdf",
     "github": "https://github.com/Dark-lIl-Demon",
     "linkedin": "https://www.linkedin.com/in/hassan-akkari",
     "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
@@ -124,7 +124,7 @@
   "general": [
     {
       "title": "Languages",
-      "items": ["English (C1 / fluent)", "Italian (native)", "Arabic (conversational)"]
+      "items": ["English (C1 / fluent)", "Italian (native)", "French (A2 / learning)", "Arabic (conversational)"]
     },
     {
       "title": "AI-augmented dev",

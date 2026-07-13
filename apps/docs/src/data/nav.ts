@@ -64,13 +64,28 @@ const fr: NavContent = {
   ariaLabel: "Navigation principale",
 };
 
-export const navContent: Record<Locale, NavContent> = { it, en, fr };
+const de: NavContent = {
+  items: [
+    { href: "#services", label: "Leistungen" },
+    { href: "#case-studies", label: "Projekte" },
+    { href: "#process", label: "Arbeitsweise" },
+    { href: "#faq", label: "FAQ" },
+    { href: "#cta", label: "Kontakt" },
+  ],
+  audit: { to: "/audit", label: "Gratis-Audit" },
+  whatsappLabel: "WhatsApp",
+  openMenuLabel: "Navigationsmenü öffnen",
+  closeMenuLabel: "Navigationsmenü schliessen",
+  ariaLabel: "Hauptnavigation",
+};
+
+export const navContent: Record<Locale, NavContent> = { it, en, fr, de };
 
 export function getNavContent(locale: Locale) {
   return navContent[locale];
 }
 
-const ALL_LOCALES: Locale[] = ["en", "it", "fr"];
+const ALL_LOCALES: Locale[] = ["en", "it", "fr", "de"];
 
 export function getLongestNavLabels(): Record<string, string> {
   const result: Record<string, string> = {};

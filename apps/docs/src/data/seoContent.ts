@@ -51,6 +51,20 @@ export const seoContent: Record<Locale, SeoContent> = {
       "développeur next.js italie",
     ],
   },
+  de: {
+    title:
+      "Hassan Akkari · Freelance-Webentwickler für Selbstständige und kleine Betriebe",
+    description:
+      "Freelance-Webentwickler in Rom. Landing Pages, professionelle Websites, massgeschneiderte Web-Apps und Redesigns. Keine Templates, kein verstecktes WordPress. Online in 1-3 Wochen.",
+    keywords: [
+      "freelance webentwickler",
+      "webentwickler schweiz remote",
+      "professionelle landing page",
+      "website redesign",
+      "web app entwicklung massgeschneidert",
+      "react entwickler freelance",
+    ],
+  },
 };
 
 export function getSeoContent(locale: Locale) {

@@ -350,10 +350,116 @@ const fr: CaseStudiesContent = {
   ],
 };
 
+const de: CaseStudiesContent = {
+  sectionLabel: "Projekte & Case Studies",
+  title: "Echte Case Studies und technische Labs, sauber getrennt.",
+  subtitle:
+    "Echte Case Studies zeigen Methode und Wirkung. Technische Labs zeigen Tiefe bei komplexeren Abläufen — ohne sie als Kundenprojekte auszugeben.",
+  labels: {
+    problem: "Problem",
+    solution: "Was ich getan habe",
+    result: "Ergebnis",
+    stack: "Stack",
+    proves: "Was es zeigt",
+    viewLive: "Zur Live-Website",
+  },
+  caseStudies: [
+    {
+      id: "sibylla-network",
+      title: "Sibylla Network — UI-Standards und Kernflüsse",
+      context:
+        "Komplexes Enterprise-Produkt mit verteiltem Team und mehreren Modulen. Legacy-Codebasis mit verstreuten UI-Regeln.",
+      problem:
+        "Duplizierte Komponenten, unterschiedliche Konventionen zwischen Modulen, häufige Regressionen beim Release. Jedes neue Feature kostete mehr als geplant.",
+      solution: [
+        "Gemeinsame UI-Standards eingeführt (Klassen, Styles, Naming), die vom Team wiederverwendet werden",
+        "Kernflüsse (Buchung, Katalog, Checkout) in React + Redux Toolkit refaktoriert",
+        "Wiederverwendbare Patterns, die die Lieferung planbarer gemacht haben",
+      ],
+      stack: [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "REST APIs",
+        "Tailwind CSS",
+      ],
+      result: [
+        "Vorher: ähnliche Module hatten unterschiedliche Buttons, Layouts und Verhalten",
+        "Nachher: gemeinsame Patterns machten die Oberfläche konsistenter und einfacher zu warten",
+        "Ergebnis: weniger subjektive PR-Diskussionen und weniger Regressionen auf den gemeinsamen Screens",
+      ],
+      proves:
+        "Ich kann Ordnung in grosse, produktive Codebasen bringen — ohne sie von Grund auf neu zu schreiben.",
+    },
+    {
+      id: "bootstrap-tailwind",
+      title: "Migration Bootstrap → Tailwind",
+      context:
+        "Web-Anwendung auf Bootstrap + Vendor-Komponenten mit jahrelangen Patches obendrauf. Inkonsistente Layouts zwischen ähnlichen Seiten.",
+      problem:
+        "Eine Stiländerung brach Seiten an unerwarteten Stellen. Geringe Iterationsgeschwindigkeit — jede kleine Änderung erforderte manuelle Checks über Dutzende Screens.",
+      solution: [
+        "Audit, welche Komponenten wirklich genutzt werden und welche tot sind",
+        "Progressive Seite-für-Seite-Migration, ohne die Roadmap einzufrieren",
+        "Ein Set wiederverwendbarer Tailwind-Patterns gebaut (Card, Formular, Layout, Button)",
+      ],
+      stack: [
+        "Tailwind CSS",
+        "Component-Refactoring",
+        "UI-Standards",
+        "CSS-Architektur",
+      ],
+      result: [
+        "Vorher: eine Stiländerung erforderte manuelle Checks auf nicht verwandten Seiten",
+        "Nachher: gemeinsame Tailwind-Patterns für Cards, Formulare, Layouts und Buttons",
+        "Ergebnis: schnellere UI-Iterationen und mehr Kontrolle über das Design-System",
+      ],
+      proves:
+        "Ich kann eine bestehende Website modernisieren, ohne die bereits geleistete Arbeit wegzuwerfen.",
+    },
+    {
+      id: "booking-checkout",
+      title: "Bookable — Multi-Style Booking Platform",
+      context:
+        "Eine produktive Full-Stack-Buchungsplattform für lokale Dienstleister — öffentlicher Katalog, validierter Buchungsanfrage-Fluss und ein abgesichertes Admin-Dashboard. Live auf bookable.itshassan.it.",
+      problem:
+        "Betriebe wollen eine eigene Identität, nicht das x-te identische Template — und ein einziges fixes Design anzubieten ist eine schwache Position. Ich wollte einen echten Backend-Fluss zeigen und beweisen, dass derselbe Inhalt sofort in wirklich unterschiedlichen visuellen Identitäten erscheinen kann.",
+      solution: [
+        "Ein Content-Modell, gerendert in drei kompletten Design-Systemen (Editorial / Warm / Bold), live umgeschaltet über ein server-seitiges Cookie ohne Flackern",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, mit einem Repository-Layer, der die Seiten schlank hält",
+        "Abgesichertes Admin: iron-session + bcrypt, timing- und enumeration-sicherer Login, dreistufiger Routenschutz",
+        "End-to-end Zod-Validierung, geteilt zwischen Client und Server; Preise als ganzzahlige Cents gespeichert",
+      ],
+      stack: [
+        "Next.js 16",
+        "React 19",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "iron-session",
+        "Zod",
+      ],
+      result: [
+        "Live in Produktion auf eigener Domain mit gültigem SSL (Vercel + OVH)",
+        "Drei komplette Design-Systeme aus einer Codebasis — null Content-Duplikation",
+        "Build-sicherer Data-Layer: startet und demonstriert ohne Datenbank, wechselt dann auf das live Neon, sobald konfiguriert",
+      ],
+      proves:
+        "Ich kann ein echtes Full-Stack-Produkt end-to-end konzipieren und in Produktion bringen — Data-Layer, Auth, Validierung und ein unverwechselbares Design-System — nicht nur Visitenkarten-Websites.",
+      liveUrl: "https://bookable.itshassan.it",
+      variants: [
+        { label: "Editorial", image: "image/bookable-variant-1.png" },
+        { label: "Warm", image: "image/bookable-variant-2.png" },
+        { label: "Bold", image: "image/bookable-variant-3.png" },
+      ],
+    },
+  ],
+};
+
 export const caseStudiesContent: Record<Locale, CaseStudiesContent> = {
   it,
   en,
   fr,
+  de,
 };
 
 export function getCaseStudiesContent(locale: Locale) {

@@ -1568,6 +1568,30 @@ button:not(:disabled) {
   }
 }
 
+/* Exit: the AppNavbar wrapper holds the closed menu in the DOM under
+ * data-state="closing" for ~240ms before unmounting, so the close can play.
+ * The panel exits on OPACITY ONLY — a transform here would turn the panel
+ * into the containing block of its own fixed ::before backdrop (the exact
+ * class of bug the old off-canvas had), snapping the page dim to the panel
+ * box mid-exit. The upward slide runs on the inner <ul> instead, via the
+ * `translate` property. The backdrop needs no rule of its own: it fades with
+ * the panel's composited opacity. */
+.site-nav__menu[data-state="closing"] {
+  animation: site-menu-out 230ms ease both;
+  pointer-events: none;
+}
+
+.site-nav__menu[data-state="closing"] > ul {
+  translate: 0 -10px;
+  transition: translate 230ms var(--ease-fluid);
+}
+
+@keyframes site-menu-out {
+  to {
+    opacity: 0;
+  }
+}
+
 /* =============================================================================
  * Cursor spotlight (motion-v2) — a soft accent glow that tracks the pointer
  * across every .card-hover surface. Driven by CardSpotlight (one delegated
@@ -1616,4 +1640,205 @@ button:not(:disabled) {
 
 .stat-value__ghost {
   visibility: hidden;
+}
+
+/* =============================================================================
+ * Process scrollytelling (motion-v2) — sticky aside + activation states +
+ * drawing rail. The aside (header + big step counter) pins ≥lg while the
+ * steps column scrolls; ProcessSection drives the SVG rail's pathLength and
+ * each step's data-state / data-dot. All state styling here is opacity/color
+ * only and NEVER set inline by framer on the same node (inline style would
+ * override these classes — the card-hover translate lesson).
+ * ========================================================================== */
+
+.process-scrolly {
+  display: grid;
+  gap: 44px;
+}
+
+/* Mobile: the per-step numbers carry the count; the big counter is a
+ * desktop-companion for the pinned aside. */
+.process-scrolly__counter {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .process-scrolly {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(48px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .process-scrolly__aside {
+    position: sticky;
+    /* Clears the floating nav pill in both hidden and visible states. */
+    top: clamp(108px, 16vh, 168px);
+  }
+
+  .process-scrolly__counter {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 44px;
+    /* Glow lives HERE as a filter, not a text-shadow on the roll container:
+     * the container's overflow:hidden would clip a text-shadow into a
+     * visible rectangle, while a parent filter applies after clipping and
+     * follows the numeral's shape. */
+    filter: drop-shadow(0 0 22px var(--accent-glow));
+  }
+}
+
+.process-scrolly__counter-live {
+  position: relative;
+  display: inline-block;
+  width: 2ch;
+  overflow: hidden;
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: clamp(64px, 7vw, 96px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent-ink);
+}
+
+.process-scrolly__counter-live > span {
+  display: inline-block;
+}
+
+.process-scrolly__counter-total {
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--app-muted);
+}
+
+/* Steps column: the rail + dots share a fixed coordinate system — rail line
+ * center at x=7px in .process-track coordinates, list padded 44px. */
+.process-track {
+  position: relative;
+}
+
+.process-rail {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  width: 2px;
+  /* Explicit height: an abspos REPLACED element (svg) does not stretch from
+   * top+bottom insets — height:auto resolves from the viewBox aspect ratio
+   * instead (2px wide × 2:100 → a 100px-tall rail). */
+  height: calc(100% - 16px);
+  overflow: visible;
+  /* Soft-fade both ends so the line never visibly over/undershoots the dots. */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 4%,
+    #000 96%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 4%,
+    #000 96%,
+    transparent
+  );
+}
+
+/* No vector-effect / linecap here on purpose: with preserveAspectRatio=none
+ * the horizontal scale is exactly 1 (viewBox width 2 → rendered 2px), so the
+ * stroke renders at 2px without `non-scaling-stroke` — which would break
+ * framer's pathLength draw (it emits a NORMALIZED stroke-dasharray, and
+ * non-scaling-stroke makes dashes screen-space → sub-pixel stipple). A round
+ * linecap would smear into a 12px ellipse under the Y stretch. */
+.process-rail__base,
+.process-rail__draw {
+  fill: none;
+  stroke-width: 2;
+}
+
+.process-rail__base {
+  stroke: color-mix(in srgb, var(--app-muted) 40%, transparent);
+}
+
+.process-rail__draw {
+  stroke: var(--accent-ink);
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+}
+
+.process-steps {
+  margin: 0;
+  padding: 0 0 0 44px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.process-step {
+  display: grid;
+  align-content: center;
+  transition: opacity 420ms var(--ease-fluid);
+}
+
+/* Desktop: each step owns a stretch of scroll so the activation has room to
+ * breathe — this is what makes it scrollytelling instead of a list. */
+@media (min-width: 1024px) {
+  .process-steps {
+    gap: 0;
+  }
+
+  .process-step {
+    min-height: clamp(230px, 40vh, 400px);
+  }
+}
+
+.process-step[data-state="dim"] {
+  opacity: 0.36;
+}
+
+.process-step__body {
+  position: relative;
+}
+
+/* Dot: rides the step content, centered on the rail (rail x=7px in track
+ * coordinates; the list is padded 44px and the dot is 14px wide → left
+ * = 7 - 7 - 44 = -44px). */
+.process-step__body::before {
+  content: "";
+  position: absolute;
+  left: -44px;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--app-border) 90%, transparent);
+  background: var(--app-bg);
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms var(--ease-fluid);
+}
+
+.process-step[data-dot="done"] .process-step__body::before {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
+}
+
+.process-step[data-dot="active"] .process-step__body::before {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
+  transform: scale(1.25);
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--accent-glow) 30%, transparent),
+    0 0 18px var(--accent-glow);
+}
+
+.process-step__number {
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  letter-spacing: 0.2em;
+  color: var(--accent-ink);
+  opacity: 0.85;
 }

@@ -26,6 +26,9 @@ const OG_LOCALE_BY_LOCALE: Record<Locale, string> = {
   it: "it_IT",
   en: "en_US",
   fr: "fr_FR",
+  // Swiss German on purpose: the German copy targets the Swiss market
+  // (ss spelling, "Offerte", Sie-form) — see the de content files.
+  de: "de_CH",
 };
 
 export function ogLocale(locale: Locale): string {

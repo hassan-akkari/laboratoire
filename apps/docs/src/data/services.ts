@@ -405,7 +405,139 @@ const fr: ServicesContent = {
   },
 };
 
-export const servicesContent: Record<Locale, ServicesContent> = { it, en, fr };
+const de: ServicesContent = {
+  sectionLabel: "Leistungen & Pakete",
+  title: "Vier konkrete Wege zu einem besseren Online-Auftritt.",
+  subtitle:
+    "Richtpreise — nach dem Erstgespräch erhalten Sie eine schriftliche, fixe Offerte ohne Überraschungen.",
+  services: [
+    {
+      id: "landing",
+      name: "Professionelle Landing Page",
+      tagline:
+        "Eine Seite, gebaut um eine Leistung zu verkaufen oder Anfragen zu sammeln. Online in einer Woche.",
+      forWho:
+        "Ideal für Selbstständige, Freelancer und kleine Betriebe, die eine bestimmte Leistung, eine Kampagne, ein Angebot oder eine neue Tätigkeit bewerben wollen.",
+      includes: [
+        "Massgeschneidertes Design, mobile-first",
+        "Texte strukturiert für Conversion",
+        "Kontaktformular + WhatsApp-Button",
+        "Basis-SEO (Title, Meta, korrekte Struktur)",
+        "Optimierte Mobile-Performance",
+        "Hosting- und Domain-Einrichtung gemeinsam",
+      ],
+      excludes: [
+        "Komplexe Buchungslogik",
+        "Kundenbereich / Login",
+        "E-Commerce mit Katalog",
+      ],
+      priceLabel: "Ab 600 €",
+      timeline: "5-7 Arbeitstage",
+      ctaLabel: "Ich möchte eine Landing Page",
+      ctaHref: whatsappLink(
+        "de",
+        "Hallo Hassan, ich interessiere mich für eine Landing Page. Können Sie mir mehr dazu sagen?",
+      ),
+    },
+    {
+      id: "site",
+      name: "Professionelle Website für Betriebe, Praxen und Kanzleien",
+      tagline:
+        "Die Website, die Ihrem Betrieb Glaubwürdigkeit gibt. Klar, schnell, gebaut, damit man Sie kontaktiert.",
+      forWho:
+        "Praxen, Kanzleien, Selbstständige und kleine Unternehmen mit einer veralteten Website (oder ganz ohne), die online seriös auftreten wollen.",
+      includes: [
+        "Startseite, Über uns, Leistungen, Kontakt, FAQ",
+        "Konsistentes, responsives Design auf jedem Gerät",
+        "Technisches Basis-SEO + korrekte Meta-Tags",
+        "Kontaktformular + WhatsApp + Google Maps",
+        "Optimierte Performance und Core Web Vitals",
+        "Begleitung bei Hosting/Domain",
+      ],
+      excludes: [
+        "Native Mobile-Apps",
+        "Kundenbereich / User-Login",
+        "Fortgeschrittener E-Commerce",
+      ],
+      priceLabel: "Ab 1'500 €",
+      timeline: "2-3 Wochen",
+      badge: "Am meisten gefragt",
+      ctaLabel: "Ich möchte eine komplette Website",
+      ctaHref: whatsappLink(
+        "de",
+        "Hallo Hassan, ich brauche eine professionelle Website für meinen Betrieb. Können wir darüber sprechen?",
+      ),
+    },
+    {
+      id: "webapp",
+      name: "Massgeschneiderte Web-App / MVP",
+      tagline:
+        "Ein kleines Web-System, das Abläufe aus Excel, WhatsApp oder improvisierten Tools herausholt.",
+      forWho:
+        "Founder mit einer Produktidee, Teams, die auf Excel/WhatsApp feststecken, oder alle, die einen Prozess digitalisieren müssen. Wir starten mit der ersten nützlichen Version — nicht mit dem ganzen Schloss.",
+      includes: [
+        "Problemanalyse und MVP-Definition",
+        "Kundenbereich / Login / Dashboard",
+        "Verwaltung von Daten, Buchungen, Inhalten",
+        "REST-APIs und Integrationen mit Drittdiensten",
+        "Solide technische Basis, einfach weiterzuentwickeln ohne Neuanfang",
+        "Abschliessende Dokumentation und Übergabe",
+      ],
+      excludes: [
+        "Laufende Wartung nach dem Launch (separat, per Vertrag)",
+        "Native iOS/Android-Apps (nur responsive Web-Apps)",
+      ],
+      priceLabel: "Ab 3'500 €",
+      timeline: "4-8 Wochen",
+      ctaLabel: "Sprechen wir über das Projekt",
+      ctaHref: whatsappLink(
+        "de",
+        "Hallo Hassan, ich habe eine Idee für eine Web-App/ein MVP und möchte verstehen, wie ich vorgehen soll.",
+      ),
+    },
+    {
+      id: "restyle",
+      name: "Strategisches Redesign der bestehenden Website",
+      tagline:
+        "Ihre Website ist alt, langsam oder repräsentiert Sie nicht mehr? Ich bringe sie in Ordnung — ohne bei null anzufangen.",
+      forWho:
+        "Sie haben bereits eine Website (auch WordPress), verlieren aber Anfragen durch veraltetes Design, schwache Performance oder eine verwirrende Struktur.",
+      includes: [
+        "Vollständiges Audit: Design, UX, Performance, Basis-SEO",
+        "UI-Überarbeitung der wichtigsten Seiten",
+        "Verbesserung von Geschwindigkeit und Mobile-Erlebnis",
+        "Neue CTAs und Kontaktwege",
+        "Überarbeitete Abschnitte mit klareren Texten",
+        "Abschlussbericht: was sich geändert hat und warum",
+      ],
+      excludes: [
+        "Kompletter Neuaufbau von Grund auf (anderes Paket)",
+        "Migration von E-Commerce mit tausenden Produkten",
+      ],
+      priceLabel: "Ab 800 €",
+      timeline: "1-2 Wochen",
+      ctaLabel: "Ich möchte meine Website in Ordnung bringen",
+      ctaHref: whatsappLink(
+        "de",
+        "Hallo Hassan, ich habe eine bestehende Website und möchte sie verbessern. Können Sie einen Blick darauf werfen?",
+      ),
+    },
+  ],
+  secondaryCta: {
+    label: "Nicht sicher, welches Paket passt? Schreiben Sie mir, wir klären es",
+    href: mailtoLink(
+      "Paket-Vergleich",
+      "Hallo Hassan, ich bin nicht sicher, welches Paket zu mir passt. Kann ich Ihnen meine Situation beschreiben?",
+    ),
+  },
+};
+
+export const servicesContent: Record<Locale, ServicesContent> = {
+  it,
+  en,
+  fr,
+  de,
+};
 
 export function getServicesContent(locale: Locale, phoneDigits?: string, email?: string): ServicesContent {
   const base = servicesContent[locale];

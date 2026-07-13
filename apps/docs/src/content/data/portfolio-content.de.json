@@ -1,0 +1,260 @@
+{
+  "profile": {
+    "name": "Hassan Akkari",
+    "role": "Software Engineer · Full-Stack, Frontend-led",
+    "focus": "Greenfield-Rebuilds, Exactly-once-Zahlungsflüsse, KI-gestütztes Engineering.",
+    "location": "Rom, Italien",
+    "metric": "~2,5 Jahre in Produktion · React-19-Migration + Exactly-once-Nexi-Zahlungsfluss",
+    "about": [
+      "Full-Stack Software Engineer mit Schwerpunkt Frontend und ~2,5 Jahren Erfahrung in der Entwicklung von Produktionssystemen für ein Hospitality-Softwareunternehmen. Ich leite die seitenweise Migration einer mandantenfähigen Management-SaaS von Legacy-Razor/jQuery zu React 19 und verantworte die Payment-, Kiosk- und Marketplace-Bereiche einer E-Commerce-Plattform end-to-end — einschliesslich eines Exactly-once-Nexi-Zahlungsflusses über ein nicht-idempotentes Downstream-System.",
+      "Das React-19-Frontend habe ich als drei unabhängige SPAs (Marketplace, Kiosk, Angebots-Landingpage) auf Redux Toolkit + RTK Query entworfen: ein Single-Flight-401-Refresh-Auth-Layer, eine Ports-and-Adapters-Zahlungsarchitektur (Nexi / Wallet / Rabatt hinter einem einzigen Provider-Interface) sowie Formulare auf react-hook-form + Zod über inkonsistenten Legacy-Payloads. Zudem habe ich ein Security- und Tenancy-Audit geleitet, das mandantenübergreifende Zugriffe (IDOR) und ein ausgestelltes, aber nie server-seitig validiertes CSRF-Token aufdeckte.",
+      "Ich habe den KI-gestützten Engineering-Workflow des Teams auf Claude Code aufgebaut — Instruktionsdateien pro Layer, eng tool-begrenzte Spezialisten-Subagents, ein Orchestrierungs-Skill, der die passenden Invarianten injiziert, und ein Plan-first-Prozess, in dem ein Mensch freigibt, bevor etwas verändert wird; die Review-Subagents deckten drei latente Payment-Flow-Bugs vor dem Release auf.",
+      "Über Vorgehen und Wirkung spreche ich offen; interne Details bleiben aussen vor."
+    ],
+    "now": "Bei Sibylla leite ich die seitenweise React-19-Migration einer mandantenfähigen Hospitality-SaaS (Portal) und verantworte die Payment-, Kiosk- und Marketplace-Bereiche der E-Commerce-Plattform (Network) — einschliesslich eines Exactly-once-Nexi-Flusses über ein nicht-idempotentes Downstream-System — und betreibe daneben den KI-gestützten Engineering-Workflow des Teams auf Claude Code.",
+    "philosophy": "Das Problem lösen — und dafür sorgen, dass es sich nicht wiederholt: mit Standards, typisierten Contracts und adversarialem Review.",
+    "githubUsername": "Dark-lIl-Demon"
+  },
+  "contact": {
+    "email": "hassan.akkari01@gmail.com",
+    "resumePath": "pdf/CV-DEU-07-2026.pdf",
+    "github": "https://github.com/Dark-lIl-Demon",
+    "linkedin": "https://www.linkedin.com/in/hassan-akkari",
+    "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
+    "facebook": "https://www.facebook.com/hassan.akkari.714"
+  },
+  "highlights": [
+    "Exactly-once-Nexi-Zahlungsfluss\nVorher: ein nicht-idempotentes Downstream-Buchungssystem riskierte Doppelbuchungen und verlorene Bestätigungen bei erneut übertragenen Gateway-Callbacks.\nNachher: ein lokaler Payment-Lock mit eindeutigem Transaktionscode als Schlüssel und eine MediatR-State-Machine (pending → nexi_paid → confirmed | failed), die Replays ignoriert, plus ein Schutz gegen stille „HTTP 200, aber fehlgeschlagen\"-Antworten.\nErgebnis: keine Zahlung ohne reale Buchung bestätigt; Doppelbuchungen und verlorene Bestätigungen eliminiert.",
+    "React-19-Frontend als drei unabhängige SPAs\nVorher: die neu aufgebaute E-Commerce-Plattform brauchte Marketplace-, Kiosk- und Angebots-Landing-Bereiche in End-to-End-Verantwortung.\nNachher: drei SPAs auf Redux Toolkit + RTK Query mit einem Single-Flight-401-Refresh-Auth-Layer, einer Ports-and-Adapters-Zahlungsarchitektur (Nexi / Wallet / Rabatt hinter einem Interface) und react-hook-form + Zod über Legacy-Payloads.\nErgebnis: Hauptcontributor und Top-Autor nach Commit-Volumen; Buchung, Warenkorb, Checkout, Wallet und Konto von null bis zur Produktion.",
+    "Mandantenfähige SaaS-Migration ohne Big-Bang-Rewrite\nVorher: eine mandantenfähige Hospitality-Management-SaaS steckte in Legacy-ASP.NET MVC / Razor / jQuery fest.\nNachher: eine seitenweise React-19-Migration hinter einem Backend-for-Frontend, mit einem Routen-Manifest, das pro Seite über SPA-Navigation oder Full-Reload entscheidet.\nErgebnis: Seiten migrieren inkrementell ohne Big-Bang-Rewrite; Deploy-Pipeline gegen veraltete Frontend-Bundles abgesichert.",
+    "Security- & Tenancy-Audit (IDOR + CSRF)\nVorher: mandantenfähige Datenisolation und CSRF-Handling waren nie adversarial geprüft worden.\nNachher: ein Security- und Tenancy-Audit geleitet, den Tenant-Claim auf Zeilenebene gefiltert (nicht über einen Parent-Join) und den Request-Pfad end-to-end geprüft.\nErgebnis: mandantenübergreifende Zugriffe (IDOR) und ein ausgestelltes, aber nie validiertes CSRF-Token aufgedeckt, neben weiteren Findings.",
+    "KI-gestütztes Engineering-Framework (Claude Code)\nVorher: KI-assistierte Migration war ad-hoc und riskierte einen unbegrenzten Blast-Radius.\nNachher: Instruktionsdateien pro Layer, eng tool-begrenzte Spezialisten-Subagents, ein Orchestrierungs-Skill, der Aufgaben klassifiziert und die passenden Invarianten injiziert, und ein Plan-first-Prozess mit menschlicher Freigabe vor jeder Änderung.\nErgebnis: eine wiederholbare Migrations-Pipeline; Read-only-Review-Subagents deckten drei latente Payment-Flow-Bugs vor dem Release auf."
+  ],
+  "stack": {
+    "daily": [
+      "React 19",
+      "TypeScript",
+      "Next.js",
+      "Redux Toolkit",
+      "RTK Query",
+      "react-hook-form",
+      "Zod",
+      "Tailwind CSS",
+      "Vite",
+      "Turbo",
+      "pnpm"
+    ],
+    "comfortable": [
+      "ASP.NET Core 10",
+      "C#",
+      "MediatR",
+      "SQL Server",
+      "Dapper",
+      "Vitest",
+      "Playwright (E2E + A11y)",
+      "Storybook",
+      "MSW",
+      "Azure DevOps",
+      "CI/CD (YAML)",
+      "Figma"
+    ],
+    "exploring": [
+      "Claude Code Custom Subagents",
+      "Agentisches adversariales Review",
+      "Drizzle ORM / Neon Postgres",
+      "Angular"
+    ]
+  },
+  "experience": [
+    {
+      "company": "Sibylla S.r.l. — Network",
+      "location": "Rom, Italien",
+      "role": "Software Engineer — Network (Hospitality-E-Commerce) · React 19 · ASP.NET Core 10",
+      "start": "März 2025",
+      "end": "Heute",
+      "bullets": [
+        "Hauptcontributor und Top-Autor nach Commit-Volumen auf der Hospitality-E-Commerce-Plattform, die intern neu aufgebaut wurde, nachdem eine vorherige externe Entwicklung die Anforderungen verfehlt hatte; alleiniger Autor des Angebots-Zahlungsflusses, Begründer des React-Self-Service-Check-in-Kiosks und dominierender Autor der Marketplace-SPA — Buchung, Warenkorb, Checkout, Wallet und Konto, von null bis zur Produktion.",
+        "Zahlungsbestätigung exactly-once über ein nicht-idempotentes Downstream-System umgesetzt: ein Payment-Lock mit eindeutigem Transaktionscode als Schlüssel und eine MediatR-State-Machine (pending → nexi_paid → confirmed | failed), die erneut übertragene Gateway-Callbacks ignoriert, mit einem Schutz gegen stille „HTTP 200, aber fehlgeschlagen\"-Antworten.",
+        "Das React-19-Frontend als drei unabhängige SPAs (Marketplace, Kiosk, Angebots-Landingpage) auf Redux Toolkit + RTK Query entworfen: Single-Flight-401-Refresh-Auth-Layer, Ports-and-Adapters-Zahlungsarchitektur (Nexi / Wallet / Rabatt hinter einem Provider-Interface) und react-hook-form + Zod über inkonsistenten Legacy-Payloads. Getestet mit Vitest und Playwright (E2E + A11y) auf einem Azure-DevOps-Release-Train.",
+        "Das KI-gestützte Engineering-Framework des Teams auf Claude Code entworfen (Instruktionsdateien pro Layer, tool-begrenzte Spezialisten-Subagents, ein Plan-first-Orchestrierungs-Skill) und Read-only-Review-Subagents über der ASP.NET-Core-/React-Codebasis gebaut — drei latente Payment-Flow-Bugs vor dem Release aufgedeckt."
+      ]
+    },
+    {
+      "company": "Sibylla S.r.l. — Portal",
+      "location": "Rom, Italien",
+      "role": "Software Engineer — Portal (mandantenfähige Hospitality-SaaS) · React 19 · ASP.NET Core · BFF",
+      "start": "Sep. 2023",
+      "end": "Heute",
+      "bullets": [
+        "Leitung der seitenweisen Migration einer mandantenfähigen Hospitality-Management-SaaS von Legacy-ASP.NET MVC / Razor / jQuery zu React 19, eingebunden in die bestehende Anwendung hinter einem Backend-for-Frontend; ein Routen-Manifest entscheidet pro Seite über SPA-Navigation oder Full-Reload, sodass Seiten inkrementell migrieren — ohne Big-Bang-Rewrite.",
+        "Mandantenfähige Datenisolation auditiert und gehärtet (Tenant-Claim auf Zeilenebene gefiltert, nicht über einen Parent-Join) und ein Security- und Tenancy-Audit geleitet, das mandantenübergreifende Zugriffe (IDOR) und ein ausgestelltes, aber nie server-seitig validiertes CSRF-Token aufdeckte, neben weiteren Findings.",
+        "Früher auf Portal: ein wiederverwendbares CSS-Klassensystem und gemeinsame JS-Utilities gebaut, die zur Team-Referenz für neue Seiten wurden und Duplikation zwischen Modulen reduzierten; die Deploy-Pipeline gegen veraltete Frontend-Bundles abgesichert."
+      ]
+    },
+    {
+      "company": "BetterTogether S.r.l.",
+      "location": "Rom, Italien",
+      "role": "Frontend Developer · Praktikum",
+      "start": "Okt. 2022",
+      "end": "Mai 2023",
+      "bullets": [
+        "Frontend für automatisierte Rechnungsstellung (B2C / B2B2C) mit HTML, CSS, JS und C# / ASP.NET MVC.",
+        "Aruba-APIs für elektronische Rechnungsstellung integriert; UI standardisiert und Legacy-Code vor dem Release refaktoriert."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "HCUC (Harrow, Richmond, Uxbridge College)",
+      "location": "London, Vereinigtes Königreich",
+      "qualification": "Level 3 Diploma · Computing",
+      "start": "Sep. 2019",
+      "end": "Juni 2021",
+      "focus": "Software-Grundlagen, Datenkonzepte, Grundlagen der Webentwicklung."
+    },
+    {
+      "school": "ITIS Leonardo da Vinci",
+      "location": "Rom, Italien",
+      "qualification": "Technisches Diplom · Informatik",
+      "start": "Sep. 2009",
+      "end": "Juni 2014",
+      "focus": "Italienische 5-jährige technische Sekundarschule mit IT-Schwerpunkt; Programmiergrundlagen, Datenbanken, Netzwerke."
+    }
+  ],
+  "general": [
+    {
+      "title": "Sprachen",
+      "items": ["Englisch (C1 / fliessend)", "Italienisch (Muttersprache)", "Französisch (A2 / in Vertiefung)", "Arabisch (Konversationsniveau)"]
+    },
+    {
+      "title": "KI-gestützte Entwicklung",
+      "items": [
+        "Claude Code · Custom Subagents",
+        "Mehrstufige CLAUDE.md-Wissensbasen",
+        "Agentisches adversariales Review",
+        "SRP-begrenzte Slash-Commands"
+      ]
+    },
+    {
+      "title": "Testing & Tooling",
+      "items": ["Vitest", "Playwright (E2E + A11y)", "Storybook", "MSW", "Azure DevOps", "CI/CD (YAML)", "Figma", "Jira"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "sibylla-network-ui-system",
+      "title": "Sibylla Network — Meine Frontend-Reise",
+      "summary": "Auf Portal habe ich mit soliden Grundlagen und wiederverwendbaren Standards begonnen. Auf Network brachte ich einen strukturelleren Ansatz mit React und Redux Toolkit ein — mit Fokus auf UI-Konsistenz und planbare Lieferung.",
+      "image": "image/enterprise-nda-placeholder.svg",
+      "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
+      "impact": [
+        "Problem: fragmentierte UI und duplizierte Regeln zwischen Modulen.",
+        "Massnahme: Standards + wiederverwendbare Patterns auf den Kernflüssen.",
+        "Ergebnis: stärkere UI-Konsistenz und weniger Release-Regressionen."
+      ],
+      "links": [
+        {
+          "label": "Live-Produkt",
+          "href": "https://sibyllanetwork.com",
+          "kind": "live"
+        },
+        {
+          "label": "Möchten Sie wissen, was ich gebaut habe?",
+          "href": "#contact",
+          "kind": "caseStudy"
+        }
+      ]
+    },
+    {
+      "id": "bootstrap-tailwind-modernization",
+      "title": "Modernisierung von Bootstrap zu Tailwind",
+      "summary": "Migration von Bootstrap und Vendor-UI-Paketen zu einem Tailwind-Workflow mit Fokus auf Konsistenz, Geschwindigkeit und Wartbarkeit.",
+      "image": "image/LaBrochure.png",
+      "stack": ["Tailwind CSS", "Component-Refactoring", "UI-Standards", "Frontend-Architektur"],
+      "impact": [
+        "Konsistentere UI-Standards über Module und Komponenten hinweg.",
+        "Weniger Vendor-Abhängigkeit und fragmentiertes UI-Verhalten.",
+        "Schnellere Layout- und Komponenten-Iteration für das Team.",
+        "Wiederverwendbare Utility-Patterns, die besser über Module skalieren."
+      ],
+      "links": [
+        {
+          "label": "Case Study",
+          "href": "#contact",
+          "kind": "caseStudy"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/Dark-lIl-Demon",
+          "kind": "github"
+        }
+      ]
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "next-booking-checkout-engine",
+      "title": "Next.js Booking- und Checkout-Engine",
+      "summary": "Produktionsnaher Buchungsfluss: Suche, Detail, Warenkorb, Checkout und Bestätigung mit robusten API-Grenzen.",
+      "status": "Geplantes MVP",
+      "targetApp": "apps/web-next",
+      "stack": [
+        "Next.js App Router",
+        "TypeScript",
+        "Server Actions und Route Handlers",
+        "Zod",
+        "Playwright"
+      ],
+      "recruiterSignals": [
+        "Mit diesem Build übe ich SSR und Caching zwischen Listen- und Detailseiten.",
+        "Ich experimentiere mit einem Login-Gate im Checkout und sauberem Redirect-Handling.",
+        "Ich schärfe damit Preisregeln und Promo-Logik mit Unit-Tests."
+      ],
+      "mvpScope": [
+        "User-Flow von Liste zu Detail zu Warenkorb zu Checkout bauen.",
+        "Preisregel-Engine plus Promo-Code-Aufschlüsselung implementieren.",
+        "Login-Gate für den Checkout und Mock-Zahlungsbestätigung ergänzen.",
+        "Deploy-fertige Preview mit CI-Lint, Typecheck und Tests liefern."
+      ]
+    },
+    {
+      "id": "angular-experiences-admin-console",
+      "title": "Angular Experiences Admin-Konsole",
+      "summary": "Enterprise-orientiertes Admin-Panel zum Erstellen, Prüfen und Publizieren von Experiences mit Rollen und Audit-Sichtbarkeit.",
+      "status": "Geplantes MVP",
+      "targetApp": "apps/admin-angular",
+      "stack": [
+        "Angular",
+        "RxJS",
+        "Reactive Forms",
+        "Angular Router Guards",
+        "Jest oder Karma"
+      ],
+      "recruiterSignals": [
+        "Ich übe damit modulare, enterprise-artige Feature-Grenzen.",
+        "Ich experimentiere mit formularlastigen Flows und robusten Validierungs-Patterns.",
+        "Ich teste rollenbasierten Zugriff mit einem Draft-zu-Published-Workflow."
+      ],
+      "mvpScope": [
+        "Admin-Rollen anlegen: Viewer, Editor, Admin mit Route Guards.",
+        "Experience-Wizard mit bedingten Feldern und Validierung bauen.",
+        "Review-Workflow ergänzen: Draft, Review, Published mit Audit-Trail.",
+        "Filterbare Tabelle plus CSV-Export und Testabdeckung implementieren."
+      ]
+    }
+  ],
+  "cvProjects": [
+    {
+      "name": "Bookable — Multi-Style Booking Platform",
+      "description": "Live geschaltete Full-Stack-Buchungsplattform: ein Content-Modell, gerendert in drei zur Laufzeit umschaltbaren Design-Systemen, ein validierter Buchungsanfrage-Fluss und ein abgesichertes Admin-Dashboard.",
+      "stack": ["Next.js 16", "React 19", "Drizzle ORM", "Neon Postgres", "iron-session", "Zod"],
+      "liveUrl": "https://bookable.itshassan.it"
+    },
+    {
+      "name": "laboratoire — React-19-/TypeScript-Monorepo",
+      "description": "Solo-Monorepo auf pnpm + Turbo. Server-seitigen Kern eines Next.js-App-Router-Buchungsflusses gebaut: idempotente Auftragsverarbeitung, server-seitige Preis-Revalidierung und ein Cal.com-Webhook mit timing-sicherer HMAC-Verifikation — hinter iron-session-Admin-Auth und einem secretless CI-Gate.",
+      "stack": ["Next.js", "TypeScript", "Drizzle ORM", "Neon Postgres", "Vitest"],
+      "repoUrl": "https://github.com/Dark-lIl-Demon"
+    }
+  ]
+}

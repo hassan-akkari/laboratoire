@@ -144,7 +144,51 @@ const fr: WhyMeContent = {
   ],
 };
 
-export const whyMeContent: Record<Locale, WhyMeContent> = { it, en, fr };
+const de: WhyMeContent = {
+  sectionLabel: "Warum mit mir arbeiten",
+  title:
+    "Der Unterschied zwischen einer massgeschneiderten Lösung und einer Website von der Stange.",
+  reasons: [
+    {
+      id: "single-contact",
+      title: "Ein Ansprechpartner, von der Idee bis zur Website online",
+      description:
+        "Keine Übergaben zwischen Account-Manager, Designer und Entwickler einer Agentur. Sie sprechen mit mir, entscheiden mit mir, erhalten die Arbeit von mir.",
+    },
+    {
+      id: "real-experience",
+      title: "Echte Erfahrung mit Produkten in Produktion",
+      description:
+        "Ich bringe eine Methode mit, die an echten Produkten, echten Nutzern und komplexen Abläufen erprobt ist. Auf Ihrem Projekt improvisiere ich nicht.",
+    },
+    {
+      id: "no-template",
+      title: "Massgeschneiderte Lösungen, keine weiterverkauften Themes",
+      description:
+        "Ich baue mit React, TypeScript und Tailwind, wenn echte Kontrolle über Performance, Design und Abläufe zählt. Ich verkaufe kein Theme mit zwei geänderten Farben weiter.",
+    },
+    {
+      id: "transparent-pricing",
+      title: "Klare Preise, klarer Umfang",
+      description:
+        "Ich sage Ihnen vorab, was drin ist und was nicht. Schriftliche Offerte, klare Prioritäten, nachvollziehbare Entscheidungen.",
+    },
+    {
+      id: "fast-real",
+      title: "Realistische Zeitpläne, keine Versprechen",
+      description:
+        "Eine Landing Page in einer Woche. Eine Website in 2-3 Wochen. Ein Web-App-MVP in 1-2 Monaten. Wenn ich einen Termin nicht halten kann, sage ich es sofort — nicht am Projektende.",
+    },
+    {
+      id: "post-launch",
+      title: "Nach dem Launch verschwinde ich nicht",
+      description:
+        "Ich bleibe per WhatsApp/E-Mail erreichbar für Fixes und Fragen. Wenn Sie eine Erweiterung oder eine neue Sektion möchten, erhalten Sie eine separate Offerte.",
+    },
+  ],
+};
+
+export const whyMeContent: Record<Locale, WhyMeContent> = { it, en, fr, de };
 
 export function getWhyMeContent(locale: Locale) {
   return whyMeContent[locale];

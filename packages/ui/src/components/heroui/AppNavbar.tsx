@@ -181,10 +181,20 @@ export interface AppNavbarMenuToggleProps {
   onClick?: () => void;
 }
 
-/** Collapsing mobile menu; renders its children only when the menu is open. */
+/**
+ * Collapsing mobile menu. Mounted while the menu is open, and held in the DOM
+ * for `exitDuration` ms after it closes (under `data-state="closing"`) so an
+ * exit animation can play before unmount.
+ */
 export interface AppNavbarMenuProps {
   children: ReactNode;
   className?: string;
+  /**
+   * How long (ms) the closed menu lingers with `data-state="closing"` before
+   * unmounting. Match it to the consumer's exit animation; the built-in
+   * inline fallback fade uses the same value. Default 240.
+   */
+  exitDuration?: number;
 }
 
 /** Single mobile-menu item. */
@@ -357,17 +367,72 @@ export function AppNavbarMenuToggle({
   );
 }
 
-export function AppNavbarMenu({ children, className }: AppNavbarMenuProps) {
+export function AppNavbarMenu({
+  children,
+  className,
+  exitDuration = 240,
+}: AppNavbarMenuProps) {
   const { isMenuOpen, menuId, collapseBreakpoint } = useNavbarContext();
-  if (!isMenuOpen) return null;
+
+  // EXIT STATE MACHINE — open → closing → closed. Instead of unmounting the
+  // instant the menu closes (which makes any exit animation impossible), the
+  // panel is held in the DOM for `exitDuration` under data-state="closing".
+  //
+  // The open→closing edge is detected with React's documented render-adjust
+  // pattern (compare against the previous render's open value and setState
+  // during render) — deliberately NOT a useEffect echo, which would trip
+  // `react-hooks/set-state-in-effect`. The closing→closed edge is a timeout,
+  // so its setState lives in an async callback, not an effect body.
+  const [prevOpen, setPrevOpen] = useState(isMenuOpen);
+  const [closing, setClosing] = useState(false);
+  if (isMenuOpen !== prevOpen) {
+    setPrevOpen(isMenuOpen);
+    setClosing(!isMenuOpen);
+  }
+
+  useEffect(() => {
+    if (!closing) return;
+    // Reduced motion: the exit is styled away anyway (the consumer kill
+    // switch zeroes animations), so release the DOM on the next tick instead
+    // of holding a frozen panel for the full duration.
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const timer = window.setTimeout(
+      () => setClosing(false),
+      reduce ? 0 : exitDuration,
+    );
+    return () => window.clearTimeout(timer);
+  }, [closing, exitDuration]);
+
+  if (!isMenuOpen && !closing) return null;
+
   // Absolutely positioned below the bar (the root <nav> is `relative`) so the
   // open menu drops full-width UNDER the fixed-height header row instead of
   // becoming a squeezed flex item inside it. `top-16` matches the h-16 header;
   // `z-50` keeps it above page content even when the nav is not sticky. The
   // `*:hidden` class follows the root's collapseBreakpoint.
+  //
+  // While closing, a self-contained inline opacity fade is the fallback exit
+  // (same no-Tailwind-scan philosophy as the toggle bars). OPACITY ONLY — an
+  // inline transform would make this panel the containing block of any fixed
+  // descendant a consumer styles in (e.g. a ::before page-dim backdrop). A
+  // consumer's [data-state="closing"] animation overrides the inline
+  // transition per the cascade, and a reduced-motion kill switch
+  // (`transition-duration: 0ms !important`) still beats inline styles.
   return (
     <div
       id={menuId || undefined}
+      data-state={isMenuOpen ? "open" : "closing"}
+      style={
+        isMenuOpen
+          ? undefined
+          : {
+              opacity: 0,
+              transition: `opacity ${exitDuration}ms ease`,
+              pointerEvents: "none",
+            }
+      }
       className={cx(
         "absolute left-0 right-0 top-16 z-50 border-t border-border bg-background",
         MENU_HIDDEN_CLASS[collapseBreakpoint],

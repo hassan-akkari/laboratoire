@@ -14,6 +14,7 @@ const ROLE_LINE: Record<Locale, string> = {
   it: "Sviluppatore freelance · Roma",
   en: "Freelance web developer · Rome",
   fr: "Développeur web freelance · Rome",
+  de: "Freelance-Webentwickler · Rom",
 };
 
 /**

@@ -16,6 +16,7 @@ export type Messages = {
     en: string;
     it: string;
     fr: string;
+    de: string;
   };
   header: {
     greetingPrefix: string;
@@ -121,6 +122,7 @@ export const messages: Record<Locale, Messages> = {
       en: "English",
       it: "Italiano",
       fr: "Français",
+      de: "Deutsch",
     },
     header: {
       greetingPrefix: "Hi, I'm",
@@ -256,6 +258,7 @@ export const messages: Record<Locale, Messages> = {
       en: "English",
       it: "Italiano",
       fr: "Français",
+      de: "Deutsch",
     },
     header: {
       greetingPrefix: "Ciao, sono",
@@ -391,6 +394,7 @@ export const messages: Record<Locale, Messages> = {
       en: "English",
       it: "Italiano",
       fr: "Français",
+      de: "Deutsch",
     },
     header: {
       greetingPrefix: "Bonjour, je suis",
@@ -509,6 +513,145 @@ export const messages: Record<Locale, Messages> = {
       fallbackData:
         "Données distantes indisponibles. Utilisation des données de secours.",
       refreshing: "Actualisation des données profil...",
+    },
+  },
+  de: {
+    nav: {
+      home: "Home",
+      about: "Über mich",
+      highlights: "Ergebnisse",
+      projects: "Ausgewählte Projekte",
+      roadmap: "Nächste Builds",
+      contact: "Kontakt",
+      cv: "CV",
+      downloadCv: "CV herunterladen",
+    },
+    locale: {
+      label: "Sprache",
+      en: "English",
+      it: "Italiano",
+      fr: "Français",
+      de: "Deutsch",
+    },
+    header: {
+      greetingPrefix: "Hallo, ich bin",
+      headlineSuffix: "Ich baue vernetzte Web-Produkte",
+      quickProfile: "Kurzprofil",
+      viewProjects: "Projekte ansehen",
+      emailMe: "Schreiben Sie mir",
+    },
+    about: {
+      title: "Über mich",
+      now: "Aktuell",
+      philosophy: "Technische Philosophie",
+      howIWork: "Arbeitsweise",
+      techStack: "Tech-Stack",
+      experience: "Erfahrung",
+      education: "Ausbildung",
+      general: "Allgemein",
+      daily: "Täglich",
+      comfortable: "Sicher",
+      exploring: "Am Erkunden",
+    },
+    highlights: {
+      title: "Wirkung",
+      subtitle:
+        "Konkrete Ergebnisse, mit denen ich Teams helfe, schneller zu liefern und die Codequalität stabil zu halten.",
+    },
+    portfolio: {
+      title: "Ausgewählte Projekte",
+      subtitle:
+        "Ausgewählte Arbeiten mit Stack-Details und wirkungsorientierten Ergebnissen.",
+      requestCaseStudy: "Weitere Details anfragen",
+    },
+    roadmap: {
+      title: "Nächste Builds",
+      subtitle:
+        "Zwei kleine Nebenprojekte, die ich in meiner Freizeit baue, um über das statische Portfolio hinaus zu experimentieren.",
+      recruiterSignals: "Was ich gerade erkunde",
+      mvpScope: "MVP-Umfang",
+      targetApp: "Ziel-App",
+      cta: "Wenn Sie möchten, zeige ich Ihnen, woran ich gerade baue",
+    },
+    contact: {
+      title: "Kontakt",
+      note: "Telefonnummer auf Anfrage per E-Mail.",
+      emailMe: "Schreiben Sie mir",
+      github: "GitHub",
+      linkedin: "LinkedIn",
+      bookCall: "Gespräch buchen",
+      downloadCv: "CV-Seite öffnen",
+      formName: "Ihr Name",
+      formEmail: "Ihre E-Mail",
+      formMessage: "Ihre Nachricht",
+      formSubmit: "Senden",
+      formSubmitting: "Wird gesendet...",
+      formSuccess: "Danke! Ich melde mich bei Ihnen.",
+      formError:
+        "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es gleich noch einmal.",
+      formErrorNameShort: "Bitte mindestens 2 Zeichen verwenden.",
+      formErrorEmailInvalid: "Diese E-Mail-Adresse sieht nicht korrekt aus.",
+      formErrorMessageShort: "Bitte mindestens 10 Zeichen schreiben.",
+      formErrorPrivacyRequired:
+        "Bitte akzeptieren Sie die Datenschutzerklärung, um fortzufahren.",
+      privacyLabel: "Ich habe die",
+      privacyLink: "Datenschutzerklärung gelesen und akzeptiere sie",
+    },
+    cv: {
+      title: "Curriculum Vitae",
+      subtitle:
+        "Lokalisierte Profilansicht mit druckfertigem Layout und schnellen Export-Optionen.",
+      backToSite: "Zurück zum Portfolio",
+      print: "Drucken",
+      downloadOriginal: "Original-PDF herunterladen",
+      summary: "Profil",
+      impact: "Ergebnisse",
+      projects: "Ausgewählte Projekte",
+      stack: "Tech-Stack",
+      experience: "Erfahrung",
+      education: "Ausbildung",
+      general: "Weitere Informationen",
+      contact: "Kontakt",
+    },
+    privacy: {
+      title: "Datenschutzerklärung",
+      intro:
+        "Wenn Sie das Kontaktformular auf itshassan.it verwenden, erhalte ich Ihren Namen, Ihre E-Mail-Adresse und Ihre Nachricht. Ich verwende diese Daten ausschliesslich, um Ihnen zu antworten.",
+      sections: [
+        {
+          heading: "Was ich erhebe",
+          body:
+            "Name, E-Mail-Adresse, Ihre Nachricht und der Zeitstempel des Absendens. Automatisch erhalte ich zudem die Herkunft der Anfrage (Spam-Schutz) — sonst nichts.",
+        },
+        {
+          heading: "Warum ich es erhebe",
+          body:
+            "Um Ihre Nachricht zu beantworten. Rechtsgrundlage ist Ihre Einwilligung (Checkbox im Formular). Sie können sie jederzeit per E-Mail widerrufen.",
+        },
+        {
+          heading: "Wo die Daten liegen",
+          body:
+            "In einer privaten Neon-Postgres-Datenbank in der Region Frankfurt (EU). E-Mail-Benachrichtigungen laufen über Resend. Ich gebe Ihre Daten an niemanden weiter und verwende weder Werbung noch Tracker.",
+        },
+        {
+          heading: "Wie lange",
+          body:
+            "Bis zu 24 Monate, danach werden sie gelöscht. Sie können jederzeit eine frühere Löschung verlangen — schreiben Sie mir an dieselbe Adresse, die Sie für die Kontaktaufnahme verwendet haben.",
+        },
+        {
+          heading: "Ihre Rechte",
+          body:
+            "Auskunft, Berichtigung, Löschung, Datenübertragbarkeit und das Recht auf Beschwerde bei der Aufsichtsbehörde. Schreiben Sie mir, um sie auszuüben.",
+        },
+      ],
+      backToSite: "Zurück zum Portfolio",
+    },
+    system: {
+      githubUnavailable:
+        "GitHub-Statistiken derzeit nicht verfügbar. Es werden lokale Profildaten angezeigt.",
+      fallbackData:
+        "Externe Profildaten nicht verfügbar. Fallback-Daten sind aktiv.",
+      refreshing: "Profildaten werden aktualisiert...",
     },
   },
 };

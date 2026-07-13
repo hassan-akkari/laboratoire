@@ -1,4 +1,4 @@
-export const LOCALES = ["en", "it", "fr"] as const;
+export const LOCALES = ["en", "it", "fr", "de"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const LOCALE_STORAGE_KEY = "laboratoire-locale";

@@ -148,7 +148,58 @@ const fr: ProblemsContent = {
   ],
 };
 
-export const problemsContent: Record<Locale, ProblemsContent> = { it, en, fr };
+const de: ProblemsContent = {
+  sectionLabel: "Probleme, die ich löse",
+  title:
+    "Wenn Sie sich in einem dieser Probleme wiedererkennen, braucht Ihre Website nicht nur ein Facelift — sie braucht Ordnung.",
+  problems: [
+    {
+      id: "old-site",
+      title: "Sie haben eine alte Website, die Sie nicht mehr repräsentiert",
+      description:
+        "Langsam, unschön auf dem Handy, generische Texte. Sie öffnen sie vor einem Kunden und schämen sich ein wenig.",
+    },
+    {
+      id: "no-contacts",
+      title: "Die Website existiert, bringt aber keine Anfragen",
+      description:
+        "Besucher öffnen sie, verstehen nicht, was Sie anbieten, und gehen wieder. Keine klaren CTAs, kein WhatsApp, kein Formular, das funktioniert.",
+    },
+    {
+      id: "scattered",
+      title: "Ihr Online-Auftritt ist verstreut und wenig glaubwürdig",
+      description:
+        "Ein Instagram, eine Website von vor 10 Jahren, ein eingeschlafenes Facebook. Wer Sie googelt, fasst kein Vertrauen.",
+    },
+    {
+      id: "internal-tool",
+      title: "Sie verwalten noch alles über Excel und WhatsApp",
+      description:
+        "Buchungen, Kunden, Karteien, Bestellungen. Es funktioniert, aber es kostet Zeit und lässt Sie unstrukturiert wirken.",
+    },
+    {
+      id: "vague-idea",
+      title:
+        "Sie haben eine Idee für eine Website oder App, wissen aber nicht, wo anfangen",
+      description:
+        "Sie wissen, dass Sie etwas brauchen — aber nicht, ob es eine Website, eine Landing Page, eine Web-App oder einfach ein geordneteres System ist.",
+    },
+    {
+      id: "wordpress-mess",
+      title:
+        "Sie sind WordPress leid, das als «massgeschneiderte Lösung» verkauft wird",
+      description:
+        "Plugins, die kaputtgehen, gekaufte Templates, schwache Performance — und einfache Änderungen, die immer kompliziert werden.",
+    },
+  ],
+};
+
+export const problemsContent: Record<Locale, ProblemsContent> = {
+  it,
+  en,
+  fr,
+  de,
+};
 
 export function getProblemsContent(locale: Locale) {
   return problemsContent[locale];

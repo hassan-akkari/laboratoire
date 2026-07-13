@@ -68,6 +68,7 @@ const auditPrefilled: Record<Locale, string> = {
   it: "Ciao Hassan, vorrei l'audit gratuito del mio sito. URL: ",
   en: "Hi Hassan, I'd like the free audit of my site. URL: ",
   fr: "Bonjour Hassan, je voudrais l'audit gratuit de mon site. URL : ",
+  de: "Hallo Hassan, ich hätte gerne das Gratis-Audit meiner Website. URL: ",
 };
 
 const it: AuditContent = {
@@ -512,7 +513,155 @@ const fr: AuditContent = {
   backToHome: "← Retour à l'accueil",
 };
 
-export const auditContent: Record<Locale, AuditContent> = { it, en, fr };
+const de: AuditContent = {
+  seoTitle: "Gratis-Audit Ihrer Website · Hassan Akkari",
+  seoDescription:
+    "Senden Sie mir die URL Ihrer Website. Innert 24 Stunden (werktags) erhalten Sie ein konkretes Mini-Audit: was zuerst zu beheben ist und warum.",
+  badge: "Lead-Magnet — gratis",
+  hero: {
+    title:
+      "Senden Sie mir die URL Ihrer Website. Innert 24 Stunden (werktags) sage ich Ihnen, was zuerst zu beheben ist.",
+    subtitle:
+      "Sie erhalten ein konkretes Mini-Audit: was nicht funktioniert, was zuerst zu beheben ist und was eine Korrektur ungefähr kosten würde. Gratis, unverbindlich und ohne getarntes Verkaufsgespräch.",
+    primaryCtaLabel: "Ich möchte das Gratis-Audit",
+    primaryCtaHref: whatsappLink("de", auditPrefilled.de),
+    secondaryCtaLabel: "Senden Sie mir eine E-Mail",
+    secondaryCtaHref: mailtoLink(
+      "Gratis-Audit meiner Website",
+      "Hallo Hassan, ich hätte gerne das Gratis-Audit meiner Website.\n\nURL der Website: \nAnmerkungen: ",
+    ),
+    guarantee: [
+      "✓ Antwort innert 24 Stunden (werktags)",
+      "✓ Klares Video, in 10 Minuten durchgesehen",
+      "✓ Optionales Gespräch nur, wenn Sie vertiefen möchten",
+    ],
+  },
+  checkpoints: {
+    label: "Was ich prüfe",
+    title:
+      "Die 5 Punkte, die Besucher vertreiben, ohne dass Sie es merken.",
+    items: [
+      {
+        id: "first-impression",
+        title: "Design und erster Eindruck",
+        description:
+          "Die ersten 3 Sekunden entscheiden, ob ein Besucher bleibt oder geht. Wir klären, was Ihre Website auf den ersten Blick wirklich vermittelt.",
+      },
+      {
+        id: "mobile",
+        title: "Mobile-Erlebnis",
+        description:
+          "60-70% Ihres Traffics kommt vom Handy. Ich prüfe Responsiveness, Lesbarkeit, Finger-auf-Button und alles, was das Erlebnis derzeit stört.",
+      },
+      {
+        id: "performance",
+        title: "Performance und Geschwindigkeit",
+        description:
+          "Echte Core Web Vitals (LCP, CLS, INP). Jede zusätzliche Sekunde Ladezeit kostet Sie Besucher und Google-Ranking.",
+      },
+      {
+        id: "seo",
+        title: "Technisches Basis-SEO",
+        description:
+          "Title, Meta-Description, semantische Struktur, Sitemap, strukturierte Daten. Das Minimum — und es fehlt oft selbst auf frisch überarbeiteten Websites.",
+      },
+      {
+        id: "conversion",
+        title: "CTAs und Conversion-Wege",
+        description:
+          "Was muss ein Besucher tun, um Sie zu kontaktieren? Wie viele Taps? Versteht er in 5 Sekunden, was Sie anbieten und wie man bucht? Genau hier gehen die Anfragen meist verloren.",
+      },
+    ],
+  },
+  deliverable: {
+    label: "Was Sie erhalten",
+    title: "Ein konkreter Bericht, in 10 Minuten durchgesehen.",
+    items: [
+      "Ein aufgezeichnetes Video von 4-6 Minuten, in dem ich durch Ihre Website gehe und die Probleme zeige",
+      "Die 3 dringendsten Punkte, die sofort zu beheben sind",
+      "Einschätzung von Kosten und Prioritäten (was zuerst, was warten kann)",
+      "Optionales kostenloses Gespräch von 20 Minuten, wenn Sie vertiefen möchten",
+    ],
+  },
+  process: {
+    label: "So funktioniert es",
+    title: "Drei Schritte. Keine endlosen Formulare.",
+    steps: [
+      {
+        id: "send-url",
+        number: "01",
+        title: "Sie senden mir die URL per WhatsApp",
+        description:
+          "Eine Nachricht mit dem Link Ihrer Website (und einer Zeile dazu, was Sie tun, wenn Sie mögen). Das war's — kein Formular, keine Registrierung.",
+      },
+      {
+        id: "analyze",
+        number: "02",
+        title: "Ich analysiere innert 24 Stunden (werktags)",
+        description:
+          "Ich prüfe die 5 Punkte, mache Screenshots, nehme das Video auf. Wenn ich ein Detail mehr brauche, frage ich nach.",
+      },
+      {
+        id: "deliver",
+        number: "03",
+        title: "Sie erhalten den Bericht",
+        description:
+          "Video + Checkliste per WhatsApp oder E-Mail. Sie schauen es an und entscheiden selbst, ob Sie allein, mit jemand anderem oder mit mir beheben. Kein Druck.",
+      },
+    ],
+  },
+  faq: {
+    label: "Häufige Fragen",
+    title: "Antworten auf die vernünftigen Fragen.",
+    items: [
+      {
+        id: "really-free",
+        question: "Ist es wirklich gratis?",
+        answer:
+          "Ja. Das Audit ist gratis, weil es der einfachste Weg ist zu verstehen, ob ich Ihnen wirklich helfen kann. Wenn Sie nach dem Bericht etwas mit mir beheben möchten, sprechen wir darüber. Andernfalls bleibt Ihnen trotzdem eine nützliche Liste.",
+      },
+      {
+        id: "no-website",
+        question: "Und wenn ich noch keine Website habe?",
+        answer:
+          "Dann überspringen Sie das Audit und schreiben mir direkt: Wir sprechen darüber, was Ihr Betrieb wirklich braucht. Das Erstgespräch ist ohnehin kostenlos.",
+      },
+      {
+        id: "wp",
+        question: "Ich habe eine WordPress-Website — schauen Sie sie trotzdem an?",
+        answer:
+          "Ja. WordPress, Wix, Squarespace, Shopify, custom — die Technologie spielt keine Rolle. Das Audit bewertet, was der Besucher sieht, nicht wie es darunter gebaut ist.",
+      },
+      {
+        id: "obligation",
+        question: "Bin ich verpflichtet, danach etwas zu kaufen?",
+        answer:
+          "Nein. Wenn Sie nach dem Audit entscheiden, dass Sie noch nichts beheben möchten, ist das völlig in Ordnung. Sie können jederzeit zurückkommen.",
+      },
+      {
+        id: "speed",
+        question: "Wirklich innert 24 Stunden?",
+        answer:
+          "24 Stunden (werktags) ab dem Moment, in dem ich die URL erhalte. Schreiben Sie mir am Freitagabend, kann es Montag ankommen. Bin ich in den Ferien, sage ich es sofort und nenne ein realistisches Datum.",
+      },
+    ],
+  },
+  finalCta: {
+    title: "Bereit zu sehen, was Ihre Website Ihnen verschweigt?",
+    subtitle:
+      "Senden Sie mir die URL. Innert 24 Stunden (werktags) erhalten Sie ein klares Audit: was zuerst zu beheben ist und warum.",
+    primaryLabel: "Meine URL per WhatsApp senden",
+    primaryHref: whatsappLink("de", auditPrefilled.de),
+    secondaryLabel: "Lieber per E-Mail",
+    secondaryHref: mailtoLink(
+      "Gratis-Audit meiner Website",
+      "Hallo Hassan, ich hätte gerne das Gratis-Audit meiner Website.\n\nURL der Website: \nAnmerkungen: ",
+    ),
+  },
+  backToHome: "← Zurück zur Startseite",
+};
+
+export const auditContent: Record<Locale, AuditContent> = { it, en, fr, de };
 
 export function getAuditContent(locale: Locale, phoneDigits?: string, email?: string): AuditContent {
   const base = auditContent[locale];

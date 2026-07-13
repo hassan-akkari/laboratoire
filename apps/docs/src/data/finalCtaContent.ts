@@ -56,7 +56,26 @@ const fr: FinalCtaContent = {
   footnote: `Je réponds sous 24h ouvrées — ${SITE.email} — ${SITE.location}`,
 };
 
-export const finalCtaContent: Record<Locale, FinalCtaContent> = { it, en, fr };
+const de: FinalCtaContent = {
+  title: "Nicht sicher, ob Ihre Website Sie Kunden kostet?",
+  subtitle:
+    "Senden Sie mir die URL. Innert 24 Stunden (werktags) erhalten Sie ein klares Audit: was zuerst zu beheben ist und warum.",
+  auditLabel: "Gratis-Audit anfordern",
+  auditHref: "/audit",
+  calLabel: "Gespräch buchen",
+  whatsappLabel: "Schreiben Sie mir auf WhatsApp",
+  whatsappHref: whatsappLink("de"),
+  emailLabel: "Senden Sie mir eine E-Mail",
+  emailHref: mailtoLink("Info-Anfrage", "Hallo Hassan, "),
+  footnote: `Ich antworte innert 24 Stunden (werktags) — ${SITE.email} — ${SITE.location}`,
+};
+
+export const finalCtaContent: Record<Locale, FinalCtaContent> = {
+  it,
+  en,
+  fr,
+  de,
+};
 
 export function getFinalCtaContent(locale: Locale) {
   return finalCtaContent[locale];

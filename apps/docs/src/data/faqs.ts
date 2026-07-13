@@ -226,7 +226,76 @@ const fr: FaqsContent = {
   ],
 };
 
-export const faqsContent: Record<Locale, FaqsContent> = { it, en, fr };
+const de: FaqsContent = {
+  sectionLabel: "Häufige Fragen",
+  title: "Was man mich vor dem Start fragt. Direkte Antworten.",
+  outro: {
+    prefix: "Noch eine Frage? ",
+    linkLabel: "Schreiben Sie mir auf WhatsApp",
+    suffix: " — ich antworte innert 24 Stunden (werktags).",
+  },
+  whatsappMessage:
+    "Hallo Hassan, ich habe eine Frage zu Ihrer Arbeitsweise, bevor wir ein Projekt starten.",
+  faqs: [
+    {
+      id: "wordpress",
+      question:
+        "Warum kein WordPress? Man hat mir gesagt, es sei günstiger und genauso gut.",
+      answer:
+        "WordPress ist völlig in Ordnung für Blogs und sehr einfache Websites. Ich verzichte darauf, wenn ein Projekt mehr Kontrolle über Performance, Design, Sicherheit oder individuelle Abläufe braucht. In diesen Fällen baue ich lieber eine leichtere, schnellere Lösung, die zu 100% Ihnen gehört.",
+    },
+    {
+      id: "price",
+      question: "Was kostet eine Website wirklich?",
+      answer:
+        "Kommt auf den Typ an. Eine Landing Page ab 600 €, eine komplette Website ab 1'500 €, eine Web-App/ein MVP ab 3'500 €. Das sind Richtwerte: Nach dem Erstgespräch erhalten Sie eine schriftliche, fixe Offerte ohne Überraschungen.",
+    },
+    {
+      id: "timeline",
+      question: "Wie schnell ist sie online?",
+      answer:
+        "Eine Landing Page in 5-7 Tagen. Eine komplette Website in 2-3 Wochen. Eine Web-App/ein MVP in 4-8 Wochen. Die Fristen laufen, sobald ich die Inhalte habe (Texte, Fotos, Logo). Falls Sie sie noch nicht haben, klären wir das gemeinsam.",
+    },
+    {
+      id: "content",
+      question: "Wer liefert Texte und Fotos?",
+      answer:
+        "Wir treffen uns in der Mitte. Haben Sie die Texte schon, überarbeite ich sie mit Ihnen. Wenn nicht, sende ich Ihnen eine Liste von Fragen, die Sie per Chat oder Sprachnachricht beantworten — und ich schreibe die Texte. Fotos: Ihre eigenen, oder ich empfehle Quellen (Unsplash, Pexels) oder einen Fotografen vor Ort.",
+    },
+    {
+      id: "what-after",
+      question: "Und wenn die Website online ist — lassen Sie mich dann allein?",
+      answer:
+        "Nein. Ich bleibe per WhatsApp/E-Mail erreichbar für kleine Fixes und Fragen. Für eine Weiterentwicklung (neue Sektion, Blog, Integration) erhalten Sie eine separate Offerte.",
+    },
+    {
+      id: "host",
+      question: "Sind Hosting und Domain inbegriffen?",
+      answer:
+        "Domain (~15 €/Jahr) und Hosting (oft 0 € auf Vercel für Visitenkarten-Websites) zahlen Sie selbst, über Ihre eigenen Konten — so bleiben Sie immer Eigentümer. Ich richte beides gemeinsam mit Ihnen ein.",
+    },
+    {
+      id: "seo",
+      question: "Werde ich damit auf Google gefunden?",
+      answer:
+        "Technisches Basis-SEO ist inbegriffen: korrekte Titles, Meta-Descriptions, semantische Struktur, Performance, Sitemap, mobile-first. Für ein Ranking auf umkämpften Suchbegriffen braucht es kontinuierliche Arbeit (Inhalte, Backlinks): Wenn Sie das brauchen, sage ich Ihnen klar, was nötig ist und was es kostet — auch wenn ich es nicht selbst übernehme.",
+    },
+    {
+      id: "remote",
+      question: "Arbeiten Sie nur in Rom?",
+      answer:
+        "Ich sitze in Rom, arbeite aber zu 100% online — in ganz Italien und im Ausland, auch in der Schweiz. Gespräche über Meet/WhatsApp, Vorschauen per Link, Dateiaustausch über Drive/Notion. Auf Deutsch, Englisch oder Italienisch.",
+    },
+    {
+      id: "guarantee",
+      question: "Und wenn ich mit dem Ergebnis nicht zufrieden bin?",
+      answer:
+        "Wir arbeiten in Schritten mit laufenden Vorschauen: Wenn Sie etwas nicht überzeugt, sagen Sie es sofort — nicht am Projektende. Bei Landing-/Website-Paketen sind 2 Design-Revisionen und 1 Text-Revision inbegriffen. Bei Web-Apps definieren wir gemeinsam Meilensteine, jeder wird freigegeben, bevor es weitergeht.",
+    },
+  ],
+};
+
+export const faqsContent: Record<Locale, FaqsContent> = { it, en, fr, de };
 
 export function getFaqsContent(locale: Locale) {
   return faqsContent[locale];

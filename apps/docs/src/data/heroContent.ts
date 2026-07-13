@@ -114,7 +114,38 @@ const fr: HeroContent = {
   },
 };
 
-export const heroContent: Record<Locale, HeroContent> = { it, en, fr };
+const de: HeroContent = {
+  badge: "Freelance-Webentwickler für Selbstständige und kleine Betriebe",
+  titleParts: {
+    before: "Ich baue ",
+    accent: "schnelle",
+    after:
+      " Websites und Web-Apps, die verwirrte Besuche in echte Anfragen verwandeln.",
+  },
+  subtitle:
+    "Ich helfe Selbstständigen, Praxen, Kanzleien und kleinen Betrieben, veraltete Websites, unklare digitale Ideen und manuelle Abläufe in klare, gepflegte und einfach nutzbare Lösungen zu verwandeln.",
+  primaryCtaLabel: "Gratis-Audit anfordern",
+  primaryCtaHref: "/audit",
+  secondaryCtaLabel: "Case Studies ansehen",
+  secondaryCtaHref: "#case-studies",
+  guaranteeBullets: [
+    "✓ Kostenloses Erstgespräch, 20 Minuten",
+    "✓ Schriftliche Offerte innert 48h",
+    "✓ Erste Version online in 1–3 Wochen",
+  ],
+  portraitAlt: "Hassan Akkari, Freelance-Webentwickler",
+  proofCard: {
+    stats: [
+      { id: "experience", value: "5+", label: "Jahre im Bau von Web-Interfaces" },
+      { id: "response", value: "24h", label: "typische erste Antwort" },
+      { id: "no-tricks", value: "0", label: "aggressive Verkaufsanrufe" },
+    ],
+    quote:
+      "Ich arbeite täglich an echten Web-Produkten, mit echten Nutzern und komplexen Abläufen. Dieselbe Methode bringe ich in ausgewählte Freelance-Projekte: weniger Improvisation, mehr Struktur.",
+  },
+};
+
+export const heroContent: Record<Locale, HeroContent> = { it, en, fr, de };
 
 export function getHeroContent(locale: Locale) {
   return heroContent[locale];

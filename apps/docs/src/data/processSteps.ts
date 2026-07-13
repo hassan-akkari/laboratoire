@@ -126,7 +126,49 @@ const fr: ProcessContent = {
   ],
 };
 
-export const processContent: Record<Locale, ProcessContent> = { it, en, fr };
+const de: ProcessContent = {
+  sectionLabel: "Arbeitsweise",
+  title: "Vier einfache Schritte, vom ersten Gespräch bis zur Website online.",
+  subtitle:
+    "Einfache Methode: Wir verstehen das Problem, legen den Umfang fest, Sie arbeiten mit sichtbaren Vorschauen — dann geht es online.",
+  steps: [
+    {
+      id: "discovery",
+      number: "01",
+      title: "Ich verstehe, was Sie wirklich brauchen",
+      description:
+        "Ein kostenloses Gespräch von 20-30 Minuten. Sie schildern das Problem, ich stelle die richtigen Fragen. Am Ende haben Sie mehr Klarheit — auch wenn wir nicht zusammenarbeiten.",
+    },
+    {
+      id: "proposal",
+      number: "02",
+      title: "Sie erhalten eine klare Offerte",
+      description:
+        "Eine schriftliche Offerte: was ich mache, was nicht, was es kostet, in welcher Zeit. Keine Überraschungen, keine versteckten Kosten, kein «schauen wir dann».",
+    },
+    {
+      id: "build",
+      number: "03",
+      title: "Ich baue mit sichtbaren Vorschauen",
+      description:
+        "Sie sehen den Fortschritt, während ich arbeite. Online-Vorschau jederzeit verfügbar, schnelles Feedback per WhatsApp oder E-Mail, nachvollziehbare Entscheidungen ohne Chaos.",
+    },
+    {
+      id: "launch",
+      number: "04",
+      title: "Ich publiziere und bleibe erreichbar",
+      description:
+        "Wir gehen online, prüfen, dass alles funktioniert, und ich zeige Ihnen, wie Sie kleine Änderungen selbst verwalten. Für Weiterentwicklungen gibt es eigene Pakete — keine Zwangs-Abos.",
+    },
+  ],
+};
+
+export const processContent: Record<Locale, ProcessContent> = {
+  it,
+  en,
+  fr,
+  de,
+};
 
 export function getProcessContent(locale: Locale) {
   return processContent[locale];

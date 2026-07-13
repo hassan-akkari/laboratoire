@@ -12,7 +12,7 @@ type LocaleSwitcherProps = {
   className?: string;
 };
 
-const localeOrder: Locale[] = ["en", "it", "fr"];
+const localeOrder: Locale[] = ["en", "it", "fr", "de"];
 
 /**
  * Self-navigating now that locale lives in the URL: switching pushes the same

@@ -167,10 +167,61 @@ const fr: TechStackContent = {
   ],
 };
 
+const de: TechStackContent = {
+  sectionLabel: "Technologien",
+  title: "Ein moderner Stack, gewählt für Ihr Projekt. Nicht für den Hype des Monats.",
+  note: "Den Stack wähle ich passend zum Projekt: Für eine «einfache» Landing Page verrechne ich Ihnen keine Full-Stack-Web-App — und für eine Web-App schlage ich Ihnen kein WordPress vor.",
+  categories: [
+    {
+      id: "frontend",
+      title: "Modernes Frontend",
+      description:
+        "Was der Kunde sieht: schnell, responsiv, später einfach anzupassen.",
+      items: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite",
+        "Framer Motion",
+      ],
+    },
+    {
+      id: "backend",
+      title: "Backend & Integrationen",
+      description:
+        "Was die Dinge zum Laufen bringt: APIs, Formulare, Authentifizierung, Datenverwaltung.",
+      items: [
+        "Node.js",
+        "REST APIs",
+        "ASP.NET / C#",
+        "SQL Server",
+        "Server Actions",
+        "Zod",
+      ],
+    },
+    {
+      id: "quality",
+      title: "Qualität & Delivery",
+      description:
+        "Was den Unterschied macht: getesteter Code, echte Performance, einfache Wartung.",
+      items: [
+        "Vitest / Playwright",
+        "ESLint / strict TypeScript",
+        "Component-first-Architektur",
+        "Mobile-first / Basis-Barrierefreiheit",
+        "CI lint+typecheck+test",
+        "Vercel / OVH Deploy",
+      ],
+    },
+  ],
+};
+
 export const techStackContent: Record<Locale, TechStackContent> = {
   it,
   en,
   fr,
+  de,
 };
 
 export function getTechStackContent(locale: Locale) {

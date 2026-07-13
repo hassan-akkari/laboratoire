@@ -8,6 +8,7 @@ const SERVICE_BRAND_NAME: Record<Locale, string> = {
   it: "Hassan Akkari — Sviluppo siti e web app",
   en: "Hassan Akkari — Websites & web app development",
   fr: "Hassan Akkari — Création de sites et web apps",
+  de: "Hassan Akkari — Websites & Web-App-Entwicklung",
 };
 
 /**

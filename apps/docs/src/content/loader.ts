@@ -8,6 +8,7 @@ import {
 import contentEn from "./data/portfolio-content.en.json";
 import contentIt from "./data/portfolio-content.it.json";
 import contentFr from "./data/portfolio-content.fr.json";
+import contentDe from "./data/portfolio-content.de.json";
 
 /**
  * Server-side replacement for the SPA's RTK Query fetch of
@@ -26,6 +27,7 @@ const rawByLocale: Record<Locale, unknown> = {
   en: contentEn,
   it: contentIt,
   fr: contentFr,
+  de: contentDe,
 };
 
 function toRootAbsolute(path: string): string {

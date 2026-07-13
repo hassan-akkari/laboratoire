@@ -17,7 +17,7 @@
   },
   "contact": {
     "email": "hassan.akkari01@gmail.com",
-    "resumePath": "pdf/CV-ENG-06-2026.pdf",
+    "resumePath": "pdf/CV-FRA-07-2026.pdf",
     "github": "https://github.com/Dark-lIl-Demon",
     "linkedin": "https://www.linkedin.com/in/hassan-akkari",
     "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
@@ -124,7 +124,7 @@
   "general": [
     {
       "title": "Langues",
-      "items": ["Anglais (C1 / courant)", "Italien (langue maternelle)", "Arabe (conversationnel)"]
+      "items": ["Anglais (C1 / courant)", "Italien (langue maternelle)", "Français (A2 / en cours d'apprentissage)", "Arabe (conversationnel)"]
     },
     {
       "title": "Dev AI-augmenté",

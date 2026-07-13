@@ -14,6 +14,7 @@ export const whatsappPrefilledMessages: Record<Locale, string> = {
   it: "Ciao Hassan, vorrei parlare di un progetto. Mi puoi richiamare?",
   en: "Hi Hassan, I'd like to talk about a project. Can you get back to me?",
   fr: "Bonjour Hassan, je voudrais parler d'un projet. Pouvez-vous me recontacter ?",
+  de: "Hallo Hassan, ich würde gerne über ein Projekt sprechen. Können Sie sich bei mir melden?",
 };
 
 export function whatsappLink(locale: Locale, message?: string, phoneDigitsOverride?: string) {

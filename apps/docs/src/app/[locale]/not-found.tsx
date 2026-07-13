@@ -13,7 +13,8 @@ export default function NotFound() {
         <div style={{ maxWidth: "70ch", margin: "0 auto", padding: "96px 0" }}>
           <h1 className="sub-title">404</h1>
           <p>
-            Pagina non trovata · Page not found · Page introuvable
+            Pagina non trovata · Page not found · Page introuvable · Seite
+            nicht gefunden
           </p>
           <p style={{ marginTop: 32 }}>
             <Link href="/">← Home</Link>

@@ -35,9 +35,21 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
     whatsappPrefilledMessages[locale],
   )}`;
   const emailHref = `mailto:${effectiveEmail}?subject=${encodeURIComponent(
-    locale === "it" ? "Richiesta info" : locale === "fr" ? "Demande d'info" : "Quick question",
+    locale === "it"
+      ? "Richiesta info"
+      : locale === "fr"
+        ? "Demande d'info"
+        : locale === "de"
+          ? "Info-Anfrage"
+          : "Quick question",
   )}&body=${encodeURIComponent(
-    locale === "it" ? "Ciao Hassan, " : locale === "fr" ? "Bonjour Hassan, " : "Hi Hassan, ",
+    locale === "it"
+      ? "Ciao Hassan, "
+      : locale === "fr"
+        ? "Bonjour Hassan, "
+        : locale === "de"
+          ? "Hallo Hassan, "
+          : "Hi Hassan, ",
   )}`;
 
   return (

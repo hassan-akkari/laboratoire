@@ -94,10 +94,38 @@ const fr: TargetClientsContent = {
   ],
 };
 
+const de: TargetClientsContent = {
+  sectionLabel: "Für wen ich arbeite",
+  title: "Ich arbeite mit Menschen, die mehr digitale Ordnung brauchen.",
+  subtitle:
+    "Drei verschiedene Gruppen, ein gemeinsames Ziel: eine Website oder ein kleines Web-System, das klarer macht, was Sie tun — und es einfacher macht, Sie zu kontaktieren.",
+  clients: [
+    {
+      id: "professionals",
+      label: "Selbstständige, Praxen und Kanzleien",
+      description:
+        "Treuhänder, Anwälte, Berater, Architekten und Arztpraxen, die eine glaubwürdige, klare und kontaktorientierte Website wollen.",
+    },
+    {
+      id: "small-business",
+      label: "Lokale Betriebe und Dienstleister",
+      description:
+        "Fitnessstudios, Kosmetikinstitute, B&Bs, Restaurants, Schulen und Vereine: Leistungen, Öffnungszeiten, Verfügbarkeiten, Kontakte und Buchungen — geordnet an einem Ort.",
+    },
+    {
+      id: "founders",
+      label: "Founder und kleine Teams",
+      description:
+        "Menschen, die ein MVP, ein Dashboard, interne Tools oder digitale Abläufe brauchen, um Prozesse aus Excel und WhatsApp herauszuholen.",
+    },
+  ],
+};
+
 export const targetClientsContent: Record<Locale, TargetClientsContent> = {
   it,
   en,
   fr,
+  de,
 };
 
 export function getTargetClientsContent(locale: Locale) {
