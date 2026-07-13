@@ -3,7 +3,9 @@
   "globalEnv": [
     "VITE_UI_SOURCE",
     "NEXT_PUBLIC_ADMIN_API_BASE",
-    "NEXT_PUBLIC_CAL_LINK"
+    "NEXT_PUBLIC_CAL_LINK",
+    "VITE_ADMIN_API_BASE",
+    "VITE_CAL_LINK"
   ],
   "tasks": {
     "dev": { "cache": false, "persistent": true },
