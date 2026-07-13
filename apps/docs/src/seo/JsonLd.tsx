@@ -29,7 +29,7 @@ export default function JsonLd({ locale }: { locale: Locale }) {
         name: SITE.name,
         jobTitle: "Freelance Web Developer",
         url: pageUrl,
-        image: `${SITE_URL}/image/portrait.png`,
+        image: `${SITE_URL}/image/portrait.webp`,
         address: {
           "@type": "PostalAddress",
           addressLocality: "Roma",
@@ -50,7 +50,7 @@ export default function JsonLd({ locale }: { locale: Locale }) {
         "@type": "ProfessionalService",
         name: SERVICE_BRAND_NAME[locale],
         description: seo.description,
-        image: `${SITE_URL}/image/portrait.png`,
+        image: `${SITE_URL}/image/portrait.webp`,
         url: pageUrl,
         telephone: `+${SITE.whatsappNumber}`,
         areaServed: {

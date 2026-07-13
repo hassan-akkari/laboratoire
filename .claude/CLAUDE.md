@@ -1,6 +1,6 @@
 # CLAUDE.md — laboratoire
 
-> Canonical instructions for any AI/human contributor on this repo. Generated 2026-05-07. See `_bootstrap-report.md` for analysis trail.
+> Canonical instructions for any AI/human contributor on this repo. Generated 2026-05-07.
 
 ## Overview
 
