@@ -30,7 +30,7 @@ export default function CaseStudiesSection({
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+          <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -48,7 +48,7 @@ export default function CaseStudiesSection({
             <motion.article
               key={study.id}
               variants={fadeUpVariants}
-              className="rounded-2xl border border-(--app-border) bg-(--app-card) p-7"
+              className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-7"
             >
               <header>
                 <h3 className="text-2xl">{study.title}</h3>
@@ -81,7 +81,7 @@ export default function CaseStudiesSection({
                   <ul className="mt-2 space-y-2 text-sm">
                     {study.solution.map((item) => (
                       <li key={item} className="flex gap-2">
-                        <span className="text-(--app-accent)">→</span>
+                        <span className="text-(--accent-ink)">→</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -94,7 +94,7 @@ export default function CaseStudiesSection({
                   <ul className="mt-2 space-y-2 text-sm">
                     {study.result.map((item) => (
                       <li key={item} className="flex gap-2">
-                        <span className="text-(--app-accent)">✓</span>
+                        <span className="text-(--accent-ink)">✓</span>
                         <span>{item}</span>
                       </li>
                     ))}

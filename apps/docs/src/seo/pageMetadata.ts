@@ -41,6 +41,8 @@ export function buildPageMetadata({
       canonical: url,
       languages: languageAlternates(path),
     },
+    // og:image / twitter:image come from the file-convention
+    // src/app/[locale]/opengraph-image.tsx (1200x630 brand card, per locale).
     openGraph: {
       type: "website",
       siteName: "Hassan Akkari",
@@ -49,20 +51,11 @@ export function buildPageMetadata({
       description,
       locale: ogLocale(locale),
       alternateLocale: ogAlternateLocales(locale),
-      images: [
-        {
-          url: "/image/portrait.png",
-          width: 840,
-          height: 1120,
-          alt: "Hassan Akkari",
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/image/portrait.png"],
     },
   };
 }

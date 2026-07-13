@@ -44,13 +44,13 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
         >
           <LocaleSwitcher locale={locale} labels={labels.locale} />
           <div className="cv-actions">
-            <AppButton as="a" href={localePath(locale)} variant="bordered">
+            <AppButton as="a" href={localePath(locale)} variant="bordered" className="cta-secondary">
               {labels.cv.backToSite}
             </AppButton>
-            <AppButton type="button" onClick={handlePrint}>
+            <AppButton type="button" onClick={handlePrint} className="cta-primary">
               {labels.cv.print}
             </AppButton>
-            <AppButton as="a" href={resumeHref} target="_blank" rel="noreferrer">
+            <AppButton as="a" href={resumeHref} target="_blank" rel="noreferrer" className="cta-primary">
               {labels.cv.downloadOriginal}
             </AppButton>
           </div>
