@@ -1,11 +1,14 @@
+"use client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import type { CaseStudyVariant } from "../../data/caseStudies";
 import { easeOutQuart } from "../ui/motionPresets";
 
 type BookableShowcaseProps = {
   variants: CaseStudyVariant[];
-  /** Already resolved to an absolute/base-prefixed URL by the parent. */
+  /** Already resolved to a root-absolute URL by the parent. */
   resolveSrc: (image: string) => string;
   title: string;
 };
@@ -23,7 +26,7 @@ export default function BookableShowcase({
   resolveSrc,
   title,
 }: BookableShowcaseProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   // Once the user interacts, stop auto-cycling for good — they're in control.
@@ -61,9 +64,11 @@ export default function BookableShowcase({
               src={resolveSrc(variant.image)}
               alt={`${title} — ${variant.label} design variant`}
               className="bookable-showcase__frame"
-              // All three are small and are the whole point of this card —
-              // eager so switching tabs never reveals an unloaded frame.
-              loading="eager"
+              // Lazy: the showcase sits far below the fold, so ~274 KB of
+              // frames must not compete with the hero/LCP on first load. The
+              // browser still fetches all three as the section approaches the
+              // viewport — well before the auto-rotate needs them.
+              loading="lazy"
               decoding="async"
               draggable={false}
               aria-hidden={!isActive}

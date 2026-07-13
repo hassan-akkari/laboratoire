@@ -1,4 +1,7 @@
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
@@ -14,7 +17,7 @@ type WhyMeSectionProps = {
 };
 
 export default function WhyMeSection({ locale }: WhyMeSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getWhyMeContent(locale);
 
   return (
@@ -25,7 +28,7 @@ export default function WhyMeSection({ locale }: WhyMeSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+          <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -40,7 +43,7 @@ export default function WhyMeSection({ locale }: WhyMeSectionProps) {
             <motion.li
               key={reason.id}
               variants={fadeUpVariants}
-              className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
+              className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
             >
               <h3 className="text-lg leading-snug">{reason.title}</h3>
               <p className="mt-3 text-sm text-(--app-muted)">

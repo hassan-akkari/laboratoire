@@ -1,9 +1,18 @@
 {
   "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [
-    { "pattern": "apps/*", "changeProcessCWD": true },
-    { "pattern": "packages/*", "changeProcessCWD": true },
-    { "directory": ".", "changeProcessCWD": true }
+    {
+      "pattern": "apps/*",
+      "changeProcessCWD": true
+    },
+    {
+      "pattern": "packages/*",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": ".",
+      "changeProcessCWD": true
+    }
   ],
   "eslint.validate": [
     "javascript",
@@ -15,6 +24,7 @@
   "search.exclude": {
     "**/.next": true,
     "**/.turbo": true,
-    "**/dist": true
+    "**/dist": true,
+    "**/.vercel": true
   }
 }

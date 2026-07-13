@@ -1,21 +1,43 @@
+"use client";
+
+import { usePathname, useRouter } from "next/navigation";
 import type { Locale } from "../../i18n/locale";
+import { switchLocalePath } from "../../i18n/routing";
+import { persistLocaleCookie } from "../../i18n/localeCookie";
 import type { Messages } from "../../i18n/messages";
 
 type LocaleSwitcherProps = {
   locale: Locale;
-  onChange: (locale: Locale) => void;
   labels: Messages["locale"];
   className?: string;
 };
 
 const localeOrder: Locale[] = ["en", "it", "fr"];
 
+/**
+ * Self-navigating now that locale lives in the URL: switching pushes the same
+ * page under the new /{locale} prefix and persists the choice in the cookie
+ * src/proxy.ts reads when localizing bare URLs.
+ */
 export default function LocaleSwitcher({
   locale,
-  onChange,
   labels,
   className = "",
 }: LocaleSwitcherProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const switchTo = (next: Locale) => {
+    if (next === locale) return;
+    persistLocaleCookie(next);
+    // usePathname() strips query and hash — re-attach them so UTM params and
+    // anchor positions survive a language switch.
+    const { search, hash } = window.location;
+    router.push(
+      switchLocalePath(pathname ?? `/${locale}`, next) + search + hash,
+    );
+  };
+
   const classes = className
     ? `locale-switcher ${className}`
     : "locale-switcher";
@@ -29,7 +51,7 @@ export default function LocaleSwitcher({
           className={`locale-switcher__button ${
             locale === item ? "locale-switcher__button--active" : ""
           }`}
-          onClick={() => onChange(item)}
+          onClick={() => switchTo(item)}
           aria-pressed={locale === item}
           aria-label={labels[item]}
         >

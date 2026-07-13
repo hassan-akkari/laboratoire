@@ -1,9 +1,11 @@
+"use client";
+
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect, useRef } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { AppButton } from "@laboratoire/ui";
 
-const CAL_LINK = (import.meta.env.VITE_CAL_LINK as string | undefined) ?? "itshassan/discovery-call";
+const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? "itshassan/discovery-call";
 const CAL_NAMESPACE = CAL_LINK.split("/")[1] ?? "discovery-call";
 
 type Props = {

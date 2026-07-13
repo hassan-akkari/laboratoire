@@ -79,8 +79,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 html,
-body,
-#root {
+body {
   height: 100%;
 }
 

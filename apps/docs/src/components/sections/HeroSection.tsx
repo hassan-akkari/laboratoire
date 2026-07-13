@@ -1,55 +1,84 @@
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import { FaArrowRight } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
 import { getHeroContent } from "../../data/heroContent";
-import {
-  fadeUpVariants,
-  getMountReveal,
-  staggerChildrenVariants,
-} from "../ui/motionPresets";
 
 type HeroSectionProps = {
   locale: Locale;
 };
 
-const PORTRAIT_SRC = `${import.meta.env.BASE_URL}image/portrait.png`;
+const PORTRAIT_SRC = "/image/portrait.webp";
 
+/**
+ * The hero entrance is CSS (`.hero-enter*` in portfolio.css), NOT
+ * framer-motion: a JS mount animation serializes opacity:0 into the
+ * prerendered HTML, blanking the above-the-fold content for crawlers and
+ * no-JS clients and delaying LCP until hydration. CSS keyframes play
+ * immediately with the stylesheet, work without JS, and the reduced-motion
+ * kill switch in portfolio.css disables them wholesale. The portrait
+ * deliberately animates only scale/blur (never opacity) so the LCP element
+ * counts as painted from the first frame. Only the scroll parallax stays in
+ * framer — it is additive and client-only by nature.
+ */
 export default function HeroSection({ locale }: HeroSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getHeroContent(locale);
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  // Subtle parallax: the portrait trails the scroll slightly (transform-only).
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 36]);
 
   return (
     <Section id="hero" className="relative">
       <Container>
-        <motion.div
+        <div
+          ref={sectionRef}
           className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center"
-          variants={staggerChildrenVariants}
-          {...getMountReveal(reduceMotion)}
         >
-          <motion.div variants={fadeUpVariants}>
-            <p className="mb-4 inline-block rounded-full border border-(--app-border) bg-(--app-card) px-3 py-1 text-xs uppercase tracking-[0.18em] text-(--app-muted)">
+          <div>
+            <p
+              className="hero-enter mb-4 inline-block rounded-full border border-(--app-border) bg-(--app-card) px-3 py-1 text-xs uppercase tracking-[0.18em] text-(--app-muted)"
+              style={{ "--enter-delay": "0ms" } as React.CSSProperties}
+            >
               {content.badge}
             </p>
-            <h1 className="text-4xl leading-[1.1] sm:text-5xl md:text-6xl">
+            <h1
+              className="hero-enter text-4xl leading-[1.1] sm:text-5xl md:text-6xl"
+              style={{ "--enter-delay": "90ms" } as React.CSSProperties}
+            >
               {content.titleParts.before}
-              <span className="text-(--app-accent)">
-                {content.titleParts.accent}
-              </span>
+              <span className="hero-accent">{content.titleParts.accent}</span>
               {content.titleParts.after}
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-(--app-muted)">
+            <p
+              className="hero-enter mt-6 max-w-xl text-lg text-(--app-muted)"
+              style={{ "--enter-delay": "180ms" } as React.CSSProperties}
+            >
               {content.subtitle}
             </p>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:max-w-lg sm:grid-cols-2">
+            <div
+              className="hero-enter mt-8 grid grid-cols-1 gap-3 sm:max-w-lg sm:grid-cols-2"
+              style={{ "--enter-delay": "270ms" } as React.CSSProperties}
+            >
               <AppButton
                 as="a"
-                href={content.primaryCtaHref}
+                href={localePath(locale, content.primaryCtaHref)}
                 size="lg"
                 fullWidth
+                className="cta-primary"
                 endContent={<FaArrowRight aria-hidden="true" />}
               >
                 {content.primaryCtaLabel}
@@ -60,26 +89,30 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 size="lg"
                 fullWidth
                 variant="bordered"
+                className="cta-secondary"
               >
                 {content.secondaryCtaLabel}
               </AppButton>
             </div>
 
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-(--app-muted)">
+            <ul
+              className="hero-enter mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-(--app-muted)"
+              style={{ "--enter-delay": "360ms" } as React.CSSProperties}
+            >
               {content.guaranteeBullets.map((bullet) => (
                 <li key={bullet}>{bullet}</li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={fadeUpVariants}
-            className="relative mx-auto flex w-full max-w-sm flex-col gap-6 md:max-w-none"
-          >
-            <div className="relative">
+          <div className="relative mx-auto flex w-full max-w-sm flex-col gap-6 md:max-w-none">
+            <motion.div
+              className="hero-enter-portrait relative"
+              style={reduceMotion ? undefined : { y: portraitY }}
+            >
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 z-0"
+                className="hero-halo pointer-events-none absolute inset-0 z-0"
                 style={{ background: "var(--portrait-halo)" }}
               />
               <img
@@ -97,9 +130,12 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                   WebkitMaskImage: "var(--portrait-mask)",
                 }}
               />
-            </div>
+            </motion.div>
 
-            <div className="rounded-2xl border border-(--app-border) bg-(--app-card) p-5">
+            <div
+              className="hero-enter card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-5"
+              style={{ "--enter-delay": "300ms" } as React.CSSProperties}
+            >
               <dl className="grid grid-cols-3 gap-3 text-center">
                 {content.proofCard.stats.map((stat) => (
                   <div key={stat.id}>
@@ -120,8 +156,8 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 {content.proofCard.quote}
               </p>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </Container>
     </Section>
   );

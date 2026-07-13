@@ -108,16 +108,6 @@ export type CvProject = NonNullable<PortfolioContent["cvProjects"]>[number];
 export type RoadmapProject = PortfolioContent["roadmap"][number];
 export type ProfileContact = PortfolioContent["contact"];
 
-export const githubProfileSchema = z.object({
-  public_repos: z.number().int().nonnegative(),
-  followers: z.number().int().nonnegative(),
-  following: z.number().int().nonnegative(),
-  html_url: z.string().url(),
-  updated_at: z.string().datetime(),
-});
-
-export type GithubProfile = z.infer<typeof githubProfileSchema>;
-
 export const fallbackPortfolioContent: PortfolioContent = {
   profile: {
     name: "Hassan Akkari",

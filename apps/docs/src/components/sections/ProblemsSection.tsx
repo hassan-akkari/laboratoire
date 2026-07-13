@@ -1,4 +1,7 @@
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
@@ -14,7 +17,7 @@ type ProblemsSectionProps = {
 };
 
 export default function ProblemsSection({ locale }: ProblemsSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getProblemsContent(locale);
 
   return (
@@ -25,7 +28,7 @@ export default function ProblemsSection({ locale }: ProblemsSectionProps) {
           {...getInViewReveal(reduceMotion, 0.2)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+          <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -40,7 +43,7 @@ export default function ProblemsSection({ locale }: ProblemsSectionProps) {
             <motion.li
               key={problem.id}
               variants={fadeUpVariants}
-              className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6 transition-transform hover:-translate-y-1"
+              className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
             >
               <h3 className="text-lg leading-snug">{problem.title}</h3>
               <p className="mt-3 text-sm text-(--app-muted)">

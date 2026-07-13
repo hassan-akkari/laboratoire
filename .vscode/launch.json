@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Dev: docs (Vite)",
+      "name": "Dev: docs (Next.js, :3000)",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm -F docs dev",
@@ -16,10 +16,24 @@
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "Dev: web-next (Next.js)",
+      "name": "Dev: web-next (Next.js, :3001)",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm -F web-next dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Dev: booking-service (Next.js, :3002)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm -F booking-service dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Dev: lab (Vite)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm -F lab dev",
       "cwd": "${workspaceFolder}"
     },
     {
@@ -27,6 +41,13 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm dev:all",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Preview: docs (next build + start)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm -F docs build && pnpm -F docs start",
       "cwd": "${workspaceFolder}"
     },
     {

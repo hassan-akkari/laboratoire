@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["VITE_UI_SOURCE"],
+  "globalEnv": [
+    "VITE_UI_SOURCE",
+    "NEXT_PUBLIC_ADMIN_API_BASE",
+    "NEXT_PUBLIC_CAL_LINK",
+    "VITE_ADMIN_API_BASE",
+    "VITE_CAL_LINK"
+  ],
   "tasks": {
     "dev": { "cache": false, "persistent": true },
     "build": { "dependsOn": ["^build"], "outputs": ["dist/**", "build/**", ".next/**"] },

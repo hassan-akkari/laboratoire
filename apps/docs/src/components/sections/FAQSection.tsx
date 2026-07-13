@@ -1,6 +1,9 @@
+"use client";
+
 import { useState } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
+import { FaPlus } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
@@ -18,7 +21,7 @@ type FAQSectionProps = {
 };
 
 export default function FAQSection({ locale }: FAQSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getFaqsContent(locale);
   const { phoneDigits } = useSiteContactOverrides();
   const [openId, setOpenId] = useState<string | null>(
@@ -37,7 +40,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+          <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -54,7 +57,7 @@ export default function FAQSection({ locale }: FAQSectionProps) {
               <motion.li
                 key={faq.id}
                 variants={fadeUpVariants}
-                className="rounded-2xl border border-(--app-border) bg-(--app-card)"
+                className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card)"
               >
                 <button
                   type="button"
@@ -66,12 +69,18 @@ export default function FAQSection({ locale }: FAQSectionProps) {
                   <span className="text-base font-medium md:text-lg">
                     {faq.question}
                   </span>
-                  <span
+                  <motion.span
                     aria-hidden="true"
-                    className="mt-1 shrink-0 text-(--app-muted)"
+                    className="mt-1 inline-flex shrink-0 text-(--app-muted)"
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { duration: 0.25, ease: "easeOut" }
+                    }
                   >
-                    {isOpen ? <FaMinus /> : <FaPlus />}
-                  </span>
+                    <FaPlus />
+                  </motion.span>
                 </button>
                 <AnimatePresence initial={false}>
                   {isOpen ? (

@@ -1,10 +1,14 @@
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import { FaWhatsapp, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import CalBookButton from "../ui/CalBookButton";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
 import { getFinalCtaContent } from "../../data/finalCtaContent";
 import { SITE, whatsappPrefilledMessages } from "../../data/site";
 import { useSiteContactOverrides } from "../../lib/useSiteConfig";
@@ -19,7 +23,7 @@ type FinalCTASectionProps = {
 };
 
 export default function FinalCTASection({ locale }: FinalCTASectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getFinalCtaContent(locale);
   const { phoneDigits, email } = useSiteContactOverrides();
 
@@ -62,8 +66,9 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
           >
             <AppButton
               as="a"
-              href={content.auditHref}
+              href={localePath(locale, content.auditHref)}
               size="lg"
+              className="cta-primary"
               endContent={<FaArrowRight aria-hidden="true" />}
             >
               {content.auditLabel}
@@ -76,6 +81,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
               rel="noreferrer"
               size="lg"
               variant="bordered"
+              className="cta-secondary"
               startContent={<FaWhatsapp aria-hidden="true" />}
             >
               {content.whatsappLabel}

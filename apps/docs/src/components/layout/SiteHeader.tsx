@@ -1,10 +1,12 @@
+"use client";
+
 import { useMemo, useState } from "react";
 import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa";
-import { motion, useReducedMotion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import Container from "./Container";
 import { AppButton, ThemeToggle } from "@laboratoire/ui";
 import type { Locale } from "../../i18n/locale";
+import { localePath } from "../../i18n/routing";
 import type { Messages } from "../../i18n/messages";
 import LocaleSwitcher from "../ui/LocaleSwitcher";
 import { whatsappLink } from "../../data/site";
@@ -14,21 +16,14 @@ import {
   getLongestNavLabels,
   getNavContent,
 } from "../../data/nav";
-import { fadeUpVariants, getMountReveal } from "../ui/motionPresets";
 
 type SiteHeaderProps = {
   locale: Locale;
-  onLocaleChange: (locale: Locale) => void;
   labels: Messages;
 };
 
-export default function SiteHeader({
-  locale,
-  onLocaleChange,
-  labels,
-}: SiteHeaderProps) {
+export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const reduceMotion = Boolean(useReducedMotion());
   const nav = getNavContent(locale);
   const { phoneDigits } = useSiteContactOverrides();
   const longestNavLabels = useMemo(() => getLongestNavLabels(), []);
@@ -38,7 +33,7 @@ export default function SiteHeader({
   return (
     <div id="header">
       <Container>
-        <motion.nav variants={fadeUpVariants} {...getMountReveal(reduceMotion)}>
+        <nav className="hero-enter">
           <ul
             id="sidemenu"
             className={menuOpen ? "open" : ""}
@@ -55,7 +50,7 @@ export default function SiteHeader({
               </li>
             ))}
             <li>
-              <Link to={nav.audit.to} className="nav-link">
+              <Link href={localePath(locale, nav.audit.to)} className="nav-link">
                 <span className="nav-link__text">{nav.audit.label}</span>
                 <span className="nav-link__ghost" aria-hidden="true">
                   {longestAuditLabel}
@@ -63,7 +58,7 @@ export default function SiteHeader({
               </Link>
             </li>
             <li>
-              <Link to="/cv">{labels.nav.cv}</Link>
+              <Link href={localePath(locale, "/cv")}>{labels.nav.cv}</Link>
             </li>
             <li className="nav-close">
               <button
@@ -103,12 +98,11 @@ export default function SiteHeader({
             </button>
             <LocaleSwitcher
               locale={locale}
-              onChange={onLocaleChange}
               labels={labels.locale}
               className="nav-locale-switcher"
             />
           </div>
-        </motion.nav>
+        </nav>
       </Container>
     </div>
   );

@@ -1,4 +1,7 @@
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import Container from "../layout/Container";
@@ -17,7 +20,7 @@ type ServicesSectionProps = {
 };
 
 export default function ServicesSection({ locale }: ServicesSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const { phoneDigits, email } = useSiteContactOverrides();
   const content = getServicesContent(locale, phoneDigits, email);
 
@@ -29,7 +32,7 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
           {...getInViewReveal(reduceMotion, 0.22)}
           className="max-w-2xl"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+          <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
           <h2 className="text-3xl md:text-4xl">{content.title}</h2>
@@ -47,7 +50,7 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
             <motion.article
               key={service.id}
               variants={fadeUpVariants}
-              className="relative flex flex-col rounded-2xl border border-(--app-border) bg-(--app-card) p-7"
+              className="card-hover relative flex flex-col rounded-2xl border border-(--app-border) bg-(--app-card) p-7"
             >
               {service.badge ? (
                 <span className="absolute -top-3 left-7 rounded-full bg-(--app-accent) px-3 py-1 text-xs uppercase tracking-wider text-white">
@@ -80,7 +83,7 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
                   <li key={item} className="flex gap-2">
                     <FaCheck
                       aria-hidden="true"
-                      className="mt-1 shrink-0 text-(--app-accent)"
+                      className="mt-1 shrink-0 text-(--accent-ink)"
                     />
                     <span>{item}</span>
                   </li>
@@ -103,6 +106,7 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
                   target="_blank"
                   rel="noreferrer"
                   size="md"
+                  className="cta-primary"
                 >
                   {service.ctaLabel}
                 </AppButton>
