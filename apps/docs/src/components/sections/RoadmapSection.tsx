@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import type { RoadmapProject } from "../../content/portfolioContent";
 import type { Messages } from "../../i18n/messages";
@@ -18,7 +19,7 @@ type RoadmapSectionProps = {
 };
 
 export default function RoadmapSection({ roadmap, labels }: RoadmapSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
 
   return (
     <Section id="roadmap">

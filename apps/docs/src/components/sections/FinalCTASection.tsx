@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import { FaWhatsapp, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import CalBookButton from "../ui/CalBookButton";
@@ -22,7 +23,7 @@ type FinalCTASectionProps = {
 };
 
 export default function FinalCTASection({ locale }: FinalCTASectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getFinalCtaContent(locale);
   const { phoneDigits, email } = useSiteContactOverrides();
 

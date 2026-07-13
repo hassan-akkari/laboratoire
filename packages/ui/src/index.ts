@@ -1,7 +1,7 @@
 export { default as ThemeToggle } from "./components/ThemeToggle";
 export { MoonIcon, SunIcon } from "./icons/ThemeIcons";
 export { useTheme } from "./hooks/useTheme";
-export { resolveThemeMode } from "./hooks/themeUtils";
+export { THEME_KEY, resolveThemeMode } from "./hooks/themeUtils";
 export type { ThemeMode } from "./hooks/themeUtils";
 
 // ---------------------------------------------------------------------------

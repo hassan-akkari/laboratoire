@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { FaPlus } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
@@ -20,7 +21,7 @@ type FAQSectionProps = {
 };
 
 export default function FAQSection({ locale }: FAQSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const content = getFaqsContent(locale);
   const { phoneDigits } = useSiteContactOverrides();
   const [openId, setOpenId] = useState<string | null>(
