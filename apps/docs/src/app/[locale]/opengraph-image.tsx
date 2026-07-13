@@ -1,10 +1,14 @@
 import { ImageResponse } from "next/og";
-import { isLocale, type Locale } from "@/i18n/locale";
+import type { Locale } from "@/i18n/locale";
+import { localeFromParams } from "@/i18n/server";
 import { getSeoContent } from "@/data/seoContent";
 
 export const alt = "Hassan Akkari — Freelance Web Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+// All inputs are static and there are exactly three variants — bake the PNGs
+// at build time instead of running satori+resvg on every social unfurl.
+export const dynamic = "force-static";
 
 const ROLE_LINE: Record<Locale, string> = {
   it: "Sviluppatore freelance · Roma",
@@ -22,8 +26,7 @@ export default async function OpenGraphImage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale: raw } = await params;
-  const locale: Locale = isLocale(raw) ? raw : "it";
+  const locale: Locale = await localeFromParams(params);
   const seo = getSeoContent(locale);
 
   return new ImageResponse(

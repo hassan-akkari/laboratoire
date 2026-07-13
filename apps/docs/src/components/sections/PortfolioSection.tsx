@@ -5,7 +5,8 @@ import Section from "../layout/Section";
 import { AppButton } from "@laboratoire/ui";
 import type { PortfolioProject } from "../../content/portfolioContent";
 import type { Messages } from "../../i18n/messages";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import {
   fadeUpVariants,
   getInViewReveal,
@@ -25,7 +26,7 @@ export default function PortfolioSection({
   projects,
   labels,
 }: PortfolioSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
 
   const resolveHref = (href: string) => {
     if (href.startsWith("#") || href.startsWith("mailto:") || isExternalLink(href)) {

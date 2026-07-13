@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import Container from "../layout/Container";
@@ -19,7 +20,7 @@ type ServicesSectionProps = {
 };
 
 export default function ServicesSection({ locale }: ServicesSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const { phoneDigits, email } = useSiteContactOverrides();
   const content = getServicesContent(locale, phoneDigits, email);
 

@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { LOCALES, isLocale, type Locale } from "./i18n/locale";
+import { isLocale, type Locale } from "./i18n/locale";
 import { LOCALE_COOKIE } from "./i18n/routing";
 
 /**
@@ -25,13 +25,26 @@ function detectRequestLocale(request: NextRequest): Locale {
   const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
   if (cookieLocale && isLocale(cookieLocale)) return cookieLocale;
 
+  // RFC 9110 Accept-Language: honor q-weights (q=0 means "not acceptable"),
+  // not list order — `it;q=0, en` must resolve to en, not it.
   const acceptLanguage = request.headers.get("accept-language") ?? "";
+  const candidates: Array<{ locale: Locale; q: number }> = [];
   for (const part of acceptLanguage.split(",")) {
-    const tag = part.split(";")[0]?.trim().toLowerCase();
-    if (!tag) continue;
-    const base = tag.split("-")[0];
-    if (isLocale(base)) return base;
+    const [rawTag, ...params] = part.split(";");
+    const base = rawTag?.trim().toLowerCase().split("-")[0];
+    if (!base || !isLocale(base)) continue;
+    let q = 1;
+    for (const param of params) {
+      const [key, value] = param.split("=");
+      if (key?.trim().toLowerCase() === "q") {
+        const parsed = Number.parseFloat(value ?? "");
+        if (!Number.isNaN(parsed)) q = parsed;
+      }
+    }
+    if (q > 0) candidates.push({ locale: base, q });
   }
+  candidates.sort((a, b) => b.q - a.q);
+  if (candidates[0]) return candidates[0].locale;
 
   return "it";
 }
@@ -40,7 +53,7 @@ export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const firstSegment = pathname.split("/")[1] ?? "";
-  if ((LOCALES as readonly string[]).includes(firstSegment)) {
+  if (isLocale(firstSegment)) {
     return NextResponse.next();
   }
 
