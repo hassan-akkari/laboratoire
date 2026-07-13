@@ -11,6 +11,7 @@ import { THEME_KEY } from "@laboratoire/ui";
 import { LOCALES, isLocale, type Locale } from "@/i18n/locale";
 import { SITE_URL } from "@/seo/site";
 import JsonLd from "@/seo/JsonLd";
+import CardSpotlight from "@/components/ui/CardSpotlight";
 import LocaleCookieSync from "@/components/ui/LocaleCookieSync";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { Providers } from "../providers";
@@ -97,6 +98,7 @@ export default async function LocaleLayout({
       </head>
       <body>
         <ScrollProgress />
+        <CardSpotlight />
         <Providers>{children}</Providers>
         {/* Site-level structured data (Person + ProfessionalService) on every
             page — the old index.html served it on all SPA routes, and the

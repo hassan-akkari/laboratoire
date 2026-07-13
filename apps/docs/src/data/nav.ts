@@ -16,6 +16,7 @@ export type NavContent = {
   whatsappLabel: string;
   openMenuLabel: string;
   closeMenuLabel: string;
+  ariaLabel: string;
 };
 
 const it: NavContent = {
@@ -30,6 +31,7 @@ const it: NavContent = {
   whatsappLabel: "WhatsApp",
   openMenuLabel: "Apri menu di navigazione",
   closeMenuLabel: "Chiudi menu di navigazione",
+  ariaLabel: "Navigazione principale",
 };
 
 const en: NavContent = {
@@ -44,6 +46,7 @@ const en: NavContent = {
   whatsappLabel: "WhatsApp",
   openMenuLabel: "Open navigation menu",
   closeMenuLabel: "Close navigation menu",
+  ariaLabel: "Main navigation",
 };
 
 const fr: NavContent = {
@@ -58,6 +61,7 @@ const fr: NavContent = {
   whatsappLabel: "WhatsApp",
   openMenuLabel: "Ouvrir le menu de navigation",
   closeMenuLabel: "Fermer le menu de navigation",
+  ariaLabel: "Navigation principale",
 };
 
 export const navContent: Record<Locale, NavContent> = { it, en, fr };

@@ -89,6 +89,8 @@ interface NavbarContextValue {
   setOpen: (open: boolean) => void;
   /** Stable id linking the toggle's `aria-controls` to the menu's `id`. */
   menuId: string;
+  /** Breakpoint at which the mobile menu collapses away (root prop). */
+  collapseBreakpoint: AppNavbarCollapseBreakpoint;
 }
 
 const NavbarContext = createContext<NavbarContextValue | null>(null);
@@ -100,6 +102,7 @@ function useNavbarContext(): NavbarContextValue {
       isMenuOpen: false,
       setOpen: () => {},
       menuId: "",
+      collapseBreakpoint: "sm",
     }
   );
 }
@@ -112,6 +115,12 @@ function useNavbarContext(): NavbarContextValue {
 export type AppNavbarMaxWidth = "sm" | "md" | "lg" | "xl" | "2xl" | "full";
 
 /**
+ * Viewport breakpoint below which the collapsing mobile menu (and its body
+ * scroll-lock) is active. Matches the Tailwind scale: sm=640, md=768, lg=1024.
+ */
+export type AppNavbarCollapseBreakpoint = "sm" | "md" | "lg";
+
+/**
  * Root props. `isMenuOpen`/`onMenuOpenChange` drive the controlled menu.
  * `children` is OPTIONAL (see the file header for the StoryObj reason and the
  * v2 `NavbarProps.children` optionality this matches).
@@ -122,6 +131,12 @@ export interface AppNavbarProps {
   isMenuOpen?: boolean;
   /** Notified on every toggle; required for controlled usage. */
   onMenuOpenChange?: (open: boolean) => void;
+  /**
+   * Breakpoint below which the mobile menu (and its scroll-lock) is active.
+   * Default `sm` (the original hardcoded behavior). A nav with many desktop
+   * links wants `md`/`lg` so the burger survives up to wider viewports.
+   */
+  collapseBreakpoint?: AppNavbarCollapseBreakpoint;
   /** Centered container width of the inner header. Default `lg`. */
   maxWidth?: AppNavbarMaxWidth;
   /** `sticky` pins the nav to the top; `static` (default) leaves it in flow. */
@@ -197,6 +212,20 @@ const JUSTIFY_CLASS: Record<
   start: "justify-start",
   center: "justify-center",
   end: "justify-end ml-auto",
+};
+
+/* Static class/query maps for the collapse breakpoint — full literals so the
+ * Tailwind scanner sees them (no string interpolation). */
+const MENU_HIDDEN_CLASS: Record<AppNavbarCollapseBreakpoint, string> = {
+  sm: "sm:hidden",
+  md: "md:hidden",
+  lg: "lg:hidden",
+};
+
+const COLLAPSE_MEDIA_QUERY: Record<AppNavbarCollapseBreakpoint, string> = {
+  sm: "(max-width: 639px)",
+  md: "(max-width: 767px)",
+  lg: "(max-width: 1023px)",
 };
 
 /** Tiny className joiner (avoids an extra dependency import in this file). */
@@ -304,17 +333,19 @@ export function AppNavbarMenuToggle({
 }
 
 export function AppNavbarMenu({ children, className }: AppNavbarMenuProps) {
-  const { isMenuOpen, menuId } = useNavbarContext();
+  const { isMenuOpen, menuId, collapseBreakpoint } = useNavbarContext();
   if (!isMenuOpen) return null;
   // Absolutely positioned below the bar (the root <nav> is `relative`) so the
   // open menu drops full-width UNDER the fixed-height header row instead of
   // becoming a squeezed flex item inside it. `top-16` matches the h-16 header;
-  // `z-50` keeps it above page content even when the nav is not sticky.
+  // `z-50` keeps it above page content even when the nav is not sticky. The
+  // `*:hidden` class follows the root's collapseBreakpoint.
   return (
     <div
       id={menuId || undefined}
       className={cx(
-        "absolute left-0 right-0 top-16 z-50 sm:hidden border-t border-border bg-background",
+        "absolute left-0 right-0 top-16 z-50 border-t border-border bg-background",
+        MENU_HIDDEN_CLASS[collapseBreakpoint],
         className,
       )}
     >
@@ -338,6 +369,7 @@ function AppNavbarRoot({
   children,
   isMenuOpen,
   onMenuOpenChange,
+  collapseBreakpoint = "sm",
   maxWidth = "lg",
   position = "static",
   isBordered,
@@ -374,13 +406,14 @@ function AppNavbarRoot({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, setOpen]);
 
-  // Lock body scroll while the mobile menu is open — but ONLY below the `sm`
-  // breakpoint where the menu (and toggle) are actually visible, so a controlled
-  // consumer holding `isMenuOpen` on desktop never traps scroll behind a hidden
-  // menu. Re-syncs on breakpoint change; restores the prior value on cleanup.
+  // Lock body scroll while the mobile menu is open — but ONLY below the
+  // collapse breakpoint where the menu (and toggle) are actually visible, so a
+  // controlled consumer holding `isMenuOpen` on desktop never traps scroll
+  // behind a hidden menu. Re-syncs on breakpoint change; restores the prior
+  // value on cleanup.
   useEffect(() => {
     if (!open) return;
-    const mq = window.matchMedia("(max-width: 639px)");
+    const mq = window.matchMedia(COLLAPSE_MEDIA_QUERY[collapseBreakpoint]);
     const previous = document.body.style.overflow;
     const sync = () => {
       document.body.style.overflow = mq.matches ? "hidden" : previous;
@@ -391,7 +424,7 @@ function AppNavbarRoot({
       mq.removeEventListener("change", sync);
       document.body.style.overflow = previous;
     };
-  }, [open]);
+  }, [open, collapseBreakpoint]);
 
   const navClassName = cx(
     // `relative` makes the nav the positioning context for the absolute mobile
@@ -410,7 +443,9 @@ function AppNavbarRoot({
   );
 
   return (
-    <NavbarContext.Provider value={{ isMenuOpen: open, setOpen, menuId }}>
+    <NavbarContext.Provider
+      value={{ isMenuOpen: open, setOpen, menuId, collapseBreakpoint }}
+    >
       <nav aria-label={ariaLabel} className={navClassName}>
         <header className={headerClassName}>{children}</header>
       </nav>

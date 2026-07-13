@@ -7,6 +7,8 @@ import { AppButton } from "@laboratoire/ui";
 import { FaArrowRight } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import MagneticWrap from "../ui/MagneticWrap";
+import StatValue from "../ui/StatValue";
 import type { Locale } from "../../i18n/locale";
 import { localePath } from "../../i18n/routing";
 import { getHeroContent } from "../../data/heroContent";
@@ -37,8 +39,14 @@ export default function HeroSection({ locale }: HeroSectionProps) {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  // Subtle parallax: the portrait trails the scroll slightly (transform-only).
-  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 36]);
+  // Scroll-linked depth: three layers leave the viewport at different speeds
+  // (all transform/opacity-only, all neutral at progress 0 so the prerendered
+  // HTML is untouched). The text column drifts up and dims, the portrait
+  // trails behind the scroll, and the halo trails even further for depth.
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -44]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0.35]);
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 48]);
+  const haloY = useTransform(scrollYProgress, [0, 1], [0, 56]);
 
   return (
     <Section id="hero" className="relative">
@@ -47,7 +55,13 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           ref={sectionRef}
           className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center"
         >
-          <div>
+          <motion.div
+            style={
+              reduceMotion
+                ? undefined
+                : { y: contentY, opacity: contentOpacity }
+            }
+          >
             <p
               className="hero-enter mb-4 inline-block rounded-full border border-(--app-border) bg-(--app-card) px-3 py-1 text-xs uppercase tracking-[0.18em] text-(--app-muted)"
               style={{ "--enter-delay": "0ms" } as React.CSSProperties}
@@ -73,16 +87,18 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               className="hero-enter mt-8 grid grid-cols-1 gap-3 sm:max-w-lg sm:grid-cols-2"
               style={{ "--enter-delay": "270ms" } as React.CSSProperties}
             >
-              <AppButton
-                as="a"
-                href={localePath(locale, content.primaryCtaHref)}
-                size="lg"
-                fullWidth
-                className="cta-primary"
-                endContent={<FaArrowRight aria-hidden="true" />}
-              >
-                {content.primaryCtaLabel}
-              </AppButton>
+              <MagneticWrap>
+                <AppButton
+                  as="a"
+                  href={localePath(locale, content.primaryCtaHref)}
+                  size="lg"
+                  fullWidth
+                  className="cta-primary"
+                  endContent={<FaArrowRight aria-hidden="true" />}
+                >
+                  {content.primaryCtaLabel}
+                </AppButton>
+              </MagneticWrap>
               <AppButton
                 as="a"
                 href={content.secondaryCtaHref}
@@ -103,17 +119,21 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 <li key={bullet}>{bullet}</li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           <div className="relative mx-auto flex w-full max-w-sm flex-col gap-6 md:max-w-none">
             <motion.div
               className="hero-enter-portrait relative"
               style={reduceMotion ? undefined : { y: portraitY }}
             >
-              <div
+              <motion.div
                 aria-hidden="true"
                 className="hero-halo pointer-events-none absolute inset-0 z-0"
-                style={{ background: "var(--portrait-halo)" }}
+                style={
+                  reduceMotion
+                    ? { background: "var(--portrait-halo)" }
+                    : { background: "var(--portrait-halo)", y: haloY }
+                }
               />
               <img
                 src={PORTRAIT_SRC}
@@ -141,7 +161,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                   <div key={stat.id}>
                     <dt className="sr-only">{stat.label}</dt>
                     <dd className="text-2xl font-semibold text-(--app-fg) md:text-3xl">
-                      {stat.value}
+                      <StatValue value={stat.value} />
                     </dd>
                     <p
                       aria-hidden="true"

@@ -4,7 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
-import { AppButton, ThemeToggle } from "@laboratoire/ui";
+import {
+  AppButton,
+  AppNavbar,
+  AppNavbarBrand,
+  AppNavbarContent,
+  AppNavbarItem,
+  ThemeToggle,
+} from "@laboratoire/ui";
 import {
   FaWhatsapp,
   FaRegEnvelope,
@@ -46,37 +53,36 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
 
   return (
     <main id="audit-page">
-      <div id="header">
-        <Container>
-          <motion.nav
-            variants={fadeUpVariants}
-            {...getMountReveal(reduceMotion)}
-          >
-            <Link href={localePath(locale)} aria-label="Home">
-              <img
-                className="logo"
-                src="/favicon.png"
-                alt="Laboratoire logo"
-                width={42}
-                height={38}
-              />
+      {/* Same AppNavbar shell as the home SiteHeader (`.site-nav` styling),
+          minus the burger: /audit only needs brand + back-link + toggles. The
+          locale switcher stays visible at every width here. */}
+      <AppNavbar
+        position="sticky"
+        maxWidth="full"
+        aria-label={content.backToHome}
+        className="site-nav hero-enter"
+      >
+        <AppNavbarContent justify="start">
+          <AppNavbarBrand>
+            <Link href={localePath(locale)} className="site-nav__brand">
+              itshassan<span className="site-nav__brand-tld">.it</span>
             </Link>
-            <ul id="sidemenu">
-              <li>
-                <Link href={localePath(locale)}>{content.backToHome}</Link>
-              </li>
-            </ul>
-            <div className="nav-actions">
-              <ThemeToggle />
-              <LocaleSwitcher
-                locale={locale}
-                labels={labels.locale}
-                className="nav-locale-switcher"
-              />
-            </div>
-          </motion.nav>
-        </Container>
-      </div>
+          </AppNavbarBrand>
+        </AppNavbarContent>
+        <AppNavbarContent justify="end" className="site-nav__actions">
+          <AppNavbarItem className="site-nav__back">
+            <Link href={localePath(locale)} className="site-nav__link">
+              {content.backToHome}
+            </Link>
+          </AppNavbarItem>
+          <AppNavbarItem>
+            <ThemeToggle />
+          </AppNavbarItem>
+          <AppNavbarItem>
+            <LocaleSwitcher locale={locale} labels={labels.locale} />
+          </AppNavbarItem>
+        </AppNavbarContent>
+      </AppNavbar>
 
       <Section id="audit-hero" className="relative">
         <Container>

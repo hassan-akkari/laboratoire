@@ -5,6 +5,7 @@ import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import { FaWhatsapp, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import CalBookButton from "../ui/CalBookButton";
+import MagneticWrap from "../ui/MagneticWrap";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import type { Locale } from "../../i18n/locale";
@@ -64,15 +65,17 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
             variants={fadeUpVariants}
             className="mt-8 flex flex-wrap gap-3"
           >
-            <AppButton
-              as="a"
-              href={localePath(locale, content.auditHref)}
-              size="lg"
-              className="cta-primary"
-              endContent={<FaArrowRight aria-hidden="true" />}
-            >
-              {content.auditLabel}
-            </AppButton>
+            <MagneticWrap>
+              <AppButton
+                as="a"
+                href={localePath(locale, content.auditHref)}
+                size="lg"
+                className="cta-primary"
+                endContent={<FaArrowRight aria-hidden="true" />}
+              >
+                {content.auditLabel}
+              </AppButton>
+            </MagneticWrap>
             <CalBookButton label={content.calLabel} />
             <AppButton
               as="a"

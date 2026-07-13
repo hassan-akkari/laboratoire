@@ -34,13 +34,6 @@ section {
   padding: clamp(64px, 9vw, 112px) 0;
 }
 
-#header {
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  padding-top: 18px;
-}
-
 #hero {
   padding-top: clamp(0px, 1vw, 12px);
 }
@@ -49,52 +42,6 @@ section {
   width: min(1240px, 100%);
   margin: 0 auto;
   padding: 16px clamp(20px, 6vw, 92px);
-}
-
-nav {
-  position: sticky;
-  top: 14px;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: clamp(8px, 1.5vw, 18px);
-  padding: 12px 16px;
-  border: 1px solid color-mix(in srgb, var(--app-border) 68%, transparent);
-  border-radius: 20px;
-  background: color-mix(in srgb, var(--app-bg) 82%, transparent);
-  backdrop-filter: blur(12px);
-}
-
-nav ul {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-nav ul li {
-  display: inline-flex;
-  list-style: none;
-}
-
-nav ul li a {
-  color: var(--app-fg);
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 12px;
-  padding: 8px 12px;
-  transition: background-color 220ms ease, color 220ms ease;
-}
-
-nav ul li a:hover,
-nav ul li a:focus-visible {
-  background: color-mix(in srgb, var(--app-accent-soft) 62%, transparent);
-  color: var(--app-fg);
 }
 
 .nav-link {
@@ -115,28 +62,6 @@ nav ul li a:focus-visible {
   visibility: hidden;
   pointer-events: none;
   user-select: none;
-}
-
-nav a:has(> .logo) {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  border-radius: 12px;
-}
-
-.logo {
-  display: block;
-  height: 35px;
-  width: auto;
-  object-fit: cover;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .locale-switcher {
@@ -169,33 +94,6 @@ nav a:has(> .logo) {
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, #ffffff 24%, transparent),
     0 8px 14px -10px color-mix(in srgb, var(--app-accent) 72%, transparent);
-}
-
-.nav-locale-switcher {
-  margin-inline: 2px;
-}
-
-.nav-icon-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--app-fg);
-  cursor: pointer;
-}
-
-.nav-icon-button:hover {
-  background: color-mix(in srgb, var(--app-accent-soft) 55%, transparent);
-}
-
-.nav-icon-button:focus-visible {
-  outline: 2px solid var(--app-accent);
-  outline-offset: 2px;
 }
 
 .nav-theme-toggle {
@@ -1107,10 +1005,6 @@ nav a:has(> .logo) {
   font-size: 14px;
 }
 
-nav .fa-solid {
-  display: none;
-}
-
 @media (max-width: 1180px) {
   .header-content {
     grid-template-columns: 1fr;
@@ -1141,52 +1035,6 @@ nav .fa-solid {
 }
 
 @media (max-width: 780px) {
-  nav .fa-solid {
-    display: inline-flex;
-  }
-
-  .nav-locale-switcher {
-    display: none;
-  }
-
-  nav ul {
-    background: color-mix(in srgb, var(--app-card) 96%, transparent);
-    position: fixed;
-    top: 12px;
-    right: -260px;
-    width: 236px;
-    height: calc(100dvh - 24px);
-    padding-top: 52px;
-    padding-inline: 14px;
-    z-index: 40;
-    border-radius: 16px;
-    border: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
-    display: grid;
-    align-content: start;
-    gap: 4px;
-    transition: right 260ms ease;
-  }
-
-  nav ul.open {
-    right: 12px;
-  }
-
-  nav ul li {
-    width: 100%;
-  }
-
-  nav ul li a {
-    width: 100%;
-    display: inline-flex;
-  }
-
-  nav ul .fa-solid {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    cursor: pointer;
-  }
-
   .sub-title {
     font-size: clamp(30px, 10vw, 48px);
   }
@@ -1201,15 +1049,6 @@ nav .fa-solid {
 }
 
 @media (max-width: 540px) {
-  #header {
-    min-height: auto;
-  }
-
-  nav {
-    top: 8px;
-    margin-bottom: 34px;
-  }
-
   .header-text {
     font-size: 18px;
   }
@@ -1341,14 +1180,18 @@ button:not(:disabled) {
  * box-shadow only (no layout shift); the global reduced-motion kill switch
  * zeroes the transition durations. */
 .card-hover {
+  /* `translate`, NOT `transform`: framer-motion leaves an inline
+   * `transform: none` on motion cards after their reveal, which silently
+   * overrode a transform-based hover lift. The standalone translate property
+   * composes with any inline transform, so the lift works on every card. */
   transition:
-    transform 0.35s var(--ease-fluid),
+    translate 0.35s var(--ease-fluid),
     border-color 0.25s ease,
     box-shadow 0.35s var(--ease-fluid);
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
+  translate: 0 -4px;
   border-color: color-mix(in srgb, var(--app-accent) 55%, var(--app-border));
   box-shadow: 0 18px 40px -22px var(--accent-glow);
 }
@@ -1474,4 +1317,284 @@ button:not(:disabled) {
 
 .hero-enter-portrait {
   animation: hero-settle 0.8s var(--ease-fluid) both;
+}
+
+/* =============================================================================
+ * Site navigation (motion-v2) — visual layer for the @laboratoire/ui AppNavbar
+ * shell. Replaces the SPA-era hand-rolled pill + off-canvas #sidemenu (which
+ * was position:fixed inside an animation-filled ancestor — the residual
+ * transform made the nav its containing block, leaking the panel into the
+ * viewport edge and creating horizontal overflow).
+ * ========================================================================== */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: transparent;
+  /* Horizontal padding mirrors .container so the pill aligns with content. */
+  padding: 14px clamp(20px, 6vw, 92px) 8px;
+  transition: transform 340ms var(--ease-fluid);
+  /* CRITICAL: the .hero-enter entrance must NOT keep its final transform
+   * applied (fill:both would make this sticky nav the containing block of the
+   * fixed menu backdrop — the exact bug the old off-canvas menu had). */
+  animation-fill-mode: backwards;
+}
+
+/* Hide-on-scroll: slides away scrolling down, returns on the first up-flick.
+ * Transition-driven, so the global reduced-motion switch makes it instant. */
+.site-nav--hidden {
+  transform: translateY(-110%);
+}
+
+/* The wrapper's inner row becomes the floating pill. */
+.site-nav > header {
+  width: min(1240px, 100%);
+  height: auto;
+  margin-inline: auto;
+  padding: 10px 14px;
+  gap: 14px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 68%, transparent);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--app-bg) 82%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.site-nav__brand {
+  display: inline-flex;
+  align-items: baseline;
+  padding: 6px 4px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--app-fg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav__brand-tld {
+  color: var(--accent-ink);
+}
+
+/* Desktop link rail — collapses into the burger menu below lg. */
+.site-nav__links {
+  display: none;
+}
+
+.site-nav__link {
+  color: var(--app-fg);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 8px 12px;
+  white-space: nowrap;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+  background: color-mix(in srgb, var(--app-accent-soft) 62%, transparent);
+  color: var(--app-fg);
+}
+
+.site-nav__actions {
+  gap: 10px;
+}
+
+/* Progressive disclosure of the action cluster. */
+.site-nav__locale,
+.site-nav__cta {
+  display: none;
+}
+
+.site-nav__back {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .site-nav__back {
+    display: flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .site-nav__cta {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-nav__links {
+    display: flex;
+    gap: 2px;
+  }
+
+  .site-nav__locale {
+    display: flex;
+  }
+
+  .site-nav__toggle {
+    display: none;
+  }
+}
+
+/* Mobile menu: dropdown panel aligned with the pill, page dimmed behind it.
+ * The ::before backdrop is fixed → viewport-relative, and paints BELOW the
+ * pill row (z:-1 within the nav's stacking context) so the header stays
+ * crisp while the page dims. */
+.site-nav__menu {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: clamp(20px, 6vw, 92px);
+  right: clamp(20px, 6vw, 92px);
+  max-width: 1240px;
+  margin-inline: auto;
+  max-height: calc(100dvh - 110px);
+  overflow-y: auto;
+  border: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--app-bg) 94%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 32px 64px -28px rgb(0 0 0 / 0.55);
+  animation: site-menu-in 300ms var(--ease-fluid) both;
+}
+
+.site-nav__menu::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, #000000 45%, transparent);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: site-menu-fade 300ms ease both;
+}
+
+.site-nav__menu > ul {
+  padding: 12px;
+  gap: 2px;
+}
+
+.site-nav__menu-link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 13px 14px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--app-fg);
+  text-decoration: none;
+  animation: site-menu-item-in 420ms var(--ease-fluid) both;
+  animation-delay: calc(45ms * var(--i, 0));
+  transition: background-color 200ms ease;
+}
+
+.site-nav__menu-link:hover,
+.site-nav__menu-link:focus-visible {
+  background: color-mix(in srgb, var(--app-accent-soft) 62%, transparent);
+}
+
+.site-nav__menu-footer {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 14px 4px 6px;
+  border-top: 1px solid color-mix(in srgb, var(--app-border) 70%, transparent);
+  animation: site-menu-item-in 420ms var(--ease-fluid) both;
+  animation-delay: calc(45ms * var(--i, 7));
+}
+
+.site-nav__menu-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+@keyframes site-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes site-menu-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes site-menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =============================================================================
+ * Cursor spotlight (motion-v2) — a soft accent glow that tracks the pointer
+ * across every .card-hover surface. Driven by CardSpotlight (one delegated
+ * pointermove listener writing --spot-x/--spot-y); pure decoration, so it
+ * only exists for fine pointers that can actually hover.
+ * ========================================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  .card-hover {
+    position: relative;
+  }
+
+  .card-hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 350ms ease;
+    background: radial-gradient(
+      260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      color-mix(in srgb, var(--accent-glow) 55%, transparent),
+      transparent 65%
+    );
+  }
+
+  .card-hover:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Count-up stat (StatValue): the invisible ghost reserves the final width so
+ * the rolling digits never shift the proof card's layout. */
+.stat-value {
+  display: inline-grid;
+  justify-items: center;
+}
+
+.stat-value > .stat-value__live,
+.stat-value > .stat-value__ghost {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+
+.stat-value__ghost {
+  visibility: hidden;
 }
