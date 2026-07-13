@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "../i18n/locale";
 import {
-  SEO_KEYWORDS,
   canonicalUrl,
   languageAlternates,
   ogAlternateLocales,
@@ -14,8 +13,8 @@ type PageMetadataOptions = {
   path?: string;
   title: string;
   description: string;
-  /** Home gets the keyword set; inner pages skip it. */
-  withKeywords?: boolean;
+  /** Per-locale keyword set (home passes getSeoContent(locale).keywords). */
+  keywords?: string[];
 };
 
 /**
@@ -29,14 +28,14 @@ export function buildPageMetadata({
   path = "",
   title,
   description,
-  withKeywords = false,
+  keywords,
 }: PageMetadataOptions): Metadata {
   const url = canonicalUrl(locale, path);
 
   return {
     title,
     description,
-    ...(withKeywords ? { keywords: SEO_KEYWORDS[locale] } : {}),
+    ...(keywords ? { keywords } : {}),
     alternates: {
       canonical: url,
       languages: languageAlternates(path),

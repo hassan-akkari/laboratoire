@@ -1,7 +1,8 @@
 "use client";
 
 import { AppButton } from "@laboratoire/ui";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import Container from "../layout/Container";
 import type { PortfolioContent } from "../../content/portfolioContent";
 import type { Locale } from "../../i18n/locale";
@@ -21,7 +22,7 @@ type CvPageProps = {
 };
 
 export default function CvPage({ content, locale, labels }: CvPageProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const handlePrint = () => window.print();
   const resumeHref = content.contact.resumePath;
 

@@ -1,4 +1,4 @@
-import { LOCALES, type Locale } from "./locale";
+import { LOCALE_STORAGE_KEY, isLocale, type Locale } from "./locale";
 
 /**
  * Locale-prefixed routing helpers. Every page lives under /{locale}/... —
@@ -6,8 +6,13 @@ import { LOCALES, type Locale } from "./locale";
  * redirected to the visitor's preferred locale by src/proxy.ts.
  */
 
-/** Cookie the proxy reads to remember an explicit locale choice. */
-export const LOCALE_COOKIE = "laboratoire-locale";
+/**
+ * Cookie the proxy reads to remember an explicit locale choice. Deliberately
+ * the SAME key the old SPA used in localStorage — LocaleCookieSync migrates
+ * returning visitors' stored preference into the cookie, so the two names
+ * must never drift apart.
+ */
+export const LOCALE_COOKIE = LOCALE_STORAGE_KEY;
 
 /** One year, in seconds — locale choice is a long-lived preference. */
 export const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -22,15 +27,9 @@ export function localePath(locale: Locale, path = "/"): string {
 export function switchLocalePath(pathname: string, next: Locale): string {
   const segments = pathname.split("/");
   const current = segments[1] ?? "";
-  if ((LOCALES as readonly string[]).includes(current)) {
+  if (isLocale(current)) {
     segments[1] = next;
     return segments.join("/") || `/${next}`;
   }
   return localePath(next, pathname);
 }
-
-export const OG_LOCALE_BY_LOCALE: Record<Locale, string> = {
-  it: "it_IT",
-  en: "en_US",
-  fr: "fr_FR",
-};

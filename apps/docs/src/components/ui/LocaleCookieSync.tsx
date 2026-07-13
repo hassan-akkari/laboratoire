@@ -31,7 +31,11 @@ export default function LocaleCookieSync({ locale }: { locale: Locale }) {
 
       persistLocaleCookie(stored);
       if (stored !== locale) {
-        router.replace(switchLocalePath(pathname ?? `/${locale}`, stored));
+        // Keep query + hash (usePathname strips them) so deep links survive.
+        const { search, hash } = window.location;
+        router.replace(
+          switchLocalePath(pathname ?? `/${locale}`, stored) + search + hash,
+        );
       }
     } catch {
       /* localStorage may be unavailable; nothing to sync. */

@@ -14,7 +14,6 @@ import FinalCTASection from "@/components/sections/FinalCTASection";
 import { getSeoContent } from "@/data/seoContent";
 import { messages } from "@/i18n/messages";
 import { localeFromParams } from "@/i18n/server";
-import JsonLd from "@/seo/JsonLd";
 import { buildPageMetadata } from "@/seo/pageMetadata";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -29,7 +28,7 @@ export async function generateMetadata({
     path: "",
     title: seo.title,
     description: seo.description,
-    withKeywords: true,
+    keywords: seo.keywords,
   });
 }
 
@@ -50,7 +49,6 @@ export default async function HomePage({ params }: PageProps) {
       <TechStackSection locale={locale} />
       <FAQSection locale={locale} />
       <FinalCTASection locale={locale} />
-      <JsonLd locale={locale} />
     </>
   );
 }

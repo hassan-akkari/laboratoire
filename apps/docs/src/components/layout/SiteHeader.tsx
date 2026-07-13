@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa";
-import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Container from "./Container";
 import { AppButton, ThemeToggle } from "@laboratoire/ui";
@@ -17,7 +16,6 @@ import {
   getLongestNavLabels,
   getNavContent,
 } from "../../data/nav";
-import { fadeUpVariants, getMountReveal } from "../ui/motionPresets";
 
 type SiteHeaderProps = {
   locale: Locale;
@@ -26,7 +24,6 @@ type SiteHeaderProps = {
 
 export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const reduceMotion = Boolean(useReducedMotion());
   const nav = getNavContent(locale);
   const { phoneDigits } = useSiteContactOverrides();
   const longestNavLabels = useMemo(() => getLongestNavLabels(), []);
@@ -36,7 +33,7 @@ export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
   return (
     <div id="header">
       <Container>
-        <motion.nav variants={fadeUpVariants} {...getMountReveal(reduceMotion)}>
+        <nav className="hero-enter">
           <ul
             id="sidemenu"
             className={menuOpen ? "open" : ""}
@@ -105,7 +102,7 @@ export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
               className="nav-locale-switcher"
             />
           </div>
-        </motion.nav>
+        </nav>
       </Container>
     </div>
   );

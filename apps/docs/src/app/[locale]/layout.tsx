@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Outfit, Space_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/next";
-import type { ReactNode } from "react";
 
 import "@/index.css";
 import "@/styles/portfolio.css";
 
+import { THEME_KEY } from "@laboratoire/ui";
 import { LOCALES, isLocale, type Locale } from "@/i18n/locale";
 import { SITE_URL } from "@/seo/site";
+import JsonLd from "@/seo/JsonLd";
 import LocaleCookieSync from "@/components/ui/LocaleCookieSync";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { Providers } from "../providers";
@@ -32,7 +34,7 @@ const spaceGrotesk = Space_Grotesk({
  * with no flash — the Next.js equivalent of the old synchronous initTheme()
  * in main.tsx. Same storage key the @laboratoire/ui useTheme hook writes.
  */
-const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("laboratoire-theme");t=t==="light"||t==="dark"?t:"dark";var r=document.documentElement;r.classList.toggle("dark",t==="dark");r.classList.toggle("light",t==="light");r.setAttribute("data-theme",t);}catch(e){}})();`;
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem(${JSON.stringify(THEME_KEY)});t=t==="light"||t==="dark"?t:"dark";var r=document.documentElement;r.classList.toggle("dark",t==="dark");r.classList.toggle("light",t==="light");r.setAttribute("data-theme",t);}catch(e){}})();`;
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -85,10 +87,21 @@ export default async function LocaleLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Below-the-fold sections reveal on scroll via framer-motion, which
+            serializes their pre-reveal opacity:0 into the static HTML. With
+            JS disabled nothing would ever reveal them — force everything
+            visible for no-JS clients (crawlers, brittle connections). */}
+        <noscript>
+          <style>{`[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important;filter:none!important}`}</style>
+        </noscript>
       </head>
       <body>
         <ScrollProgress />
         <Providers>{children}</Providers>
+        {/* Site-level structured data (Person + ProfessionalService) on every
+            page — the old index.html served it on all SPA routes, and the
+            audit landing page needs it as much as the home. */}
+        <JsonLd locale={lang} />
         <LocaleCookieSync locale={lang} />
         <Analytics />
       </body>
