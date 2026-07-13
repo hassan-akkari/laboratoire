@@ -1,7 +1,8 @@
 "use client";
 
 import { FaBolt, FaCheckCircle } from "react-icons/fa";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import type { Messages } from "../../i18n/messages";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
@@ -16,7 +17,7 @@ export default function HighlightsSection({
   highlights,
   labels,
 }: HighlightsSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const revealTransition = reduceMotion
     ? { duration: 0 }
     : { duration: 0.42, ease: easeOutQuart };

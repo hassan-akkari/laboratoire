@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import {
   type GithubProfile,
@@ -38,7 +39,7 @@ export default function AboutSection({
   labels,
 }: AboutSectionProps) {
   const [activeTab, setActiveTab] = useState<AboutTab>("stack");
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const pillTransition = reduceMotion
     ? { duration: 0 }
     : { type: "spring" as const, stiffness: 520, damping: 40, mass: 0.68 };

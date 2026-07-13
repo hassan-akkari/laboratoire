@@ -91,10 +91,10 @@ pnpm start:next        # next start (port 3001)
 ## Conventions
 
 - **TypeScript**: `strict: true` everywhere; also `noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`, `noUncheckedSideEffectImports`, `erasableSyntaxOnly`. `verbatimModuleSyntax: true` for web-react/ui; **off** in the Next.js apps (docs, web-next).
-- **ESLint**: flat config at `eslint.config.mjs`. Stack = `@eslint/js` + `typescript-eslint` + `eslint-plugin-react` + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh` (Vite preset). `react-refresh/only-export-components` is **disabled for `apps/web-next`** (eslint.config.mjs:51-55).
+- **ESLint**: flat config at `eslint.config.mjs`. Stack = `@eslint/js` + `typescript-eslint` + `eslint-plugin-react` + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh` (Vite preset). `react-refresh/only-export-components` is **disabled for the Next.js apps** (`apps/docs`, `apps/web-next`, `apps/booking-service`) — App Router files legitimately co-export metadata/params (see eslint.config.mjs).
 - **No Prettier, no commitlint, no pre-commit hooks.** Formatting is informal.
 - **Naming**: React components in `apps/*` use `PascalCase.tsx`. `packages/ui/src/components/heroui` uses `App<Name>.tsx` (PascalCase wrappers); `packages/ui/src/components/tw-ui` uses `lowercase.tsx` (utility primitives) — keep the convention if you add files there.
-- **Folder layout**: type-based per app (`components/sections`, `components/layout`, `components/forms`, `pages`).
+- **Folder layout**: type-based per app (`components/sections`, `components/layout`, `components/forms`, `components/ui`). Route files live in `src/app` (Next.js apps) or `src/pages` (Vite SPAs); in `apps/docs` the client page bodies live in `components/pages` (a top-level `src/pages` would be picked up as the Next.js Pages Router).
 - **Schema files**: `<feature>.schema.ts` co-located with their consumer; tests are `<feature>.schema.test.ts`.
 - **Imports**: no enforced order. Convention is `react` → third-party → `@laboratoire/ui` → relative.
 - **Commits**: free-form mixed with conventional prefixes (`feat:`, `fix:`, `chore:`, `ci:`, `build:`, `deploy:`). No enforcement — match the recent style.

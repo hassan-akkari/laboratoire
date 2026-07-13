@@ -10,7 +10,8 @@ import {
   FaLinkedin,
   FaWhatsapp,
 } from "react-icons/fa";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton } from "@laboratoire/ui";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
@@ -38,7 +39,7 @@ export default function ContactSection({
   contact,
   labels,
 }: ContactSectionProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const siteConfig = useSiteConfig();
 
   const displayEmail = siteConfig.contactEmail || contact.email;

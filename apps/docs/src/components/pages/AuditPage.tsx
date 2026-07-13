@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { AppButton, ThemeToggle } from "@laboratoire/ui";
 import {
   FaWhatsapp,
@@ -32,7 +33,7 @@ type AuditPageProps = {
 };
 
 export default function AuditPage({ locale, labels }: AuditPageProps) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = useReducedMotionSafe();
   const { phoneDigits, email } = useSiteContactOverrides();
   const content = getAuditContent(locale, phoneDigits, email);
   const [openFaqId, setOpenFaqId] = useState<string | null>(

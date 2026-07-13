@@ -30,7 +30,12 @@ export default function LocaleSwitcher({
   const switchTo = (next: Locale) => {
     if (next === locale) return;
     persistLocaleCookie(next);
-    router.push(switchLocalePath(pathname ?? `/${locale}`, next));
+    // usePathname() strips query and hash — re-attach them so UTM params and
+    // anchor positions survive a language switch.
+    const { search, hash } = window.location;
+    router.push(
+      switchLocalePath(pathname ?? `/${locale}`, next) + search + hash,
+    );
   };
 
   const classes = className
