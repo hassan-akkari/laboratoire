@@ -140,6 +140,7 @@ export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
             <a
               href={item.href}
               className="site-nav__menu-link"
+              data-index={String(index + 1).padStart(2, "0")}
               style={{ "--i": index } as React.CSSProperties}
               onClick={closeMenu}
             >
@@ -151,6 +152,7 @@ export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
           <Link
             href={localePath(locale, "/cv")}
             className="site-nav__menu-link"
+            data-index={String(nav.items.length + 1).padStart(2, "0")}
             style={{ "--i": nav.items.length } as React.CSSProperties}
             onClick={closeMenu}
           >

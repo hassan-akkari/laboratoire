@@ -74,6 +74,7 @@ import {
   useCallback,
   useId,
   createContext,
+  type CSSProperties,
   type ReactNode,
 } from "react";
 import { withV3Theme } from "../../theme/v3/warmThemeV3";
@@ -280,6 +281,47 @@ export function AppNavbarItem({
   );
 }
 
+/**
+ * Burger bars that MORPH into an X (top/bottom rotate onto the diagonals,
+ * middle fades and shrinks) via inline transforms keyed on the open state.
+ * Inline styles keep the wrapper self-contained — no Tailwind
+ * content-scanning dependency on the consumer — while a consumer's global
+ * `transition-duration: 0ms !important` reduced-motion kill switch still
+ * wins over them (important beats inline), collapsing the morph to a swap.
+ */
+const TOGGLE_BAR_TRANSITION =
+  "transform 280ms cubic-bezier(0.25, 1, 0.5, 1), opacity 180ms ease";
+
+function toggleBarStyle(index: 0 | 1 | 2, open: boolean): CSSProperties {
+  const base: CSSProperties = {
+    display: "block",
+    width: 18,
+    height: 2,
+    borderRadius: 1,
+    background: "currentColor",
+    transition: TOGGLE_BAR_TRANSITION,
+  };
+  if (index === 0) {
+    // Bars sit 7px apart center-to-center (2px bar + 5px gap), so ±7px
+    // translations land the outer bars on the middle row before rotating.
+    return {
+      ...base,
+      transform: open ? "translateY(7px) rotate(45deg)" : "none",
+    };
+  }
+  if (index === 1) {
+    return {
+      ...base,
+      opacity: open ? 0 : 1,
+      transform: open ? "scaleX(0.3)" : "none",
+    };
+  }
+  return {
+    ...base,
+    transform: open ? "translateY(-7px) rotate(-45deg)" : "none",
+  };
+}
+
 export function AppNavbarMenuToggle({
   "aria-label": ariaLabel,
   className,
@@ -303,31 +345,14 @@ export function AppNavbarMenuToggle({
         onClick?.();
       }}
     >
-      <svg
+      <span
         aria-hidden="true"
-        focusable="false"
-        viewBox="0 0 24 24"
-        width="22"
-        height="22"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        style={{ display: "inline-flex", flexDirection: "column", gap: 5 }}
       >
-        {isMenuOpen ? (
-          <>
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </>
-        ) : (
-          <>
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </>
-        )}
-      </svg>
+        <span style={toggleBarStyle(0, isMenuOpen)} />
+        <span style={toggleBarStyle(1, isMenuOpen)} />
+        <span style={toggleBarStyle(2, isMenuOpen)} />
+      </span>
     </button>
   );
 }

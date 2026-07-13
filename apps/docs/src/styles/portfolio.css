@@ -1467,30 +1467,49 @@ button:not(:disabled) {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: color-mix(in srgb, #000000 45%, transparent);
-  backdrop-filter: blur(3px);
+  background: color-mix(in srgb, #000000 52%, transparent);
+  backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(3px);
   animation: site-menu-fade 300ms ease both;
 }
 
 .site-nav__menu > ul {
-  padding: 12px;
-  gap: 2px;
+  padding: 14px;
+  gap: 0;
+}
+
+/* Editorial menu rows: display-size label, muted counter on the right,
+ * hairline separators. The counter comes from the link's data-index. */
+.site-nav__menu > ul > li + li:not(.site-nav__menu-footer) {
+  border-top: 1px solid color-mix(in srgb, var(--app-border) 45%, transparent);
 }
 
 .site-nav__menu-link {
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 13px 14px;
-  border-radius: 14px;
-  font-size: 17px;
-  font-weight: 600;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 17px 12px;
+  border-radius: 12px;
+  font-size: clamp(20px, 5.6vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
   color: var(--app-fg);
   text-decoration: none;
-  animation: site-menu-item-in 420ms var(--ease-fluid) both;
-  animation-delay: calc(45ms * var(--i, 0));
-  transition: background-color 200ms ease;
+  animation: site-menu-item-in 460ms var(--ease-fluid) both;
+  animation-delay: calc(55ms * var(--i, 0));
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.site-nav__menu-link::after {
+  content: attr(data-index);
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent-ink);
+  opacity: 0.75;
 }
 
 .site-nav__menu-link:hover,
@@ -1540,7 +1559,7 @@ button:not(:disabled) {
 @keyframes site-menu-item-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(14px);
   }
 
   to {
