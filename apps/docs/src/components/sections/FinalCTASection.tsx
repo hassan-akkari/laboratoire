@@ -67,6 +67,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
               as="a"
               href={localePath(locale, content.auditHref)}
               size="lg"
+              className="cta-primary"
               endContent={<FaArrowRight aria-hidden="true" />}
             >
               {content.auditLabel}
@@ -79,6 +80,7 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
               rel="noreferrer"
               size="lg"
               variant="bordered"
+              className="cta-secondary"
               startContent={<FaWhatsapp aria-hidden="true" />}
             >
               {content.whatsappLabel}

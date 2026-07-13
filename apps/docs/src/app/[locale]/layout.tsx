@@ -10,6 +10,7 @@ import "@/styles/portfolio.css";
 import { LOCALES, isLocale, type Locale } from "@/i18n/locale";
 import { SITE_URL } from "@/seo/site";
 import LocaleCookieSync from "@/components/ui/LocaleCookieSync";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 import { Providers } from "../providers";
 
 const outfit = Outfit({
@@ -86,6 +87,7 @@ export default async function LocaleLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body>
+        <ScrollProgress />
         <Providers>{children}</Providers>
         <LocaleCookieSync locale={lang} />
         <Analytics />

@@ -113,6 +113,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                 target="_blank"
                 rel="noreferrer"
                 size="lg"
+                className="cta-primary"
                 startContent={<FaWhatsapp aria-hidden="true" />}
               >
                 {content.hero.primaryCtaLabel}
@@ -122,6 +123,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                 href={content.hero.secondaryCtaHref}
                 size="lg"
                 variant="bordered"
+                className="cta-secondary"
                 startContent={<FaRegEnvelope aria-hidden="true" />}
               >
                 {content.hero.secondaryCtaLabel}
@@ -147,7 +149,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
             {...getInViewReveal(reduceMotion, 0.22)}
             className="max-w-2xl"
           >
-            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+            <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
               {content.checkpoints.label}
             </p>
             <h2 className="text-3xl md:text-4xl">
@@ -164,11 +166,11 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
               <motion.li
                 key={item.id}
                 variants={fadeUpVariants}
-                className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
+                className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
               >
                 <span
                   aria-hidden="true"
-                  className="text-sm font-semibold tracking-[0.2em] text-(--app-accent)"
+                  className="text-sm font-semibold tracking-[0.2em] text-(--accent-ink)"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -191,7 +193,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
           >
             <motion.p
               variants={fadeUpVariants}
-              className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)"
+              className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]"
             >
               {content.deliverable.label}
             </motion.p>
@@ -209,7 +211,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                 <li key={item} className="flex gap-3">
                   <FaCheck
                     aria-hidden="true"
-                    className="mt-1 shrink-0 text-(--app-accent)"
+                    className="mt-1 shrink-0 text-(--accent-ink)"
                   />
                   <span className="text-base">{item}</span>
                 </li>
@@ -226,7 +228,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
             {...getInViewReveal(reduceMotion, 0.22)}
             className="max-w-2xl"
           >
-            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+            <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
               {content.process.label}
             </p>
             <h2 className="text-3xl md:text-4xl">{content.process.title}</h2>
@@ -241,11 +243,11 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
               <motion.li
                 key={step.id}
                 variants={fadeUpVariants}
-                className="rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
+                className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
               >
                 <span
                   aria-hidden="true"
-                  className="text-sm font-semibold tracking-[0.2em] text-(--app-accent)"
+                  className="text-sm font-semibold tracking-[0.2em] text-(--accent-ink)"
                 >
                   {step.number}
                 </span>
@@ -266,7 +268,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
             {...getInViewReveal(reduceMotion, 0.22)}
             className="max-w-2xl"
           >
-            <p className="mb-3 text-sm uppercase tracking-[0.18em] text-(--app-muted)">
+            <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
               {content.faq.label}
             </p>
             <h2 className="text-3xl md:text-4xl">{content.faq.title}</h2>
@@ -283,7 +285,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                 <motion.li
                   key={faq.id}
                   variants={fadeUpVariants}
-                  className="rounded-2xl border border-(--app-border) bg-(--app-card)"
+                  className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card)"
                 >
                   <button
                     type="button"
@@ -358,6 +360,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                 target="_blank"
                 rel="noreferrer"
                 size="lg"
+                className="cta-primary"
                 startContent={<FaWhatsapp aria-hidden="true" />}
               >
                 {content.finalCta.primaryLabel}
@@ -367,6 +370,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                 href={content.finalCta.secondaryHref}
                 size="lg"
                 variant="bordered"
+                className="cta-secondary"
                 startContent={<FaRegEnvelope aria-hidden="true" />}
               >
                 {content.finalCta.secondaryLabel}
