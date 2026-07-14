@@ -126,18 +126,18 @@ export const fallbackPortfolioContent: PortfolioContent = {
     now: "At Sibylla I lead the page-by-page React 19 migration of a multi-tenant hospitality SaaS (Portal) and own the e-commerce platform's payment, kiosk and marketplace surfaces (Network) — including an exactly-once Nexi flow over a non-idempotent downstream — while running the team's AI-augmented engineering workflow on Claude Code.",
     philosophy:
       "Solve the problem, then make it hard to repeat — with standards, typed contracts, and adversarial review.",
-    githubUsername: "Dark-lIl-Demon",
+    githubUsername: "hassan-akkari",
   },
   contact: {
     email: "hassan.akkari01@gmail.com",
     resumePath: "pdf/CV-ENG-06-2026.pdf",
-    github: "https://github.com/Dark-lIl-Demon",
+    github: "https://github.com/hassan-akkari",
     linkedin: "https://www.linkedin.com/in/hassan-akkari",
     instagram: "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
     facebook: "https://www.facebook.com/hassan.akkari.714",
   },
   highlights: [
-    "Exactly-once Nexi payment flow\nBefore: a non-idempotent downstream booking system risked double bookings and lost confirmations on retransmitted gateway callbacks.\nAfter: a local payment-lock keyed by a unique transaction code and a MediatR state machine (pending → nexi_paid → confirmed | failed) that no-ops on replays, plus a guard against silent \"HTTP 200 but failed\" responses.\nResult: no payment confirmed without a real booking; double bookings and lost confirmations eliminated.",
+    'Exactly-once Nexi payment flow\nBefore: a non-idempotent downstream booking system risked double bookings and lost confirmations on retransmitted gateway callbacks.\nAfter: a local payment-lock keyed by a unique transaction code and a MediatR state machine (pending → nexi_paid → confirmed | failed) that no-ops on replays, plus a guard against silent "HTTP 200 but failed" responses.\nResult: no payment confirmed without a real booking; double bookings and lost confirmations eliminated.',
     "React 19 frontend as three independent SPAs\nBefore: the rebuilt e-commerce platform needed marketplace, kiosk and quote-landing surfaces owned end-to-end.\nAfter: three SPAs on Redux Toolkit + RTK Query with a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (Nexi / wallet / discount behind one interface), and react-hook-form + Zod over legacy payloads.\nResult: principal contributor and top author by commit volume; booking, cart, checkout, wallet and account from zero to production.",
     "Multi-tenant SaaS migration without a big-bang rewrite\nBefore: a multi-tenant hospitality-management SaaS was locked in legacy ASP.NET MVC / Razor / jQuery.\nAfter: a page-by-page React 19 migration mounted behind a backend-for-frontend, with a route manifest deciding per page whether to SPA-navigate or full-reload.\nResult: pages move incrementally with no big-bang rewrite; deploy pipeline hardened against stale frontend bundles.",
     "Security & tenancy audit (IDOR + CSRF)\nBefore: multi-tenant data isolation and CSRF handling had not been adversarially reviewed.\nAfter: led a security and tenancy audit, filtering the tenant claim on the row (not via a parent join) and reviewing the request path end-to-end.\nResult: surfaced cross-tenant access (IDOR) and an issued-but-never-validated CSRF token, among other findings.",
@@ -187,7 +187,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
       end: "Present",
       bullets: [
         "Principal contributor and top author by commit volume on the hospitality e-commerce platform, rebuilt in-house after prior external development missed requirements; sole author of the quote-payment flow, founder of the React self-service check-in kiosk, and dominant author of the marketplace SPA — booking, cart, checkout, wallet and account, from zero to production.",
-        "Made quote-payment confirmation exactly-once over a non-idempotent downstream: a payment-lock keyed by a unique transaction code and a MediatR state machine (pending → nexi_paid → confirmed | failed) that no-ops on retransmitted gateway callbacks, with a guard against silent \"HTTP 200 but failed\" responses.",
+        'Made quote-payment confirmation exactly-once over a non-idempotent downstream: a payment-lock keyed by a unique transaction code and a MediatR state machine (pending → nexi_paid → confirmed | failed) that no-ops on retransmitted gateway callbacks, with a guard against silent "HTTP 200 but failed" responses.',
         "Architected the React 19 frontend as three independent SPAs (marketplace, kiosk, quote landing) on Redux Toolkit + RTK Query: a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (Nexi / wallet / discount behind one provider interface), and react-hook-form + Zod over inconsistent legacy payloads. Tested with Vitest and Playwright (e2e + a11y) on an Azure DevOps release train.",
         "Designed the team's AI-augmented engineering framework on Claude Code (per-layer instruction files, tool-scoped specialist subagents, a plan-first orchestration skill) and built read-only review subagents over the ASP.NET Core / React codebase — surfacing three latent payment-flow bugs before release.",
       ],
@@ -231,13 +231,18 @@ export const fallbackPortfolioContent: PortfolioContent = {
       qualification: "Technical Diploma · Information Technology",
       start: "Sep 2009",
       end: "Jun 2014",
-      focus: "Italian 5-year technical secondary in IT; programming foundations, databases, networking.",
+      focus:
+        "Italian 5-year technical secondary in IT; programming foundations, databases, networking.",
     },
   ],
   general: [
     {
       title: "Languages",
-      items: ["English (C1 / fluent)", "Italian (native)", "Arabic (conversational)"],
+      items: [
+        "English (C1 / fluent)",
+        "Italian (native)",
+        "Arabic (conversational)",
+      ],
     },
     {
       title: "AI-augmented dev",
@@ -250,7 +255,16 @@ export const fallbackPortfolioContent: PortfolioContent = {
     },
     {
       title: "Testing & tooling",
-      items: ["Vitest", "Playwright (e2e + a11y)", "Storybook", "MSW", "Azure DevOps", "CI/CD (YAML)", "Figma", "Jira"],
+      items: [
+        "Vitest",
+        "Playwright (e2e + a11y)",
+        "Storybook",
+        "MSW",
+        "Azure DevOps",
+        "CI/CD (YAML)",
+        "Figma",
+        "Jira",
+      ],
     },
   ],
   projects: [
@@ -260,7 +274,13 @@ export const fallbackPortfolioContent: PortfolioContent = {
       summary:
         "I started on Platform building solid foundations and reusable standards. On Network I brought a more structural approach with React and Redux Toolkit, with focus on UI consistency and predictable delivery.",
       image: "image/enterprise-nda-placeholder.svg",
-      stack: ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
+      stack: [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "REST APIs",
+        "Tailwind CSS",
+      ],
       impact: [
         "Problem: fragmented UI and duplicated rules across modules.",
         "Intervention: standards + reusable patterns on core flows.",
@@ -285,7 +305,12 @@ export const fallbackPortfolioContent: PortfolioContent = {
       summary:
         "Migration from Bootstrap and vendor UI packages to a Tailwind workflow focused on consistency, speed, and maintainability.",
       image: "image/LaBrochure.png",
-      stack: ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
+      stack: [
+        "Tailwind CSS",
+        "Component refactor",
+        "UI standards",
+        "Frontend architecture",
+      ],
       impact: [
         "More consistent UI standards across modules and components.",
         "Reduced vendor dependency and fragmented UI behaviour.",
@@ -300,7 +325,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
         },
         {
           label: "GitHub",
-          href: "https://github.com/Dark-lIl-Demon",
+          href: "https://github.com/hassan-akkari",
           kind: "github",
         },
       ],
@@ -365,15 +390,28 @@ export const fallbackPortfolioContent: PortfolioContent = {
       name: "Bookable — Multi-Style Booking Platform",
       description:
         "Live full-stack booking platform: one content model rendered in three runtime-switchable design systems, a validated booking-request flow, and a secure admin dashboard.",
-      stack: ["Next.js 16", "React 19", "Drizzle ORM", "Neon Postgres", "iron-session", "Zod"],
+      stack: [
+        "Next.js 16",
+        "React 19",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "iron-session",
+        "Zod",
+      ],
       liveUrl: "https://bookable.itshassan.it",
     },
     {
       name: "laboratoire — React 19 / TypeScript monorepo",
       description:
         "Solo pnpm + Turbo monorepo. Built the server-side core of a Next.js App Router booking flow — idempotent orders, server-side price re-validation, and a Cal.com webhook with timing-safe HMAC verification — behind iron-session admin auth and a secretless CI gate.",
-      stack: ["Next.js", "TypeScript", "Drizzle ORM", "Neon Postgres", "Vitest"],
-      repoUrl: "https://github.com/Dark-lIl-Demon",
+      stack: [
+        "Next.js",
+        "TypeScript",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "Vitest",
+      ],
+      repoUrl: "https://github.com/hassan-akkari",
     },
   ],
 };

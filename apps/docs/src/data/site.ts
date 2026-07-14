@@ -5,7 +5,7 @@ export const SITE = {
   email: "hassan.akkari01@gmail.com",
   whatsappNumber: "393517872307",
   calendlyUrl: "",
-  github: "https://github.com/Dark-lIl-Demon",
+  github: "https://github.com/hassan-akkari",
   linkedin: "https://www.linkedin.com/in/hassan-akkari",
   location: "Roma, Italia",
 } as const;
@@ -17,14 +17,22 @@ export const whatsappPrefilledMessages: Record<Locale, string> = {
   de: "Hallo Hassan, ich würde gerne über ein Projekt sprechen. Können Sie sich bei mir melden?",
 };
 
-export function whatsappLink(locale: Locale, message?: string, phoneDigitsOverride?: string) {
+export function whatsappLink(
+  locale: Locale,
+  message?: string,
+  phoneDigitsOverride?: string,
+) {
   const phone = phoneDigitsOverride ?? SITE.whatsappNumber;
   const finalMessage = message ?? whatsappPrefilledMessages[locale];
   const text = encodeURIComponent(finalMessage);
   return `https://wa.me/${phone}?text=${text}`;
 }
 
-export function mailtoLink(subject: string, body?: string, emailOverride?: string) {
+export function mailtoLink(
+  subject: string,
+  body?: string,
+  emailOverride?: string,
+) {
   const email = emailOverride ?? SITE.email;
   const params = new URLSearchParams();
   if (subject) params.set("subject", subject);

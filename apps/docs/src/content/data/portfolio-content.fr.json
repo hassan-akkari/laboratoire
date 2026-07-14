@@ -13,12 +13,12 @@
     ],
     "now": "Je dirige la migration React 19 du Portal, je possede les surfaces paiement, kiosque et marketplace de Network — dont le flux de paiement Nexi exactly-once — et je fais tourner le workflow d'engineering AI-augmented de l'equipe sur Claude Code.",
     "philosophy": "Résous le problème, puis rends-le difficile à répéter — avec standards, contrats typés et revue adversariale.",
-    "githubUsername": "Dark-lIl-Demon"
+    "githubUsername": "hassan-akkari"
   },
   "contact": {
     "email": "hassan.akkari01@gmail.com",
     "resumePath": "pdf/CV-FRA-07-2026.pdf",
-    "github": "https://github.com/Dark-lIl-Demon",
+    "github": "https://github.com/hassan-akkari",
     "linkedin": "https://www.linkedin.com/in/hassan-akkari",
     "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
     "facebook": "https://www.facebook.com/hassan.akkari.714"
@@ -124,7 +124,12 @@
   "general": [
     {
       "title": "Langues",
-      "items": ["Anglais (C1 / courant)", "Italien (langue maternelle)", "Français (A2 / en cours d'apprentissage)", "Arabe (conversationnel)"]
+      "items": [
+        "Anglais (C1 / courant)",
+        "Italien (langue maternelle)",
+        "Français (A2 / en cours d'apprentissage)",
+        "Arabe (conversationnel)"
+      ]
     },
     {
       "title": "Dev AI-augmenté",
@@ -137,7 +142,16 @@
     },
     {
       "title": "Tests & outils",
-      "items": ["Vitest", "Playwright (e2e + a11y)", "Storybook", "MSW", "Azure DevOps", "CI/CD (YAML)", "Figma", "Jira"]
+      "items": [
+        "Vitest",
+        "Playwright (e2e + a11y)",
+        "Storybook",
+        "MSW",
+        "Azure DevOps",
+        "CI/CD (YAML)",
+        "Figma",
+        "Jira"
+      ]
     }
   ],
   "projects": [
@@ -146,7 +160,13 @@
       "title": "Sibylla Network - Mon parcours frontend",
       "summary": "J'ai commence sur Platform en creant des bases solides et des standards reutilisables. Sur Network j'ai apporte une approche plus structurelle avec React et Redux Toolkit, avec un focus sur la coherence UI et une livraison previsible.",
       "image": "image/enterprise-nda-placeholder.svg",
-      "stack": ["React", "TypeScript", "Redux Toolkit", "REST APIs", "Tailwind CSS"],
+      "stack": [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "REST APIs",
+        "Tailwind CSS"
+      ],
       "impact": [
         "Probleme: UI fragmentee et regles dupliquees entre modules.",
         "Intervention: standards + patterns reutilisables sur les flux coeur.",
@@ -170,7 +190,12 @@
       "title": "Bootstrap to Tailwind Modernization",
       "summary": "Migration de Bootstrap et packages vendor vers un workflow Tailwind axé cohérence, vitesse et maintenance.",
       "image": "image/LaBrochure.png",
-      "stack": ["Tailwind CSS", "Component refactor", "UI standards", "Frontend architecture"],
+      "stack": [
+        "Tailwind CSS",
+        "Component refactor",
+        "UI standards",
+        "Frontend architecture"
+      ],
       "impact": [
         "Standards UI plus cohérents entre modules et composants.",
         "Réduction de la dépendance vendor et des comportements UI fragmentés.",
@@ -185,7 +210,7 @@
         },
         {
           "label": "GitHub",
-          "href": "https://github.com/Dark-lIl-Demon",
+          "href": "https://github.com/hassan-akkari",
           "kind": "github"
         }
       ]
@@ -247,14 +272,27 @@
     {
       "name": "Bookable — Multi-Style Booking Platform",
       "description": "Plateforme de reservation full-stack live : un seul modele de contenu rendu dans trois design systems commutables a l'execution, un flux de demande de reservation valide et un dashboard admin securise.",
-      "stack": ["Next.js 16", "React 19", "Drizzle ORM", "Neon Postgres", "iron-session", "Zod"],
+      "stack": [
+        "Next.js 16",
+        "React 19",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "iron-session",
+        "Zod"
+      ],
       "liveUrl": "https://bookable.itshassan.it"
     },
     {
       "name": "laboratoire — monorepo React 19 / TypeScript",
       "description": "Monorepo personnel pnpm + Turbo. Construit le core server-side d'un flux de reservation sur Next.js App Router — order processing idempotent, re-validation des prix cote serveur et un webhook Cal.com avec verification HMAC timing-safe — derriere une auth admin iron-session et une CI gate sans secrets.",
-      "stack": ["Next.js", "TypeScript", "Drizzle ORM", "Neon Postgres", "Vitest"],
-      "repoUrl": "https://github.com/Dark-lIl-Demon"
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Drizzle ORM",
+        "Neon Postgres",
+        "Vitest"
+      ],
+      "repoUrl": "https://github.com/hassan-akkari"
     }
   ]
 }
