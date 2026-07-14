@@ -281,7 +281,7 @@ export const messages: Record<Locale, Messages> = {
       education: "Formazione",
       general: "Generale",
       daily: "Quotidiano",
-      comfortable: "Confortevole",
+      comfortable: "Consolidato",
       exploring: "In esplorazione",
     },
     highlights: {
