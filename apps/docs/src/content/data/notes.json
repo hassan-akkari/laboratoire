@@ -1,0 +1,44 @@
+{
+  "notes": [
+    {
+      "slug": "react-19-use-is-not-a-hook",
+      "title": "React 19: use() is not a hook",
+      "summary": "use() looks like a hook but deliberately breaks the rules of hooks: you can call it inside conditionals and loops. It does two unrelated-looking things with one API:",
+      "stage": "budding",
+      "tags": [
+        "react",
+        "frontend"
+      ],
+      "createdAt": "2026-06-21",
+      "updatedAt": "2026-07-02",
+      "body": "# React 19: use() is not a hook\n\n`use()` looks like a hook but deliberately breaks the rules of hooks: you can call it **inside conditionals and loops**. It does two unrelated-looking things with one API:\n\n**1. Reads context conditionally** — something `useContext` never allowed:\n\n```tsx\nfunction StatusBadge({ compact }: { compact: boolean }) {\n  if (compact) return <Dot />;\n  const theme = use(ThemeContext); // legal: after an early return\n  return <Badge theme={theme} />;\n}\n```\n\n**2. Unwraps promises**, suspending the component until they settle:\n\n```tsx\nfunction Comments({ commentsPromise }: { commentsPromise: Promise<Comment[]> }) {\n  const comments = use(commentsPromise); // suspends; nearest <Suspense> shows the fallback\n  return comments.map((c) => <p key={c.id}>{c.text}</p>);\n}\n```\n\nThe pattern that finally clicked for me: **start the fetch in a Server Component, pass the promise down, `use()` it in a Client Component**. The request begins on the server, and the client component stays synchronous-looking without `useEffect` plumbing.\n\nCaveat: the promise must come from a Suspense-compatible source (or be cached) — creating it during render re-triggers the fetch on every render."
+    },
+    {
+      "slug": "til-postgres-websearch-to-tsquery",
+      "title": "TIL: Postgres websearch_to_tsquery",
+      "summary": "Postgres ships a full-text query parser that understands Google-like syntax out of the box — quoted phrases, OR, and -exclusions — no hand-rolled parser required:",
+      "stage": "budding",
+      "tags": [
+        "postgres",
+        "search",
+        "til"
+      ],
+      "createdAt": "2026-06-29",
+      "updatedAt": "2026-07-08",
+      "body": "# TIL: Postgres websearch_to_tsquery\n\nPostgres ships a full-text query parser that understands **Google-like syntax** out of the box — quoted phrases, `OR`, and `-exclusions` — no hand-rolled parser required:\n\n```sql\nSELECT title\nFROM notes\nWHERE search_vector @@ websearch_to_tsquery('english', '\"row level security\" OR rls -mysql');\n```\n\nUnlike `to_tsquery`, it never throws on user input: garbage in, empty result out. That makes it safe to wire a search box straight to it.\n\nThe setup is two lines of DDL — a generated column plus a GIN index:\n\n```sql\nALTER TABLE notes ADD COLUMN search_vector tsvector\n  GENERATED ALWAYS AS (to_tsvector('english', title || ' ' || body)) STORED;\n\nCREATE INDEX notes_search_idx ON notes USING gin (search_vector);\n```\n\nThis is the search engine planned for this very garden once it moves from static JSON to Postgres. Implementation notes live in Garden pipeline internals."
+    },
+    {
+      "slug": "why-this-garden-exists",
+      "title": "Why this garden exists",
+      "summary": "Working notes, published while they grow. What this section is and why it exists.",
+      "stage": "seedling",
+      "tags": [
+        "meta",
+        "writing"
+      ],
+      "createdAt": "2026-07-13",
+      "updatedAt": "2026-07-13",
+      "body": "# Why this garden exists\n\nThis is not a blog. A blog implies finished essays, an editorial calendar, and the quiet guilt of not maintaining either. This is a **digital garden**: working notes from my [Obsidian](https://obsidian.md) vault that happen to have `publish: true` in their frontmatter.\n\nEvery note carries a growth stage:\n\n- 🌱 **seedling** — a fresh capture, possibly wrong;\n- 🌿 **budding** — revisited at least once, starting to hold shape;\n- 🌲 **evergreen** — stable enough that I'd point a colleague at it.\n\nThe mechanism is deliberately boring: a Node script reads the vault, keeps only the notes explicitly marked for publishing, resolves the `[[wikilinks]]` between them, and writes a single JSON file that this site validates with [zod](https://zod.dev) at build time. If a note is malformed, the build fails — loudly, before anything ships.\n\nFull-text search will arrive when the garden grows roots in Postgres — see [TIL: Postgres websearch_to_tsquery](note:til-postgres-websearch-to-tsquery) for where that's headed."
+    }
+  ]
+}

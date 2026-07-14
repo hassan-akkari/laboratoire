@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start --port 3000",
     "lint": "eslint .",
+    "vault:sync": "node scripts/vault-sync.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -24,6 +25,8 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
     "zod": "^4.3.6"
   },
@@ -36,6 +39,7 @@
     "eslint": "^9.39.2",
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^17.3.0",
+    "gray-matter": "^4.0.3",
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.54.0",

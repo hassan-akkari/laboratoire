@@ -100,6 +100,18 @@ export type Messages = {
     sections: { heading: string; body: string }[];
     backToSite: string;
   };
+  notes: {
+    title: string;
+    subtitle: string;
+    /** Non-EN locales: one line telling visitors the notes are in English. Empty on en. */
+    languageNote: string;
+    backToSite: string;
+    backToNotes: string;
+    plantedLabel: string;
+    tendedLabel: string;
+    empty: string;
+    stages: { seedling: string; budding: string; evergreen: string };
+  };
   system: {
     githubUnavailable: string;
     fallbackData: string;
@@ -237,6 +249,22 @@ export const messages: Record<Locale, Messages> = {
         },
       ],
       backToSite: "Back to portfolio",
+    },
+    notes: {
+      title: "Digital garden",
+      subtitle:
+        "Working notes from the lab — published while they grow, not once they're perfect.",
+      languageNote: "",
+      backToSite: "Back to portfolio",
+      backToNotes: "All notes",
+      plantedLabel: "Planted",
+      tendedLabel: "Last tended",
+      empty: "The garden has just been planted — first notes are on their way.",
+      stages: {
+        seedling: "Seedling",
+        budding: "Budding",
+        evergreen: "Evergreen",
+      },
     },
     system: {
       githubUnavailable:
@@ -376,6 +404,22 @@ export const messages: Record<Locale, Messages> = {
       ],
       backToSite: "Torna al portfolio",
     },
+    notes: {
+      title: "Giardino digitale",
+      subtitle:
+        "Appunti di lavoro dal laboratorio — pubblicati mentre crescono, non quando sono perfetti.",
+      languageNote: "Le note sono in inglese.",
+      backToSite: "Torna al portfolio",
+      backToNotes: "Tutte le note",
+      plantedLabel: "Piantata",
+      tendedLabel: "Ultima cura",
+      empty: "Il giardino è appena stato piantato — le prime note sono in arrivo.",
+      stages: {
+        seedling: "Germoglio",
+        budding: "In crescita",
+        evergreen: "Sempreverde",
+      },
+    },
     system: {
       githubUnavailable:
         "Statistiche GitHub non disponibili ora. Mostro i dati locali del profilo.",
@@ -514,6 +558,22 @@ export const messages: Record<Locale, Messages> = {
         },
       ],
       backToSite: "Retour au portfolio",
+    },
+    notes: {
+      title: "Jardin numérique",
+      subtitle:
+        "Notes de travail du laboratoire — publiées pendant qu'elles poussent, pas une fois parfaites.",
+      languageNote: "Les notes sont rédigées en anglais.",
+      backToSite: "Retour au portfolio",
+      backToNotes: "Toutes les notes",
+      plantedLabel: "Plantée",
+      tendedLabel: "Dernier soin",
+      empty: "Le jardin vient d'être planté — les premières notes arrivent.",
+      stages: {
+        seedling: "Pousse",
+        budding: "En croissance",
+        evergreen: "Persistante",
+      },
     },
     system: {
       githubUnavailable:
@@ -655,6 +715,22 @@ export const messages: Record<Locale, Messages> = {
         },
       ],
       backToSite: "Zurück zum Portfolio",
+    },
+    notes: {
+      title: "Digitaler Garten",
+      subtitle:
+        "Arbeitsnotizen aus dem Labor — veröffentlicht, während sie wachsen, nicht erst wenn sie perfekt sind.",
+      languageNote: "Die Notizen sind auf Englisch verfasst.",
+      backToSite: "Zurück zum Portfolio",
+      backToNotes: "Alle Notizen",
+      plantedLabel: "Gepflanzt",
+      tendedLabel: "Zuletzt gepflegt",
+      empty: "Der Garten wurde gerade angelegt — die ersten Notizen folgen bald.",
+      stages: {
+        seedling: "Setzling",
+        budding: "Wachsend",
+        evergreen: "Immergrün",
+      },
     },
     system: {
       githubUnavailable:
