@@ -61,6 +61,9 @@ export const metadata: Metadata = {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.png", type: "image/png" },
+      // Legacy/crawler fallback: some agents (incl. Google) still probe
+      // /favicon.ico at the root. Multi-size 16/32/48, PNG-encoded.
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
     ],
   },
 };
