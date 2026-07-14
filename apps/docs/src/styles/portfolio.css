@@ -563,9 +563,11 @@ section {
   0% {
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-accent) 60%, transparent);
   }
+
   70% {
     box-shadow: 0 0 0 7px color-mix(in srgb, var(--app-accent) 0%, transparent);
   }
+
   100% {
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-accent) 0%, transparent);
   }
@@ -1120,6 +1122,7 @@ section {
     background: transparent;
   }
 }
+
 /* =============================================================================
  * UX-upgrade layer (Next.js migration follow-up)
  *
@@ -1248,6 +1251,7 @@ button:not(:disabled) {
 
 /* Hero portrait halo: slow breathe (killed by the reduced-motion switch). */
 @keyframes halo-breathe {
+
   0%,
   100% {
     opacity: 0.8;
@@ -1348,7 +1352,7 @@ button:not(:disabled) {
 }
 
 /* The wrapper's inner row becomes the floating pill. */
-.site-nav > header {
+.site-nav>header {
   width: min(1240px, 100%);
   height: auto;
   margin-inline: auto;
@@ -1473,14 +1477,14 @@ button:not(:disabled) {
   animation: site-menu-fade 300ms ease both;
 }
 
-.site-nav__menu > ul {
+.site-nav__menu>ul {
   padding: 14px;
   gap: 0;
 }
 
 /* Editorial menu rows: display-size label, muted counter on the right,
  * hairline separators. The counter comes from the link's data-index. */
-.site-nav__menu > ul > li + li:not(.site-nav__menu-footer) {
+.site-nav__menu>ul>li+li:not(.site-nav__menu-footer) {
   border-top: 1px solid color-mix(in srgb, var(--app-border) 45%, transparent);
 }
 
@@ -1581,7 +1585,7 @@ button:not(:disabled) {
   pointer-events: none;
 }
 
-.site-nav__menu[data-state="closing"] > ul {
+.site-nav__menu[data-state="closing"]>ul {
   translate: 0 -10px;
   transition: translate 230ms var(--ease-fluid);
 }
@@ -1613,11 +1617,9 @@ button:not(:disabled) {
     pointer-events: none;
     opacity: 0;
     transition: opacity 350ms ease;
-    background: radial-gradient(
-      260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      color-mix(in srgb, var(--accent-glow) 55%, transparent),
-      transparent 65%
-    );
+    background: radial-gradient(260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        color-mix(in srgb, var(--accent-glow) 55%, transparent),
+        transparent 65%);
   }
 
   .card-hover:hover::after {
@@ -1632,8 +1634,8 @@ button:not(:disabled) {
   justify-items: center;
 }
 
-.stat-value > .stat-value__live,
-.stat-value > .stat-value__ghost {
+.stat-value>.stat-value__live,
+.stat-value>.stat-value__ghost {
   grid-area: 1 / 1;
   white-space: nowrap;
 }
@@ -1701,7 +1703,7 @@ button:not(:disabled) {
   color: var(--accent-ink);
 }
 
-.process-scrolly__counter-live > span {
+.process-scrolly__counter-live>span {
   display: inline-block;
 }
 
@@ -1730,20 +1732,16 @@ button:not(:disabled) {
   height: calc(100% - 16px);
   overflow: visible;
   /* Soft-fade both ends so the line never visibly over/undershoots the dots. */
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 4%,
-    #000 96%,
-    transparent
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 4%,
-    #000 96%,
-    transparent
-  );
+  mask-image: linear-gradient(to bottom,
+      transparent,
+      #000 4%,
+      #000 96%,
+      transparent);
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent,
+      #000 4%,
+      #000 96%,
+      transparent);
 }
 
 /* No vector-effect / linecap here on purpose: with preserveAspectRatio=none
@@ -1895,20 +1893,16 @@ button:not(:disabled) {
 
 .stack-marquee__row {
   overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
+  mask-image: linear-gradient(to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent);
+  -webkit-mask-image: linear-gradient(to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent);
 }
 
 .stack-marquee__track {
@@ -2006,7 +2000,7 @@ button:not(:disabled) {
   transition: background-color 260ms ease;
 }
 
-.whyme-row + .whyme-row {
+.whyme-row+.whyme-row {
   border-top: 1px solid color-mix(in srgb, var(--app-border) 55%, transparent);
 }
 
@@ -2028,7 +2022,7 @@ button:not(:disabled) {
   border-radius: 14px;
 }
 
-.whyme-row:hover + .whyme-row {
+.whyme-row:hover+.whyme-row {
   border-top-color: transparent;
 }
 
@@ -2314,7 +2308,7 @@ button:not(:disabled) {
   gap: 8px;
 }
 
-.cv-stack-group + .cv-stack-group {
+.cv-stack-group+.cv-stack-group {
   margin-top: 6px;
 }
 
@@ -2409,11 +2403,9 @@ ul.cv-chips[data-category="exploring"] li::before {
 
 .audit-scan__row--hero {
   height: 68px;
-  background: linear-gradient(
-    120deg,
-    color-mix(in srgb, var(--app-accent) 34%, transparent),
-    color-mix(in srgb, var(--app-border) 30%, transparent)
-  );
+  background: linear-gradient(120deg,
+      color-mix(in srgb, var(--app-accent) 34%, transparent),
+      color-mix(in srgb, var(--app-border) 30%, transparent));
 }
 
 .audit-scan__cols {
@@ -2475,13 +2467,11 @@ ul.cv-chips[data-category="exploring"] li::before {
   position: absolute;
   inset: 0;
   display: block;
-  background: linear-gradient(
-    to bottom,
-    transparent 72%,
-    color-mix(in srgb, var(--accent-ink) 10%, transparent) 94%,
-    color-mix(in srgb, var(--accent-ink) 34%, transparent) 99%,
-    color-mix(in srgb, var(--accent-ink) 85%, transparent) 100%
-  );
+  background: linear-gradient(to bottom,
+      transparent 72%,
+      color-mix(in srgb, var(--accent-ink) 10%, transparent) 94%,
+      color-mix(in srgb, var(--accent-ink) 34%, transparent) 99%,
+      color-mix(in srgb, var(--accent-ink) 85%, transparent) 100%);
   will-change: transform;
 }
 
@@ -2498,7 +2488,7 @@ ul.cv-chips[data-category="exploring"] li::before {
   display: grid;
   grid-template-columns: 52px minmax(0, 1fr) 34px;
   gap: 18px;
-  align-items: start;
+  align-items: center;
   padding: 22px 6px;
   border-bottom: 1px solid color-mix(in srgb, var(--app-border) 55%, transparent);
   transition: background-color 260ms ease;
@@ -2536,7 +2526,6 @@ ul.cv-chips[data-category="exploring"] li::before {
   width: 22px;
   height: 22px;
   margin-top: 2px;
-  justify-self: end;
   color: var(--accent-ink);
 }
 
@@ -2663,6 +2652,7 @@ ul.cv-chips[data-category="exploring"] li::before {
 /* — print guards for the Tier-2 subpage layer — */
 
 @media print {
+
   .scroll-field,
   .scroll-progress,
   .audit-scan {
