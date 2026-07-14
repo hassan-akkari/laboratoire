@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, type ReactNode } from "react";
 import { AppButton } from "@laboratoire/ui";
 import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
@@ -45,6 +46,71 @@ function TimelineRail({ reduceMotion }: { reduceMotion: boolean }) {
   );
 }
 
+/**
+ * Screen-only progressive disclosure: the web CV is the scannable trailer,
+ * the full prose stays one tap away. In PRINT the body is always visible
+ * (the paper document keeps every word) and the toggle disappears — which
+ * is why this is a controlled div and not <details> (a closed <details>
+ * cannot be reliably forced open from print CSS).
+ */
+function CvDisclosure({
+  labels,
+  children,
+}: {
+  labels: Messages["cv"];
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="cv-more">
+      <button
+        type="button"
+        className="cv-more__toggle cv-no-print"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span className="faq-icon" data-open={open || undefined} aria-hidden="true" />
+        {open ? labels.showLess : labels.readMore}
+      </button>
+      <div className="cv-more__body" hidden={!open}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Impact highlights ship as "Title\nBefore: …\nAfter: …\nResult: …" strings
+ * (locale-translated labels). Split on lines and render label/text rows —
+ * the strongest content on the page finally reads as data, not as a lump.
+ * Lines without a leading label print as plain rows (defensive).
+ */
+function ResultCard({ text }: { text: string }) {
+  const lines = text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const [title, ...rows] = lines;
+  return (
+    <li className="cv-result">
+      <h3>{title}</h3>
+      {rows.map((row) => {
+        const match = row.match(/^([^:]{2,28}):\s*(.+)$/);
+        return match ? (
+          <p key={row} className="cv-result__row">
+            <span className="cv-result__label">{match[1]}</span>
+            <span>{match[2]}</span>
+          </p>
+        ) : (
+          <p key={row} className="cv-result__row cv-result__row--plain">
+            {row}
+          </p>
+        );
+      })}
+    </li>
+  );
+}
+
 export default function CvPage({ content, locale, labels }: CvPageProps) {
   const reduceMotion = useReducedMotionSafe();
   const handlePrint = () => window.print();
@@ -59,6 +125,20 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
   ]
     .filter(Boolean)
     .join(" · ");
+  const [lead, ...aboutRest] = content.profile.about;
+  const stackGroups = [
+    { key: "daily", label: labels.about.daily, items: content.stack.daily },
+    {
+      key: "comfortable",
+      label: labels.about.comfortable,
+      items: content.stack.comfortable,
+    },
+    {
+      key: "exploring",
+      label: labels.about.exploring,
+      items: content.stack.exploring,
+    },
+  ];
 
   return (
     <main id="cv-page">
@@ -96,147 +176,165 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
           </div>
         </motion.header>
 
-        <motion.article
-          className="cv-paper"
-          variants={staggerChildrenVariants}
-          {...getMountReveal(reduceMotion)}
-        >
-          <header className="cv-header">
-            <h2>{content.profile.name}</h2>
-            <p className="cv-role">{content.profile.role}</p>
-            <p>{content.profile.focus}</p>
-            <p>{content.profile.location}</p>
-          </header>
+        <div className="cv-layout">
+          {/* Sticky identity rail: who/where/contacts/stack/languages stay
+              on screen while the story column scrolls. */}
+          <motion.aside
+            className="cv-paper cv-side"
+            variants={fadeUpVariants}
+            {...getMountReveal(reduceMotion)}
+          >
+            <header className="cv-header">
+              <h2>{content.profile.name}</h2>
+              <p className="cv-role">{content.profile.role}</p>
+              <p>{content.profile.focus}</p>
+              <p>{content.profile.location}</p>
+            </header>
 
-          <motion.section className="cv-section" variants={fadeUpVariants}>
-            <h2>{labels.cv.summary}</h2>
-            {content.profile.about.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-            <p>
-              <strong>{labels.about.now}:</strong> {content.profile.now}
-            </p>
-            <p>
-              <strong>{labels.about.philosophy}:</strong> {content.profile.philosophy}
-            </p>
-          </motion.section>
+            <div className="cv-side__group">
+              <p className="cv-side__label">{labels.cv.contact}</p>
+              <p>{content.contact.email}</p>
+              <p>{content.contact.linkedin}</p>
+              <p>{content.contact.github}</p>
+            </div>
 
-          <motion.section className="cv-section" variants={fadeUpVariants}>
-            <h2>{labels.cv.impact}</h2>
-            <ul className="cv-impact-list">
-              {content.highlights.map((item) => (
-                <li key={item}>{item}</li>
+            <div className="cv-side__group">
+              <p className="cv-side__label">{labels.cv.stack}</p>
+              {stackGroups.map((group) => (
+                <div key={group.key} className="cv-stack-group">
+                  <p className="cv-stack-label">{group.label}</p>
+                  <ul className="cv-chips" data-category={group.key}>
+                    {group.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
-          </motion.section>
+            </div>
 
-          <motion.section className="cv-section" variants={fadeUpVariants}>
-            <h2>{labels.cv.stack}</h2>
-            {[
-              { key: "daily", label: labels.about.daily, items: content.stack.daily },
-              {
-                key: "comfortable",
-                label: labels.about.comfortable,
-                items: content.stack.comfortable,
-              },
-              {
-                key: "exploring",
-                label: labels.about.exploring,
-                items: content.stack.exploring,
-              },
-            ].map((group) => (
-              <div key={group.key} className="cv-stack-group">
-                <p className="cv-stack-label">{group.label}</p>
-                <ul className="cv-chips" data-category={group.key}>
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </motion.section>
+            <div className="cv-side__group">
+              <p className="cv-side__label">{labels.cv.general}</p>
+              {content.general.map((item) => (
+                <p key={item.title}>
+                  <strong>{item.title}:</strong> {item.items.join(" / ")}
+                </p>
+              ))}
+            </div>
+          </motion.aside>
 
-          {content.cvProjects && content.cvProjects.length > 0 ? (
+          <motion.article
+            className="cv-paper cv-main"
+            variants={staggerChildrenVariants}
+            {...getMountReveal(reduceMotion)}
+          >
             <motion.section className="cv-section" variants={fadeUpVariants}>
-              <h2>{labels.cv.projects}</h2>
-              {content.cvProjects.map((project) => (
-                <article key={project.name} className="cv-block">
-                  <h3>{project.name}</h3>
-                  <p>{project.description}</p>
-                  <p className="cv-meta">{project.stack.join(" / ")}</p>
-                  {project.liveUrl || project.repoUrl ? (
-                    <p className="cv-project-links">
-                      {project.liveUrl ? (
-                        <a href={project.liveUrl} target="_blank" rel="noreferrer">
-                          {project.liveUrl.replace(/^https?:\/\//, "")}
-                        </a>
-                      ) : null}
-                      {project.repoUrl ? (
-                        <a href={project.repoUrl} target="_blank" rel="noreferrer">
-                          {project.repoUrl.replace(/^https?:\/\//, "")}
-                        </a>
-                      ) : null}
-                    </p>
+              <h2>{labels.cv.summary}</h2>
+              <p className="cv-lead">{lead}</p>
+              <p>
+                <strong>{labels.about.now}:</strong> {content.profile.now}
+              </p>
+              {aboutRest.length > 0 ? (
+                <CvDisclosure labels={labels.cv}>
+                  {aboutRest.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                  <p>
+                    <strong>{labels.about.philosophy}:</strong>{" "}
+                    {content.profile.philosophy}
+                  </p>
+                </CvDisclosure>
+              ) : (
+                <p>
+                  <strong>{labels.about.philosophy}:</strong>{" "}
+                  {content.profile.philosophy}
+                </p>
+              )}
+            </motion.section>
+
+            <motion.section className="cv-section" variants={fadeUpVariants}>
+              <h2>{labels.cv.impact}</h2>
+              <ul className="cv-results">
+                {content.highlights.map((item) => (
+                  <ResultCard key={item} text={item} />
+                ))}
+              </ul>
+            </motion.section>
+
+            {content.cvProjects && content.cvProjects.length > 0 ? (
+              <motion.section className="cv-section" variants={fadeUpVariants}>
+                <h2>{labels.cv.projects}</h2>
+                {content.cvProjects.map((project) => (
+                  <article key={project.name} className="cv-block">
+                    <h3>{project.name}</h3>
+                    <p>{project.description}</p>
+                    <p className="cv-meta">{project.stack.join(" / ")}</p>
+                    {project.liveUrl || project.repoUrl ? (
+                      <p className="cv-project-links">
+                        {project.liveUrl ? (
+                          <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                            {project.liveUrl.replace(/^https?:\/\//, "")}
+                          </a>
+                        ) : null}
+                        {project.repoUrl ? (
+                          <a href={project.repoUrl} target="_blank" rel="noreferrer">
+                            {project.repoUrl.replace(/^https?:\/\//, "")}
+                          </a>
+                        ) : null}
+                      </p>
+                    ) : null}
+                  </article>
+                ))}
+              </motion.section>
+            ) : null}
+
+            <motion.section
+              className="cv-section cv-timeline"
+              variants={fadeUpVariants}
+            >
+              <TimelineRail reduceMotion={reduceMotion} />
+              <h2>{labels.cv.experience}</h2>
+              {content.experience.map((item) => (
+                <article key={`${item.company}-${item.start}`} className="cv-block">
+                  <h3>{item.role}</h3>
+                  <p className="cv-meta">
+                    {item.company} / {item.location} / {item.start} - {item.end}
+                  </p>
+                  <ul>
+                    {item.bullets.slice(0, 2).map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                  {item.bullets.length > 2 ? (
+                    <CvDisclosure labels={labels.cv}>
+                      <ul>
+                        {item.bullets.slice(2).map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </CvDisclosure>
                   ) : null}
                 </article>
               ))}
             </motion.section>
-          ) : null}
 
-          <motion.section
-            className="cv-section cv-timeline"
-            variants={fadeUpVariants}
-          >
-            <TimelineRail reduceMotion={reduceMotion} />
-            <h2>{labels.cv.experience}</h2>
-            {content.experience.map((item) => (
-              <article key={`${item.company}-${item.start}`} className="cv-block">
-                <h3>{item.role}</h3>
-                <p className="cv-meta">
-                  {item.company} / {item.location} / {item.start} - {item.end}
-                </p>
-                <ul>
-                  {item.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </motion.section>
-
-          <motion.section
-            className="cv-section cv-timeline"
-            variants={fadeUpVariants}
-          >
-            <TimelineRail reduceMotion={reduceMotion} />
-            <h2>{labels.cv.education}</h2>
-            {content.education.map((item) => (
-              <article key={`${item.school}-${item.start}`} className="cv-block">
-                <h3>{item.qualification}</h3>
-                <p className="cv-meta">
-                  {item.school} / {item.location} / {item.start} - {item.end}
-                </p>
-                {item.focus ? <p>{item.focus}</p> : null}
-              </article>
-            ))}
-          </motion.section>
-
-          <motion.section className="cv-section" variants={fadeUpVariants}>
-            <h2>{labels.cv.general}</h2>
-            {content.general.map((item) => (
-              <p key={item.title}>
-                <strong>{item.title}:</strong> {item.items.join(" / ")}
-              </p>
-            ))}
-          </motion.section>
-
-          <motion.section className="cv-section" variants={fadeUpVariants}>
-            <h2>{labels.cv.contact}</h2>
-            <p>{content.contact.email}</p>
-            <p>{content.contact.linkedin}</p>
-            <p>{content.contact.github}</p>
-          </motion.section>
-        </motion.article>
+            <motion.section
+              className="cv-section cv-timeline"
+              variants={fadeUpVariants}
+            >
+              <TimelineRail reduceMotion={reduceMotion} />
+              <h2>{labels.cv.education}</h2>
+              {content.education.map((item) => (
+                <article key={`${item.school}-${item.start}`} className="cv-block">
+                  <h3>{item.qualification}</h3>
+                  <p className="cv-meta">
+                    {item.school} / {item.location} / {item.start} - {item.end}
+                  </p>
+                  {item.focus ? <p>{item.focus}</p> : null}
+                </article>
+              ))}
+            </motion.section>
+          </motion.article>
+        </div>
       </Container>
     </main>
   );

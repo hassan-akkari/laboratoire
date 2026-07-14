@@ -91,6 +91,8 @@ export type Messages = {
     education: string;
     general: string;
     contact: string;
+    readMore: string;
+    showLess: string;
   };
   privacy: {
     title: string;
@@ -200,6 +202,8 @@ export const messages: Record<Locale, Messages> = {
       education: "Education",
       general: "Additional information",
       contact: "Contact",
+      readMore: "Read more",
+      showLess: "Show less",
     },
     privacy: {
       title: "Privacy notice",
@@ -336,6 +340,8 @@ export const messages: Record<Locale, Messages> = {
       education: "Formazione",
       general: "Informazioni aggiuntive",
       contact: "Contatti",
+      readMore: "Leggi tutto",
+      showLess: "Mostra meno",
     },
     privacy: {
       title: "Informativa privacy",
@@ -473,6 +479,8 @@ export const messages: Record<Locale, Messages> = {
       education: "Formation",
       general: "Informations supplémentaires",
       contact: "Contact",
+      readMore: "Lire la suite",
+      showLess: "Réduire",
     },
     privacy: {
       title: "Politique de confidentialité",
@@ -612,6 +620,8 @@ export const messages: Record<Locale, Messages> = {
       education: "Ausbildung",
       general: "Weitere Informationen",
       contact: "Kontakt",
+      readMore: "Mehr anzeigen",
+      showLess: "Weniger anzeigen",
     },
     privacy: {
       title: "Datenschutzerklärung",

@@ -2058,6 +2058,12 @@ button:not(:disabled) {
   padding-block: 0;
 }
 
+/* Wider canvas than the home 1240px container: the two-column dossier earns
+ * the extra room on large screens. */
+.cv-container {
+  width: min(1440px, 100%);
+}
+
 .cv-dossier-meta {
   margin-top: 14px;
   font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
@@ -2073,9 +2079,161 @@ button:not(:disabled) {
 }
 
 /* Sections number themselves — the conditional projects block keeps the
- * sequence correct with zero JSX bookkeeping. */
-.cv-paper {
+ * sequence correct with zero JSX bookkeeping. Reset lives on the MAIN
+ * column: the identity sidebar has no numbered sections. */
+.cv-main {
   counter-reset: cv-sec;
+}
+
+/* — dossier layout: sticky identity rail + story column — */
+
+.cv-layout {
+  display: grid;
+  gap: 18px;
+  align-items: start;
+}
+
+.cv-layout .cv-paper {
+  max-width: none;
+}
+
+@media (min-width: 1024px) {
+  .cv-layout {
+    grid-template-columns: 330px minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .cv-side {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+.cv-side {
+  display: grid;
+  gap: 16px;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.cv-side .cv-header {
+  margin-bottom: 0;
+}
+
+.cv-side .cv-header h2 {
+  font-size: clamp(26px, 2.4vw, 34px);
+}
+
+.cv-side__group {
+  display: grid;
+  gap: 8px;
+}
+
+.cv-side__group p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--app-fg) 85%, var(--app-muted));
+  overflow-wrap: anywhere;
+}
+
+.cv-side__label {
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-ink) !important;
+}
+
+/* — scannable summary + progressive disclosure — */
+
+.cv-lead {
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.cv-more__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent-ink);
+}
+
+.cv-more__toggle .faq-icon {
+  width: 12px;
+  height: 12px;
+  color: inherit;
+}
+
+.cv-more__toggle .faq-icon::before {
+  width: 10px;
+}
+
+.cv-more__toggle .faq-icon::after {
+  height: 10px;
+}
+
+.cv-more__body {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* `display: grid` above would defeat the hidden attribute — restore it. */
+.cv-more__body[hidden] {
+  display: none;
+}
+
+/* — results as labelled before/after cards — */
+
+.cv-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.cv-result {
+  display: grid;
+  gap: 7px;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 66%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--accent-ink) 60%, transparent);
+  border-radius: 12px;
+}
+
+.cv-result h3 {
+  font-size: 15.5px;
+}
+
+.cv-result__row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 10px;
+  font-size: 14px;
+}
+
+.cv-result__row--plain {
+  grid-template-columns: 1fr;
+}
+
+.cv-result__label {
+  padding-top: 2.5px;
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
 }
 
 .cv-section {
@@ -2167,26 +2325,26 @@ button:not(:disabled) {
   color: var(--app-muted) !important;
 }
 
-.cv-section .cv-chips {
+ul.cv-chips {
   margin: 0;
   padding: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 
-.cv-section .cv-chips li {
+ul.cv-chips li {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 4px 12px;
+  padding: 3px 11px;
   border: 1px solid color-mix(in srgb, var(--app-border) 82%, transparent);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 12.5px;
 }
 
-.cv-section .cv-chips li::before {
+ul.cv-chips li::before {
   content: "";
   width: 5px;
   height: 5px;
@@ -2194,11 +2352,11 @@ button:not(:disabled) {
   background: var(--accent-ink);
 }
 
-.cv-section .cv-chips[data-category="comfortable"] li::before {
+ul.cv-chips[data-category="comfortable"] li::before {
   background: #ee926c;
 }
 
-.cv-section .cv-chips[data-category="exploring"] li::before {
+ul.cv-chips[data-category="exploring"] li::before {
   background: var(--app-muted);
 }
 
@@ -2533,9 +2691,30 @@ button:not(:disabled) {
 
   .cv-dossier-meta,
   .cv-stack-label,
+  .cv-side__label,
+  .cv-result__label,
   .cv-meta,
   .cv-section h2 {
     color: #555555 !important;
+  }
+
+  /* Paper keeps every word: force disclosures open, kill the layout split
+   * and the sticky rail. */
+  .cv-layout {
+    display: block;
+  }
+
+  .cv-side {
+    position: static;
+  }
+
+  .cv-more__body[hidden] {
+    display: grid !important;
+  }
+
+  .cv-result {
+    border-color: #d9d9d9;
+    border-left-color: #999999;
   }
 
   .cv-section h2::before,
