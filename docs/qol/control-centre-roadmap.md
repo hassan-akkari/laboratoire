@@ -2,6 +2,12 @@
 
 Documento operativo per trasformare il concept `vault → DB → sito` in una serie di milestone piccole, verificabili e riusabili.
 
+> **Stato al 2026-07-14 (branch `claude/qol-control-centre-9fsas9`)**: F1 implementata
+> (`apps/docs/scripts/vault-sync.ts` + route `/notes`, vedi `docs/digital-garden.md`);
+> in più esiste `apps/control-centre` (dashboard locale, `pnpm dev:centre`) che copre
+> in versione mock-but-working i moduli di F2/F5: tracker, scout, triage inbox,
+> pannello garden e digest git. Restano da fare: note reali dal vault, deploy, F3, F4.
+
 ## Direzione
 
 L'obiettivo non è costruire dieci automazioni isolate, ma una spina dorsale unica:
@@ -21,8 +27,6 @@ La regola di sicurezza iniziale è semplice: solo le note con `publish: true` ne
 - **No cantieri infiniti**: ogni fase deve avere un output dimostrabile e uno stop naturale.
 - **Privacy by default**: nessuna nota pubblicata senza flag esplicito; log e preview devono mostrare cosa verrebbe pubblicato prima di scrivere.
 
-<<<<<<< ours
-=======
 ## Decisione F1: confine PC → GitHub
 
 Scelta consigliata: **script nel monorepo**.
@@ -48,7 +52,6 @@ Alternative tenute fuori da F1:
 
 Regola pratica: F1 deve attraversare il confine PC → GitHub solo con dati già pubblicabili e già validati.
 
->>>>>>> theirs
 ## Contratto minimo delle note
 
 ```yaml
@@ -180,17 +183,14 @@ Durata: un weekend.
 Checklist:
 
 - [ ] scegliere cartella Obsidian sorgente;
-<<<<<<< ours
-=======
-- [ ] tenere lo script di sync nel monorepo;
-- [ ] generare solo artifact pubblici dentro `apps/docs`;
->>>>>>> theirs
-- [ ] definire frontmatter minimo;
-- [ ] creare 3–5 note candidate;
-- [ ] implementare `dry-run`;
-- [ ] generare artifact statico;
-- [ ] creare `/notes` e pagina dettaglio;
-- [ ] gestire wikilink base;
+- [x] tenere lo script di sync nel monorepo (`apps/docs/scripts/vault-sync.ts`);
+- [x] generare solo artifact pubblici dentro `apps/docs` (`src/content/data/notes.json`, allowlist `publish: true`);
+- [x] definire frontmatter minimo (`apps/docs/src/content/notes.schema.ts` + `docs/digital-garden.md`);
+- [ ] creare 3–5 note candidate (oggi: 3 note di esempio in `resources/vault-sample/`, da sostituire con note vere);
+- [x] implementare `dry-run` (`pnpm -F docs vault:sync -- --vault … --dry-run`);
+- [x] generare artifact statico;
+- [x] creare `/notes` e pagina dettaglio (SSG, 4 locale, metadata per nota);
+- [x] gestire wikilink base (pubblicata → link, privata → testo neutro);
 - [ ] deploy controllato.
 
 Criterio di done: URL pubblico con lista note e almeno tre note reali.
