@@ -6,6 +6,7 @@ import { AppButton } from "@laboratoire/ui";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import WordReveal from "../ui/WordReveal";
 import type { Locale } from "../../i18n/locale";
 import { getServicesContent } from "../../data/services";
 import { useSiteContactOverrides } from "../../lib/useSiteConfig";
@@ -35,7 +36,11 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
           <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
-          <h2 className="text-3xl md:text-4xl">{content.title}</h2>
+          <WordReveal
+            as="h2"
+            className="text-3xl md:text-4xl"
+            text={content.title}
+          />
           <p className="mt-4 text-base text-(--app-muted)">
             {content.subtitle}
           </p>

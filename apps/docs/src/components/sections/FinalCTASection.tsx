@@ -8,6 +8,7 @@ import CalBookButton from "../ui/CalBookButton";
 import MagneticWrap from "../ui/MagneticWrap";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import WordReveal from "../ui/WordReveal";
 import type { Locale } from "../../i18n/locale";
 import { localePath } from "../../i18n/routing";
 import { getFinalCtaContent } from "../../data/finalCtaContent";
@@ -60,12 +61,11 @@ export default function FinalCTASection({ locale }: FinalCTASectionProps) {
           variants={staggerChildrenVariants}
           {...getInViewReveal(reduceMotion, 0.2)}
         >
-          <motion.h2
-            variants={fadeUpVariants}
+          <WordReveal
+            as="h2"
             className="text-3xl md:text-5xl md:max-w-3xl"
-          >
-            {content.title}
-          </motion.h2>
+            text={content.title}
+          />
           <motion.p
             variants={fadeUpVariants}
             className="mt-5 max-w-2xl text-base text-(--app-muted) md:text-lg"

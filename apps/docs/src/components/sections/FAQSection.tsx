@@ -6,6 +6,7 @@ import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import { FaPlus } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import WordReveal from "../ui/WordReveal";
 import type { Locale } from "../../i18n/locale";
 import { getFaqsContent } from "../../data/faqs";
 import { whatsappLink } from "../../data/site";
@@ -43,7 +44,11 @@ export default function FAQSection({ locale }: FAQSectionProps) {
           <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
-          <h2 className="text-3xl md:text-4xl">{content.title}</h2>
+          <WordReveal
+            as="h2"
+            className="text-3xl md:text-4xl"
+            text={content.title}
+          />
         </motion.div>
 
         <motion.ul

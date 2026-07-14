@@ -1842,3 +1842,204 @@ button:not(:disabled) {
   color: var(--accent-ink);
   opacity: 0.85;
 }
+
+/* =============================================================================
+ * Scroll field (motion-v2 Tier 2) — fixed full-viewport particle canvas
+ * driven by ScrollField.tsx (parallax dots + scroll-velocity streaks).
+ * `.site-shell` provides the stacking context that keeps the fixed z:-1
+ * layer above the opaque body background.
+ * ========================================================================== */
+
+.site-shell {
+  isolation: isolate;
+}
+
+.scroll-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* =============================================================================
+ * Word reveal (motion-v2 Tier 2) — per-word slide-up masks for section
+ * headings. The mask clips only during the slide; descenders paint normally
+ * once the word settles at y:0.
+ * ========================================================================== */
+
+.word-reveal__mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word-reveal__word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* =============================================================================
+ * Tech-stack marquee (motion-v2 Tier 2) — two counter-scrolling chip rows.
+ * The track holds two identical groups; each group carries the inter-chip
+ * gap as trailing padding so the -50% loop wraps seamlessly. Reduced motion
+ * turns the first group into a static wrapped list and hides the clone.
+ * ========================================================================== */
+
+.stack-marquee {
+  display: grid;
+  gap: 12px;
+}
+
+.stack-marquee__row {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.stack-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: stack-marquee 44s linear infinite;
+}
+
+.stack-marquee__row--reverse .stack-marquee__track {
+  animation-direction: reverse;
+}
+
+.stack-marquee__row:hover .stack-marquee__track {
+  animation-play-state: paused;
+}
+
+.stack-marquee__group {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0 10px 0 0;
+  list-style: none;
+}
+
+.stack-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border: 1px solid color-mix(in srgb, var(--app-border) 86%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-card) 80%, transparent);
+  padding: 7px 14px;
+  font-size: 13px;
+  color: var(--app-fg);
+}
+
+.stack-chip__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--app-muted);
+}
+
+.stack-chip[data-category="frontend"] .stack-chip__dot {
+  background: var(--accent-ink);
+}
+
+.stack-chip[data-category="backend"] .stack-chip__dot {
+  background: #ee926c;
+}
+
+@keyframes stack-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-marquee__row {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .stack-marquee__track {
+    width: auto;
+    flex-wrap: wrap;
+  }
+
+  .stack-marquee__group[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* =============================================================================
+ * Why-me editorial rows (motion-v2 Tier 2) — numbered hairline rows, the
+ * same counter language as the mobile menu and the process rail.
+ * ========================================================================== */
+
+.whyme-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.whyme-row {
+  position: relative;
+  display: grid;
+  gap: 6px 32px;
+  padding: 22px 8px 22px 64px;
+  transition: background-color 260ms ease;
+}
+
+.whyme-row + .whyme-row {
+  border-top: 1px solid color-mix(in srgb, var(--app-border) 55%, transparent);
+}
+
+.whyme-row::before {
+  content: attr(data-index);
+  position: absolute;
+  left: 10px;
+  top: 25px;
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+  opacity: 0.85;
+}
+
+.whyme-row:hover {
+  background: color-mix(in srgb, var(--app-accent-soft) 34%, transparent);
+  border-radius: 14px;
+}
+
+.whyme-row:hover + .whyme-row {
+  border-top-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .whyme-row {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    padding-block: 26px;
+  }
+
+  .whyme-row__desc {
+    margin-top: 2px;
+  }
+}

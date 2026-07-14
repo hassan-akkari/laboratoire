@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import TiltCard from "../ui/TiltCard";
+import WordReveal from "../ui/WordReveal";
 import type { Locale } from "../../i18n/locale";
 import { getCaseStudiesContent } from "../../data/caseStudies";
 import BookableShowcase from "./BookableShowcase";
@@ -34,7 +36,11 @@ export default function CaseStudiesSection({
           <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
-          <h2 className="text-3xl md:text-4xl">{content.title}</h2>
+          <WordReveal
+            as="h2"
+            className="text-3xl md:text-4xl"
+            text={content.title}
+          />
           <p className="mt-4 text-base text-(--app-muted)">
             {content.subtitle}
           </p>
@@ -46,11 +52,11 @@ export default function CaseStudiesSection({
           {...getInViewReveal(reduceMotion, 0.08)}
         >
           {content.caseStudies.map((study) => (
-            <motion.article
-              key={study.id}
-              variants={fadeUpVariants}
-              className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-7"
-            >
+            <motion.article key={study.id} variants={fadeUpVariants}>
+              {/* Tilt lives on an inner wrapper: the article carries the
+                  reveal variants (framer transform), the TiltCard carries the
+                  pointer rotation — nested transforms compose cleanly. */}
+              <TiltCard className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-7">
               <header>
                 <h3 className="text-2xl">{study.title}</h3>
                 <p className="mt-2 text-sm text-(--app-muted)">
@@ -128,6 +134,7 @@ export default function CaseStudiesSection({
                   </a>
                 </div>
               ) : null}
+              </TiltCard>
             </motion.article>
           ))}
         </motion.div>

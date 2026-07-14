@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
+import WordReveal from "../ui/WordReveal";
 import type { Locale } from "../../i18n/locale";
 import { getWhyMeContent } from "../../data/whyMe";
 import {
@@ -31,27 +32,37 @@ export default function WhyMeSection({ locale }: WhyMeSectionProps) {
           <p className="section-eyebrow mb-3 text-sm uppercase tracking-[0.18em]">
             {content.sectionLabel}
           </p>
-          <h2 className="text-3xl md:text-4xl">{content.title}</h2>
+          <WordReveal
+            as="h2"
+            className="text-3xl md:text-4xl"
+            text={content.title}
+          />
         </motion.div>
 
-        <motion.ul
-          className="mt-12 grid gap-6 md:grid-cols-2"
+        {/* Editorial numbered rows (motion-v2 Tier 2): same counter language
+            as the mobile menu and the process rail — data-index rendered by
+            CSS attr(), hairline separators, no cards. */}
+        <motion.ol
+          className="whyme-list mt-12"
           variants={staggerChildrenVariants}
           {...getInViewReveal(reduceMotion, 0.1)}
         >
-          {content.reasons.map((reason) => (
+          {content.reasons.map((reason, index) => (
             <motion.li
               key={reason.id}
               variants={fadeUpVariants}
-              className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
+              className="whyme-row"
+              data-index={String(index + 1).padStart(2, "0")}
             >
-              <h3 className="text-lg leading-snug">{reason.title}</h3>
-              <p className="mt-3 text-sm text-(--app-muted)">
+              <h3 className="whyme-row__title text-lg leading-snug md:text-xl">
+                {reason.title}
+              </h3>
+              <p className="whyme-row__desc text-sm leading-relaxed text-(--app-muted) md:text-[15px]">
                 {reason.description}
               </p>
             </motion.li>
           ))}
-        </motion.ul>
+        </motion.ol>
       </Container>
     </Section>
   );

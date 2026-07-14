@@ -11,6 +11,7 @@ import { THEME_KEY } from "@laboratoire/ui";
 import { LOCALES, isLocale, type Locale } from "@/i18n/locale";
 import { SITE_URL } from "@/seo/site";
 import JsonLd from "@/seo/JsonLd";
+import ScrollField from "@/components/ui/ScrollField";
 import CardSpotlight from "@/components/ui/CardSpotlight";
 import LocaleCookieSync from "@/components/ui/LocaleCookieSync";
 import ScrollProgress from "@/components/ui/ScrollProgress";
@@ -99,7 +100,15 @@ export default async function LocaleLayout({
       <body>
         <ScrollProgress />
         <CardSpotlight />
-        <Providers>{children}</Providers>
+        <Providers>
+          {/* .site-shell (isolation: isolate) hosts the fixed z:-1 particle
+              layer: without its own stacking context the layer would paint
+              BEHIND the opaque body background and vanish. */}
+          <div className="site-shell">
+            <ScrollField />
+            {children}
+          </div>
+        </Providers>
         {/* Site-level structured data (Person + ProfessionalService) on every
             page — the old index.html served it on all SPA routes, and the
             audit landing page needs it as much as the home. */}
