@@ -9,7 +9,10 @@ import type { Locale } from "../../i18n/locale";
 import { localePath } from "../../i18n/routing";
 import type { Messages } from "../../i18n/messages";
 import LocaleSwitcher from "../ui/LocaleSwitcher";
+import WordReveal from "../ui/WordReveal";
+import { LOCALES } from "../../i18n/locale";
 import {
+  easeOutQuart,
   fadeUpVariants,
   getMountReveal,
   staggerChildrenVariants,
@@ -21,22 +24,58 @@ type CvPageProps = {
   labels: Messages;
 };
 
+/**
+ * Vertical hairline along the experience/education blocks that draws in on
+ * first scroll-in (micro echo of the home process rail). Static under
+ * reduced motion; in print it renders fully drawn via the print override.
+ */
+function TimelineRail({ reduceMotion }: { reduceMotion: boolean }) {
+  if (reduceMotion) {
+    return <span className="cv-timeline__rail" aria-hidden="true" />;
+  }
+  return (
+    <motion.span
+      className="cv-timeline__rail"
+      aria-hidden="true"
+      initial={{ scaleY: 0 }}
+      whileInView={{ scaleY: 1 }}
+      viewport={{ once: true, amount: 0.1, margin: "200% 0px -10% 0px" }}
+      transition={{ duration: 1.1, ease: easeOutQuart }}
+    />
+  );
+}
+
 export default function CvPage({ content, locale, labels }: CvPageProps) {
   const reduceMotion = useReducedMotionSafe();
   const handlePrint = () => window.print();
   const resumeHref = content.contact.resumePath;
+  // "07/2026" from CV-XXX-07-2026.pdf — the dossier edition line stays in
+  // sync with whatever PDF series is currently shipped.
+  const edition = resumeHref.match(/(\d{2})-(\d{4})\.pdf$/);
+  const dossierMeta = [
+    labels.cv.title,
+    edition ? `${edition[1]}/${edition[2]}` : null,
+    LOCALES.join(" — "),
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <main id="cv-page">
       <Container className="cv-container">
-        <motion.section
-          className="cv-intro"
-          variants={fadeUpVariants}
-          {...getMountReveal(reduceMotion)}
-        >
-          <h1>{labels.cv.title}</h1>
-          <p>{labels.cv.subtitle}</p>
-        </motion.section>
+        <section className="cv-intro">
+          <WordReveal as="h1" text={labels.cv.title} />
+          <motion.p variants={fadeUpVariants} {...getMountReveal(reduceMotion)}>
+            {labels.cv.subtitle}
+          </motion.p>
+          <motion.p
+            className="cv-dossier-meta"
+            variants={fadeUpVariants}
+            {...getMountReveal(reduceMotion)}
+          >
+            {dossierMeta}
+          </motion.p>
+        </section>
 
         <motion.header
           className="cv-topbar cv-no-print"
@@ -93,15 +132,28 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
 
           <motion.section className="cv-section" variants={fadeUpVariants}>
             <h2>{labels.cv.stack}</h2>
-            <p>
-              <strong>{labels.about.daily}:</strong> {content.stack.daily.join(" / ")}
-            </p>
-            <p>
-              <strong>{labels.about.comfortable}:</strong> {content.stack.comfortable.join(" / ")}
-            </p>
-            <p>
-              <strong>{labels.about.exploring}:</strong> {content.stack.exploring.join(" / ")}
-            </p>
+            {[
+              { key: "daily", label: labels.about.daily, items: content.stack.daily },
+              {
+                key: "comfortable",
+                label: labels.about.comfortable,
+                items: content.stack.comfortable,
+              },
+              {
+                key: "exploring",
+                label: labels.about.exploring,
+                items: content.stack.exploring,
+              },
+            ].map((group) => (
+              <div key={group.key} className="cv-stack-group">
+                <p className="cv-stack-label">{group.label}</p>
+                <ul className="cv-chips" data-category={group.key}>
+                  {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </motion.section>
 
           {content.cvProjects && content.cvProjects.length > 0 ? (
@@ -131,7 +183,11 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
             </motion.section>
           ) : null}
 
-          <motion.section className="cv-section" variants={fadeUpVariants}>
+          <motion.section
+            className="cv-section cv-timeline"
+            variants={fadeUpVariants}
+          >
+            <TimelineRail reduceMotion={reduceMotion} />
             <h2>{labels.cv.experience}</h2>
             {content.experience.map((item) => (
               <article key={`${item.company}-${item.start}`} className="cv-block">
@@ -148,7 +204,11 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
             ))}
           </motion.section>
 
-          <motion.section className="cv-section" variants={fadeUpVariants}>
+          <motion.section
+            className="cv-section cv-timeline"
+            variants={fadeUpVariants}
+          >
+            <TimelineRail reduceMotion={reduceMotion} />
             <h2>{labels.cv.education}</h2>
             {content.education.map((item) => (
               <article key={`${item.school}-${item.start}`} className="cv-block">

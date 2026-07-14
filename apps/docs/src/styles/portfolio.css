@@ -2043,3 +2043,524 @@ button:not(:disabled) {
     margin-top: 2px;
   }
 }
+
+/* =============================================================================
+ * CV dossier (motion-v2 Tier 2, subpages) — the printable CV restyled as an
+ * editorial dossier: edition meta line, CSS-counter numbered sections with
+ * hairlines, timeline spine on experience/education, stack chips. Everything
+ * here must stay print-safe: decorations either print cleanly or are
+ * neutralized in the @media print block at the end of this layer.
+ * ========================================================================== */
+
+/* The global `section` rule ships clamp(64px, 9vw, 112px) vertical padding —
+ * right for home sections, bloat inside the dossier: kill it here. */
+.cv-intro {
+  padding-block: 0;
+}
+
+.cv-dossier-meta {
+  margin-top: 14px;
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--app-muted) !important;
+}
+
+.cv-header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
+}
+
+/* Sections number themselves — the conditional projects block keeps the
+ * sequence correct with zero JSX bookkeeping. */
+.cv-paper {
+  counter-reset: cv-sec;
+}
+
+.cv-section {
+  border-top: 0;
+  padding-block: 8px 0;
+  margin-top: 22px;
+}
+
+.cv-section h2 {
+  counter-increment: cv-sec;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--app-muted);
+}
+
+.cv-section h2::before {
+  content: counter(cv-sec, decimal-leading-zero);
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent-ink);
+}
+
+.cv-section h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--app-border) 76%, transparent);
+}
+
+/* — timeline spine (experience / education) — */
+
+.cv-timeline {
+  position: relative;
+  padding-left: 26px;
+}
+
+.cv-timeline h2 {
+  margin-left: -26px;
+}
+
+.cv-timeline__rail {
+  position: absolute;
+  left: 3.5px;
+  top: 46px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--accent-ink) 62%, transparent);
+  transform-origin: top;
+}
+
+.cv-timeline .cv-block {
+  position: relative;
+}
+
+.cv-timeline .cv-block::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-ink);
+  background: var(--app-bg);
+}
+
+/* — stack chips — */
+
+.cv-stack-group {
+  display: grid;
+  gap: 8px;
+}
+
+.cv-stack-group + .cv-stack-group {
+  margin-top: 6px;
+}
+
+.cv-stack-label {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--app-muted) !important;
+}
+
+.cv-section .cv-chips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cv-section .cv-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 82%, transparent);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.cv-section .cv-chips li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent-ink);
+}
+
+.cv-section .cv-chips[data-category="comfortable"] li::before {
+  background: #ee926c;
+}
+
+.cv-section .cv-chips[data-category="exploring"] li::before {
+  background: var(--app-muted);
+}
+
+/* =============================================================================
+ * Audit scan + checklist + rail (motion-v2 Tier 2, subpages)
+ * ========================================================================== */
+
+/* — hero scan vignette — */
+
+.audit-scan {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--app-border) 80%, transparent);
+  background: color-mix(in srgb, var(--app-card) 92%, transparent);
+  box-shadow: 0 28px 64px -40px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+}
+
+.audit-scan__chrome {
+  display: flex;
+  gap: 5px;
+  padding: 11px 13px;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 66%, transparent);
+}
+
+.audit-scan__chrome span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-border) 96%, transparent);
+}
+
+.audit-scan__body {
+  position: relative;
+  display: grid;
+  gap: 11px;
+  padding: 16px;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.audit-scan__row {
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--app-border) 52%, transparent);
+}
+
+.audit-scan__row--nav {
+  height: 16px;
+}
+
+.audit-scan__row--hero {
+  height: 68px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--app-accent) 34%, transparent),
+    color-mix(in srgb, var(--app-border) 30%, transparent)
+  );
+}
+
+.audit-scan__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+.audit-scan__row--card {
+  height: 58px;
+}
+
+.audit-scan__row--text {
+  height: 10px;
+  border-radius: 4px;
+}
+
+.audit-scan__row--short {
+  width: 62%;
+}
+
+.audit-scan__badge {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.audit-scan__badge[data-tone="ok"] {
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent-ink) 22%, var(--app-card));
+  border: 1px solid color-mix(in srgb, var(--accent-ink) 55%, transparent);
+}
+
+.audit-scan__badge[data-tone="warn"] {
+  color: #ee926c;
+  background: color-mix(in srgb, #ee926c 18%, var(--app-card));
+  border: 1px solid color-mix(in srgb, #ee926c 55%, transparent);
+}
+
+.audit-scan__sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Full-height element translating -100% → 100%; the visible "line" is the
+ * gradient at its bottom edge (transform-only sweep, no top/height anim). */
+.audit-scan__sweep-bar {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(
+    to bottom,
+    transparent 72%,
+    color-mix(in srgb, var(--accent-ink) 10%, transparent) 94%,
+    color-mix(in srgb, var(--accent-ink) 34%, transparent) 99%,
+    color-mix(in srgb, var(--accent-ink) 85%, transparent) 100%
+  );
+  will-change: transform;
+}
+
+/* — checklist rows (same editorial language as .whyme-row) — */
+
+.audit-checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid color-mix(in srgb, var(--app-border) 55%, transparent);
+}
+
+.audit-checklist__row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 34px;
+  gap: 18px;
+  align-items: start;
+  padding: 22px 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 55%, transparent);
+  transition: background-color 260ms ease;
+}
+
+.audit-checklist__row::before {
+  content: attr(data-index);
+  padding-top: 3px;
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+  opacity: 0.85;
+}
+
+.audit-checklist__row:hover {
+  background: color-mix(in srgb, var(--app-accent-soft) 34%, transparent);
+}
+
+.audit-checklist__row h3 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.audit-checklist__row p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--app-muted);
+  max-width: 62ch;
+}
+
+.audit-checklist__check {
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  justify-self: end;
+  color: var(--accent-ink);
+}
+
+/* — process mini-rail — */
+
+.audit-rail-wrap {
+  position: relative;
+}
+
+.audit-rail-line {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  display: block;
+  background: color-mix(in srgb, var(--accent-ink) 38%, transparent);
+  transform-origin: left;
+}
+
+.audit-rail {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.audit-rail__step {
+  position: relative;
+  padding-top: 26px;
+}
+
+.audit-rail__dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-ink);
+  background: var(--app-bg);
+}
+
+.audit-rail__num {
+  font-family: var(--font-space-grotesk, "Space Grotesk"), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+  opacity: 0.85;
+}
+
+.audit-rail__step h3 {
+  margin: 10px 0 0;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.audit-rail__step p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--app-muted);
+}
+
+@media (max-width: 767px) {
+  .audit-rail-line {
+    display: none;
+  }
+
+  .audit-rail {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .audit-rail__step {
+    padding-top: 0;
+    padding-left: 26px;
+  }
+
+  .audit-rail__dot {
+    top: 5px;
+  }
+}
+
+/* — FAQ icon morph: plus rotates into a close cross — */
+
+.faq-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  color: var(--app-muted);
+  transition:
+    rotate 300ms var(--ease-fluid),
+    color 300ms ease;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.faq-icon::before {
+  width: 14px;
+  height: 2px;
+}
+
+.faq-icon::after {
+  width: 2px;
+  height: 14px;
+}
+
+.faq-icon[data-open] {
+  rotate: 45deg;
+  color: var(--accent-ink);
+}
+
+/* — print guards for the Tier-2 subpage layer — */
+
+@media print {
+  .scroll-field,
+  .scroll-progress,
+  .audit-scan {
+    display: none !important;
+  }
+
+  /* Framer serializes hidden states inline; on paper everything must be
+   * settled and fully drawn. */
+  .word-reveal__word {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .cv-timeline__rail {
+    transform: none !important;
+  }
+
+  /* The color tokens stay on the DARK palette in print (the html class
+   * doesn't flip) — near-white body text on white paper. Force ink. */
+  .cv-intro,
+  .cv-intro *,
+  .cv-paper,
+  .cv-paper * {
+    color: #121212 !important;
+  }
+
+  .cv-dossier-meta,
+  .cv-stack-label,
+  .cv-meta,
+  .cv-section h2 {
+    color: #555555 !important;
+  }
+
+  .cv-section h2::before,
+  .cv-role {
+    color: #121212 !important;
+  }
+
+  .cv-section h2::after {
+    background: #d5d5d5;
+  }
+
+  .cv-header {
+    border-color: #d5d5d5;
+  }
+
+  .cv-section .cv-chips li {
+    border-color: #cfcfcf;
+  }
+
+  .cv-timeline__rail {
+    background: #bbbbbb;
+  }
+
+  .cv-timeline .cv-block::before {
+    border-color: #777777;
+    background: #ffffff;
+  }
+}

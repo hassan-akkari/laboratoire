@@ -12,16 +12,12 @@ import {
   AppNavbarItem,
   ThemeToggle,
 } from "@laboratoire/ui";
-import {
-  FaWhatsapp,
-  FaRegEnvelope,
-  FaPlus,
-  FaMinus,
-  FaCheck,
-} from "react-icons/fa";
+import { FaWhatsapp, FaRegEnvelope } from "react-icons/fa";
 import Container from "../layout/Container";
 import Section from "../layout/Section";
 import LocaleSwitcher from "../ui/LocaleSwitcher";
+import WordReveal from "../ui/WordReveal";
+import DrawnCheck from "../ui/DrawnCheck";
 import type { Locale } from "../../i18n/locale";
 import { localePath } from "../../i18n/routing";
 import type { Messages } from "../../i18n/messages";
@@ -38,6 +34,88 @@ type AuditPageProps = {
   locale: Locale;
   labels: Messages;
 };
+
+const SCAN_BADGES = [
+  { tone: "ok", style: { top: "17%", right: "6%" } },
+  { tone: "warn", style: { top: "38%", left: "5%" } },
+  { tone: "ok", style: { top: "60%", right: "11%" } },
+  { tone: "warn", style: { bottom: "9%", left: "16%" } },
+] as const;
+
+/**
+ * Decorative "site under audit" vignette: a CSS-only skeleton browser frame
+ * swept top-to-bottom by a scan line while ✓/! badges pop onto the layout —
+ * the audit told visually, no fake numbers claimed. Hidden below lg; fully
+ * static under reduced motion (badges visible, no sweep).
+ */
+function AuditScanFrame({ reduceMotion }: { reduceMotion: boolean }) {
+  return (
+    <div className="audit-scan" aria-hidden="true">
+      <div className="audit-scan__chrome">
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="audit-scan__body">
+        <div className="audit-scan__row audit-scan__row--nav" />
+        <div className="audit-scan__row audit-scan__row--hero" />
+        <div className="audit-scan__cols">
+          <div className="audit-scan__row audit-scan__row--card" />
+          <div className="audit-scan__row audit-scan__row--card" />
+        </div>
+        <div className="audit-scan__row audit-scan__row--text" />
+        <div className="audit-scan__row audit-scan__row--text audit-scan__row--short" />
+
+        {SCAN_BADGES.map((badge, index) =>
+          reduceMotion ? (
+            <span
+              key={index}
+              className="audit-scan__badge"
+              data-tone={badge.tone}
+              style={badge.style}
+            >
+              {badge.tone === "ok" ? "✓" : "!"}
+            </span>
+          ) : (
+            <motion.span
+              key={index}
+              className="audit-scan__badge"
+              data-tone={badge.tone}
+              style={badge.style}
+              initial={{ opacity: 0, scale: 0.4 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                delay: 0.9 + index * 0.55,
+                type: "spring",
+                stiffness: 320,
+                damping: 17,
+              }}
+            >
+              {badge.tone === "ok" ? "✓" : "!"}
+            </motion.span>
+          ),
+        )}
+
+        {reduceMotion ? null : (
+          <span className="audit-scan__sweep">
+            <motion.span
+              className="audit-scan__sweep-bar"
+              initial={{ y: "-100%" }}
+              animate={{ y: "100%" }}
+              transition={{
+                duration: 3.6,
+                ease: "linear",
+                repeat: Infinity,
+                repeatDelay: 1.4,
+              }}
+            />
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function AuditPage({ locale, labels }: AuditPageProps) {
   const reduceMotion = useReducedMotionSafe();
@@ -86,6 +164,7 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
 
       <Section id="audit-hero" className="relative">
         <Container>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-center">
           <motion.div
             variants={staggerChildrenVariants}
             {...getMountReveal(reduceMotion)}
@@ -97,12 +176,11 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
             >
               {content.badge}
             </motion.p>
-            <motion.h1
-              variants={fadeUpVariants}
+            <WordReveal
+              as="h1"
+              text={content.hero.title}
               className="text-4xl leading-[1.08] sm:text-5xl md:text-6xl"
-            >
-              {content.hero.title}
-            </motion.h1>
+            />
             <motion.p
               variants={fadeUpVariants}
               className="mt-6 max-w-2xl text-lg text-(--app-muted)"
@@ -146,6 +224,11 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
               ))}
             </motion.ul>
           </motion.div>
+
+          <div className="hidden lg:block">
+            <AuditScanFrame reduceMotion={reduceMotion} />
+          </div>
+          </div>
         </Container>
       </Section>
 
@@ -165,26 +248,22 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
           </motion.div>
 
           <motion.ol
-            className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+            className="audit-checklist mt-12"
             variants={staggerChildrenVariants}
-            {...getInViewReveal(reduceMotion, 0.1)}
+            {...getInViewReveal(reduceMotion, 0.06)}
           >
             {content.checkpoints.items.map((item, index) => (
               <motion.li
                 key={item.id}
                 variants={fadeUpVariants}
-                className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
+                className="audit-checklist__row"
+                data-index={String(index + 1).padStart(2, "0")}
               >
-                <span
-                  aria-hidden="true"
-                  className="text-sm font-semibold tracking-[0.2em] text-(--accent-ink)"
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-lg leading-snug">{item.title}</h3>
-                <p className="mt-3 text-sm text-(--app-muted)">
-                  {item.description}
-                </p>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
+                <DrawnCheck className="audit-checklist__check" delay={0.25} />
               </motion.li>
             ))}
           </motion.ol>
@@ -214,11 +293,11 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
               variants={fadeUpVariants}
               className="mt-8 grid gap-4 md:grid-cols-2"
             >
-              {content.deliverable.items.map((item) => (
+              {content.deliverable.items.map((item, index) => (
                 <li key={item} className="flex gap-3">
-                  <FaCheck
-                    aria-hidden="true"
-                    className="mt-1 shrink-0 text-(--accent-ink)"
+                  <DrawnCheck
+                    className="mt-0.5 h-4.75 w-4.75 shrink-0 text-(--accent-ink)"
+                    delay={index * 0.07}
                   />
                   <span className="text-base">{item}</span>
                 </li>
@@ -241,30 +320,40 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
             <h2 className="text-3xl md:text-4xl">{content.process.title}</h2>
           </motion.div>
 
-          <motion.ol
-            className="mt-12 grid gap-5 md:grid-cols-3"
-            variants={staggerChildrenVariants}
-            {...getInViewReveal(reduceMotion, 0.1)}
-          >
-            {content.process.steps.map((step) => (
-              <motion.li
-                key={step.id}
-                variants={fadeUpVariants}
-                className="card-hover rounded-2xl border border-(--app-border) bg-(--app-card) p-6"
-              >
-                <span
-                  aria-hidden="true"
-                  className="text-sm font-semibold tracking-[0.2em] text-(--accent-ink)"
+          <div className="audit-rail-wrap mt-14">
+            {reduceMotion ? (
+              <span className="audit-rail-line" aria-hidden="true" />
+            ) : (
+              <motion.span
+                className="audit-rail-line"
+                aria-hidden="true"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, amount: 0.4, margin: "200% 0px -10% 0px" }}
+                transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
+              />
+            )}
+            <motion.ol
+              className="audit-rail"
+              variants={staggerChildrenVariants}
+              {...getInViewReveal(reduceMotion, 0.15)}
+            >
+              {content.process.steps.map((step) => (
+                <motion.li
+                  key={step.id}
+                  variants={fadeUpVariants}
+                  className="audit-rail__step"
                 >
-                  {step.number}
-                </span>
-                <h3 className="mt-3 text-lg leading-snug">{step.title}</h3>
-                <p className="mt-3 text-sm text-(--app-muted)">
-                  {step.description}
-                </p>
-              </motion.li>
-            ))}
-          </motion.ol>
+                  <span className="audit-rail__dot" aria-hidden="true" />
+                  <span className="audit-rail__num" aria-hidden="true">
+                    {step.number}
+                  </span>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </motion.li>
+              ))}
+            </motion.ol>
+          </div>
         </Container>
       </Section>
 
@@ -306,10 +395,9 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
                     </span>
                     <span
                       aria-hidden="true"
-                      className="mt-1 shrink-0 text-(--app-muted)"
-                    >
-                      {isOpen ? <FaMinus /> : <FaPlus />}
-                    </span>
+                      className="faq-icon mt-1 shrink-0"
+                      data-open={isOpen || undefined}
+                    />
                   </button>
                   <AnimatePresence initial={false}>
                     {isOpen ? (
@@ -345,12 +433,11 @@ export default function AuditPage({ locale, labels }: AuditPageProps) {
             variants={staggerChildrenVariants}
             {...getInViewReveal(reduceMotion, 0.2)}
           >
-            <motion.h2
-              variants={fadeUpVariants}
+            <WordReveal
+              as="h2"
+              text={content.finalCta.title}
               className="text-3xl md:text-5xl md:max-w-3xl"
-            >
-              {content.finalCta.title}
-            </motion.h2>
+            />
             <motion.p
               variants={fadeUpVariants}
               className="mt-5 max-w-2xl text-base text-(--app-muted) md:text-lg"

@@ -7,7 +7,7 @@ import { easeOutQuart } from "./motionPresets";
 
 type WordRevealProps = {
   text: string;
-  as?: "h2" | "h3" | "p";
+  as?: "h1" | "h2" | "h3" | "p";
   className?: string;
 };
 
@@ -43,6 +43,7 @@ const wordVariants: Variants = {
 };
 
 const MOTION_TAG = {
+  h1: motion.h1,
   h2: motion.h2,
   h3: motion.h3,
   p: motion.p,
