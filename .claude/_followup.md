@@ -421,3 +421,35 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 ### Resolved this session
 - **H6** (locked P4 worktree dirs): the 3 dirs were removed during the P6 cleanup once
   the locking processes exited. `.claude/worktrees/` is now empty. DONE.
+
+---
+
+## 2026-07-19 — CLAUDE.md drift — bootstrap audit needed
+
+> Surfaced during the 2026-07-19 doc-drift pass (digital-garden real-vault sync +
+> middleware→proxy line fix). Only the proxy line was corrected in CLAUDE.md; the
+> items below are the drift deliberately NOT fixed surgically.
+
+### C2 — web-next described as in-memory orders + single-cookie MVP, but `lib/db/` (Drizzle) exists
+
+- **Where**: `.claude/CLAUDE.md` — mermaid node ("Server Actions · zod · in-memory orders"),
+  the `orders.ts` `globalThis.__bookingOrderStore__` note, gotcha #6 — vs.
+  `apps/web-next/lib/db/client.ts` + `apps/web-next/lib/db/schema.ts` (Drizzle client + schema)
+  present on disk.
+- **What**: the persistence story CLAUDE.md tells for web-next is likely stale. Needs a
+  verification pass (what still runs on the globalThis store vs. what moved to Drizzle/DB)
+  before the description is rewritten — a larger rewrite than the 2026-07-19 surgical fix.
+
+### C3 — CLAUDE.md architecture section missing apps/control-centre and the digital-garden pipeline
+
+- **Where**: `.claude/CLAUDE.md` Architecture (mermaid + notes).
+- **What**: no mention of `apps/control-centre` (local-only QoL dashboard, branch
+  `claude/qol-control-centre-9fsas9`) nor of the digital-garden vault→site pipeline in
+  `apps/docs` (`scripts/vault-sync.ts`, `/notes` routes, `notes.json` — see
+  `docs/digital-garden.md`).
+
+### Suggested action
+
+Run the `bootstrap audit` trigger from CLAUDE.md's Re-bootstrap section — it diffs the doc
+against the current repo and reports incoherence. C2/C3 (plus the still-open C1 above)
+should all fall out of that pass.

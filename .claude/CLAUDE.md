@@ -51,7 +51,7 @@ Notes:
 - `apps/web-react` and `apps/web-next` are **showcase prototypes** — same patterns implemented in different frameworks, intended to eventually be linked from the portfolio (route, subdomain, or external link — undecided). No deploy target wired up. Treat them as local until a hosting plan is agreed.
 - Routing: `web-react` uses React Router 7; `docs` and `web-next` use the Next.js App Router. `docs` serves locale-prefixed routes (`/it`, `/en`, `/fr`) with a proxy redirect for bare paths (`apps/docs/src/proxy.ts`).
 - State management is asymmetric: web-react uses Redux Toolkit + RTK Query; docs has NO Redux anymore (content is statically imported + zod-validated at build in `apps/docs/src/content/loader.ts`); web-next uses Server Actions + an in-memory order store on `globalThis`.
-- `apps/web-next/middleware.ts:21-23` protects `/checkout/:path*` via a single-cookie session (`SESSION_COOKIE_NAME` / `SESSION_COOKIE_VALUE`). MVP only — not production-safe.
+- `apps/web-next/proxy.ts` (Next 16 convention — replaces `middleware.ts`) matches `/`, `/checkout/:path*`, `/api/checkout`, `/admin/:path*`, `/api/admin/:path*`: it rewrites the `admin.itshassan.it` root to `/admin`, gates `/admin*` via `ADMIN_COOKIE_NAME` (presence-only; seal validated downstream), and gates checkout (`proxy.ts:91-103`) via a single-cookie session (`SESSION_COOKIE_NAME` / `SESSION_COOKIE_VALUE`). The checkout gate is MVP only — not production-safe.
 - `apps/web-next/lib/orders.ts:23-24` keeps orders in `globalThis.__bookingOrderStore__` with 6h TTL and 200-entry cap. **Lost on every server restart.**
 
 ## Commands

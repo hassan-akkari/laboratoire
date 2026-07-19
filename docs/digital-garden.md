@@ -1,7 +1,7 @@
 # Digital garden — vault → site pipeline
 
 > Decision record + operating manual for the `/notes` section of itshassan.it.
-> Status: **Phase F1 (static)** shipped. Written 2026-07-14.
+> Status: **Phase F1 (static)** shipped. Written 2026-07-14. Updated 2026-07-19: real vault notes synced.
 
 ## What this is
 
@@ -54,9 +54,10 @@ The script is idempotent (deterministic output, skips the write when nothing
 changed) and fails loudly listing every offending file — it never writes a
 payload the site's build would then reject.
 
-A sample vault for testing lives in `resources/vault-sample/` (3 published
-notes + 1 private proving the allowlist); the current `notes.json` was
-generated from it.
+The current `notes.json` is generated from the real vault: notes live in the
+vault's `notes/` folder, indexed by the private master `notes.md` (8 published
+as of 2026-07-19 — 5 new + the 3 ex-sample notes adopted into the vault).
+`resources/vault-sample/` remains as a test fixture only.
 
 ## Roadmap pointers (from the July 2026 control-centre plan)
 
