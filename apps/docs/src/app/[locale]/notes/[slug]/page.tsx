@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import NoteDetailPage from "@/components/pages/NoteDetailPage";
-import { getNote, getNotes } from "@/content/notesLoader";
+import {
+  getBacklinks,
+  getNote,
+  getNotes,
+  getRelatedNotes,
+} from "@/content/notesLoader";
 import { messages } from "@/i18n/messages";
 import { localeFromParams } from "@/i18n/server";
 import { buildPageMetadata } from "@/seo/pageMetadata";
@@ -38,5 +43,13 @@ export default async function NoteRoute({ params }: PageProps) {
   const note = getNote(slug);
   if (!note) notFound();
 
-  return <NoteDetailPage locale={locale} labels={messages[locale]} note={note} />;
+  return (
+    <NoteDetailPage
+      locale={locale}
+      labels={messages[locale]}
+      note={note}
+      backlinks={getBacklinks(note.slug)}
+      related={getRelatedNotes(note)}
+    />
+  );
 }

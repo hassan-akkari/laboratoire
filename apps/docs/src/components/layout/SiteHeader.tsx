@@ -93,6 +93,11 @@ export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
             {labels.nav.cv}
           </Link>
         </AppNavbarItem>
+        <AppNavbarItem>
+          <Link href={localePath(locale, "/notes")} className="site-nav__link">
+            {labels.nav.notes}
+          </Link>
+        </AppNavbarItem>
       </AppNavbarContent>
 
       <AppNavbarContent justify="end" className="site-nav__actions">
@@ -157,6 +162,17 @@ export default function SiteHeader({ locale, labels }: SiteHeaderProps) {
             onClick={closeMenu}
           >
             {labels.nav.cv}
+          </Link>
+        </AppNavbarMenuItem>
+        <AppNavbarMenuItem>
+          <Link
+            href={localePath(locale, "/notes")}
+            className="site-nav__menu-link"
+            data-index={String(nav.items.length + 2).padStart(2, "0")}
+            style={{ "--i": nav.items.length + 1 } as React.CSSProperties}
+            onClick={closeMenu}
+          >
+            {labels.nav.notes}
           </Link>
         </AppNavbarMenuItem>
         <AppNavbarMenuItem className="site-nav__menu-footer">

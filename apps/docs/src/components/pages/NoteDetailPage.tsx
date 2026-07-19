@@ -17,7 +17,38 @@ type NoteDetailPageProps = {
   locale: Locale;
   labels: Messages;
   note: Note;
+  /** Notes whose body wikilinks here (reverse edges, computed at build). */
+  backlinks: Note[];
+  /** Shared-tag neighbours, already de-duplicated against backlinks. */
+  related: Note[];
 };
+
+function AdjacentNotes({
+  title,
+  notes,
+  locale,
+}: {
+  title: string;
+  notes: Note[];
+  locale: Locale;
+}) {
+  if (notes.length === 0) return null;
+  return (
+    <section className="note-adjacent__group">
+      <h2>{title}</h2>
+      <ul>
+        {notes.map((note) => (
+          <li key={note.slug}>
+            <Link href={localePath(locale, `/notes/${note.slug}`)}>
+              {note.title}
+            </Link>
+            <p>{note.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 /**
  * Internal (locale-prefixed) links go through next/link; external ones get
@@ -47,6 +78,8 @@ export default function NoteDetailPage({
   locale,
   labels,
   note,
+  backlinks,
+  related,
 }: NoteDetailPageProps) {
   const t = labels.notes;
 
@@ -79,6 +112,20 @@ export default function NoteDetailPage({
               {body}
             </ReactMarkdown>
           </div>
+          {(backlinks.length > 0 || related.length > 0) && (
+            <footer className="note-adjacent">
+              <AdjacentNotes
+                title={t.backlinksTitle}
+                notes={backlinks}
+                locale={locale}
+              />
+              <AdjacentNotes
+                title={t.relatedTitle}
+                notes={related}
+                locale={locale}
+              />
+            </footer>
+          )}
         </article>
       </Container>
     </Section>

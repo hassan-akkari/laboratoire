@@ -10,6 +10,7 @@ export type Messages = {
     contact: string;
     cv: string;
     downloadCv: string;
+    notes: string;
   };
   locale: {
     label: string;
@@ -111,6 +112,18 @@ export type Messages = {
     tendedLabel: string;
     empty: string;
     stages: { seedling: string; budding: string; evergreen: string };
+    /** Homepage teaser section. */
+    teaserTitle: string;
+    teaserSubtitle: string;
+    teaserCta: string;
+    /** Note detail: reverse-wikilink and shared-tag sections. */
+    backlinksTitle: string;
+    relatedTitle: string;
+    /** Index filter bar. */
+    filterAll: string;
+    filterStages: string;
+    filterTags: string;
+    feedLabel: string;
   };
   system: {
     githubUnavailable: string;
@@ -130,6 +143,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contact",
       cv: "CV",
       downloadCv: "Download CV",
+      notes: "Notes",
     },
     locale: {
       label: "Language",
@@ -265,6 +279,16 @@ export const messages: Record<Locale, Messages> = {
         budding: "Budding",
         evergreen: "Evergreen",
       },
+      teaserTitle: "From the digital garden",
+      teaserSubtitle:
+        "Working notes, published while they grow — the thinking behind the work.",
+      teaserCta: "Browse all notes",
+      backlinksTitle: "Linked from",
+      relatedTitle: "Related notes",
+      filterAll: "All",
+      filterStages: "Filter by growth stage",
+      filterTags: "Filter by topic",
+      feedLabel: "RSS feed",
     },
     system: {
       githubUnavailable:
@@ -284,6 +308,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contatti",
       cv: "CV",
       downloadCv: "Scarica CV",
+      notes: "Note",
     },
     locale: {
       label: "Lingua",
@@ -419,6 +444,16 @@ export const messages: Record<Locale, Messages> = {
         budding: "In crescita",
         evergreen: "Sempreverde",
       },
+      teaserTitle: "Dal giardino digitale",
+      teaserSubtitle:
+        "Appunti di lavoro, pubblicati mentre crescono — il pensiero dietro il lavoro.",
+      teaserCta: "Sfoglia tutte le note",
+      backlinksTitle: "Citata da",
+      relatedTitle: "Note correlate",
+      filterAll: "Tutte",
+      filterStages: "Filtra per stadio di crescita",
+      filterTags: "Filtra per argomento",
+      feedLabel: "Feed RSS",
     },
     system: {
       githubUnavailable:
@@ -438,6 +473,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contact",
       cv: "CV",
       downloadCv: "Télécharger CV",
+      notes: "Notes",
     },
     locale: {
       label: "Langue",
@@ -574,6 +610,16 @@ export const messages: Record<Locale, Messages> = {
         budding: "En croissance",
         evergreen: "Persistante",
       },
+      teaserTitle: "Du jardin numérique",
+      teaserSubtitle:
+        "Notes de travail, publiées pendant qu'elles poussent — la réflexion derrière le travail.",
+      teaserCta: "Parcourir toutes les notes",
+      backlinksTitle: "Citée par",
+      relatedTitle: "Notes liées",
+      filterAll: "Toutes",
+      filterStages: "Filtrer par stade de croissance",
+      filterTags: "Filtrer par sujet",
+      feedLabel: "Flux RSS",
     },
     system: {
       githubUnavailable:
@@ -593,6 +639,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Kontakt",
       cv: "CV",
       downloadCv: "CV herunterladen",
+      notes: "Notizen",
     },
     locale: {
       label: "Sprache",
@@ -731,6 +778,16 @@ export const messages: Record<Locale, Messages> = {
         budding: "Wachsend",
         evergreen: "Immergrün",
       },
+      teaserTitle: "Aus dem digitalen Garten",
+      teaserSubtitle:
+        "Arbeitsnotizen, veröffentlicht während sie wachsen — das Denken hinter der Arbeit.",
+      teaserCta: "Alle Notizen ansehen",
+      backlinksTitle: "Verlinkt von",
+      relatedTitle: "Verwandte Notizen",
+      filterAll: "Alle",
+      filterStages: "Nach Wachstumsstadium filtern",
+      filterTags: "Nach Thema filtern",
+      feedLabel: "RSS-Feed",
     },
     system: {
       githubUnavailable:

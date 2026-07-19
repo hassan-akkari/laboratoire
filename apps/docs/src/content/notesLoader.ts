@@ -1,6 +1,11 @@
 import "server-only";
 
 import notesJson from "./data/notes.json";
+import {
+  computeBacklinks,
+  computeRelated,
+  computeTagCounts,
+} from "./notesGraph";
 import { notesPayloadSchema, type Note } from "./notes.schema";
 
 /**
@@ -37,4 +42,19 @@ export function getNotes(): Note[] {
 
 export function getNote(slug: string): Note | undefined {
   return getNotes().find((note) => note.slug === slug);
+}
+
+/** Notes that wikilink to this slug — the garden's reverse edges. */
+export function getBacklinks(slug: string): Note[] {
+  return computeBacklinks(getNotes(), slug);
+}
+
+/** Shared-tag neighbours (backlinks excluded — the sections render together). */
+export function getRelatedNotes(note: Note, limit = 3): Note[] {
+  return computeRelated(getNotes(), note, limit);
+}
+
+/** Distinct tags with usage counts for the index filter bar. */
+export function getTagCounts(): { tag: string; count: number }[] {
+  return computeTagCounts(getNotes());
 }

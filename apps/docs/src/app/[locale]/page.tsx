@@ -9,6 +9,7 @@ import ProcessSection from "@/components/sections/ProcessSection";
 import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
 import WhyMeSection from "@/components/sections/WhyMeSection";
 import TechStackSection from "@/components/sections/TechStackSection";
+import NotesTeaserSection from "@/components/sections/NotesTeaserSection";
 import FAQSection from "@/components/sections/FAQSection";
 import FinalCTASection from "@/components/sections/FinalCTASection";
 import { getSeoContent } from "@/data/seoContent";
@@ -47,6 +48,7 @@ export default async function HomePage({ params }: PageProps) {
       <CaseStudiesSection locale={locale} />
       <WhyMeSection locale={locale} />
       <TechStackSection locale={locale} />
+      <NotesTeaserSection locale={locale} />
       <FAQSection locale={locale} />
       <FinalCTASection locale={locale} />
     </>

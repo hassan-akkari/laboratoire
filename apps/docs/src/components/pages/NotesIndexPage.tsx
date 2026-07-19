@@ -8,7 +8,7 @@ import type { Note } from "../../content/notes.schema";
 import type { Locale } from "../../i18n/locale";
 import { localePath } from "../../i18n/routing";
 import type { Messages } from "../../i18n/messages";
-import NoteMeta from "./NoteMeta";
+import NotesExplorer from "./NotesExplorer";
 
 type NotesIndexPageProps = {
   locale: Locale;
@@ -35,23 +35,14 @@ export default function NotesIndexPage({
           {t.languageNote && (
             <p className="notes-language-note">{t.languageNote}</p>
           )}
+          <p className="notes-feed-link">
+            <a href="/feed.xml">{t.feedLabel} ↗</a>
+          </p>
 
           {notes.length === 0 ? (
             <p className="notes-subtitle">{t.empty}</p>
           ) : (
-            <ul className="notes-list">
-              {notes.map((note) => (
-                <li key={note.slug} className="note-card">
-                  <h2>
-                    <Link href={localePath(locale, `/notes/${note.slug}`)}>
-                      {note.title}
-                    </Link>
-                  </h2>
-                  <p className="note-summary">{note.summary}</p>
-                  <NoteMeta note={note} locale={locale} labels={labels} />
-                </li>
-              ))}
-            </ul>
+            <NotesExplorer locale={locale} labels={labels} notes={notes} />
           )}
         </div>
       </Container>
