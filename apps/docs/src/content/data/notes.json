@@ -1,6 +1,63 @@
 {
   "notes": [
     {
+      "slug": "git-worktrees-hoisted-pnpm-missing-bins",
+      "title": "Git worktrees + hoisted pnpm: where did my binaries go?",
+      "summary": "A git worktree is a fresh checkout — it has your files, not your node_modules. With pnpm's hoisted linker every tool binary lives at the original repo root, so eslint/vitest/next simply don't exist in the worktree.",
+      "stage": "seedling",
+      "tags": [
+        "pnpm",
+        "git",
+        "monorepo",
+        "tooling"
+      ],
+      "createdAt": "2026-06-26",
+      "updatedAt": "2026-07-19",
+      "body": "# Git worktrees + hoisted pnpm: where did my binaries go?\n\nI run parallel coding agents in **git worktrees** — each variant gets an isolated checkout, nobody steps on anybody. First surprise: inside a worktree, `pnpm check` explodes because `eslint`, `vitest` and `next` don't exist.\n\nObvious in hindsight: a worktree shares the *repository*, not the *working directory*. It's a fresh checkout of tracked files — and `node_modules` is not a tracked file. With `.npmrc` saying `node-linker=hoisted`, every dependency and every `.bin` shim lives in one flat `node_modules` at the **original** repo root. The worktree has your source and none of your tools.\n\nTwo mitigations, both used depending on the job:\n\n- **Install in the worktree** when the agent genuinely needs to run the full toolchain there. Costs time and disk per worktree (the lockfile is already resolved, so it's `pnpm install --frozen-lockfile` — cached, but not free).\n- **Gate on the main checkout instead.** Agents run what works without binaries (e.g. `tsc` via the shared root, or nothing), and the authoritative `lint + typecheck + test + build` runs **after merge, on the real checkout** — where node_modules actually exists. A failed gate there is still reversible with one revert.\n\nBonus gotcha from the same setup: `git worktree add` bases the new branch on whatever you give it — agents that assume \"current branch\" quietly base off the wrong one, and agents that bare-`cd` around leak commands into the parent checkout. Address worktrees explicitly (`git -C <path>`) and pass the base branch every time.\n\nSeedling because the ergonomics are still evolving — but the root cause is now a law: **worktrees isolate files, not installations.**"
+    },
+    {
+      "slug": "never-throw-at-module-load-in-nextjs",
+      "title": "Never throw at module load in Next.js",
+      "summary": "next build imports your modules with production NODE_ENV but none of your runtime env. A top-level throw on a missing env var kills the whole build. Degrade instead.",
+      "stage": "budding",
+      "tags": [
+        "nextjs",
+        "patterns",
+        "til"
+      ],
+      "createdAt": "2026-06-26",
+      "updatedAt": "2026-07-19",
+      "body": "# Never throw at module load in Next.js\n\nMy first `next build` on a fresh app failed with a surprise: the database client threw `DATABASE_URL is not set` — during the **build**, on a machine that will never talk to the database.\n\nThe mechanism: `next build` imports your modules during page-data collection with `NODE_ENV=production` but **without your runtime environment**. Any module that throws at the top level — the classic \"fail fast\" env guard — aborts the entire build:\n\n```ts\n// ✗ kills next build on any machine without the env var\nconst databaseUrl = process.env.DATABASE_URL;\nif (!databaseUrl) throw new Error(\"DATABASE_URL is not set\");\n```\n\nThe fix is to degrade instead of dying — expose readiness as a value:\n\n```ts\nconst databaseUrl = process.env.DATABASE_URL;\n\nexport const db = databaseUrl\n  ? drizzle(neon(databaseUrl), { schema })\n  : (null as unknown as DrizzleDb);\n\n/** True when a real DB connection is configured. */\nexport const dbReady = Boolean(databaseUrl);\n```\n\nThe query layer checks `dbReady` and returns empty results; the UI renders an honest \"database not connected yet\" setup state. The build passes on any machine, the dev server boots before Neon exists, and the page tells you exactly what's missing.\n\n\"Fail fast\" is still right — but at **request time**, in the query layer, where a missing env var is actually an error. Import time is the wrong court for that trial.\n\nThis lesson came from the same app as [Two apps, one Neon database](note:two-apps-one-neon-database)."
+    },
+    {
+      "slug": "nextjs-16-middleware-is-now-proxy",
+      "title": "Next.js 16: middleware.ts is now proxy.ts",
+      "summary": "Next 16 renamed the middleware file convention to proxy.ts. Same API, better name — and a reminder that it should stay a cheap presence check, never your only auth gate.",
+      "stage": "budding",
+      "tags": [
+        "nextjs",
+        "frontend"
+      ],
+      "createdAt": "2026-06-26",
+      "updatedAt": "2026-07-19",
+      "body": "# Next.js 16: middleware.ts is now proxy.ts\n\nNext 16 renamed the `middleware.ts` file convention to **`proxy.ts`**. Same signature, same `NextRequest`/`NextResponse` API — the export is now literally called what it does:\n\n```ts\n// proxy.ts (root of the app — was middleware.ts before Next 16)\nexport default function proxy(request: NextRequest) {\n  const hasSession = request.cookies.has(ADMIN_COOKIE_NAME);\n  if (!hasSession) {\n    return NextResponse.redirect(new URL(\"/admin/login\", request.url));\n  }\n  return NextResponse.next();\n}\n\nexport const config = { matcher: [\"/admin/:path*\"] };\n```\n\nThe rename is not cosmetic. \"Middleware\" invited people to put business logic in it; \"proxy\" says what this layer really is: a thin gate **in front of** the app. Two consequences I now treat as rules:\n\n- **Presence checks only.** The proxy checks that a session cookie *exists* — it never unseals it. iron-session's unseal is async crypto; it belongs server-side, not in the hot edge path.\n- **Never the sole guard.** Every protected page, layout and server action calls its own `requireAdminSession()`. The proxy turns away anonymous traffic fast; the real authentication happens again behind it. Defence in depth, not delegation.\n\nAll three Next apps in my monorepo migrated the same day — one of them uses the proxy purely for locale redirects, which fits the new name even better."
+    },
+    {
+      "slug": "obsidian-vault-as-ai-external-brain",
+      "title": "An Obsidian vault as a cross-tool AI external brain",
+      "summary": "One markdown vault as the shared memory for every AI I work with — coding agents read and write it natively, web chats bridge in via a paste ritual. The rules that keep it from rotting.",
+      "stage": "seedling",
+      "tags": [
+        "ai",
+        "obsidian",
+        "workflow",
+        "meta"
+      ],
+      "createdAt": "2026-06-25",
+      "updatedAt": "2026-07-19",
+      "body": "# An Obsidian vault as a cross-tool AI external brain\n\nEvery AI tool wants to own your memory: chat histories here, \"projects\" there, none of it portable. My fix is one **Obsidian vault** — plain markdown, versioned with git — that acts as the external brain for *all* of them. No tool owns it; every tool reads it.\n\nThe honest part most setups skip: there are **two kinds of tools, two different realities**.\n\n- **Local coding agents** (Claude Code, Codex) have filesystem access. They read the vault's `CLAUDE.md` contract on boot, load the relevant project note and the latest daily log, and write their own session notes as they work. Fully automatic.\n- **Web chats** cannot see local files, and no magic sync pretends otherwise. The bridge is a cheap ritual: paste a session-start block going in, paste a handoff prompt going out — the model emits a daily-note entry in vault format, and I commit it.\n\nThe structure is deliberately thin: one master note per project, reusable runbooks for repeated jobs, dated daily logs, and an append-only `decisions.md` with the *why* behind every choice. A handful of rules keep it alive:\n\n1. **Read before acting** — project master first, then the latest daily.\n2. **Append, don't proliferate** — update an existing note unless the topic is genuinely new. Bloat is the failure mode that kills these systems.\n3. **A daily note per real session** — what happened, what was decided, what's next.\n4. **Log decisions with reasons** — future-me and future-agents search these constantly.\n\nThe part I underestimated: useful notes are the **residue of real work**, not something you design upfront. [Two apps, one Neon database](note:two-apps-one-neon-database) exists because an agent and I nearly learned it the hard way, and the vault was where the lesson landed. This garden is just the vault's public face — notes that earned a `publish: true`. See [Why this garden exists](note:why-this-garden-exists) for that half of the story."
+    },
+    {
       "slug": "react-19-use-is-not-a-hook",
       "title": "React 19: use() is not a hook",
       "summary": "use() looks like a hook but deliberately breaks the rules of hooks: you can call it inside conditionals and loops. It does two unrelated-looking things with one API:",
@@ -11,7 +68,7 @@
       ],
       "createdAt": "2026-06-21",
       "updatedAt": "2026-07-02",
-      "body": "# React 19: use() is not a hook\n\n`use()` looks like a hook but deliberately breaks the rules of hooks: you can call it **inside conditionals and loops**. It does two unrelated-looking things with one API:\n\n**1. Reads context conditionally** — something `useContext` never allowed:\n\n```tsx\nfunction StatusBadge({ compact }: { compact: boolean }) {\n  if (compact) return <Dot />;\n  const theme = use(ThemeContext); // legal: after an early return\n  return <Badge theme={theme} />;\n}\n```\n\n**2. Unwraps promises**, suspending the component until they settle:\n\n```tsx\nfunction Comments({ commentsPromise }: { commentsPromise: Promise<Comment[]> }) {\n  const comments = use(commentsPromise); // suspends; nearest <Suspense> shows the fallback\n  return comments.map((c) => <p key={c.id}>{c.text}</p>);\n}\n```\n\nThe pattern that finally clicked for me: **start the fetch in a Server Component, pass the promise down, `use()` it in a Client Component**. The request begins on the server, and the client component stays synchronous-looking without `useEffect` plumbing.\n\nCaveat: the promise must come from a Suspense-compatible source (or be cached) — creating it during render re-triggers the fetch on every render."
+      "body": "# React 19: use() is not a hook\r\n\r\n`use()` looks like a hook but deliberately breaks the rules of hooks: you can call it **inside conditionals and loops**. It does two unrelated-looking things with one API:\r\n\r\n**1. Reads context conditionally** — something `useContext` never allowed:\r\n\r\n```tsx\r\nfunction StatusBadge({ compact }: { compact: boolean }) {\r\n  if (compact) return <Dot />;\r\n  const theme = use(ThemeContext); // legal: after an early return\r\n  return <Badge theme={theme} />;\r\n}\r\n```\r\n\r\n**2. Unwraps promises**, suspending the component until they settle:\r\n\r\n```tsx\r\nfunction Comments({ commentsPromise }: { commentsPromise: Promise<Comment[]> }) {\r\n  const comments = use(commentsPromise); // suspends; nearest <Suspense> shows the fallback\r\n  return comments.map((c) => <p key={c.id}>{c.text}</p>);\r\n}\r\n```\r\n\r\nThe pattern that finally clicked for me: **start the fetch in a Server Component, pass the promise down, `use()` it in a Client Component**. The request begins on the server, and the client component stays synchronous-looking without `useEffect` plumbing.\r\n\r\nCaveat: the promise must come from a Suspense-compatible source (or be cached) — creating it during render re-triggers the fetch on every render."
     },
     {
       "slug": "til-postgres-websearch-to-tsquery",
@@ -25,7 +82,22 @@
       ],
       "createdAt": "2026-06-29",
       "updatedAt": "2026-07-08",
-      "body": "# TIL: Postgres websearch_to_tsquery\n\nPostgres ships a full-text query parser that understands **Google-like syntax** out of the box — quoted phrases, `OR`, and `-exclusions` — no hand-rolled parser required:\n\n```sql\nSELECT title\nFROM notes\nWHERE search_vector @@ websearch_to_tsquery('english', '\"row level security\" OR rls -mysql');\n```\n\nUnlike `to_tsquery`, it never throws on user input: garbage in, empty result out. That makes it safe to wire a search box straight to it.\n\nThe setup is two lines of DDL — a generated column plus a GIN index:\n\n```sql\nALTER TABLE notes ADD COLUMN search_vector tsvector\n  GENERATED ALWAYS AS (to_tsvector('english', title || ' ' || body)) STORED;\n\nCREATE INDEX notes_search_idx ON notes USING gin (search_vector);\n```\n\nThis is the search engine planned for this very garden once it moves from static JSON to Postgres. Implementation notes live in Garden pipeline internals."
+      "body": "# TIL: Postgres websearch_to_tsquery\r\n\r\nPostgres ships a full-text query parser that understands **Google-like syntax** out of the box — quoted phrases, `OR`, and `-exclusions` — no hand-rolled parser required:\r\n\r\n```sql\r\nSELECT title\r\nFROM notes\r\nWHERE search_vector @@ websearch_to_tsquery('english', '\"row level security\" OR rls -mysql');\r\n```\r\n\r\nUnlike `to_tsquery`, it never throws on user input: garbage in, empty result out. That makes it safe to wire a search box straight to it.\r\n\r\nThe setup is two lines of DDL — a generated column plus a GIN index:\r\n\r\n```sql\r\nALTER TABLE notes ADD COLUMN search_vector tsvector\r\n  GENERATED ALWAYS AS (to_tsvector('english', title || ' ' || body)) STORED;\r\n\r\nCREATE INDEX notes_search_idx ON notes USING gin (search_vector);\r\n```\r\n\r\nThis is the search engine planned for this very garden once it moves from static JSON to Postgres. Implementation notes live in Garden pipeline internals."
+    },
+    {
+      "slug": "two-apps-one-neon-database",
+      "title": "Two apps, one Neon database",
+      "summary": "Sharing one Postgres between two apps works fine — if you prefix your tables and treat drizzle db:push as a loaded gun. Versioned migrations only.",
+      "stage": "budding",
+      "tags": [
+        "postgres",
+        "neon",
+        "drizzle",
+        "monorepo"
+      ],
+      "createdAt": "2026-06-26",
+      "updatedAt": "2026-07-19",
+      "body": "# Two apps, one Neon database\n\nMy monorepo has two independent Next.js apps that both need Postgres. Instead of provisioning a second Neon project, they **share one database**. Two rules make that safe:\n\n**1. Prefix your tables.** Every table the second app owns starts with `booking_`:\n\n```ts\nexport const services = pgTable(\"booking_services\", { /* … */ });\nexport const bookings = pgTable(\"booking_bookings\", { /* … */ });\n```\n\nThe two apps' tables coexist in one schema, stay visually grouped in any DB client, and remain cross-readable if one app ever wants to query the other's data.\n\n**2. Never `db:push` on a shared database.** This is the one that bites. Drizzle's `push` diffs the *entire database* against *your* schema file — and your schema file doesn't know about the other app's tables. From push's point of view they are drift to be removed. One convenient command, and the neighbour app's tables are gone.\n\nThe safe loop is generate + migrate:\n\n```bash\npnpm -F booking-service db:generate   # writes drizzle/0002_*.sql from the schema diff\npnpm -F booking-service db:migrate    # applies exactly that file, records it\n```\n\nMigrations are versioned SQL you can read before they run, they only touch the tables they mention, and the migration folder doubles as a diary of every schema change the app ever made. `push` is fine for a throwaway solo database; the moment a database is shared, it's `migrate` or nothing.\n\nRelated: the same app taught me to [never throw at module load](note:never-throw-at-module-load-in-nextjs) when the database isn't provisioned yet."
     },
     {
       "slug": "why-this-garden-exists",
@@ -38,7 +110,7 @@
       ],
       "createdAt": "2026-07-13",
       "updatedAt": "2026-07-13",
-      "body": "# Why this garden exists\n\nThis is not a blog. A blog implies finished essays, an editorial calendar, and the quiet guilt of not maintaining either. This is a **digital garden**: working notes from my [Obsidian](https://obsidian.md) vault that happen to have `publish: true` in their frontmatter.\n\nEvery note carries a growth stage:\n\n- 🌱 **seedling** — a fresh capture, possibly wrong;\n- 🌿 **budding** — revisited at least once, starting to hold shape;\n- 🌲 **evergreen** — stable enough that I'd point a colleague at it.\n\nThe mechanism is deliberately boring: a Node script reads the vault, keeps only the notes explicitly marked for publishing, resolves the `[[wikilinks]]` between them, and writes a single JSON file that this site validates with [zod](https://zod.dev) at build time. If a note is malformed, the build fails — loudly, before anything ships.\n\nFull-text search will arrive when the garden grows roots in Postgres — see [TIL: Postgres websearch_to_tsquery](note:til-postgres-websearch-to-tsquery) for where that's headed."
+      "body": "# Why this garden exists\r\n\r\nThis is not a blog. A blog implies finished essays, an editorial calendar, and the quiet guilt of not maintaining either. This is a **digital garden**: working notes from my [Obsidian](https://obsidian.md) vault that happen to have `publish: true` in their frontmatter.\r\n\r\nEvery note carries a growth stage:\r\n\r\n- 🌱 **seedling** — a fresh capture, possibly wrong;\r\n- 🌿 **budding** — revisited at least once, starting to hold shape;\r\n- 🌲 **evergreen** — stable enough that I'd point a colleague at it.\r\n\r\nThe mechanism is deliberately boring: a Node script reads the vault, keeps only the notes explicitly marked for publishing, resolves the `[[wikilinks]]` between them, and writes a single JSON file that this site validates with [zod](https://zod.dev) at build time. If a note is malformed, the build fails — loudly, before anything ships.\r\n\r\nFull-text search will arrive when the garden grows roots in Postgres — see [TIL: Postgres websearch_to_tsquery](note:til-postgres-websearch-to-tsquery) for where that's headed."
     }
   ]
 }

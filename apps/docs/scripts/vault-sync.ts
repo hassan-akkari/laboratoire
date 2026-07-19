@@ -60,6 +60,7 @@ function parseArgs(argv: string[]): CliOptions {
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
+    if (arg === "--") continue; // pnpm 10 forwards the literal "--" separator
     if (arg === "--vault") vaultDir = argv[++i] ?? "";
     else if (arg === "--out") outFile = path.resolve(argv[++i] ?? "");
     else if (arg === "--dry-run") dryRun = true;

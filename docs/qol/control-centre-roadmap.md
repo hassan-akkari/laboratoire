@@ -2,11 +2,13 @@
 
 Documento operativo per trasformare il concept `vault → DB → sito` in una serie di milestone piccole, verificabili e riusabili.
 
-> **Stato al 2026-07-14 (branch `claude/qol-control-centre-9fsas9`)**: F1 implementata
+> **Stato al 2026-07-19 (branch `claude/qol-control-centre-9fsas9`)**: F1 implementata
 > (`apps/docs/scripts/vault-sync.ts` + route `/notes`, vedi `docs/digital-garden.md`);
-> in più esiste `apps/control-centre` (dashboard locale, `pnpm dev:centre`) che copre
-> in versione mock-but-working i moduli di F2/F5: tracker, scout, triage inbox,
-> pannello garden e digest git. Restano da fare: note reali dal vault, deploy, F3, F4.
+> **note reali sincronizzate**: 8 note pubblicate da `<vault>/notes/` (5 nuove + le 3
+> ex-sample adottate nel vault), artifact rigenerato dal vault vero. In più esiste
+> `apps/control-centre` (dashboard locale, `pnpm dev:centre`) che copre in versione
+> mock-but-working i moduli di F2/F5: tracker, scout, triage inbox, pannello garden
+> e digest git. Restano da fare: deploy (merge → Vercel), F3, F4.
 
 ## Direzione
 
@@ -182,11 +184,11 @@ Durata: un weekend.
 
 Checklist:
 
-- [ ] scegliere cartella Obsidian sorgente;
+- [x] scegliere cartella Obsidian sorgente (`<vault>/notes/`, master privato `notes.md`; lo sync scansiona tutto il vault, allowlist `publish: true`);
 - [x] tenere lo script di sync nel monorepo (`apps/docs/scripts/vault-sync.ts`);
 - [x] generare solo artifact pubblici dentro `apps/docs` (`src/content/data/notes.json`, allowlist `publish: true`);
 - [x] definire frontmatter minimo (`apps/docs/src/content/notes.schema.ts` + `docs/digital-garden.md`);
-- [ ] creare 3–5 note candidate (oggi: 3 note di esempio in `resources/vault-sample/`, da sostituire con note vere);
+- [x] creare 3–5 note candidate (fatte: 5 note reali da esperienze documentate + 3 ex-sample adottate nel vault → 8 pubblicate; `resources/vault-sample/` resta come fixture di test);
 - [x] implementare `dry-run` (`pnpm -F docs vault:sync -- --vault … --dry-run`);
 - [x] generare artifact statico;
 - [x] creare `/notes` e pagina dettaglio (SSG, 4 locale, metadata per nota);
