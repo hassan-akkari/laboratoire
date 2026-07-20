@@ -16,6 +16,7 @@ import { getSeoContent } from "@/data/seoContent";
 import { messages } from "@/i18n/messages";
 import { localeFromParams } from "@/i18n/server";
 import { buildPageMetadata } from "@/seo/pageMetadata";
+import FaqJsonLd from "@/seo/FaqJsonLd";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -51,6 +52,7 @@ export default async function HomePage({ params }: PageProps) {
       <NotesTeaserSection locale={locale} />
       <FAQSection locale={locale} />
       <FinalCTASection locale={locale} />
+      <FaqJsonLd locale={locale} />
     </>
   );
 }

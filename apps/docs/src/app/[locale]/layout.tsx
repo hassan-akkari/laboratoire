@@ -57,6 +57,11 @@ export const metadata: Metadata = {
     follow: true,
     "max-image-preview": "large",
   },
+  // Google Search Console: set GOOGLE_SITE_VERIFICATION in the Vercel env
+  // (or verify the domain via DNS TXT on OVH — then this stays unset).
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -65,6 +70,8 @@ export const metadata: Metadata = {
       // /favicon.ico at the root. Multi-size 16/32/48, PNG-encoded.
       { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
     ],
+    // iOS home-screen icon; Apple accepts the 512px PNG and scales it.
+    apple: [{ url: "/favicon.png", sizes: "512x512", type: "image/png" }],
   },
 };
 

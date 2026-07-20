@@ -20,17 +20,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   );
 
-  const noteEntries = getNotes().flatMap((note) =>
-    LOCALES.map((locale) => ({
-      url: `${SITE_URL}/${locale}/notes/${note.slug}`,
-      lastModified: note.updatedAt,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-      alternates: {
-        languages: languageAlternates(`/notes/${note.slug}`),
-      },
-    })),
-  );
+  // Note bodies are English-only; their locale variants canonicalize onto
+  // /en (see buildPageMetadata canonicalLocale), so the sitemap lists ONLY
+  // the canonical /en URL — listing non-canonical URLs is a mixed signal.
+  const noteEntries = getNotes().map((note) => ({
+    url: `${SITE_URL}/en/notes/${note.slug}`,
+    lastModified: note.updatedAt,
+    changeFrequency: "weekly" as const,
+    priority: 0.5,
+  }));
 
   return [...staticEntries, ...noteEntries];
 }

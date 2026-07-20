@@ -8,8 +8,9 @@ export type SeoContent = {
 
 export const seoContent: Record<Locale, SeoContent> = {
   it: {
-    title:
-      "Hassan Akkari · Sviluppatore freelance per professionisti e piccole attività",
+    // Keyword-first, ≤60 chars (SERP cut), brand last: the money query is
+    // "sviluppatore web freelance roma", not the name.
+    title: "Sviluppatore web freelance a Roma — Hassan Akkari",
     description:
       "Sviluppatore freelance a Roma. Landing page, siti professionali, web app e restyling. Niente template, niente WordPress impacchettato. Online in 1-3 settimane.",
     keywords: [
@@ -24,8 +25,7 @@ export const seoContent: Record<Locale, SeoContent> = {
     ],
   },
   en: {
-    title:
-      "Hassan Akkari · Freelance developer for professionals and small businesses",
+    title: "Freelance Web Developer in Rome — Hassan Akkari",
     description:
       "Freelance developer in Rome. Landing pages, professional websites, custom web apps and restyling. No templates, no WordPress in disguise. Live in 1-3 weeks.",
     keywords: [
@@ -38,8 +38,7 @@ export const seoContent: Record<Locale, SeoContent> = {
     ],
   },
   fr: {
-    title:
-      "Hassan Akkari · Développeur freelance pour professionnels et petites entreprises",
+    title: "Développeur web freelance à Rome — Hassan Akkari",
     description:
       "Développeur freelance à Rome. Landing pages, sites pros, web apps sur mesure et refontes. Pas de templates, pas de WordPress déguisé. En ligne en 1-3 semaines.",
     keywords: [
@@ -52,8 +51,7 @@ export const seoContent: Record<Locale, SeoContent> = {
     ],
   },
   de: {
-    title:
-      "Hassan Akkari · Freelance-Webentwickler für Selbstständige und kleine Betriebe",
+    title: "Freelance-Webentwickler für die Schweiz — Hassan Akkari",
     description:
       "Freelance-Webentwickler in Rom. Landing Pages, professionelle Websites, massgeschneiderte Web-Apps und Redesigns. Keine Templates, kein verstecktes WordPress. Online in 1-3 Wochen.",
     keywords: [
