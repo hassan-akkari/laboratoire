@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QoL Garden — abbiamo finito · restano i tuoi step</title>
+<style>
+  :root {
+    --bg: #0f1115; --card: #171a21; --ink: #e8eaf0; --muted: #9aa3b2;
+    --accent: #7ee2a8; --accent2: #8ab8ff; --warn: #ffcc66; --line: #262b36;
+    --code-bg: #0b0d11; --done: #2ea36b;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f7f9; --card: #ffffff; --ink: #1a1e26; --muted: #5b6472;
+      --accent: #0c7a43; --accent2: #1d5fd1; --warn: #9a6b00; --line: #e3e6ec;
+      --code-bg: #f0f2f6; --done: #0c7a43;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2.5rem 1rem 4rem; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 1.7rem; margin: 0 0 .3rem; letter-spacing: -.02em; }
+  h1 .ok { color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 0 2rem; }
+  h2 { font-size: 1.15rem; margin: 2.2rem 0 .8rem; border-bottom: 1px solid var(--line); padding-bottom: .4rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.3rem; margin: .8rem 0;
+  }
+  .done-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .6rem; }
+  .done-grid .card { margin: 0; padding: .8rem 1rem; font-size: .92rem; }
+  .done-grid b { display: block; color: var(--accent); font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .2rem; }
+  .step { display: flex; gap: .9rem; align-items: flex-start; }
+  .step input[type=checkbox] { width: 1.25rem; height: 1.25rem; margin-top: .35rem; accent-color: var(--done); flex: none; cursor: pointer; }
+  .step .body { flex: 1; min-width: 0; }
+  .step h3 { margin: 0 0 .35rem; font-size: 1.02rem; }
+  .tag { font-size: .72rem; font-weight: 600; padding: .1rem .5rem; border-radius: 99px; vertical-align: 2px; margin-left: .5rem; }
+  .t-req { background: color-mix(in srgb, var(--accent2) 18%, transparent); color: var(--accent2); }
+  .t-sec { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+  .t-opt { background: color-mix(in srgb, var(--muted) 18%, transparent); color: var(--muted); }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: .7rem .9rem; overflow-x: auto; font-size: .85rem; line-height: 1.5; margin: .5rem 0;
+  }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  p code, li code { background: var(--code-bg); padding: .08em .35em; border-radius: 4px; font-size: .88em; }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .checked-off { opacity: .45; }
+  a { color: var(--accent2); }
+  ul { margin: .4rem 0; padding-left: 1.2rem; }
+  .footer { margin-top: 2.5rem; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1><span class="ok">✅ Abbiamo finito.</span> Restano solo i tuoi step.</h1>
+  <p class="sub">QoL control-centre · F1 digital garden — stato al 2026-07-19 sera, branch <code>claude/qol-control-centre-9fsas9</code> (8 commit avanti a main, <b>non pushati</b>). Spunta gli step man mano — il progresso resta salvato in questo browser.</p>
+
+  <h2>Cosa è già fatto e verificato (nessuna azione richiesta)</h2>
+  <div class="done-grid">
+    <div class="card"><b>8 note reali</b>5 nuove scritte da esperienze documentate + 3 ex-sample adottate. Vault: <code>notes/</code> + master privato <code>notes.md</code>.</div>
+    <div class="card"><b>Pipeline</b>vault-sync dal vault vero: 8 pubblicate / 23 private. Fix CLI <code>--</code> (pnpm 10). Idempotente ✓.</div>
+    <div class="card"><b>Gate verdi</b><code>pnpm check</code> ✓ (186 test) · build docs ✓ · 32 path <code>/notes</code> prerender (8 slug × 4 locale).</div>
+    <div class="card"><b>Runtime 6/6 PASS</b>Server prod testato: lista, dettaglio, wikilink risolti, IT chrome, sitemap (36 URL note), 404 reale.</div>
+    <div class="card"><b>Control-centre LIVE</b>Garden panel legge il vault vero (8/31, "site in sync") via <code>.env.local</code> già creato (gitignored).</div>
+    <div class="card"><b>Doc allineati</b>digital-garden.md → vault reale · CLAUDE.md → proxy.ts reale di web-next · _followup.md → item per bootstrap audit.</div>
+    <div class="card"><b>Garden mechanics</b>Dai migliori garden (Appleton/Hooks/Matuschak): link <b>Notes in nav</b> + teaser in homepage, <b>backlinks</b> + note correlate, filtri stage/topic con conteggi, <b>RSS /feed.xml</b>, OG card per nota. Tutto SSG, zero dipendenze nuove, smoke-testato live.</div>
+    <div class="card"><b>Commit sul branch</b><code>cb728d0</code> feature · <code>1d09040</code> run-log · <code>eefc89d</code> doc drift · <code>0ec47cc</code> garden mechanics. Vault committato.</div>
+    <div class="card"><b>Vault handoff</b>Daily 2026-07-19 + decisions.md aggiornati nel vault.</div>
+  </div>
+
+  <h2>I tuoi step, in ordine</h2>
+
+  <div class="card step">
+    <input type="checkbox" id="s0">
+    <div class="body">
+      <h3>0 · Rileggi le 5 note nuove <span class="tag t-req">consigliato · ~10 min</span></h3>
+      <p>Escono a tuo nome su itshassan.it. Aprile in Obsidian → cartella <code>notes/</code>: <em>Next 16 proxy</em>, <em>Two apps one Neon</em>, <em>Never throw at module load</em>, <em>Git worktrees + hoisted pnpm</em>, <em>Obsidian vault as AI external brain</em>. Tono ok? Fatti ok?</p>
+      <p class="muted">Se editi qualcosa, rigenera l'artifact e committa:</p>
+      <pre><code>cd c:\dev\laboratoire
+pnpm -F docs vault:sync -- --vault "C:\Users\Hassan\Documents\Obsidian\my control center"
+git add apps/docs/src/content/data/notes.json
+git commit -m "content(notes): revisione note garden"</code></pre>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s1">
+    <div class="body">
+      <h3>1 · Push del branch <span class="tag t-opt">FATTO ✓ (sessione 20/07)</span></h3>
+      <p class="muted">Branch pushato su origin (9 commit, ultimo <code>c1d067a</code> SEO hardening). Niente da fare qui.</p>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s2">
+    <div class="body">
+      <h3>2 · PR + merge su main <span class="tag t-req">richiesto</span></h3>
+      <p>Opzione A — PR con gh (consigliata, resta traccia):</p>
+      <pre><code>gh pr create --base main --head claude/qol-control-centre-9fsas9 ^
+  --title "feat: digital garden live — vault→/notes + control-centre QoL" ^
+  --body "F1 completa: pipeline vault-sync dal vault reale (8 note), route /notes SSG 4 locale, apps/control-centre dashboard locale (tracker/scout/triage mock-but-working + garden/digest live), fix vault-sync --, doc drift sync. Gate: pnpm check verde, build 32 path /notes, runtime 6/6 PASS."
+gh pr merge --merge</code></pre>
+      <p class="muted">Opzione B — merge diretto senza PR:</p>
+      <pre><code>git checkout main
+git merge --no-ff claude/qol-control-centre-9fsas9
+git push origin main</code></pre>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s3">
+    <div class="body">
+      <h3>3 · Verifica il deploy Vercel <span class="tag t-req">richiesto · ~3 min dopo il merge</span></h3>
+      <p>Vercel builda docs in automatico sul push a main. Poi controlla:</p>
+      <ul>
+        <li><a href="https://itshassan.it/en" target="_blank">home</a> → voce <b>Notes</b> in nav + sezione "From the digital garden" con 3 note</li>
+        <li><a href="https://itshassan.it/en/notes" target="_blank">itshassan.it/en/notes</a> → lista 8 note + filtri stage/topic + link RSS</li>
+        <li><a href="https://itshassan.it/en/notes/two-apps-one-neon-database" target="_blank">nota di dettaglio</a> → wikilink cliccabili + sezione "Linked from" / "Related notes" in fondo</li>
+        <li><a href="https://itshassan.it/feed.xml" target="_blank">feed.xml</a> → RSS valido con le 8 note</li>
+        <li>condividi un link nota su WhatsApp/LinkedIn → card OG scura brandizzata con stage badge</li>
+      </ul>
+      <p class="muted">Criterio di done F1 (dalla roadmap): "URL pubblico con lista note e almeno tre note reali" → soddisfatto qui. 🎉</p>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s4">
+    <div class="body">
+      <h3>4 · Ruota la password Neon <span class="tag t-sec">sicurezza · aperto dal 26/06</span></h3>
+      <p>La password del DB condiviso è finita in un transcript a giugno e la rotazione non risulta ancora confermata. 5 minuti:</p>
+      <ul>
+        <li>Neon console → progetto → <b>Roles</b> → <code>neondb_owner</code> → <b>Reset password</b></li>
+        <li>Vercel → progetto <b>bookable</b> (booking-service) → Settings → Environment Variables → <code>DATABASE_URL</code> → aggiorna → <b>Redeploy</b></li>
+        <li>Locale: oggi non esiste nessun <code>.env.local</code> con <code>DATABASE_URL</code> (verificato) — se lo ricrei per dev, usa la password nuova</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s7">
+    <div class="body">
+      <h3>4b · Google Search Console <span class="tag t-req">richiesto per "uscire subito"</span></h3>
+      <p>La leva più diretta per farti indicizzare in fretta:</p>
+      <ul>
+        <li><a href="https://search.google.com/search-console" target="_blank">Search Console</a> → Aggiungi proprietà → <b>Dominio</b> <code>itshassan.it</code> → verifica via <b>record TXT su OVH</b> (in alternativa: metti il token in Vercel come env <code>GOOGLE_SITE_VERIFICATION</code> — il sito renderizza già il meta tag da solo)</li>
+        <li>Invia la sitemap: <code>https://itshassan.it/sitemap.xml</code></li>
+        <li>Controllo URL → richiedi indicizzazione per la home e <code>/en/notes</code></li>
+        <li>Bonus: <a href="https://www.bing.com/webmasters" target="_blank">Bing Webmaster</a> — importa direttamente da GSC, 2 minuti</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s5">
+    <div class="body">
+      <h3>5 · Vault su GitHub privato <span class="tag t-opt">consigliato ora (serve per altro PC)</span></h3>
+      <p>Il vault è un repo git locale senza remote (aperto dal 25/06). Backup + storia fuori macchina:</p>
+      <pre><code>cd "C:\Users\Hassan\Documents\Obsidian\my control center"
+gh repo create hassan-vault --private --source . --push</code></pre>
+    </div>
+  </div>
+
+  <div class="card step">
+    <input type="checkbox" id="s6">
+    <div class="body">
+      <h3>6 · Badge statusline caveman <span class="tag t-opt">opzionale</span></h3>
+      <p>Mostra <code>[CAVEMAN]</code> nella statusline di Claude Code. Aggiungi a <code>C:\Users\Hassan\.claude\settings.json</code>:</p>
+      <pre><code>"statusLine": {
+  "type": "command",
+  "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\Hassan\\.claude\\plugins\\cache\\caveman\\caveman\\63a91ecadbf4\\src\\hooks\\caveman-statusline.ps1\""
+}</code></pre>
+      <p class="muted">Oppure dimmelo in sessione e lo configuro io.</p>
+    </div>
+  </div>
+
+  <h2>Dopo (quando vuoi, non ora)</h2>
+  <div class="card">
+    <ul>
+      <li><b>F3</b> — target Supabase/Postgres per il sync engine (ricerca full-text, backlink graph). Lo script è già pronto a un secondo target.</li>
+      <li><b>F4</b> — MCP server sul vault (search / get note / backlinks per i tool AI).</li>
+      <li><b>Control-centre</b> — connettori live (Gmail, calendar, job feed) al posto dei mock; l'interfaccia tipata è già lì.</li>
+      <li>Nota cosmetica: slug inesistenti su /notes loggano uno stack trace <code>NoFallbackError</code> su Vercel (standard Next 16, 404 corretto al client). Se dà fastidio nei log → <code>_followup.md</code>.</li>
+    </ul>
+  </div>
+
+  <p class="footer">Generato 2026-07-19 · sessione QoL control-centre · questo file è locale e non committato (<code>_qol-final-steps.html</code>). I dettagli completi: <code>_orchestrator-runs/2026-07-19-garden-real-notes.md</code> + daily vault <code>2026-07-19.md</code>.</p>
+</main>
+<script>
+  document.querySelectorAll('.step input[type=checkbox]').forEach(cb => {
+    const key = 'qol-final-' + cb.id;
+    cb.checked = localStorage.getItem(key) === '1';
+    cb.closest('.card').classList.toggle('checked-off', cb.checked);
+    cb.addEventListener('change', () => {
+      localStorage.setItem(key, cb.checked ? '1' : '0');
+      cb.closest('.card').classList.toggle('checked-off', cb.checked);
+    });
+  });
+</script>
+</body>
+</html>
