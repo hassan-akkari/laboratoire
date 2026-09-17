@@ -1,37 +1,10 @@
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import { AppButton, AppCard, AppInput } from "@laboratoire/ui";
-import { getSiteConfig, updateSiteConfig } from "@/lib/admin/siteConfig";
+import { getSiteConfig } from "@/lib/admin/siteConfig";
 import { TestEmailButton } from "../../_components/TestEmailButton";
+import { saveConfig } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const patchSchema = z.object({
-  phone: z.string().trim().max(120),
-  contactEmail: z.string().trim().email(),
-  notifyEmail: z
-    .string()
-    .trim()
-    .transform((v) => (v === "" ? null : v))
-    .pipe(z.union([z.string().email(), z.null()])),
-});
-
-async function saveConfig(formData: FormData) {
-  "use server";
-  const parsed = patchSchema.safeParse({
-    phone: formData.get("phone"),
-    contactEmail: formData.get("contactEmail"),
-    notifyEmail: formData.get("notifyEmail"),
-  });
-  if (!parsed.success) {
-    redirect("/admin/site-config?error=invalid");
-  }
-  await updateSiteConfig(parsed.data);
-  revalidatePath("/admin/site-config");
-  redirect("/admin/site-config?saved=1");
-}
 
 export default async function SiteConfigPage({
   searchParams,

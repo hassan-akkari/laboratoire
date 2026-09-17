@@ -1,28 +1,12 @@
-import { notFound, redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 import { AppButton, AppCard } from "@laboratoire/ui";
-import { getLeadById, updateLead, type LeadStatus } from "@/lib/admin/leads";
+import { getLeadById } from "@/lib/admin/leads";
+import { saveLead } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 type Params = Promise<{ id: string }>;
-
-const STATUS_VALUES: ReadonlySet<LeadStatus> = new Set(["new", "contacted", "closed"]);
-
-async function saveLead(formData: FormData) {
-  "use server";
-  const id = String(formData.get("id") ?? "");
-  const rawStatus = String(formData.get("status") ?? "");
-  const notesRaw = formData.get("notes");
-  const notes = typeof notesRaw === "string" && notesRaw.trim() !== "" ? notesRaw : null;
-  if (!id) return;
-  const status = STATUS_VALUES.has(rawStatus as LeadStatus) ? (rawStatus as LeadStatus) : undefined;
-  await updateLead(id, { ...(status ? { status } : {}), notes });
-  revalidatePath(`/admin/leads/${id}`);
-  revalidatePath("/admin");
-  redirect(`/admin/leads/${id}?saved=1`);
-}
 
 export default async function LeadDetailPage({
   params,
