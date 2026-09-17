@@ -150,7 +150,7 @@ existing admin auth gate intact. Add tests for host routing. (web-next IS deploy
 
 Used the `orchestrator` skill → agenthub competition for design-heavy phases:
 1. `python <agenthub>/skills/agenthub/scripts/hub_init.py --task "..." --agents 3 --base-branch feat/heroui-universal-ui-system`
-   (script path: `C:\Users\Hassan\.claude\plugins\cache\claude-code-skills\agenthub\2.9.0\skills\agenthub\scripts\`)
+   (script path: `~/.claude/plugins\cache\claude-code-skills\agenthub\2.9.0\skills\agenthub\scripts\`)
 2. Write dispatch briefs to `.agenthub/board/dispatch/` (a COMMON + one per variant, distinct strategies).
 3. Spawn N variants in ONE message: `Agent(..., isolation:"worktree")`, each told to read its
    dispatch by absolute path and write a result to `.agenthub/board/results/`.

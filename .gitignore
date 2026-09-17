@@ -29,3 +29,21 @@ admin-cookie.txt
 # Python bytecode (e.g. vendored skill scripts)
 __pycache__/
 *.pyc
+
+# Environment files: ignore everything except the committed examples
+.env
+**/.env
+**/.env.*
+!**/.env.example
+*.local
+
+# Test coverage output
+coverage/
+**/coverage/
+
+# Per-machine tool settings (Claude Code local permissions)
+.claude/settings.local.json
+
+# Local scratch / temporary AI-session output
+_scratch/
+**/*.tmp

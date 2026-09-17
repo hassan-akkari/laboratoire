@@ -4,7 +4,7 @@
   "description": "Local marketplace for project-specific Claude Code plugins authored inside the laboratoire monorepo. Not intended for public distribution — install via /plugin marketplace add <abs-path-to-this-dir>.",
   "owner": {
     "name": "Hassan Akkari",
-    "email": "h.akkari@sibyllanetwork.com"
+    "url": "https://github.com/hassan-akkari"
   },
   "plugins": [
     {

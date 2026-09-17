@@ -14,7 +14,7 @@ Complete F1 of the QoL control-centre roadmap (branch `claude/qol-control-centre
 ## Routing decision
 
 **Out-of-scope for competition → inline execution with orchestrator governance.**
-Rationale: (a) content-only drafting per skill's own do-not-compete list; (b) structural: agenthub isolates via *git worktrees of the repo* — variant agents would all write the SAME external vault directory (`C:\Users\Hassan\Documents\Obsidian\my control center\notes\`), clobbering each other. Competition unsafe by construction for out-of-repo writes.
+Rationale: (a) content-only drafting per skill's own do-not-compete list; (b) structural: agenthub isolates via *git worktrees of the repo* — variant agents would all write the SAME external vault directory (`<VAULT_DIR>\notes\`), clobbering each other. Competition unsafe by construction for out-of-repo writes.
 
 - depth: n/a (no competition) · variants: n/a · judge: n/a
 

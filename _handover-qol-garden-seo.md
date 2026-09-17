@@ -15,7 +15,7 @@ pnpm dev                          # docs on :3000
 ```
 
 Machine-specific bits that do NOT travel with the repo:
-- **Obsidian vault** (`C:\Users\Hassan\Documents\Obsidian\my control center`) is a LOCAL git repo with **no remote**. On another PC it does not exist → `pnpm -F docs vault:sync` cannot run and `apps/control-centre` /garden falls back to `resources/vault-sample`. Fix forever: `gh repo create hassan-vault --private --source . --push` from the vault dir (Hassan's step 5 in `_qol-final-steps.html`), then clone it on the new PC.
+- **Obsidian vault** (`<VAULT_DIR>`) is a LOCAL git repo with **no remote**. On another PC it does not exist → `pnpm -F docs vault:sync` cannot run and `apps/control-centre` /garden falls back to `resources/vault-sample`. Fix forever: `gh repo create hassan-vault --private --source . --push` from the vault dir (Hassan's step 5 in `_qol-final-steps.html`), then clone it on the new PC.
 - `apps/control-centre/.env.local` (gitignored): `VAULT_DIR=<vault path on that machine>`.
 - The committed `apps/docs/src/content/data/notes.json` IS the garden content — the site builds fine without the vault; you only need the vault to publish NEW notes.
 - Global `~/.claude/CLAUDE.md` on the old PC points sessions at the vault; replicate on the new PC if the vault gets cloned.

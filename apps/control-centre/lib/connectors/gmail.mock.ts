@@ -31,8 +31,8 @@ const MESSAGES: MailMessage[] = [
   },
   {
     id: "mail-003",
-    from: "Marco (Portal team)",
-    fromAddress: "marco@sibyllanetwork.com",
+    from: "Marco (frontend team)",
+    fromAddress: "marco@example.com",
     subject: "Storybook broken on main?",
     snippet:
       "Hey, after yesterday's merge the Storybook build fails locally for me — can you take a look before the daily?",

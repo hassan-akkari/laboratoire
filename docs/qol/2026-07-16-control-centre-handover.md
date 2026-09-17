@@ -30,7 +30,7 @@ Tasks below reference these gates. **A gated task must not start until its gate 
 
 | Gate | Question for Hassan | Blocks |
 | --- | --- | --- |
-| **H1** | ✅ **RESOLVED 2026-07-19.** Vault = `C:\Users\Hassan\Documents\Obsidian\my control center` (local git repo, **no remote yet** — that part is gate H3). 8 real notes shipped in `cb728d0`. On other machines set `VAULT_DIR` in `apps/control-centre/.env.local`. | — |
+| **H1** | ✅ **RESOLVED 2026-07-19.** Vault = `<VAULT_DIR>` (local git repo, **no remote yet** — that part is gate H3). 8 real notes shipped in `cb728d0`. On other machines set `VAULT_DIR` in `apps/control-centre/.env.local`. | — |
 | **H2** | Postgres provider for F3: **Supabase** (fills the Upwork skill gap — the roadmap's stated reason) or the **Neon** instance that already backs the contact form. One sentence answer is enough. | C1, C2 |
 | **H3** | Should the vault get a remote (`gh repo create hassan-vault --private --source . --push` from the vault dir)? Enables nightly auto-commit + git diary + cross-PC publishing. | D1 |
 | **H4** | Live Gmail: OAuth credentials for the Gmail API (or the decision to stay mock). | D2 |

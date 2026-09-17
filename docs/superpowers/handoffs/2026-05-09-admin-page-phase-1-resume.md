@@ -71,7 +71,7 @@ Local-only files (gitignored, not in status):
 
 ## User edits during the session
 
-Hassan edited `ADMIN_EMAIL` from `h.akkari@sibyllanetwork.com` (the value in spec/plan) to `hassan.akkari01@gmail.com` in **both** `.env.local` (gitignored, fine) and `.env.example` (tracked, **uncommitted** — appears in `git status`). The next AI should:
+Hassan edited `ADMIN_EMAIL` from the company address (the value in spec/plan) to a personal one in **both** `.env.local` (gitignored, fine) and `.env.example` (tracked, **uncommitted** — appears in `git status`). The next AI should:
 
 - Confirm with Hassan whether the gmail address is intentional. If yes, also update the spec's "Environment variables" example for consistency, and commit the `.env.example` change.
 - The seed script reads `ADMIN_EMAIL` from env, so the runtime value will be whatever's in `.env.local`. No code change needed.
@@ -92,7 +92,7 @@ Neon project must be in **AWS eu-central-1 (Frankfurt)**. Region is **immutable*
 3. Open `apps/web-next/.env.local` and fill the two empty fields:
    - `DATABASE_URL=` ← paste the **first** (pooled) `DATABASE_URL` from the Neon Console connection details (NOT `*_UNPOOLED`, NOT `POSTGRES_URL`).
    - `ADMIN_PASSWORD=` ← any strong password Hassan picks; he'll only type it on `/admin/login`.
-4. (Optional) Decide whether to commit the `.env.example` email change to `hassan.akkari01@gmail.com`.
+4. (Optional) Decide whether to commit the `.env.example` email change to `admin@example.com`.
 
 `ADMIN_SESSION_SECRET` is already pre-generated and present in `.env.local`. No need to regenerate.
 
@@ -145,7 +145,7 @@ Then execute, in order:
    ```
    Expected output (with the ASCII markers — see deviation #5):
    ```
-   OK Created admin user hassan.akkari01@gmail.com
+   OK Created admin user admin@example.com
    OK Created site_config singleton row
    ```
    Verify in Neon: `SELECT email FROM users;` and `SELECT * FROM site_config;` (one row each).
@@ -154,7 +154,7 @@ Then execute, in order:
 
 6. **Task 12 — manual smoke test.** Follow the plan's Task 12 verbatim. Summary:
    - `pnpm -F web-next dev` (port 3001).
-   - `curl -i -X POST http://localhost:3001/api/admin/login -H "Origin: http://localhost:3001" -H "Content-Type: application/json" --data '{"email":"hassan.akkari01@gmail.com","password":"<wrong>"}'` → 401.
+   - `curl -i -X POST http://localhost:3001/api/admin/login -H "Origin: http://localhost:3001" -H "Content-Type: application/json" --data '{"email":"admin@example.com","password":"<wrong>"}'` → 401.
    - Same with `Origin: https://evil.com` → 403.
    - Same with correct password (`-c admin-cookie.txt`) → 200, `Set-Cookie: admin_session=…`.
    - `curl -i http://localhost:3001/admin/leads` (no cookie) → 307 redirect to `/admin/login?next=/admin/leads`.
@@ -214,7 +214,7 @@ Phase 1 progress:       11 of 12 plan tasks done; Task 4 + Task 5 run-step + Tas
 
 ### What changed since the "BLOCKED" snapshot above
 
-Hassan got 2FA access back, completed the Vercel-Neon integration wizard (Frankfurt / Fra1 confirmed by the host `ep-shiny-truth-aljd5o4s-pooler.c-3.eu-central-1.aws.neon.tech`), pasted `DATABASE_URL` and `ADMIN_PASSWORD` into `.env.local`, and disabled the `DEV_NO_DB` escape hatch by commenting out the line.
+Hassan got 2FA access back, completed the Vercel-Neon integration wizard (Frankfurt / Fra1 confirmed by the Neon host region), pasted `DATABASE_URL` and `ADMIN_PASSWORD` into `.env.local`, and disabled the `DEV_NO_DB` escape hatch by commenting out the line.
 
 Then in the same session we ran:
 
@@ -250,7 +250,7 @@ Tracked in `_followup.md` (see entry: "DEV_NO_DB cleanup decision before Phase 5
 
 ### Final state
 
-- DB exists in Neon Frankfurt with three tables, one admin user (`hassan.akkari01@gmail.com`), one site_config row.
+- DB exists in Neon Frankfurt with three tables, one admin user (`admin@example.com`), one site_config row.
 - Re-running `db:seed` is idempotent (updates user's password hash, skips config insert).
 - `apps/web-next/proxy.ts` gates `/admin/*` and `/api/admin/*` with the `/api/admin/login` carve-out. Booking demo `/checkout` flow untouched, verified.
 - 25/25 vitest tests pass (origin 6, adminSession 4, login 5, logout 3, plus pre-existing session 3, pricing 3, orders 1).
@@ -265,19 +265,19 @@ Tracked in `_followup.md` (see entry: "DEV_NO_DB cleanup decision before Phase 5
 curl.exe -i -X POST http://localhost:3001/api/admin/login `
   -H "Origin: http://localhost:3001" `
   -H "Content-Type: application/json" `
-  -d '{\"email\":\"hassan.akkari01@gmail.com\",\"password\":\"wrong\"}'
+  -d '{\"email\":\"admin@example.com\",\"password\":\"wrong\"}'
 
 # Foreign origin → 403
 curl.exe -i -X POST http://localhost:3001/api/admin/login `
   -H "Origin: https://evil.com" `
   -H "Content-Type: application/json" `
-  -d '{\"email\":\"hassan.akkari01@gmail.com\",\"password\":\"whatever\"}'
+  -d '{\"email\":\"admin@example.com\",\"password\":\"whatever\"}'
 
 # Right password → 200 + Set-Cookie admin_session
 curl.exe -i -X POST http://localhost:3001/api/admin/login `
   -H "Origin: http://localhost:3001" `
   -H "Content-Type: application/json" `
-  -d '{\"email\":\"hassan.akkari01@gmail.com\",\"password\":\"somalia17\"}' `
+  -d '{\"email\":\"admin@example.com\",\"password\":\"<ADMIN_PASSWORD>\"}' `
   -c admin-cookie.txt
 
 # Hit /admin/leads with cookie → 404 (page not built yet — Phase 2)

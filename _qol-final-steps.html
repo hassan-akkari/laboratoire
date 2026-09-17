@@ -82,7 +82,7 @@
       <p>Escono a tuo nome su itshassan.it. Aprile in Obsidian → cartella <code>notes/</code>: <em>Next 16 proxy</em>, <em>Two apps one Neon</em>, <em>Never throw at module load</em>, <em>Git worktrees + hoisted pnpm</em>, <em>Obsidian vault as AI external brain</em>. Tono ok? Fatti ok?</p>
       <p class="muted">Se editi qualcosa, rigenera l'artifact e committa:</p>
       <pre><code>cd c:\dev\laboratoire
-pnpm -F docs vault:sync -- --vault "C:\Users\Hassan\Documents\Obsidian\my control center"
+pnpm -F docs vault:sync -- --vault "<VAULT_DIR>"
 git add apps/docs/src/content/data/notes.json
 git commit -m "content(notes): revisione note garden"</code></pre>
     </div>
@@ -160,7 +160,7 @@ git push origin main</code></pre>
     <div class="body">
       <h3>5 · Vault su GitHub privato <span class="tag t-opt">consigliato ora (serve per altro PC)</span></h3>
       <p>Il vault è un repo git locale senza remote (aperto dal 25/06). Backup + storia fuori macchina:</p>
-      <pre><code>cd "C:\Users\Hassan\Documents\Obsidian\my control center"
+      <pre><code>cd "<VAULT_DIR>"
 gh repo create hassan-vault --private --source . --push</code></pre>
     </div>
   </div>
@@ -169,7 +169,7 @@ gh repo create hassan-vault --private --source . --push</code></pre>
     <input type="checkbox" id="s6">
     <div class="body">
       <h3>6 · Badge statusline caveman <span class="tag t-opt">opzionale</span></h3>
-      <p>Mostra <code>[CAVEMAN]</code> nella statusline di Claude Code. Aggiungi a <code>C:\Users\Hassan\.claude\settings.json</code>:</p>
+      <p>Mostra <code>[CAVEMAN]</code> nella statusline di Claude Code. Aggiungi a <code>~/.claude/settings.json</code>:</p>
       <pre><code>"statusLine": {
   "type": "command",
   "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\Hassan\\.claude\\plugins\\cache\\caveman\\caveman\\63a91ecadbf4\\src\\hooks\\caveman-statusline.ps1\""

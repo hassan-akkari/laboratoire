@@ -329,7 +329,7 @@ apps/docs/
 ```
 # admin (apps/web-next)
 DATABASE_URL=postgres://...neon.tech/...
-ADMIN_EMAIL=h.akkari@sibyllanetwork.com   # used by seed only
+ADMIN_EMAIL=admin@example.com   # used by seed only
 ADMIN_PASSWORD=...                         # used by seed only
 ADMIN_SESSION_SECRET=...                   # 32+ chars, iron-session signing
 CAL_WEBHOOK_SECRET=...                     # from Cal.com webhook config
