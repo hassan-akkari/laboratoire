@@ -116,9 +116,9 @@ export const fallbackPortfolioContent: PortfolioContent = {
       "Greenfield rebuilds, exactly-once payment flows, AI-augmented engineering.",
     location: "Rome, Italy",
     metric:
-      "~2.5 years in production · React 19 migration + exactly-once Nexi payment flow",
+      "Production SaaS since 2023 · React 19 migration + exactly-once Nexi payment flow",
     about: [
-      "Full-stack software engineer, strongest on the frontend, with ~2.5 years shipping production systems for a hospitality software company. I lead the page-by-page migration of a multi-tenant management SaaS from legacy Razor / jQuery to React 19, and own an e-commerce platform's payment, kiosk and marketplace surfaces end-to-end — including an exactly-once Nexi payment flow over a non-idempotent downstream.",
+      "Full-stack software engineer, strongest on the frontend, shipping production systems for a hospitality software company since 2023. I lead the page-by-page migration of a multi-tenant management SaaS from legacy Razor / jQuery to React 19, and own an e-commerce platform's payment, kiosk and marketplace surfaces end-to-end — including an exactly-once Nexi payment flow over a non-idempotent downstream.",
       "I architected the React 19 frontend as three independent SPAs (marketplace, kiosk, quote landing) on Redux Toolkit + RTK Query: a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (Nexi / wallet / discount behind one provider interface), and react-hook-form + Zod over inconsistent legacy payloads. I also led a security and tenancy audit of the multi-tenant surfaces; the authorization weakness and request-validation gap it surfaced were remediated before release.",
       "I built the team's AI-augmented engineering workflow on Claude Code — per-layer instruction files, narrow tool-scoped specialist subagents, an orchestration skill that injects the right invariants, and a plan-first process where a human approves before anything mutates; the review subagents surfaced three latent payment-flow bugs before release.",
       "I share approach and impact openly; specific internal details stay out.",

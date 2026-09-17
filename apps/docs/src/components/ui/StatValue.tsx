@@ -18,12 +18,14 @@ type StatValueProps = {
  *     never shift layout;
  *   - a visually-hidden span carries the stable value for screen readers
  *     (the animated span is aria-hidden).
- * Reduced motion or a non-numeric-leading value ⇒ static text.
+ * Reduced motion, a non-numeric-leading value, or a bare four-digit year
+ * (e.g. "2022" — a label, not a quantity) ⇒ static text.
  */
 export default function StatValue({ value }: StatValueProps) {
   const match = /^(\d+)(.*)$/.exec(value.trim());
   const target = match ? Number(match[1]) : null;
   const suffix = match?.[2] ?? "";
+  const isYear = target !== null && suffix === "" && target >= 1900 && target <= 2100;
 
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
@@ -31,7 +33,7 @@ export default function StatValue({ value }: StatValueProps) {
   const [display, setDisplay] = useState<number | null>(target);
 
   useEffect(() => {
-    if (!inView || reduceMotion || target === null || target <= 0) return;
+    if (!inView || reduceMotion || target === null || target <= 0 || isYear) return;
     const controls = animate(0, target, {
       duration: 1.1,
       ease: [0.25, 1, 0.5, 1],
@@ -40,7 +42,7 @@ export default function StatValue({ value }: StatValueProps) {
     return () => controls.stop();
   }, [inView, reduceMotion, target]);
 
-  if (target === null) {
+  if (target === null || isYear) {
     return <>{value}</>;
   }
 

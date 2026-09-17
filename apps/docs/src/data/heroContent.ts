@@ -45,7 +45,7 @@ const it: HeroContent = {
   portraitAlt: "Hassan Akkari, sviluppatore freelance",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "anni nella creazione di interfacce web" },
+      { id: "experience", value: "2022", label: "primo anno di sviluppo software" },
       { id: "response", value: "24h", label: "prima risposta tipica" },
       { id: "no-tricks", value: "0", label: "call commerciali aggressive" },
     ],
@@ -75,7 +75,7 @@ const en: HeroContent = {
   portraitAlt: "Hassan Akkari, freelance developer",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "years building web interfaces" },
+      { id: "experience", value: "2022", label: "first year building software" },
       { id: "response", value: "24h", label: "typical first reply" },
       { id: "no-tricks", value: "0", label: "pushy sales calls" },
     ],
@@ -105,7 +105,7 @@ const fr: HeroContent = {
   portraitAlt: "Hassan Akkari, développeur freelance",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "ans à créer des interfaces web" },
+      { id: "experience", value: "2022", label: "première année de développement logiciel" },
       { id: "response", value: "24h", label: "première réponse habituelle" },
       { id: "no-tricks", value: "0", label: "appels commerciaux agressifs" },
     ],
@@ -136,7 +136,7 @@ const de: HeroContent = {
   portraitAlt: "Hassan Akkari, Freelance-Webentwickler",
   proofCard: {
     stats: [
-      { id: "experience", value: "5+", label: "Jahre im Bau von Web-Interfaces" },
+      { id: "experience", value: "2022", label: "erstes Jahr Software-Entwicklung" },
       { id: "response", value: "24h", label: "typische erste Antwort" },
       { id: "no-tricks", value: "0", label: "aggressive Verkaufsanrufe" },
     ],
