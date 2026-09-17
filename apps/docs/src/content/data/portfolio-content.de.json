@@ -284,7 +284,7 @@
     },
     {
       "name": "laboratoire — React-19-/TypeScript-Monorepo",
-      "description": "Solo-Monorepo auf pnpm + Turbo. Server-seitigen Kern eines Next.js-App-Router-Buchungsflusses gebaut: idempotente Auftragsverarbeitung, server-seitige Preis-Revalidierung und ein Cal.com-Webhook mit timing-sicherer HMAC-Verifikation — hinter iron-session-Admin-Auth und einem secretless CI-Gate.",
+      "description": "Solo-Monorepo auf pnpm + Turbo. Server-seitigen Kern eines Next.js-App-Router-Buchungsflusses gebaut: zod-validierte Eingaben, server-seitige Preis-Revalidierung und ein Cal.com-Webhook mit timing-sicherer HMAC-Verifikation — hinter iron-session-Admin-Auth und einem secretless CI-Gate.",
       "stack": [
         "Next.js",
         "TypeScript",

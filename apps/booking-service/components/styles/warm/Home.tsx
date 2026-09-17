@@ -15,9 +15,11 @@ const featurePills = [
   { icon: Sparkles, label: "Bespoke finishes" },
 ];
 
+// Qualitative on purpose: this is a demo, so no invented business metrics
+// (ratings, guest counts, years in business).
 const trustSignals = [
-  { stat: "4.9★", label: "From 600+ guests" },
-  { stat: "12 yrs", label: "Crafting in studio" },
+  { stat: "Bespoke", label: "Every finish tailored to you" },
+  { stat: "No account", label: "Request in under a minute" },
   { stat: "Same-day", label: "Booking requests" },
 ];
 

@@ -87,14 +87,16 @@ export function Home() {
             </div>
           </FadeUp>
 
-          {/* Decisive violet accent moment: a bold gradient stat panel. */}
+          {/* Decisive violet accent moment: a bold gradient panel. Copy is
+              qualitative on purpose — this is a demo, so no invented
+              business metrics (bookings, ratings, years). */}
           <FadeUp
             delay={0.18}
             className="relative overflow-hidden rounded-4xl bg-primary p-8 text-primary-foreground shadow-xl sm:p-10"
           >
             <div
               role="img"
-              aria-label="Studio highlights: over twelve hundred bookings, a 4.9 out of 5 average rating, and same-week availability."
+              aria-label="How booking works here: request without an account, the studio confirms, availability within the week."
             >
               <div
                 aria-hidden="true"
@@ -103,19 +105,19 @@ export function Home() {
               <dl className="relative grid gap-8">
                 <div>
                   <dt className="text-sm font-medium uppercase tracking-widest text-primary-foreground/80">
-                    Bookings made
+                    Booking requests
                   </dt>
-                  <dd className="font-display nums-tabular mt-1 text-5xl font-bold tracking-tight">
-                    1,200+
+                  <dd className="font-display mt-1 text-5xl font-bold tracking-tight">
+                    No account
                   </dd>
                 </div>
                 <div className="grid grid-cols-2 gap-6 border-t border-white/20 pt-8">
                   <div>
                     <dt className="text-sm font-medium uppercase tracking-widest text-primary-foreground/80">
-                      Avg. rating
+                      Confirmation
                     </dt>
-                    <dd className="font-display nums-tabular mt-1 text-3xl font-bold tracking-tight">
-                      4.9 / 5
+                    <dd className="font-display mt-1 text-3xl font-bold tracking-tight">
+                      By the studio
                     </dd>
                   </div>
                   <div>

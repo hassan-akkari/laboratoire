@@ -403,7 +403,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
     {
       name: "laboratoire — React 19 / TypeScript monorepo",
       description:
-        "Solo pnpm + Turbo monorepo. Built the server-side core of a Next.js App Router booking flow — idempotent orders, server-side price re-validation, and a Cal.com webhook with timing-safe HMAC verification — behind iron-session admin auth and a secretless CI gate.",
+        "Solo pnpm + Turbo monorepo. Built the server-side core of a Next.js App Router booking flow — zod-validated inputs, server-side price re-validation, and a Cal.com webhook with timing-safe HMAC verification — behind iron-session admin auth and a secretless CI gate.",
       stack: [
         "Next.js",
         "TypeScript",

@@ -284,7 +284,7 @@
     },
     {
       "name": "laboratoire — monorepo React 19 / TypeScript",
-      "description": "Monorepo personnel pnpm + Turbo. Construit le core server-side d'un flux de reservation sur Next.js App Router — order processing idempotent, re-validation des prix cote serveur et un webhook Cal.com avec verification HMAC timing-safe — derriere une auth admin iron-session et une CI gate sans secrets.",
+      "description": "Monorepo personnel pnpm + Turbo. Construit le core server-side d'un flux de reservation sur Next.js App Router — entrees validees avec zod, re-validation des prix cote serveur et un webhook Cal.com avec verification HMAC timing-safe — derriere une auth admin iron-session et une CI gate sans secrets.",
       "stack": [
         "Next.js",
         "TypeScript",
