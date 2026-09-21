@@ -1,0 +1,332 @@
+/* Digital garden (/notes) — reuses the site's --app-* tokens, so light/dark
+ * theming comes for free and no new palette drifts (CLAUDE.md gotcha #4). */
+
+.notes-page {
+  max-width: 72ch;
+  margin: 0 auto;
+  padding: 48px 0 72px;
+}
+
+.notes-page .notes-eyebrow {
+  margin: 0 0 28px;
+}
+
+.notes-page .notes-subtitle {
+  margin: 14px 0 0;
+  color: var(--app-muted);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+.notes-page .notes-language-note {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--app-muted);
+  font-style: italic;
+}
+
+.notes-list {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.note-card {
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+  background: var(--app-card);
+  padding: 20px 22px;
+  transition: border-color 0.2s ease;
+}
+
+.note-card:hover {
+  border-color: var(--app-accent);
+}
+
+.note-card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+.note-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.note-card h2 a:hover {
+  color: var(--app-accent);
+}
+
+.note-card .note-summary {
+  margin: 8px 0 0;
+  color: var(--app-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--app-muted);
+}
+
+.note-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: var(--app-accent-soft);
+  color: var(--app-fg);
+}
+
+.note-tag {
+  font-family: var(--font-space-grotesk), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.note-tag::before {
+  content: "#";
+  opacity: 0.6;
+}
+
+/* ---------- detail page ---------- */
+
+.note-article .note-title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.note-article > header .note-meta {
+  margin-top: 16px;
+}
+
+.note-body {
+  margin-top: 36px;
+  line-height: 1.7;
+}
+
+.note-body h1,
+.note-body h2,
+.note-body h3 {
+  letter-spacing: -0.01em;
+  margin: 1.6em 0 0.5em;
+  line-height: 1.25;
+}
+
+/* The H1 is already rendered from note.title above the body. */
+.note-body > h1:first-child {
+  display: none;
+}
+
+.note-body p {
+  margin: 0.9em 0;
+  color: color-mix(in srgb, var(--app-fg) 88%, var(--app-muted));
+}
+
+.note-body a {
+  color: var(--app-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.note-body ul,
+.note-body ol {
+  margin: 0.9em 0;
+  padding-left: 1.4em;
+}
+
+.note-body li {
+  margin: 0.35em 0;
+  color: color-mix(in srgb, var(--app-fg) 88%, var(--app-muted));
+}
+
+.note-body code {
+  font-size: 0.88em;
+  background: var(--app-accent-soft);
+  border-radius: 5px;
+  padding: 0.12em 0.35em;
+}
+
+.note-body pre {
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: 1.1em 0;
+}
+
+.note-body pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.note-body blockquote {
+  margin: 1.1em 0;
+  padding: 0.2em 0 0.2em 1em;
+  border-left: 3px solid var(--app-accent);
+  color: var(--app-muted);
+}
+
+/* ---------- index filter bar ---------- */
+
+.notes-feed-link {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+}
+
+.notes-feed-link a {
+  color: var(--app-muted);
+  text-decoration: none;
+}
+
+.notes-feed-link a:hover {
+  color: var(--app-accent);
+}
+
+.notes-filters {
+  display: grid;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.notes-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.note-filter-chip {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--app-muted);
+  background: transparent;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.note-filter-chip:hover {
+  border-color: var(--app-accent);
+  color: var(--app-fg);
+}
+
+.note-filter-chip.is-active {
+  border-color: var(--app-accent);
+  background: var(--app-accent-soft);
+  color: var(--app-fg);
+}
+
+.note-filter-chip__count {
+  opacity: 0.6;
+  font-size: 0.72rem;
+}
+
+/* Filters push the list down a touch less than the old 36px. */
+.notes-filters + .notes-list {
+  margin-top: 22px;
+}
+
+/* ---------- detail: backlinks + related ---------- */
+
+.note-adjacent {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--app-border);
+  display: grid;
+  gap: 28px;
+}
+
+.note-adjacent__group h2 {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--app-muted);
+}
+
+.note-adjacent__group ul {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.note-adjacent__group li a {
+  color: var(--app-fg);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.note-adjacent__group li a:hover {
+  color: var(--app-accent);
+}
+
+.note-adjacent__group li p {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--app-muted);
+  line-height: 1.5;
+}
+
+/* ---------- homepage teaser ---------- */
+
+.notes-teaser {
+  max-width: 72ch;
+  margin: 0 auto;
+}
+
+.notes-teaser__head .notes-subtitle {
+  margin-top: 10px;
+}
+
+.notes-teaser__list {
+  margin-top: 26px;
+}
+
+.notes-teaser .note-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+
+.notes-teaser .note-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.notes-teaser .note-card h3 a:hover {
+  color: var(--app-accent);
+}
+
+.notes-teaser__cta {
+  margin: 22px 0 0;
+}
+
+.notes-teaser__cta a {
+  color: var(--app-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.notes-teaser__cta a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

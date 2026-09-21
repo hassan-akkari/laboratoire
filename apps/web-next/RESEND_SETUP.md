@@ -23,7 +23,7 @@ Recipient is resolved as `notify_email ?? contact_email` from `site_config`.
   RESEND_API_KEY=                       # blank — needs the key
   RESEND_FROM=Hassan <onboarding@resend.dev>
   ```
-- Admin **Notify email override** is already set to `hassan.akkari@icloud.com`
+- Admin **Notify email override** is already set to `<private-notify-inbox>`
   and saved, so notifications resolve to iCloud (public contact email stays
   `hassan.akkari01@gmail.com`).
 - No API key yet → button reports `Resend not configured (set RESEND_API_KEY and RESEND_FROM)`.
@@ -45,13 +45,13 @@ can't add DNS records to Apple's or Google's domain. Two valid senders:
 
 ## Quick path — local test, zero DNS (recommended to start)
 
-1. Sign up at https://resend.com **with `hassan.akkari@icloud.com`** (so the
+1. Sign up at https://resend.com **with `<private-notify-inbox>`** (so the
    account email == the only address the test sender may reach).
 2. Resend → **API Keys → Create API Key** (permission: Sending access) → copy
    the `re_...` key (shown once).
 3. Paste it after `RESEND_API_KEY=` in `apps/web-next/.env.local`. No quotes,
    no trailing spaces.
-4. Admin **Notify email override** must equal `hassan.akkari@icloud.com`
+4. Admin **Notify email override** must equal `<private-notify-inbox>`
    (already set).
 5. **Restart** `pnpm dev:next` — Next.js reads `.env.local` only at boot.
 6. Admin → Site config → **Send test email** → arrives at iCloud (check
@@ -82,7 +82,7 @@ In order:
 1. `.env.local` is inside `apps/web-next/`, not the repo root.
 2. `RESEND_API_KEY` is not blank.
 3. `pnpm dev:next` was **restarted** after editing the env.
-4. Notify override is exactly `hassan.akkari@icloud.com`.
+4. Notify override is exactly `<private-notify-inbox>`.
 5. iCloud spam / promotions folder.
 6. Next.js terminal for a Resend API error.
 

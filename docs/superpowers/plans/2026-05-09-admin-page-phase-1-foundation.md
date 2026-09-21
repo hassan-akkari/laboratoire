@@ -444,7 +444,7 @@ pnpm -F web-next db:seed
 
 Expected output:
 ```
-✔ Created admin user h.akkari@sibyllanetwork.com
+✔ Created admin user admin@example.com
 ✔ Created site_config singleton row
 ```
 
@@ -1188,7 +1188,7 @@ git commit -m "feat(web-next): rename middleware.ts -> proxy.ts (Next.js 16); ad
 ```bash
 # === Phase 1: Foundation ===
 DATABASE_URL=postgres://user:pass@host/db
-ADMIN_EMAIL=h.akkari@sibyllanetwork.com
+ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=changeme
 ADMIN_SESSION_SECRET=at-least-32-chars-of-random-data-please-change-me
 PUBLIC_ALLOWED_ORIGINS=https://itshassan.it,http://localhost:5173
@@ -1236,7 +1236,7 @@ In a second terminal:
 curl -i -X POST http://localhost:3001/api/admin/login `
   -H "Origin: http://localhost:3001" `
   -H "Content-Type: application/json" `
-  --data '{"email":"h.akkari@sibyllanetwork.com","password":"wrong"}'
+  --data '{"email":"admin@example.com","password":"wrong"}'
 ```
 
 Expected: `HTTP/1.1 401`, body `{"error":"Invalid credentials"}`. No cookie set.
@@ -1247,7 +1247,7 @@ Expected: `HTTP/1.1 401`, body `{"error":"Invalid credentials"}`. No cookie set.
 curl -i -X POST http://localhost:3001/api/admin/login `
   -H "Origin: https://evil.com" `
   -H "Content-Type: application/json" `
-  --data '{"email":"h.akkari@sibyllanetwork.com","password":"whatever"}'
+  --data '{"email":"admin@example.com","password":"whatever"}'
 ```
 
 Expected: `HTTP/1.1 403`, body `Forbidden`.
@@ -1258,7 +1258,7 @@ Expected: `HTTP/1.1 403`, body `Forbidden`.
 curl -i -X POST http://localhost:3001/api/admin/login `
   -H "Origin: http://localhost:3001" `
   -H "Content-Type: application/json" `
-  --data "{\"email\":\"h.akkari@sibyllanetwork.com\",\"password\":\"<your real ADMIN_PASSWORD>\"}" `
+  --data "{\"email\":\"admin@example.com\",\"password\":\"<your real ADMIN_PASSWORD>\"}" `
   -c admin-cookie.txt
 ```
 

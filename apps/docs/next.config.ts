@@ -23,6 +23,18 @@ const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? process.env.VITE_CAL_LINK;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // The public CV PDFs must not outrank (or leak alongside) the HTML /cv page
+  // on brand queries: X-Robots-Tag keeps them fetchable but unindexed.
+  // NOT a robots.txt Disallow — that blocks crawling yet still allows
+  // indexing of the bare URL.
+  async headers() {
+    return [
+      {
+        source: "/pdf/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+    ];
+  },
   env: {
     ...(adminApiBase ? { NEXT_PUBLIC_ADMIN_API_BASE: adminApiBase } : {}),
     ...(calLink ? { NEXT_PUBLIC_CAL_LINK: calLink } : {}),

@@ -10,6 +10,7 @@ export type Messages = {
     contact: string;
     cv: string;
     downloadCv: string;
+    notes: string;
   };
   locale: {
     label: string;
@@ -100,6 +101,30 @@ export type Messages = {
     sections: { heading: string; body: string }[];
     backToSite: string;
   };
+  notes: {
+    title: string;
+    subtitle: string;
+    /** Non-EN locales: one line telling visitors the notes are in English. Empty on en. */
+    languageNote: string;
+    backToSite: string;
+    backToNotes: string;
+    plantedLabel: string;
+    tendedLabel: string;
+    empty: string;
+    stages: { seedling: string; budding: string; evergreen: string };
+    /** Homepage teaser section. */
+    teaserTitle: string;
+    teaserSubtitle: string;
+    teaserCta: string;
+    /** Note detail: reverse-wikilink and shared-tag sections. */
+    backlinksTitle: string;
+    relatedTitle: string;
+    /** Index filter bar. */
+    filterAll: string;
+    filterStages: string;
+    filterTags: string;
+    feedLabel: string;
+  };
   system: {
     githubUnavailable: string;
     fallbackData: string;
@@ -118,6 +143,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contact",
       cv: "CV",
       downloadCv: "Download CV",
+      notes: "Notes",
     },
     locale: {
       label: "Language",
@@ -238,6 +264,32 @@ export const messages: Record<Locale, Messages> = {
       ],
       backToSite: "Back to portfolio",
     },
+    notes: {
+      title: "Digital garden",
+      subtitle:
+        "Working notes from the lab — published while they grow, not once they're perfect.",
+      languageNote: "",
+      backToSite: "Back to portfolio",
+      backToNotes: "All notes",
+      plantedLabel: "Planted",
+      tendedLabel: "Last tended",
+      empty: "The garden has just been planted — first notes are on their way.",
+      stages: {
+        seedling: "Seedling",
+        budding: "Budding",
+        evergreen: "Evergreen",
+      },
+      teaserTitle: "From the digital garden",
+      teaserSubtitle:
+        "Working notes, published while they grow — the thinking behind the work.",
+      teaserCta: "Browse all notes",
+      backlinksTitle: "Linked from",
+      relatedTitle: "Related notes",
+      filterAll: "All",
+      filterStages: "Filter by growth stage",
+      filterTags: "Filter by topic",
+      feedLabel: "RSS feed",
+    },
     system: {
       githubUnavailable:
         "GitHub stats unavailable right now. Showing local profile data.",
@@ -256,6 +308,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contatti",
       cv: "CV",
       downloadCv: "Scarica CV",
+      notes: "Note",
     },
     locale: {
       label: "Lingua",
@@ -376,6 +429,32 @@ export const messages: Record<Locale, Messages> = {
       ],
       backToSite: "Torna al portfolio",
     },
+    notes: {
+      title: "Giardino digitale",
+      subtitle:
+        "Appunti di lavoro dal laboratorio — pubblicati mentre crescono, non quando sono perfetti.",
+      languageNote: "Le note sono in inglese.",
+      backToSite: "Torna al portfolio",
+      backToNotes: "Tutte le note",
+      plantedLabel: "Piantata",
+      tendedLabel: "Ultima cura",
+      empty: "Il giardino è appena stato piantato — le prime note sono in arrivo.",
+      stages: {
+        seedling: "Germoglio",
+        budding: "In crescita",
+        evergreen: "Sempreverde",
+      },
+      teaserTitle: "Dal giardino digitale",
+      teaserSubtitle:
+        "Appunti di lavoro, pubblicati mentre crescono — il pensiero dietro il lavoro.",
+      teaserCta: "Sfoglia tutte le note",
+      backlinksTitle: "Citata da",
+      relatedTitle: "Note correlate",
+      filterAll: "Tutte",
+      filterStages: "Filtra per stadio di crescita",
+      filterTags: "Filtra per argomento",
+      feedLabel: "Feed RSS",
+    },
     system: {
       githubUnavailable:
         "Statistiche GitHub non disponibili ora. Mostro i dati locali del profilo.",
@@ -394,6 +473,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contact",
       cv: "CV",
       downloadCv: "Télécharger CV",
+      notes: "Notes",
     },
     locale: {
       label: "Langue",
@@ -515,6 +595,32 @@ export const messages: Record<Locale, Messages> = {
       ],
       backToSite: "Retour au portfolio",
     },
+    notes: {
+      title: "Jardin numérique",
+      subtitle:
+        "Notes de travail du laboratoire — publiées pendant qu'elles poussent, pas une fois parfaites.",
+      languageNote: "Les notes sont rédigées en anglais.",
+      backToSite: "Retour au portfolio",
+      backToNotes: "Toutes les notes",
+      plantedLabel: "Plantée",
+      tendedLabel: "Dernier soin",
+      empty: "Le jardin vient d'être planté — les premières notes arrivent.",
+      stages: {
+        seedling: "Pousse",
+        budding: "En croissance",
+        evergreen: "Persistante",
+      },
+      teaserTitle: "Du jardin numérique",
+      teaserSubtitle:
+        "Notes de travail, publiées pendant qu'elles poussent — la réflexion derrière le travail.",
+      teaserCta: "Parcourir toutes les notes",
+      backlinksTitle: "Citée par",
+      relatedTitle: "Notes liées",
+      filterAll: "Toutes",
+      filterStages: "Filtrer par stade de croissance",
+      filterTags: "Filtrer par sujet",
+      feedLabel: "Flux RSS",
+    },
     system: {
       githubUnavailable:
         "Statistiques GitHub indisponibles. Affichage des données locales.",
@@ -533,6 +639,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Kontakt",
       cv: "CV",
       downloadCv: "CV herunterladen",
+      notes: "Notizen",
     },
     locale: {
       label: "Sprache",
@@ -655,6 +762,32 @@ export const messages: Record<Locale, Messages> = {
         },
       ],
       backToSite: "Zurück zum Portfolio",
+    },
+    notes: {
+      title: "Digitaler Garten",
+      subtitle:
+        "Arbeitsnotizen aus dem Labor — veröffentlicht, während sie wachsen, nicht erst wenn sie perfekt sind.",
+      languageNote: "Die Notizen sind auf Englisch verfasst.",
+      backToSite: "Zurück zum Portfolio",
+      backToNotes: "Alle Notizen",
+      plantedLabel: "Gepflanzt",
+      tendedLabel: "Zuletzt gepflegt",
+      empty: "Der Garten wurde gerade angelegt — die ersten Notizen folgen bald.",
+      stages: {
+        seedling: "Setzling",
+        budding: "Wachsend",
+        evergreen: "Immergrün",
+      },
+      teaserTitle: "Aus dem digitalen Garten",
+      teaserSubtitle:
+        "Arbeitsnotizen, veröffentlicht während sie wachsen — das Denken hinter der Arbeit.",
+      teaserCta: "Alle Notizen ansehen",
+      backlinksTitle: "Verlinkt von",
+      relatedTitle: "Verwandte Notizen",
+      filterAll: "Alle",
+      filterStages: "Nach Wachstumsstadium filtern",
+      filterTags: "Nach Thema filtern",
+      feedLabel: "RSS-Feed",
     },
     system: {
       githubUnavailable:

@@ -1,0 +1,69 @@
+{
+  "applications": [
+    {
+      "id": "seed-alpstein",
+      "company": "Alpstein Software AG",
+      "role": "Senior Frontend Engineer",
+      "location": "Zürich, CH",
+      "source": "indeed",
+      "stack": ["react", "typescript", "next.js"],
+      "status": "interview",
+      "appliedAt": "2026-06-24",
+      "lastContactAt": "2026-07-09",
+      "nextFollowUpAt": "2026-07-16",
+      "notes": "Second round scheduled — prepare the multi-agent orchestration story."
+    },
+    {
+      "id": "seed-grachtwerk",
+      "company": "Grachtwerk Labs BV",
+      "role": "Full-stack Engineer (React/.NET)",
+      "location": "Amsterdam, NL",
+      "source": "linkedin",
+      "stack": ["react", ".net", "postgres"],
+      "status": "screening",
+      "appliedAt": "2026-06-30",
+      "lastContactAt": "2026-07-03",
+      "nextFollowUpAt": "2026-07-10",
+      "notes": "Recruiter said 'end of next week' — that was two weeks ago."
+    },
+    {
+      "id": "seed-helvetic",
+      "company": "Helvetic Rail Digital",
+      "role": "AI Product Engineer",
+      "location": "Bern, CH",
+      "source": "referral",
+      "stack": ["typescript", "llm", "react"],
+      "status": "applied",
+      "appliedAt": "2026-07-06",
+      "lastContactAt": "2026-07-06",
+      "nextFollowUpAt": "2026-07-15",
+      "notes": "Referral from the meetup — mention the vault MCP project."
+    },
+    {
+      "id": "seed-polder",
+      "company": "Polder Analytics",
+      "role": "Frontend Developer",
+      "location": "Utrecht, NL",
+      "source": "indeed",
+      "stack": ["react", "d3"],
+      "status": "ghosted",
+      "appliedAt": "2026-06-05",
+      "lastContactAt": "2026-06-20",
+      "nextFollowUpAt": null,
+      "notes": "Two follow-ups sent, no reply. Parked."
+    },
+    {
+      "id": "seed-lakeshore",
+      "company": "Lakeshore Fintech SA",
+      "role": ".NET Engineer",
+      "location": "Geneva, CH",
+      "source": "scout",
+      "stack": [".net", "azure"],
+      "status": "scouted",
+      "appliedAt": null,
+      "lastContactAt": null,
+      "nextFollowUpAt": null,
+      "notes": "From this morning's shortlist — tailor the .NET-forward CV before applying."
+    }
+  ]
+}

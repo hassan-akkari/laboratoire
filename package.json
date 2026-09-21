@@ -12,6 +12,7 @@
     "dev:react": "pnpm -F web-react dev",
     "dev:next": "pnpm -F web-next dev",
     "dev:lab": "pnpm -F lab dev",
+    "dev:centre": "pnpm -F control-centre dev",
     "dev:booking": "pnpm -F booking-service dev",
     "dev:all": "concurrently -n UI,SB,DOCS,REACT,NEXT,LAB,BOOK -c magenta,yellow,green,cyan,blue,red,white \"pnpm -F @laboratoire/ui dev\" \"pnpm -F @laboratoire/ui storybook\" \"pnpm -F docs dev\" \"pnpm -F web-react dev\" \"pnpm -F web-next dev\" \"pnpm -F lab dev\" \"pnpm -F booking-service dev\"",
     "build": "pnpm turbo run build",

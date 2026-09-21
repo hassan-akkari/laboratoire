@@ -1051,7 +1051,7 @@ export default function AdminLoginPage() {
 
 - [ ] **Step 2: Manual verify in browser**
 
-`pnpm dev:next` (if not already running) → http://localhost:3001/admin/login → form renders, "Sign in" disabled until both fields are filled. Submit with the credentials seeded in Phase 1 (`hassan.akkari01@gmail.com` / `somalia17`) → expect redirect to `/admin` (which 404s until Task 7 — that's fine, login itself succeeded).
+`pnpm dev:next` (if not already running) → http://localhost:3001/admin/login → form renders, "Sign in" disabled until both fields are filled. Submit with the credentials seeded in Phase 1 (`hassan.akkari01@gmail.com` / `<ADMIN_PASSWORD>`) → expect redirect to `/admin` (which 404s until Task 7 — that's fine, login itself succeeded).
 
 - [ ] **Step 3: Commit**
 

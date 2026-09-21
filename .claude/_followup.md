@@ -119,9 +119,9 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 ### F15 — Wire Resend email (lead notifications + admin "Send test email") — DEFERRED 2026-06-08
 
 - **Where**: `apps/web-next/lib/email.ts` (`sendTestEmail`, `sendLeadNotification`), admin Site config page.
-- **Current state**: `.env.local` has `RESEND_FROM=Hassan <onboarding@resend.dev>` and a blank `RESEND_API_KEY=`. Admin "Notify email override" already set to `hassan.akkari@icloud.com` (notifications resolve to iCloud; public contact stays gmail). No API key → button reports "Resend not configured". Email path is **optional** — leads still save to the DB without it; both email fns fail gracefully (`{ok:false}`, never throw).
+- **Current state**: `.env.local` has `RESEND_FROM=Hassan <onboarding@resend.dev>` and a blank `RESEND_API_KEY=`. Admin "Notify email override" already set to `<private-notify-inbox>` (notifications resolve to iCloud; public contact stays gmail). No API key → button reports "Resend not configured". Email path is **optional** — leads still save to the DB without it; both email fns fail gracefully (`{ok:false}`, never throw).
 - **Why deferred**: not worth the email-infra detour right now; DB separation (the actual session goal) is done. Hassan is happy with leads-to-DB-only for now.
-- **Next step**: full procedure in `apps/web-next/RESEND_SETUP.md`. TL;DR — sign up Resend with `hassan.akkari@icloud.com`, create API key, paste into `.env.local`, restart `pnpm dev:next`, click Send test email. For sending to arbitrary recipients / prod: verify `itshassan.it` in Resend + add DKIM/SPF/MX DNS at OVH (Resend uses a `send.` subdomain, so OVH root MX for `contact@itshassan.it` stays intact).
+- **Next step**: full procedure in `apps/web-next/RESEND_SETUP.md`. TL;DR — sign up Resend with `<private-notify-inbox>`, create API key, paste into `.env.local`, restart `pnpm dev:next`, click Send test email. For sending to arbitrary recipients / prod: verify `itshassan.it` in Resend + add DKIM/SPF/MX DNS at OVH (Resend uses a `send.` subdomain, so OVH root MX for `contact@itshassan.it` stays intact).
 - **Related**: same OVH DNS console as the future `admin.itshassan.it` subdomain.
 
 ---
@@ -421,3 +421,35 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 ### Resolved this session
 - **H6** (locked P4 worktree dirs): the 3 dirs were removed during the P6 cleanup once
   the locking processes exited. `.claude/worktrees/` is now empty. DONE.
+
+---
+
+## 2026-07-19 — CLAUDE.md drift — bootstrap audit needed
+
+> Surfaced during the 2026-07-19 doc-drift pass (digital-garden real-vault sync +
+> middleware→proxy line fix). Only the proxy line was corrected in CLAUDE.md; the
+> items below are the drift deliberately NOT fixed surgically.
+
+### C2 — web-next described as in-memory orders + single-cookie MVP, but `lib/db/` (Drizzle) exists
+
+- **Where**: `.claude/CLAUDE.md` — mermaid node ("Server Actions · zod · in-memory orders"),
+  the `orders.ts` `globalThis.__bookingOrderStore__` note, gotcha #6 — vs.
+  `apps/web-next/lib/db/client.ts` + `apps/web-next/lib/db/schema.ts` (Drizzle client + schema)
+  present on disk.
+- **What**: the persistence story CLAUDE.md tells for web-next is likely stale. Needs a
+  verification pass (what still runs on the globalThis store vs. what moved to Drizzle/DB)
+  before the description is rewritten — a larger rewrite than the 2026-07-19 surgical fix.
+
+### C3 — CLAUDE.md architecture section missing apps/control-centre and the digital-garden pipeline
+
+- **Where**: `.claude/CLAUDE.md` Architecture (mermaid + notes).
+- **What**: no mention of `apps/control-centre` (local-only QoL dashboard, branch
+  `claude/qol-control-centre-9fsas9`) nor of the digital-garden vault→site pipeline in
+  `apps/docs` (`scripts/vault-sync.ts`, `/notes` routes, `notes.json` — see
+  `docs/digital-garden.md`).
+
+### Suggested action
+
+Run the `bootstrap audit` trigger from CLAUDE.md's Re-bootstrap section — it diffs the doc
+against the current repo and reports incoherence. C2/C3 (plus the still-open C1 above)
+should all fall out of that pass.

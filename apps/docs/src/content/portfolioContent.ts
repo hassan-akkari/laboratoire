@@ -116,31 +116,31 @@ export const fallbackPortfolioContent: PortfolioContent = {
       "Greenfield rebuilds, exactly-once payment flows, AI-augmented engineering.",
     location: "Rome, Italy",
     metric:
-      "~2.5 years in production · React 19 migration + exactly-once Nexi payment flow",
+      "Production SaaS since 2023 · React 19 migration + exactly-once payment flow",
     about: [
-      "Full-stack software engineer, strongest on the frontend, with ~2.5 years shipping production systems for a hospitality software company. I lead the page-by-page migration of a multi-tenant management SaaS from legacy Razor / jQuery to React 19, and own an e-commerce platform's payment, kiosk and marketplace surfaces end-to-end — including an exactly-once Nexi payment flow over a non-idempotent downstream.",
-      "I architected the React 19 frontend as three independent SPAs (marketplace, kiosk, quote landing) on Redux Toolkit + RTK Query: a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (Nexi / wallet / discount behind one provider interface), and react-hook-form + Zod over inconsistent legacy payloads. I also led a security and tenancy audit that surfaced cross-tenant access (IDOR) and an issued-but-never-validated CSRF token.",
+      "Full-stack software engineer, strongest on the frontend, shipping production systems for a hospitality software company since 2023. I lead the page-by-page migration of a multi-tenant management SaaS from legacy Razor / jQuery to React 19, and own an e-commerce platform's payment, kiosk and marketplace surfaces end-to-end — including an exactly-once payment confirmation flow.",
+      "I architected the React 19 frontend as three independent SPAs (marketplace, kiosk, quote landing) on Redux Toolkit + RTK Query: a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (card gateway / wallet / discount behind one provider interface), and react-hook-form + Zod over inconsistent legacy payloads. I also led a security and tenancy audit of the multi-tenant surfaces; findings were remediated before release.",
       "I built the team's AI-augmented engineering workflow on Claude Code — per-layer instruction files, narrow tool-scoped specialist subagents, an orchestration skill that injects the right invariants, and a plan-first process where a human approves before anything mutates; the review subagents surfaced three latent payment-flow bugs before release.",
       "I share approach and impact openly; specific internal details stay out.",
     ],
-    now: "At Sibylla I lead the page-by-page React 19 migration of a multi-tenant hospitality SaaS (Portal) and own the e-commerce platform's payment, kiosk and marketplace surfaces (Network) — including an exactly-once Nexi flow over a non-idempotent downstream — while running the team's AI-augmented engineering workflow on Claude Code.",
+    now: "At Sibylla I lead the page-by-page React 19 migration of a multi-tenant hospitality SaaS (Portal) and own the e-commerce platform's payment, kiosk and marketplace surfaces (Network) — including an exactly-once payment confirmation flow — while running the team's AI-augmented engineering workflow on Claude Code.",
     philosophy:
       "Solve the problem, then make it hard to repeat — with standards, typed contracts, and adversarial review.",
     githubUsername: "hassan-akkari",
   },
   contact: {
     email: "hassan.akkari01@gmail.com",
-    resumePath: "pdf/CV-ENG-06-2026.pdf",
+    resumePath: "pdf/CV-ENG-NET-07-2026.pdf",
     github: "https://github.com/hassan-akkari",
     linkedin: "https://www.linkedin.com/in/hassan-akkari",
     instagram: "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
     facebook: "https://www.facebook.com/hassan.akkari.714",
   },
   highlights: [
-    'Exactly-once Nexi payment flow\nBefore: a non-idempotent downstream booking system risked double bookings and lost confirmations on retransmitted gateway callbacks.\nAfter: a local payment-lock keyed by a unique transaction code and a MediatR state machine (pending → nexi_paid → confirmed | failed) that no-ops on replays, plus a guard against silent "HTTP 200 but failed" responses.\nResult: no payment confirmed without a real booking; double bookings and lost confirmations eliminated.',
-    "React 19 frontend as three independent SPAs\nBefore: the rebuilt e-commerce platform needed marketplace, kiosk and quote-landing surfaces owned end-to-end.\nAfter: three SPAs on Redux Toolkit + RTK Query with a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (Nexi / wallet / discount behind one interface), and react-hook-form + Zod over legacy payloads.\nResult: principal contributor and top author by commit volume; booking, cart, checkout, wallet and account from zero to production.",
+    'Exactly-once payment confirmation\nBefore: payment-gateway callbacks can arrive more than once, and a confirmation has to be recorded exactly once.\nAfter: a payment-lock keyed by a unique transaction code and an explicit state machine (pending → paid → confirmed | failed) that no-ops on replays and checks the downstream result before confirming.\nResult: a payment is confirmed only once its booking is confirmed; replayed callbacks are ignored.',
+    "React 19 frontend as three independent SPAs\nBefore: the rebuilt e-commerce platform needed marketplace, kiosk and quote-landing surfaces owned end-to-end.\nAfter: three SPAs on Redux Toolkit + RTK Query with a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (card gateway / wallet / discount behind one interface), and react-hook-form + Zod over legacy payloads.\nResult: principal contributor and top author by commit volume; booking, cart, checkout, wallet and account from zero to production.",
     "Multi-tenant SaaS migration without a big-bang rewrite\nBefore: a multi-tenant hospitality-management SaaS was locked in legacy ASP.NET MVC / Razor / jQuery.\nAfter: a page-by-page React 19 migration mounted behind a backend-for-frontend, with a route manifest deciding per page whether to SPA-navigate or full-reload.\nResult: pages move incrementally with no big-bang rewrite; deploy pipeline hardened against stale frontend bundles.",
-    "Security & tenancy audit (IDOR + CSRF)\nBefore: multi-tenant data isolation and CSRF handling had not been adversarially reviewed.\nAfter: led a security and tenancy audit, filtering the tenant claim on the row (not via a parent join) and reviewing the request path end-to-end.\nResult: surfaced cross-tenant access (IDOR) and an issued-but-never-validated CSRF token, among other findings.",
+    "Security & tenancy audit\nBefore: multi-tenant data isolation and request validation had not been adversarially reviewed.\nAfter: led a security and tenancy audit of the multi-tenant surfaces, reviewing data isolation and the request path end-to-end.\nResult: findings remediated before release; data isolation and request validation hardened.",
     "AI-augmented engineering framework (Claude Code)\nBefore: AI-assisted migration was ad-hoc and risked unbounded blast radius.\nAfter: per-layer instruction files, narrow tool-scoped specialist subagents, an orchestration skill that classifies a task and injects the right invariants, and a plan-first process where a human approves before anything mutates.\nResult: a repeatable migration pipeline; read-only review subagents surfaced three latent payment-flow bugs before release.",
   ],
   stack: {
@@ -186,9 +186,9 @@ export const fallbackPortfolioContent: PortfolioContent = {
       start: "Mar 2025",
       end: "Present",
       bullets: [
-        "Principal contributor and top author by commit volume on the hospitality e-commerce platform, rebuilt in-house after prior external development missed requirements; sole author of the quote-payment flow, founder of the React self-service check-in kiosk, and dominant author of the marketplace SPA — booking, cart, checkout, wallet and account, from zero to production.",
-        'Made quote-payment confirmation exactly-once over a non-idempotent downstream: a payment-lock keyed by a unique transaction code and a MediatR state machine (pending → nexi_paid → confirmed | failed) that no-ops on retransmitted gateway callbacks, with a guard against silent "HTTP 200 but failed" responses.',
-        "Architected the React 19 frontend as three independent SPAs (marketplace, kiosk, quote landing) on Redux Toolkit + RTK Query: a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (Nexi / wallet / discount behind one provider interface), and react-hook-form + Zod over inconsistent legacy payloads. Tested with Vitest and Playwright (e2e + a11y) on an Azure DevOps release train.",
+        "Principal contributor and top author by commit volume on the hospitality e-commerce platform, rebuilt in-house; sole author of the quote-payment flow, founder of the React self-service check-in kiosk, and dominant author of the marketplace SPA — booking, cart, checkout, wallet and account, from zero to production.",
+        'Made quote-payment confirmation exactly-once: a payment-lock keyed by a unique transaction code and an explicit state machine (pending → paid → confirmed | failed) that no-ops on retransmitted gateway callbacks and checks the downstream result before confirming.',
+        "Architected the React 19 frontend as three independent SPAs (marketplace, kiosk, quote landing) on Redux Toolkit + RTK Query: a single-flight 401-refresh auth layer, a ports-and-adapters payment architecture (card gateway / wallet / discount behind one provider interface), and react-hook-form + Zod over inconsistent legacy payloads. Tested with Vitest and Playwright (e2e + a11y) on an Azure DevOps release train.",
         "Designed the team's AI-augmented engineering framework on Claude Code (per-layer instruction files, tool-scoped specialist subagents, a plan-first orchestration skill) and built read-only review subagents over the ASP.NET Core / React codebase — surfacing three latent payment-flow bugs before release.",
       ],
     },
@@ -200,7 +200,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
       end: "Present",
       bullets: [
         "Leading the page-by-page migration of a multi-tenant hospitality-management SaaS from legacy ASP.NET MVC / Razor / jQuery to React 19, mounted into the existing app behind a backend-for-frontend; a route manifest decides per page whether to SPA-navigate or full-reload, so pages move incrementally with no big-bang rewrite.",
-        "Audited and hardened multi-tenant data isolation (tenant claim filtered on the row, not via a parent join) and led a security and tenancy audit that surfaced cross-tenant access (IDOR) and an issued-but-never-validated CSRF token, among other findings.",
+        "Hardened multi-tenant data isolation and led a security and tenancy review of the request path end-to-end; findings were remediated before release.",
         "Earlier on Portal: built a reusable CSS class system and shared JS utility files that became the team reference for new pages, reducing duplication across modules; hardened the deploy pipeline against stale frontend bundles.",
       ],
     },
@@ -403,7 +403,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
     {
       name: "laboratoire — React 19 / TypeScript monorepo",
       description:
-        "Solo pnpm + Turbo monorepo. Built the server-side core of a Next.js App Router booking flow — idempotent orders, server-side price re-validation, and a Cal.com webhook with timing-safe HMAC verification — behind iron-session admin auth and a secretless CI gate.",
+        "Solo pnpm + Turbo monorepo. Built the server-side core of a Next.js App Router booking flow — zod-validated inputs, server-side price re-validation, and a Cal.com webhook with timing-safe HMAC verification — behind iron-session admin auth and a secretless CI gate.",
       stack: [
         "Next.js",
         "TypeScript",

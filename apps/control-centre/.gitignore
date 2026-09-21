@@ -1,0 +1,3 @@
+# Local working state of the control centre (job tracker, snoozes, ...).
+# Seeded automatically from seed/ on first run — personal data stays local.
+/data/

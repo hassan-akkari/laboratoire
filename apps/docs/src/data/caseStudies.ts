@@ -50,8 +50,8 @@ const it: CaseStudiesContent = {
   },
   caseStudies: [
     {
-      id: "sibylla-network",
-      title: "Sibylla Network — UI standards e flussi core",
+      id: "hospitality-ecommerce",
+      title: "Piattaforma e-commerce hospitality — UI standards e flussi core",
       context:
         "Prodotto enterprise complesso con team distribuito e moduli multipli. Codebase legacy con regole UI sparpagliate.",
       problem:
@@ -155,8 +155,8 @@ const en: CaseStudiesContent = {
   },
   caseStudies: [
     {
-      id: "sibylla-network",
-      title: "Sibylla Network — UI standards and core flows",
+      id: "hospitality-ecommerce",
+      title: "Hospitality e-commerce platform — UI standards and core flows",
       context:
         "Complex enterprise product with a distributed team and multiple modules. Legacy codebase with scattered UI rules.",
       problem:
@@ -260,8 +260,8 @@ const fr: CaseStudiesContent = {
   },
   caseStudies: [
     {
-      id: "sibylla-network",
-      title: "Sibylla Network — standards UI et flux core",
+      id: "hospitality-ecommerce",
+      title: "Plateforme e-commerce hospitality — standards UI et flux core",
       context:
         "Produit enterprise complexe avec équipe distribuée et modules multiples. Codebase legacy avec règles UI dispersées.",
       problem:
@@ -365,8 +365,8 @@ const de: CaseStudiesContent = {
   },
   caseStudies: [
     {
-      id: "sibylla-network",
-      title: "Sibylla Network — UI-Standards und Kernflüsse",
+      id: "hospitality-ecommerce",
+      title: "Hospitality-E-Commerce-Plattform — UI-Standards und Kernflüsse",
       context:
         "Komplexes Enterprise-Produkt mit verteiltem Team und mehreren Modulen. Legacy-Codebasis mit verstreuten UI-Regeln.",
       problem:
