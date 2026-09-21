@@ -2733,3 +2733,82 @@ ul.cv-chips[data-category="exploring"] li::before {
     background: #ffffff;
   }
 }
+/* ---------------------------------------------------------------------------
+ * Site footer (SiteFooter.tsx) — rendered by the locale layout under every
+ * page. Same tokens and pill-less treatment as the header; stacks to one
+ * column at phone width via flex-wrap, and never prints (the CV page has
+ * its own print layout).
+ * ------------------------------------------------------------------------ */
+.site-footer {
+  margin-top: 64px;
+  border-top: 1px solid color-mix(in srgb, var(--app-border) 76%, transparent);
+  padding: 40px 0 48px;
+  color: var(--app-muted);
+  font-size: 14px;
+}
+
+.site-footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px 48px;
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+}
+
+.site-footer__name {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--app-fg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-footer__tagline {
+  margin: 0;
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.site-footer__nav a {
+  padding: 4px 0;
+  color: color-mix(in srgb, var(--app-fg) 82%, var(--app-muted));
+  text-decoration: none;
+}
+
+.site-footer__nav a:hover,
+.site-footer__nav a:focus-visible,
+.site-footer__name:focus-visible {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.site-footer__meta {
+  margin: 28px 0 0;
+  font-size: 12px;
+}
+
+.cv-side__group a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+@media print {
+  .site-footer {
+    display: none;
+  }
+}
