@@ -110,6 +110,8 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 
 ### F14 — Wire `resources/arsenale-mentale.html` into the admin as a gated route — UNBLOCKED 2026-06-03
 
+> **CLOSED 2026-09-21 — REMOVED, not shipped.** The port was done (`apps/web-next/app/admin/(authed)/arsenale/page.tsx`), but the repository is public, so the personal dossier was readable in source regardless of the admin gate (and via GitHub Pages). Both the HTML and the admin page were untracked; a copy lives privately outside the repo; `.gitignore` blocks re-adding either path. Git history before this date still contains both files.
+
 - **Where**: `resources/arsenale-mentale.html` — 368-line self-contained dark-themed page (36-book reading roadmap, personal "arsenale mentale" dossier, IT). Originally committed on `dev/pitch` (`4fb6a60`), cherry-picked onto `feat/admin-phase-3-plan` (`6c5e30f`). Still an orphan — zero references from any app.
 - **Decision (2026-06-03)**: port into the admin surface as `apps/web-next/app/admin/arsenale/page.tsx`, gated by the existing admin auth. Admin-only — personal content, not public portfolio material. Add to the admin nav alongside leads / site-config.
 - **No longer blocked**: the original deferral reason ("admin auth gate doesn't exist yet") is gone. Phase 1-2 shipped the gate — `apps/web-next/app/admin/layout.tsx` already calls `requireAdminSession()` and renders the admin shell + nav. Any new `app/admin/arsenale/page.tsx` inherits that gate automatically. The proxy already matches `/admin/:path*`.
