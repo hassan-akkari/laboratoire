@@ -4,14 +4,14 @@
     "role": "Software Engineer · Full-Stack, Frontend-led",
     "focus": "Rebuilds greenfield, flux de paiement exactly-once, engineering AI-augmented.",
     "location": "Rome, Italie",
-    "metric": "SaaS en production depuis 2023 · migration React 19 + flux de paiement Nexi exactly-once",
+    "metric": "SaaS en production depuis 2023 · migration React 19 + flux de paiement exactly-once",
     "about": [
-      "Software engineer full-stack, plus fort sur le frontend, qui livre des systemes en production depuis 2023 pour une entreprise de logiciels hospitality. Je dirige la migration page-by-page d'un SaaS de gestion multi-tenant de Razor/jQuery legacy vers React 19, et je possede end-to-end les surfaces paiement, kiosque et marketplace d'une plateforme e-commerce — dont un flux de paiement Nexi exactly-once sur un downstream non idempotent.",
-      "J'ai architecture le frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query : une couche d'auth avec refresh 401 single-flight, une architecture de paiement ports-and-adapters (Nexi / wallet / remises derriere une seule interface provider), et react-hook-form + Zod sur des payloads legacy incoherents. J'ai aussi mene un audit de securite et de tenancy sur les surfaces multi-tenant ; les constats ont ete corriges avant la mise en production.",
+      "Software engineer full-stack, plus fort sur le frontend, qui livre des systemes en production depuis 2023 pour une entreprise de logiciels hospitality. Je dirige la migration page-by-page d'un SaaS de gestion multi-tenant de Razor/jQuery legacy vers React 19, et je possede end-to-end les surfaces paiement, kiosque et marketplace d'une plateforme e-commerce — dont un flux de confirmation de paiement exactly-once.",
+      "J'ai architecture le frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query : une couche d'auth avec refresh 401 single-flight, une architecture de paiement ports-and-adapters (passerelle carte / wallet / remises derriere une seule interface provider), et react-hook-form + Zod sur des payloads legacy incoherents. J'ai aussi mene un audit de securite et de tenancy sur les surfaces multi-tenant ; les constats ont ete corriges avant la mise en production.",
       "J'ai construit le workflow d'engineering AI-augmented de l'equipe sur Claude Code — fichiers d'instructions par layer, subagents specialises a outils restreints, une skill d'orchestration qui injecte les bons invariants, et un processus plan-first ou un humain approuve avant toute modification ; les subagents de review ont fait emerger trois bugs latents du flux de paiement avant la mise en production.",
       "Je partage approche et impact ouvertement; certains détails internes restent hors scope."
     ],
-    "now": "Je dirige la migration React 19 du Portal, je possede les surfaces paiement, kiosque et marketplace de Network — dont le flux de paiement Nexi exactly-once — et je fais tourner le workflow d'engineering AI-augmented de l'equipe sur Claude Code.",
+    "now": "Je dirige la migration React 19 du Portal, je possede les surfaces paiement, kiosque et marketplace de Network — dont le flux de confirmation de paiement exactly-once — et je fais tourner le workflow d'engineering AI-augmented de l'equipe sur Claude Code.",
     "philosophy": "Résous le problème, puis rends-le difficile à répéter — avec standards, contrats typés et revue adversariale.",
     "githubUsername": "hassan-akkari"
   },
@@ -24,7 +24,7 @@
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Flux de paiement Nexi exactly-once\nAvant: un downstream non idempotent renvoyait parfois des reponses \"HTTP 200 mais echouees\", au risque de confirmer des paiements sans reservation reelle.\nApres: payment-lock + machine a etats MediatR (pending -> nexi_paid -> confirmed | failed) qui ne fait rien sur les replays et se protege contre les reponses \"HTTP 200 mais echouees\".\nResultat: aucun paiement confirme sans reservation reelle, meme sous callbacks rejoues ou concurrents.",
+    "Flux de confirmation de paiement exactly-once\nAvant: les callbacks d'une passerelle de paiement peuvent arriver plusieurs fois, et la confirmation doit etre enregistree exactement une fois.\nApres: payment-lock + machine a etats explicite (pending -> paid -> confirmed | failed) qui ne fait rien sur les replays et verifie le resultat downstream avant de confirmer.\nResultat: un paiement n'est confirme qu'une fois la reservation confirmee ; les callbacks rejoues sont ignores.",
     "Frontend React 19 en trois SPA independantes\nAvant: une seule surface monolithique melait marketplace, kiosque et landing de devis sans frontiere claire.\nApres: trois SPA independantes (marketplace / kiosque / landing devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight, paiement ports-and-adapters et react-hook-form + Zod.\nResultat: contributeur principal et premier auteur par volume de commits, de zero a la production.",
     "Migration SaaS multi-tenant sans reecriture big-bang\nAvant: un SaaS de gestion legacy en ASP.NET MVC / Razor / jQuery impossible a moderniser d'un seul coup.\nApres: migration page-by-page vers React 19 derriere un backend-for-frontend, avec un route manifest qui decide SPA-navigate ou full-reload.\nResultat: migration incrementale sans big-bang, pipeline durcie contre les bundles obsoletes.",
     "Audit de securite et de tenancy\nAvant: l'isolation des donnees multi-tenant et la validation des requetes n'avaient jamais ete passees en revue de maniere adversariale.\nApres: audit de securite et de tenancy sur les surfaces multi-tenant, avec revue end-to-end de l'isolation des donnees et du chemin des requetes.\nResultat: constats corriges avant la mise en production ; isolation des donnees et validation des requetes durcies.",
@@ -73,8 +73,8 @@
       "start": "Mar 2025",
       "end": "Present",
       "bullets": [
-        "Livraison du flux de paiement Nexi exactly-once sur un downstream non idempotent : payment-lock + machine a etats MediatR (pending -> nexi_paid -> confirmed | failed) qui ne fait rien sur les replays et se protege contre les reponses \"HTTP 200 mais echouees\", de sorte qu'aucun paiement n'est confirme sans reservation reelle.",
-        "Architecture du frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight et paiement ports-and-adapters (Nexi / wallet / remises derriere une seule interface provider).",
+        "Confirmation du paiement des devis exactly-once : payment-lock + machine a etats explicite (pending -> paid -> confirmed | failed) qui ne fait rien sur les replays et verifie le resultat downstream avant de confirmer.",
+        "Architecture du frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight et paiement ports-and-adapters (passerelle carte / wallet / remises derriere une seule interface provider).",
         "Formulaires en react-hook-form + Zod normalisant des payloads legacy incoherents au boundary ; contributeur principal et premier auteur par volume de commits, de zero a la production.",
         "Construction du workflow d'engineering AI-augmented de l'equipe sur Claude Code : instructions par layer, subagents a outils restreints et orchestration plan-first ; trois bugs de paiement latents trouves avant la release."
       ]
