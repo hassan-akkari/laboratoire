@@ -89,6 +89,33 @@ describe("saveConfig server action — authorization", () => {
 
     expect(to).toBe("/admin/login");
     expect(calls.updateSiteConfig).toHaveLength(0);
+    expect(calls.revalidatePath).toHaveLength(0);
+  });
+
+  it("with an expired (genuinely sealed, past TTL) cookie: redirects to login and does NOT write the config", async () => {
+    // Seal at T0, then move the clock past the 7-day TTL (plus iron's 60s skew).
+    vi.useFakeTimers({ toFake: ["Date"] });
+    try {
+      vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
+      cookieStore.set(ADMIN_COOKIE_NAME, await sealAdminSession({ userId: "u1" }));
+      vi.setSystemTime(new Date("2026-01-09T00:00:00Z"));
+
+      const to = await runAction(form(validFields));
+
+      expect(to).toBe("/admin/login");
+      expect(calls.updateSiteConfig).toHaveLength(0);
+      expect(calls.revalidatePath).toHaveLength(0);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("without a session: rejects BEFORE parsing — invalid input redirects to login, not to ?error=invalid", async () => {
+    const to = await runAction(form({ ...validFields, contactEmail: "not-an-email" }));
+
+    expect(to).toBe("/admin/login");
+    expect(calls.updateSiteConfig).toHaveLength(0);
+    expect(calls.revalidatePath).toHaveLength(0);
   });
 
   it("with a valid session: saves the config, revalidates and redirects with saved=1", async () => {

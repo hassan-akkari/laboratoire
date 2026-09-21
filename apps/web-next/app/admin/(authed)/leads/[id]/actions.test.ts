@@ -94,6 +94,34 @@ describe("saveLead server action — authorization", () => {
     expect(calls.revalidatePath).toHaveLength(0);
   });
 
+  it("with an expired (genuinely sealed, past TTL) cookie: redirects to login and does NOT write to the DB", async () => {
+    // Seal at T0, then move the clock past the 7-day TTL (plus iron's 60s skew).
+    vi.useFakeTimers({ toFake: ["Date"] });
+    try {
+      vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
+      cookieStore.set(ADMIN_COOKIE_NAME, await sealAdminSession({ userId: "u1" }));
+      vi.setSystemTime(new Date("2026-01-09T00:00:00Z"));
+
+      const to = await runAction(form({ id: "lead-1", status: "closed", notes: "x" }));
+
+      expect(to).toBe("/admin/login");
+      expect(calls.updateLead).toHaveLength(0);
+      expect(calls.revalidatePath).toHaveLength(0);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("without a session: rejects BEFORE parsing — an empty form (no id) still redirects to login", async () => {
+    // The authorised path returns early on a missing id; unauthenticated
+    // callers must never reach that branch.
+    const to = await runAction(form({}));
+
+    expect(to).toBe("/admin/login");
+    expect(calls.updateLead).toHaveLength(0);
+    expect(calls.revalidatePath).toHaveLength(0);
+  });
+
   it("with a valid session: updates the lead, revalidates and redirects to the detail page", async () => {
     cookieStore.set(ADMIN_COOKIE_NAME, await sealAdminSession({ userId: "u1" }));
 
