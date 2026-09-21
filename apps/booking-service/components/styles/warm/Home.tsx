@@ -20,7 +20,7 @@ const featurePills = [
 const trustSignals = [
   { stat: "Bespoke", label: "Every finish tailored to you" },
   { stat: "No account", label: "Request in under a minute" },
-  { stat: "Same-day", label: "Booking requests" },
+  { stat: "Any date", label: "From today onward" },
 ];
 
 export function Home() {

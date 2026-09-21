@@ -96,7 +96,7 @@ export function Home() {
           >
             <div
               role="img"
-              aria-label="How booking works here: request without an account, the studio confirms, availability within the week."
+              aria-label="How booking works here: request without an account, the studio confirms, you pick the date and time."
             >
               <div
                 aria-hidden="true"
@@ -122,10 +122,10 @@ export function Home() {
                   </div>
                   <div>
                     <dt className="text-sm font-medium uppercase tracking-widest text-primary-foreground/80">
-                      Availability
+                      Date &amp; time
                     </dt>
                     <dd className="font-display mt-1 text-3xl font-bold tracking-tight">
-                      This week
+                      Your pick
                     </dd>
                   </div>
                 </div>
