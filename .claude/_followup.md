@@ -455,3 +455,18 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 Run the `bootstrap audit` trigger from CLAUDE.md's Re-bootstrap section — it diffs the doc
 against the current repo and reports incoherence. C2/C3 (plus the still-open C1 above)
 should all fall out of that pass.
+
+## 2026-09-22 — Public exposure containment (PR #11) — residuals
+
+### F16 — GitHub Pages still serves the `main` root — MANUAL (Hassan)
+- **Where**: repo Settings → Pages. Source = branch `main`, path `/`, legacy build; live at `https://hassan-akkari.github.io/laboratoire/`. No workflow in `.github/` drives it.
+- **Effect**: every tracked file on `main` is served as a static site, in addition to being readable on GitHub itself (repo is public). Merging PR #11 removes the personal dossier from `main`, so Pages stops serving it after the next Pages build; `docs/PROJECT_BRAIN.md` and every other tracked file remain reachable there until Pages is disabled.
+- **Action**: Settings → Pages → Source → "None" (or "Deploy from a branch" → no branch). One click, reversible.
+
+### F17 — Three public docs describe the credential-rotation backlog in detail — DECISION (Hassan)
+- **Where**: `docs/PROJECT_BRAIN.md:80` (last sentence) and `:99`; `_handover-qol-garden-seo.md:38`; `docs/qol/2026-07-16-control-centre-handover.md:40`.
+- **Why it matters**: the repo is public (and Pages-served); the lines state that specific secrets were exposed and are not yet rotated. That is operational status, not technical documentation.
+- **Options**: (a) rotate the credentials — closes the substance, wording becomes historical; (b) additionally neutralise the three lines to "scheduled rotation; status tracked privately" (same treatment already applied to `PROJECT_BRAIN.md:79` in `baebd6c`). The 2026-09-22 session did not edit these lines: rewording an incident record was left as a human call.
+
+### F18 — History still contains the removed personal files
+- `resources/arsenale-mentale.html` and `apps/web-next/app/admin/(authed)/arsenale/page.tsx` are reachable at any pre-`baebd6c` commit (raw URL on `0aa9333` answers 200). Removal from HEAD does not remove them from history. Only a history rewrite (`git filter-repo` + force-push + GitHub support request for cached objects) would, and that was explicitly out of scope for PR #11. Private copies (CRLF working-tree form; identical to the git blobs after LF normalisation) live in the vault under `archive/laboratoire-private/`.
