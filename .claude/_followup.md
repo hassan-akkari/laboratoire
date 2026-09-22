@@ -476,7 +476,14 @@ should all fall out of that pass.
 ### F18 — History still contains the removed personal files
 - `resources/arsenale-mentale.html` and `apps/web-next/app/admin/(authed)/arsenale/page.tsx` are reachable at any pre-`baebd6c` commit (raw URL on `0aa9333` answers 200). Removal from HEAD does not remove them from history. Only a history rewrite (`git filter-repo` + force-push + GitHub support request for cached objects) would, and that was explicitly out of scope for PR #11. Private copies (CRLF working-tree form; identical to the git blobs after LF normalisation) live in the vault under `archive/laboratoire-private/`.
 
-<<<<<<< HEAD
+## 2026-09-22 — From the independent review of PR #12
+
+### F23 — Bookable login: the placeholder hash is 58 characters, so the "dummy compare" does no work
+- **Where**: `apps/booking-service/app/admin/login/actions.ts:42` — `DUMMY_HASH` is 58 characters long; a bcrypt hash is 60. `bcryptjs.compare()` rejects a malformed hash immediately (measured: 0.07 ms vs ~208 ms for a real cost-12 hash), so the unknown-email path is ~3000× faster than the wrong-password path. The comment in the file and the earlier README wording claimed the opposite.
+- **Impact**: user enumeration by response time is possible on `/admin/login` (single-admin MVP, admin email not public, but still a false security claim).
+- **Fix** (separate PR, touches auth): generate a real cost-12 hash once (`bcrypt.hashSync(randomBytes(32).toString("hex"), 12)`) and paste the 60-char result, or compute it lazily at module init; add a unit test asserting `DUMMY_HASH.length === 60` and that `compare()` against it takes the same order of magnitude as against a real hash. Then the README bullet can state the mitigation again.
+- **Status**: PR #12 only corrected the README to describe what the code does (generic error + a `compare` call); no equivalence claim remains.
+
 ## 2026-09-22 — Findings from the first Playwright pass (chore/self-verification-tooling)
 
 ### F20 — Bookable `/services/[slug]` is a soft 404 for unknown slugs
@@ -499,12 +506,3 @@ should all fall out of that pass.
 - **Where to look**: `apps/docs/src/components/sections/CaseStudiesSection.tsx` — the article carries `fadeUpVariants` with `getInViewReveal(reduceMotion, …)`; when `reduceMotion` is true the reveal props apparently never move the element from its `hidden` state, so the card is rendered but invisible after scroll. `apps/docs/src/components/ui/motionPresets.ts` holds both helpers.
 - **Fix idea**: with reduced motion, render with `initial={false}` (or `animate="visible"` immediately) instead of relying on `whileInView`; add an e2e case with `contextOptions: { reducedMotion: "reduce" }` asserting the card's computed opacity is 1 after scrolling to `#case-studies`.
 - **Not fixed in PR #13** (tooling only).
-=======
-## 2026-09-22 — From the independent review of PR #12
-
-### F23 — Bookable login: the placeholder hash is 58 characters, so the "dummy compare" does no work
-- **Where**: `apps/booking-service/app/admin/login/actions.ts:42` — `DUMMY_HASH` is 58 characters long; a bcrypt hash is 60. `bcryptjs.compare()` rejects a malformed hash immediately (measured: 0.07 ms vs ~208 ms for a real cost-12 hash), so the unknown-email path is ~3000× faster than the wrong-password path. The comment in the file and the earlier README wording claimed the opposite.
-- **Impact**: user enumeration by response time is possible on `/admin/login` (single-admin MVP, admin email not public, but still a false security claim).
-- **Fix** (separate PR, touches auth): generate a real cost-12 hash once (`bcrypt.hashSync(randomBytes(32).toString("hex"), 12)`) and paste the 60-char result, or compute it lazily at module init; add a unit test asserting `DUMMY_HASH.length === 60` and that `compare()` against it takes the same order of magnitude as against a real hash. Then the README bullet can state the mitigation again.
-- **Status**: PR #12 only corrected the README to describe what the code does (generic error + a `compare` call); no equivalence claim remains.
->>>>>>> origin/main
