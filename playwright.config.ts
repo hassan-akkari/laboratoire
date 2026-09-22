@@ -1,40 +1,37 @@
 import { defineConfig, devices } from "@playwright/test";
+import { selectProjects, serversFor } from "./e2e/lib/cli";
+import {
+  DEFAULT_BOOKING_PORT,
+  DEFAULT_DOCS_PORT,
+  bookingServer,
+  docsServer,
+  portFromEnv,
+} from "./e2e/lib/servers";
 
 /**
  * Browser-level checks for the deployed surfaces of this monorepo.
  *
  * - `docs` / `docs-mobile`: the portfolio, served by `next start` from a
- *   production build (`pnpm e2e:prepare` builds it; CI builds before running).
- * - `booking`: Bookable's dev server forced into demo mode (empty
- *   `DATABASE_URL`): sample data, nothing is written anywhere. The specs still
- *   never submit a valid booking, so a misconfigured environment cannot create
- *   real rows.
+ *   production build (`pnpm e2e:prepare` builds it; CI builds before running)
+ *   on port 3900 (`E2E_DOCS_PORT`).
+ * - `booking`: Bookable's dev server on port 3902 (`E2E_BOOKING_PORT`), forced
+ *   into demo mode with `DATABASE_URL=""`: sample data, nothing is written
+ *   anywhere. The specs additionally never submit a valid booking.
+ * - `tooling`: tests of this harness itself (CLI parsing, server isolation,
+ *   env precedence). Needs no server.
  *
- * Locally, an already-running server on the same port is reused; in CI the
- * servers are always started fresh.
+ * Servers are never reused (locally or in CI): a busy port fails the run
+ * before any spec executes and the foreign process is left untouched. Only
+ * the servers needed by the requested `--project`s are declared; an unknown
+ * project name fails here, before anything starts.
  */
 const CI = Boolean(process.env.CI);
-const DOCS_URL = "http://localhost:3000";
-const BOOKING_URL = "http://localhost:3002";
+const DOCS_PORT = portFromEnv("E2E_DOCS_PORT", DEFAULT_DOCS_PORT);
+const BOOKING_PORT = portFromEnv("E2E_BOOKING_PORT", DEFAULT_BOOKING_PORT);
+const DOCS_URL = `http://localhost:${DOCS_PORT}`;
+const BOOKING_URL = `http://localhost:${BOOKING_PORT}`;
 
-/**
- * Playwright starts every `webServer` entry regardless of `--project`, so a
- * booking-only run would still need a docs production build. Read the
- * requested projects from argv and only start the servers those need.
- */
-function requestedProjects(): Set<string> {
-  const names = new Set<string>();
-  const argv = process.argv;
-  for (let i = 0; i < argv.length; i += 1) {
-    const arg = argv[i];
-    if (arg === "--project" && argv[i + 1]) names.add(argv[i + 1]);
-    else if (arg.startsWith("--project=")) names.add(arg.slice("--project=".length));
-  }
-  return names;
-}
-const projects = requestedProjects();
-const wantsDocs = projects.size === 0 || projects.has("docs") || projects.has("docs-mobile");
-const wantsBooking = projects.size === 0 || projects.has("booking");
+const needs = serversFor(selectProjects(process.argv.slice(2)));
 
 export default defineConfig({
   testDir: "e2e",
@@ -65,30 +62,14 @@ export default defineConfig({
       testDir: "e2e/booking",
       use: { ...devices["Desktop Chrome"], baseURL: BOOKING_URL },
     },
+    {
+      name: "tooling",
+      testDir: "e2e/tooling",
+      use: { ...devices["Desktop Chrome"] },
+    },
   ],
   webServer: [
-    ...(wantsDocs
-      ? [
-          {
-            command: "pnpm -F docs start",
-            url: `${DOCS_URL}/en`,
-            reuseExistingServer: !CI,
-            timeout: 120_000,
-          },
-        ]
-      : []),
-    ...(wantsBooking
-      ? [
-          {
-            command: "pnpm -F booking-service dev",
-            url: BOOKING_URL,
-            reuseExistingServer: !CI,
-            timeout: 180_000,
-            // Demo mode on purpose: an empty value wins over .env.local (Next
-            // never overrides a variable already present in the process env).
-            env: { DATABASE_URL: "" },
-          },
-        ]
-      : []),
+    ...(needs.docs ? [docsServer(DOCS_PORT)] : []),
+    ...(needs.booking ? [bookingServer(BOOKING_PORT)] : []),
   ],
 });
