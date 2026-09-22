@@ -6,7 +6,7 @@
 
 ## One-liner
 
-Full-stack booking platform for local service businesses — a database-driven public catalogue and a validated booking-request flow, fronted by a secure admin dashboard, with a runtime switcher that renders the whole site in three distinct visual identities.
+Full-stack booking platform for local service businesses — a database-driven public catalogue and a validated booking-request flow, fronted by an authenticated admin dashboard, with a runtime switcher that renders the whole site in three distinct visual identities.
 
 ---
 
@@ -44,7 +44,7 @@ Behind it sits a real backend: Drizzle + Neon Postgres, Server Actions for every
 - **Public catalogue** driven by the database — pricing (range supported), duration, category, hero image, and a per-service photo gallery.
 - **Service detail pages** with hero + gallery and a clear call to book.
 - **Booking request form** — validated on both the client and the server, with a date picker and explicit pending / success / error states.
-- **Secure admin dashboard** — booking statistics and a full request table.
+- **Authenticated admin dashboard** — booking statistics and a full request table.
 - **Booking lifecycle management** — pending → confirmed → completed → cancelled, with optimistic UI.
 - **Service CRUD** — create, edit, toggle active/inactive, delete; manage pricing, hero image, and gallery.
 - **Graceful demo mode** — runs with no database, serves sample data, and tells the visitor clearly that submissions aren't stored.
@@ -100,7 +100,7 @@ The admin is a single, consistent internal UI (the marketing variants don't appl
 ## Security and validation
 
 - **Auth:** iron-session sealed httpOnly cookies + bcrypt (cost 12). The session carries only a user id; the secret comes from an environment variable and is never hardcoded or sent to the client.
-- **No user enumeration:** login returns one generic error for every failure mode and runs a constant-time bcrypt compare (against a dummy hash for unknown emails) to flatten timing.
+- **Login failures look alike:** one generic error for every failure mode (bad input, unknown email, wrong password), and `bcrypt.compare` runs on every attempt — against the stored hash when the email exists, against a fixed placeholder hash otherwise. No claim is made about response timing.
 - **Defence in depth:** three layers gate the admin — an edge proxy presence-check, a server-side session unseal in the layout, and a per-action re-check inside every mutation. Middleware is never trusted alone.
 - **Shared Zod validation:** the same schema validates the client form and re-validates inside the server action, so a bypassed client still can't write a bad row. Cross-field rules are enforced (e.g. a booking needs a phone _or_ an email; a service's max price can't be below its starting price; dates can't be in the past).
 - **Safe data access:** parameterised Drizzle only — no raw SQL. Slug-collision races are caught at the unique constraint and mapped to a friendly message. Raw errors are logged server-side and never leaked to the client.
@@ -124,7 +124,7 @@ Prices are stored in **integer cents** end-to-end to avoid floating-point drift.
 
 - **Three full designs without duplicating content or fetching.** Solved with a server-side style read at the layout, a thin per-page variant branch, and a single repository call whose typed result all three variants consume.
 - **Booting before the database exists.** The DB client returns a "not ready" state instead of throwing, the query layer falls back to typed sample data, and the UI shows a clear demo banner — so the app builds, deploys, and demos with zero infrastructure, then goes live the moment a connection string is added.
-- **Timing-safe, enumeration-safe login** without over-engineering: a generic error for all failures plus a constant-time dummy-hash compare.
+- **Login that does not explain its failures:** a single generic error for every failure mode, and a `bcrypt.compare` on every attempt (placeholder hash when the email is unknown). Kept deliberately small; rate limiting and lockout are on the roadmap.
 - **Slug uniqueness under races:** a pre-check for a friendly path, backed by catching the Postgres unique-violation so a concurrent insert can never produce a 500.
 - **Money without float bugs:** euros at the input boundary, integer cents everywhere else, with the conversion validated by the shared schema.
 - **Preserving booking history on service deletion** via an `ON DELETE SET NULL` foreign key and a left join that keeps orphaned bookings visible.
@@ -137,6 +137,14 @@ I'd rather be straight about what this is and isn't.
 
 **Current limitation — it's a booking _request_ system, not a scheduling engine.** Customers submit a preferred date and time; the business confirms it manually from the dashboard. There is **no time-slot inventory, capacity model, or double-booking prevention yet.** That's the honest line between this MVP and a production salon scheduler.
 
+**What the public demo is and isn't:**
+
+- Requests submitted on the live demo are real for this project — they land in the admin dashboard. Use made-up contact details.
+- The admin area is not open to visitors; there are no public credentials. Its behaviour is described here and in the README, not demonstrable from outside.
+- Automated tests cover schemas, formatting and status transitions (Vitest) plus the public pages (Playwright: switcher, catalogue, empty-form validation, admin redirect). There are no automated end-to-end tests of a completed booking or of the admin flows; those were verified manually.
+- No performance, uptime or conversion figures are claimed; none have been measured.
+- Login has no rate limiting or lockout, and the password-hashing path has not been timing-audited.
+
 **Roadmap (in priority order):**
 
 1. Availability / time-slot engine — business hours, slot lengths, overlap prevention. _(The big one — it makes this a true scheduling product.)_
@@ -148,21 +156,9 @@ I'd rather be straight about what this is and isn't.
 
 ---
 
-## Screenshot checklist
+## Screenshots
 
-- [ ] Landing hero with the style switcher visible (one variant)
-- [ ] The three variants side by side (the money shot)
-- [ ] Public service catalogue (grid of cards)
-- [ ] Service detail page with hero + gallery
-- [ ] Booking form, filled in, date picker open
-- [ ] Booking success state (use a seeded DB so it's real)
-- [ ] Admin login (no credentials prefilled)
-- [ ] Admin dashboard — stat cards + bookings table
-- [ ] Admin services list with active toggles
-- [ ] Edit service form (euro prices, gallery, active switch)
-- [ ] Database schema diagram
-
-> Capture against a seeded database so the demo banner doesn't appear and the booking success state reflects a real write.
+Captured from the live public site and kept in [`docs/screenshots/`](docs/screenshots/) (see the [README table](README.md#screenshots)): landing in the three variants, catalogue (desktop and phone), service detail, empty booking form, admin login. Not captured: the admin dashboard, service editor, booking success state and schema diagram — the admin is behind a login and a success capture would create a real request.
 
 ---
 
@@ -170,7 +166,7 @@ I'd rather be straight about what this is and isn't.
 
 - Built a full-stack service-booking platform with **Next.js 16 App Router, Drizzle ORM, and Neon PostgreSQL**, featuring a database-driven public catalogue and a validated booking-request flow.
 - Designed a **runtime style-switching system** that renders one content model in three distinct design systems (typography, layout, and motion), selected server-side via cookie — one codebase, no content duplication.
-- Implemented **secure admin authentication** with iron-session sealed cookies and bcrypt, including timing- and enumeration-safe login and three-layer route protection (edge proxy + layout guard + per-action re-check).
+- Implemented **admin authentication** with iron-session sealed cookies and bcrypt, a single generic login error for every failure mode, and three-layer route protection (edge proxy + layout guard + per-action re-check).
 - Developed an **admin dashboard** to manage services, pricing, hero/gallery images, active status, and the full booking lifecycle (pending / confirmed / completed / cancelled) with optimistic UI.
 - Enforced **end-to-end validation** with Zod schemas shared between client forms and server actions, storing prices as integer cents and enforcing cross-field rules (price ranges, required contact method, no past dates).
 - Engineered **resilient data access** — parameterised Drizzle queries only, foreign-key-preserved booking history, unique-constraint race handling, and a build-safe demo fallback when no database is configured.
