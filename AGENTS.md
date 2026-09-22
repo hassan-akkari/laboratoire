@@ -38,6 +38,11 @@ pnpm dev:all
 pnpm lint | typecheck | test
 pnpm check          # all three — run before claiming a broad change complete
 
+pnpm e2e:install    # once per machine: Chromium for Playwright
+pnpm e2e:prepare    # builds apps/docs (the docs project runs against `next start`)
+pnpm e2e            # Playwright: docs (desktop + mobile) + booking-service in demo mode
+pnpm e2e:docs | e2e:booking | e2e:ui
+
 pnpm build
 pnpm -F @laboratoire/ui build       # required before app prod builds
 pnpm -F @laboratoire/ui storybook
