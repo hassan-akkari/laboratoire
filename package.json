@@ -25,6 +25,12 @@
     "typecheck": "pnpm turbo run typecheck",
     "test": "pnpm turbo run test",
     "check": "pnpm run lint && pnpm run typecheck && pnpm run test",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:docs": "playwright test --project=docs --project=docs-mobile",
+    "e2e:booking": "playwright test --project=booking",
+    "e2e:prepare": "pnpm -F docs build",
+    "e2e:install": "playwright install chromium",
     "preview": "pnpm -F docs start",
     "preview:docs": "pnpm -F docs start",
     "start:docs": "pnpm -F docs start",
@@ -34,7 +40,9 @@
     "start:booking": "pnpm -F booking-service start"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^24.10.9",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.2",
@@ -43,8 +51,8 @@
     "eslint-plugin-react-refresh": "^0.5.0",
     "globals": "^17.3.0",
     "turbo": "^2.8.1",
-    "typescript-eslint": "^8.54.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

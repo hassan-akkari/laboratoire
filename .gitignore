@@ -51,3 +51,8 @@ _scratch/
 # Personal material — never track (public repo; kept privately outside git)
 resources/arsenale-mentale.html
 apps/web-next/app/admin/(authed)/arsenale/
+
+# Playwright artifacts
+playwright-report/
+test-results/
+blob-report/
