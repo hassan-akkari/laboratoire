@@ -39,9 +39,10 @@ pnpm lint | typecheck | test
 pnpm check          # all three — run before claiming a broad change complete
 
 pnpm e2e:install    # once per machine: Chromium for Playwright
-pnpm e2e:prepare    # builds apps/docs (the docs project runs against `next start`)
-pnpm e2e            # Playwright: docs (desktop + mobile) + booking-service in demo mode
-pnpm e2e:docs | e2e:booking | e2e:ui
+pnpm e2e:prepare    # builds apps/docs (the docs project runs against `next start` on :3900)
+pnpm e2e            # Playwright: docs (desktop + mobile) + booking-service demo mode (:3902) + tooling
+pnpm e2e:docs | e2e:booking | e2e:tooling | e2e:ui
+pnpm e2e:typecheck  # tsc over playwright.config.ts + e2e/ (CI runs it before the suite)
 
 pnpm build
 pnpm -F @laboratoire/ui build       # required before app prod builds

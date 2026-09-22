@@ -107,6 +107,9 @@ jobs:
       - name: Build docs
         run: pnpm -F docs build
 
+      - name: Typecheck the e2e suite
+        run: pnpm e2e:typecheck
+
       - name: Run Playwright
         run: pnpm e2e
 
