@@ -399,6 +399,8 @@ export const fallbackPortfolioContent: PortfolioContent = {
         "Zod",
       ],
       liveUrl: "https://bookable.itshassan.it",
+      repoUrl:
+        "https://github.com/hassan-akkari/laboratoire/tree/main/apps/booking-service",
     },
     {
       name: "laboratoire — React 19 / TypeScript monorepo",
@@ -411,7 +413,7 @@ export const fallbackPortfolioContent: PortfolioContent = {
         "Neon Postgres",
         "Vitest",
       ],
-      repoUrl: "https://github.com/hassan-akkari",
+      repoUrl: "https://github.com/hassan-akkari/laboratoire",
     },
   ],
 };
