@@ -280,7 +280,8 @@
         "iron-session",
         "Zod"
       ],
-      "liveUrl": "https://bookable.itshassan.it"
+      "liveUrl": "https://bookable.itshassan.it",
+      "repoUrl": "https://github.com/hassan-akkari/laboratoire/tree/main/apps/booking-service"
     },
     {
       "name": "laboratoire — monorepo React 19 / TypeScript",
@@ -292,7 +293,7 @@
         "Neon Postgres",
         "Vitest"
       ],
-      "repoUrl": "https://github.com/hassan-akkari"
+      "repoUrl": "https://github.com/hassan-akkari/laboratoire"
     }
   ]
 }
