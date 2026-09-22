@@ -73,3 +73,50 @@ jobs:
       # `pnpm turbo run <task>` across all four workspaces. Matches local exactly.
       - name: Check (lint + typecheck + test)
         run: pnpm check
+
+  # Browser-level checks (Playwright, Chromium only). Runs alongside `check`,
+  # not after it, so a slow build never delays the fast gate. The docs project
+  # runs against `next start` of a fresh production build; booking-service runs
+  # its dev server in demo mode (no DATABASE_URL → sample data, nothing is
+  # written anywhere). No secrets are needed.
+  e2e:
+    name: e2e (Playwright)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # `--with-deps` installs the OS libraries Chromium needs on the runner.
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # apps/docs `prebuild` builds @laboratoire/ui first.
+      - name: Build docs
+        run: pnpm -F docs build
+
+      - name: Typecheck the e2e suite
+        run: pnpm e2e:typecheck
+
+      - name: Run Playwright
+        run: pnpm e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7

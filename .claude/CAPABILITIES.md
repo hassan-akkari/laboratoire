@@ -136,7 +136,12 @@ Only the most relevant for this repo:
 
 ## MCP servers
 
-**None configured.** The deferred OAuth-style MCP authenticators visible in this session (`Asana`, `Atlassian`, `Box`, `Canva`, `HubSpot`, `Intercom`, `Linear`, `Notion`, `monday.com`) are **available to authenticate but not wired up**. To enable one for this repo, drop a `.claude/mcp.json` and follow the `*__authenticate` flow.
+| Server | Scope | What it gives the session | Notes |
+|---|---|---|---|
+| `playwright` (`npx @playwright/mcp@latest`) | **user** (Hassan's machine, every project) | Drive a real browser from the session: navigate, click, fill, read accessibility snapshots, screenshot. Exploratory QA and repros. | Added 2026-09-22 with `claude mcp add --scope user playwright -- npx @playwright/mcp@latest`. Repeatable checks belong in `e2e/` (`pnpm e2e`), not in MCP sessions. |
+| `heroui` (`npx -y @heroui/react-mcp@latest`) | user | HeroUI v3 docs / source lookups. | Pending approval on this host at the time of writing. |
+
+The OAuth-style connectors visible in a session (`Asana`, `Atlassian`, `Box`, `Canva`, `HubSpot`, `Intercom`, `Linear`, `Notion`, `monday.com`) are **available to authenticate but not wired up**. Nothing project-scoped (`.mcp.json`) is committed.
 
 ---
 

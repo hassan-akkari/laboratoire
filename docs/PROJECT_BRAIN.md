@@ -64,6 +64,7 @@ OVH = registrar/DNS only ──▶ Vercel (3 projects: laboratoire, admin, booki
 | Origin-allowlist CORS for public APIs | `web-next/lib/origin.ts` | Production, tested | Yes |
 | UI kit + theming (warm theme, dark default, v2/v3 bridge) | `packages/ui` | Production | Yes |
 | CI quality gate | `.github/workflows/ci.yml` → `pnpm check` on every push | Working | — |
+| Browser checks (Playwright + axe) | root `playwright.config.ts`, `e2e/{docs,booking}`, CI job `e2e` (Chromium only) | Working (2026-09-22): docs desktop + mobile against `next start`, Bookable in demo mode; `color-contrast` temporarily advisory (F22) | Yes — add a spec per surface; MCP `playwright` (user scope) for exploratory runs |
 
 ## Auth & security boundaries (DO NOT merge without explicit decision)
 
