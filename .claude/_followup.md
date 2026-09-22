@@ -468,5 +468,10 @@ should all fall out of that pass.
 - **Applied**: `docs/PROJECT_BRAIN.md` (security invariants + known debt), `_handover-qol-garden-seo.md` (step 4), `docs/qol/2026-07-16-control-centre-handover.md` (manual item) now use the neutral wording. The vault daily notes of 2026-09-21/22 hold the detail.
 - **Still separate**: the rotation itself is a manual step; its status is tracked privately.
 
+### F19 — Home (DE) overflows horizontally at 320 px — pre-existing, not the footer
+- **Found by**: independent review of `7a31f0a` (browser pass at 320/400/1440). The overflow persists with the footer hidden, so it comes from an existing section, not from `SiteFooter` (which passes its own size checks at 320).
+- **Where to look**: the DE home only — long compound words in a nowrap or fixed-width element (hero / stats / marquee are the usual suspects). Not reproduced in this repo yet; start at 320 px on `/de`.
+- **Why not now**: outside the PR #11 package (footer + exposure). One-file fix expected once located.
+
 ### F18 — History still contains the removed personal files
 - `resources/arsenale-mentale.html` and `apps/web-next/app/admin/(authed)/arsenale/page.tsx` are reachable at any pre-`baebd6c` commit (raw URL on `0aa9333` answers 200). Removal from HEAD does not remove them from history. Only a history rewrite (`git filter-repo` + force-push + GitHub support request for cached objects) would, and that was explicitly out of scope for PR #11. Private copies (CRLF working-tree form; identical to the git blobs after LF normalisation) live in the vault under `archive/laboratoire-private/`.
