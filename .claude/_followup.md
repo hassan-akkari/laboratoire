@@ -492,3 +492,9 @@ should all fall out of that pass.
 - **Where** (axe targets, dark theme, from `pnpm e2e`): home `/en` `/it` `/de` → `.notes-teaser__cta > a[href$="notes"]`; `/en/cv` → `.cv-block:nth-child(2) > .cv-meta` and the project links `a[href$="bookable.itshassan.it"]` (`.cv-project-links a`, accent on card background).
 - **Status**: the rule is temporarily advisory in `e2e/docs/a11y.spec.ts` (`TEMPORARY_ADVISORY`), so CI stays green while the debt is visible in the report annotations. `critical` findings always block; no other `serious` rule is downgraded.
 - **Fix**: adjust the accent/muted tokens used by those three selectors in `apps/docs/src/styles/portfolio.css` (or use `--accent-ink` instead of `--app-accent` for text on cards), then delete the `color-contrast` entry so the rule blocks again.
+
+### F24 — Case-study card stays at `opacity: 0` under `prefers-reduced-motion: reduce`
+- **Reported by**: independent review of PR #13 (`52eb339`). **Reproduced 2026-09-22** against `next start` of the same build (Chromium, `reducedMotion: "reduce"`, scrolled past `#case-studies`, 1.5 s settle): all three `#case-studies article` elements report computed `opacity: 0`; with `no-preference` all three are `1`.
+- **Where to look**: `apps/docs/src/components/sections/CaseStudiesSection.tsx` — the article carries `fadeUpVariants` with `getInViewReveal(reduceMotion, …)`; when `reduceMotion` is true the reveal props apparently never move the element from its `hidden` state, so the card is rendered but invisible after scroll. `apps/docs/src/components/ui/motionPresets.ts` holds both helpers.
+- **Fix idea**: with reduced motion, render with `initial={false}` (or `animate="visible"` immediately) instead of relying on `whileInView`; add an e2e case with `contextOptions: { reducedMotion: "reduce" }` asserting the card's computed opacity is 1 after scrolling to `#case-studies`.
+- **Not fixed in PR #13** (tooling only).
