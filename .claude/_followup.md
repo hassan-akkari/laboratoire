@@ -475,3 +475,20 @@ should all fall out of that pass.
 
 ### F18 — History still contains the removed personal files
 - `resources/arsenale-mentale.html` and `apps/web-next/app/admin/(authed)/arsenale/page.tsx` are reachable at any pre-`baebd6c` commit (raw URL on `0aa9333` answers 200). Removal from HEAD does not remove them from history. Only a history rewrite (`git filter-repo` + force-push + GitHub support request for cached objects) would, and that was explicitly out of scope for PR #11. Private copies (CRLF working-tree form; identical to the git blobs after LF normalisation) live in the vault under `archive/laboratoire-private/`.
+
+## 2026-09-22 — Findings from the first Playwright pass (chore/self-verification-tooling)
+
+### F20 — Bookable `/services/[slug]` is a soft 404 for unknown slugs
+- **Where**: `apps/booking-service/app/services/[slug]/page.tsx:40` calls `notFound()`, but `GET /services/does-not-exist` answers **200** both on the dev server (demo mode) and live. `/book/does-not-exist` answers 404 correctly.
+- **Why**: the route is dynamic (reads the `bs_style` cookie) and the response is already streaming when `notFound()` throws, so the not-found UI renders under a 200 status. `generateMetadata` also returns `{ title: "Service not found" }` instead of short-circuiting.
+- **Impact**: crawlers index junk URLs as real pages (SEO), and monitoring cannot distinguish a missing service from a live one.
+- **Fix idea**: resolve the service before any streaming boundary (no `loading.tsx` / Suspense above the lookup), or call `notFound()` from `generateMetadata` as well so the status is decided before the body flushes. Covered by `e2e/booking/public.spec.ts` (`test.fixme`, flip when fixed).
+
+### F21 — Bookable startup log still recommends `db:push`
+- **Where**: `apps/booking-service/lib/db/client.ts` — the "DATABASE_URL is empty" console message says `run pnpm -F booking-service db:push + db:seed`.
+- **Why it matters**: `db:push` on the shared Neon database drops the sibling app's tables (README, AGENTS.md and `.env.example` all say `db:migrate`). One string change.
+
+### F22 — Colour contrast below 4.5:1 on three portfolio elements (axe `color-contrast`, serious)
+- **Where** (axe targets, dark theme, from `pnpm e2e`): home `/en` `/it` `/de` → `.notes-teaser__cta > a[href$="notes"]`; `/en/cv` → `.cv-block:nth-child(2) > .cv-meta` and the project links `a[href$="bookable.itshassan.it"]` (`.cv-project-links a`, accent on card background).
+- **Status**: the rule is temporarily advisory in `e2e/docs/a11y.spec.ts` (`TEMPORARY_ADVISORY`), so CI stays green while the debt is visible in the report annotations. `critical` findings always block; no other `serious` rule is downgraded.
+- **Fix**: adjust the accent/muted tokens used by those three selectors in `apps/docs/src/styles/portfolio.css` (or use `--accent-ink` instead of `--app-accent` for text on cards), then delete the `color-contrast` entry so the rule blocks again.
