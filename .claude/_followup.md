@@ -463,10 +463,10 @@ should all fall out of that pass.
 - **Effect**: every tracked file on `main` is served as a static site, in addition to being readable on GitHub itself (repo is public). Merging PR #11 removes the personal dossier from `main`, so Pages stops serving it after the next Pages build; `docs/PROJECT_BRAIN.md` and every other tracked file remain reachable there until Pages is disabled.
 - **Action**: Settings → Pages → Source → "None" (or "Deploy from a branch" → no branch). One click, reversible.
 
-### F17 — Three public docs describe the credential-rotation backlog in detail — DECISION (Hassan)
-- **Where**: `docs/PROJECT_BRAIN.md:80` (last sentence) and `:99`; `_handover-qol-garden-seo.md:38`; `docs/qol/2026-07-16-control-centre-handover.md:40`.
-- **Why it matters**: the repo is public (and Pages-served); the lines state that specific secrets were exposed and are not yet rotated. That is operational status, not technical documentation.
-- **Options**: (a) rotate the credentials — closes the substance, wording becomes historical; (b) additionally neutralise the three lines to "scheduled rotation; status tracked privately" (same treatment already applied to `PROJECT_BRAIN.md:79` in `baebd6c`). The 2026-09-22 session did not edit these lines: rewording an incident record was left as a human call.
+### F17 — Operational security status belongs in the private vault, not in tracked docs — DONE 2026-09-22
+- **Rule**: this repository is public and Pages-served. Tracked docs may say that a routine credential rotation is scheduled and who owns it; the reasons, timeline and current state live in the private vault only.
+- **Applied**: `docs/PROJECT_BRAIN.md` (security invariants + known debt), `_handover-qol-garden-seo.md` (step 4), `docs/qol/2026-07-16-control-centre-handover.md` (manual item) now use the neutral wording. The vault daily notes of 2026-09-21/22 hold the detail.
+- **Still separate**: the rotation itself is a manual step; its status is tracked privately.
 
 ### F18 — History still contains the removed personal files
 - `resources/arsenale-mentale.html` and `apps/web-next/app/admin/(authed)/arsenale/page.tsx` are reachable at any pre-`baebd6c` commit (raw URL on `0aa9333` answers 200). Removal from HEAD does not remove them from history. Only a history rewrite (`git filter-repo` + force-push + GitHub support request for cached objects) would, and that was explicitly out of scope for PR #11. Private copies (CRLF working-tree form; identical to the git blobs after LF normalisation) live in the vault under `archive/laboratoire-private/`.

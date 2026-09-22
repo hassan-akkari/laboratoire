@@ -77,7 +77,7 @@ Other invariants:
 - `/api/site-config` never returns `notifyEmail`; public APIs Origin-allowlisted (`PUBLIC_ALLOWED_ORIGINS`, `ADMIN_ALLOWED_ORIGINS`).
 - Garden privacy: only `publish: true` notes leave the vault. Repo is public — committed JSON is public.
 - ⚠ **OPEN**: scheduled credential rotation for the Neon role and the admin session secret — Hassan manual step; status is tracked in the private vault, not in this public file.
-- **[V]** Secret scan 2026-07-20 (working tree + full git history, pattern-based): no real credentials in the repo. `.env.example` DSNs/secrets are placeholders (`user:password@`, no real Neon `ep-` endpoints); old-commit pattern hits are vendor false positives from a historical accidental `node_modules` commit. The known leak lives in an external transcript, not in git.
+- **[V]** Secret scan 2026-07-20 (working tree + full git history, pattern-based): no real credentials in the repo. `.env.example` DSNs/secrets are placeholders (`user:password@`, no real Neon `ep-` endpoints); old-commit pattern hits are vendor false positives from a historical accidental `node_modules` commit.
 - Duplicated security code (`adminSession` in web-next AND booking-service) is a standing risk: **rule-of-three is a default, not a law — it does not apply to auth/session/validation boundaries.** Task: compare, realign, test-cover the two copies; only then decide on sharing (no new package before that).
 
 ## Environments
@@ -96,7 +96,7 @@ Other invariants:
 
 ## Known debt (top items — full radar in `.claude/_followup.md`)
 
-1. **Secret rotation open** (see above) — highest priority, human step.
+1. **Scheduled credential rotation** (see above) — manual step owned by Hassan; status tracked in the private vault.
 2. **Doc drift**: `.claude/CLAUDE.md`, `README.md` stale (pre-DB, pre-control-centre, says CI absent — `ci.yml` exists). This file supersedes them until `bootstrap full` reruns.
 3. **Port 3002 collision**: booking-service vs control-centre.
 4. **A1/A2/A3** (booking demo): idempotency key regenerated per render (`(booking-demo)/checkout/page.tsx:51`), key replay leaks order data, silent validation redirect. Parked with the demo.
