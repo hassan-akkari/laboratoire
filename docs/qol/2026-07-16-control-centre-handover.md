@@ -37,7 +37,7 @@ Tasks below reference these gates. **A gated task must not start until its gate 
 | **H5** | Current CV source file (any format) for the tailoring template. | D3 |
 | **D0** | ✅ **MOOT.** Real notes are already on the branch — deploy is now a plain PR + merge (Task B2). | — |
 
-**Outstanding manual security item (Hassan, independent of any task):** the Neon database password and `ADMIN_SESSION_SECRET` leaked in a June transcript and have not been rotated. Rotation steps are in `_handover-qol-garden-seo.md` (step 4). An executing agent must not attempt this — remind Hassan if still open.
+**Outstanding manual security item (Hassan, independent of any task):** a scheduled rotation of the Neon database password and `ADMIN_SESSION_SECRET`; status is tracked in the private vault, not here. Rotation steps are in `_handover-qol-garden-seo.md` (step 4). An executing agent must not attempt this — remind Hassan if still open.
 
 ---
 

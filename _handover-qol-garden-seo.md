@@ -35,7 +35,7 @@ Machine-specific bits that do NOT travel with the repo:
 1. ~~push branch~~ DONE this session.
 2. PR + merge to main → Vercel auto-deploys itshassan.it.
 3. Verify live: nav Notes, home teaser, /en/notes filters, note detail backlinks, /feed.xml, OG card on share.
-4. **Rotate Neon password** (leaked in a June transcript — STILL OPEN): Neon console → Roles → reset → update Vercel `bookable` env `DATABASE_URL` → redeploy. Also rotate `ADMIN_SESSION_SECRET` (also leaked).
+4. **Rotate Neon password** (scheduled rotation; status tracked in the private vault): Neon console → Roles → reset → update Vercel `bookable` env `DATABASE_URL` → redeploy. Also rotate `ADMIN_SESSION_SECRET`.
 5. **Google Search Console**: verify `itshassan.it` (DNS TXT on OVH is cleanest, or set `GOOGLE_SITE_VERIFICATION` in Vercel env — the layout renders the meta tag automatically) → submit `https://itshassan.it/sitemap.xml` → request indexing of home + /en/notes. This is THE lever for "uscire subito" on the brand query.
 6. Vault → private GitHub repo (unblocks cross-PC garden publishing).
 

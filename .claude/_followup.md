@@ -110,6 +110,8 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 
 ### F14 — Wire `resources/arsenale-mentale.html` into the admin as a gated route — UNBLOCKED 2026-06-03
 
+> **CLOSED 2026-09-21 — REMOVED, not shipped.** The port was done (`apps/web-next/app/admin/(authed)/arsenale/page.tsx`), but the repository is public, so the personal dossier was readable in source regardless of the admin gate (and via GitHub Pages). Both the HTML and the admin page were untracked; a copy lives privately outside the repo; `.gitignore` blocks re-adding either path. Git history before this date still contains both files.
+
 - **Where**: `resources/arsenale-mentale.html` — 368-line self-contained dark-themed page (36-book reading roadmap, personal "arsenale mentale" dossier, IT). Originally committed on `dev/pitch` (`4fb6a60`), cherry-picked onto `feat/admin-phase-3-plan` (`6c5e30f`). Still an orphan — zero references from any app.
 - **Decision (2026-06-03)**: port into the admin surface as `apps/web-next/app/admin/arsenale/page.tsx`, gated by the existing admin auth. Admin-only — personal content, not public portfolio material. Add to the admin nav alongside leads / site-config.
 - **No longer blocked**: the original deferral reason ("admin auth gate doesn't exist yet") is gone. Phase 1-2 shipped the gate — `apps/web-next/app/admin/layout.tsx` already calls `requireAdminSession()` and renders the admin shell + nav. Any new `app/admin/arsenale/page.tsx` inherits that gate automatically. The proxy already matches `/admin/:path*`.
@@ -453,3 +455,23 @@ These are direct consequences of work in this PR. Resolve in a small follow-up s
 Run the `bootstrap audit` trigger from CLAUDE.md's Re-bootstrap section — it diffs the doc
 against the current repo and reports incoherence. C2/C3 (plus the still-open C1 above)
 should all fall out of that pass.
+
+## 2026-09-22 — Public exposure containment (PR #11) — residuals
+
+### F16 — GitHub Pages still serves the `main` root — MANUAL (Hassan)
+- **Where**: repo Settings → Pages. Source = branch `main`, path `/`, legacy build; live at `https://hassan-akkari.github.io/laboratoire/`. No workflow in `.github/` drives it.
+- **Effect**: every tracked file on `main` is served as a static site, in addition to being readable on GitHub itself (repo is public). Merging PR #11 removes the personal dossier from `main`, so Pages stops serving it after the next Pages build; `docs/PROJECT_BRAIN.md` and every other tracked file remain reachable there until Pages is disabled.
+- **Action**: Settings → Pages → Source → "None" (or "Deploy from a branch" → no branch). One click, reversible.
+
+### F17 — Operational security status belongs in the private vault, not in tracked docs — DONE 2026-09-22
+- **Rule**: this repository is public and Pages-served. Tracked docs may say that a routine credential rotation is scheduled and who owns it; the reasons, timeline and current state live in the private vault only.
+- **Applied**: `docs/PROJECT_BRAIN.md` (security invariants + known debt), `_handover-qol-garden-seo.md` (step 4), `docs/qol/2026-07-16-control-centre-handover.md` (manual item) now use the neutral wording. The vault daily notes of 2026-09-21/22 hold the detail.
+- **Still separate**: the rotation itself is a manual step; its status is tracked privately.
+
+### F19 — Home (DE) overflows horizontally at 320 px — pre-existing, not the footer
+- **Found by**: independent review of `7a31f0a` (browser pass at 320/400/1440). The overflow persists with the footer hidden, so it comes from an existing section, not from `SiteFooter` (which passes its own size checks at 320).
+- **Where to look**: the DE home only — long compound words in a nowrap or fixed-width element (hero / stats / marquee are the usual suspects). Not reproduced in this repo yet; start at 320 px on `/de`.
+- **Why not now**: outside the PR #11 package (footer + exposure). One-file fix expected once located.
+
+### F18 — History still contains the removed personal files
+- `resources/arsenale-mentale.html` and `apps/web-next/app/admin/(authed)/arsenale/page.tsx` are reachable at any pre-`baebd6c` commit (raw URL on `0aa9333` answers 200). Removal from HEAD does not remove them from history. Only a history rewrite (`git filter-repo` + force-push + GitHub support request for cached objects) would, and that was explicitly out of scope for PR #11. Private copies (CRLF working-tree form; identical to the git blobs after LF normalisation) live in the vault under `archive/laboratoire-private/`.

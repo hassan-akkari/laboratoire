@@ -12,6 +12,11 @@ export type Messages = {
     downloadCv: string;
     notes: string;
   };
+  footer: {
+    tagline: string;
+    siteLinks: string;
+    socialLinks: string;
+  };
   locale: {
     label: string;
     en: string;
@@ -144,6 +149,11 @@ export const messages: Record<Locale, Messages> = {
       cv: "CV",
       downloadCv: "Download CV",
       notes: "Notes",
+    },
+    footer: {
+      tagline: "Freelance web developer · Rome, Italy",
+      siteLinks: "Site",
+      socialLinks: "Profiles and contact",
     },
     locale: {
       label: "Language",
@@ -310,6 +320,11 @@ export const messages: Record<Locale, Messages> = {
       downloadCv: "Scarica CV",
       notes: "Note",
     },
+    footer: {
+      tagline: "Sviluppatore web freelance · Roma",
+      siteLinks: "Sito",
+      socialLinks: "Profili e contatti",
+    },
     locale: {
       label: "Lingua",
       en: "English",
@@ -474,6 +489,11 @@ export const messages: Record<Locale, Messages> = {
       cv: "CV",
       downloadCv: "Télécharger CV",
       notes: "Notes",
+    },
+    footer: {
+      tagline: "Développeur web freelance · Rome",
+      siteLinks: "Site",
+      socialLinks: "Profils et contact",
     },
     locale: {
       label: "Langue",
@@ -640,6 +660,11 @@ export const messages: Record<Locale, Messages> = {
       cv: "CV",
       downloadCv: "CV herunterladen",
       notes: "Notizen",
+    },
+    footer: {
+      tagline: "Freelance-Webentwickler · Rom",
+      siteLinks: "Website",
+      socialLinks: "Profile und Kontakt",
     },
     locale: {
       label: "Sprache",

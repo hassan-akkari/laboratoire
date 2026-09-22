@@ -47,3 +47,7 @@ coverage/
 # Local scratch / temporary AI-session output
 _scratch/
 **/*.tmp
+
+# Personal material — never track (public repo; kept privately outside git)
+resources/arsenale-mentale.html
+apps/web-next/app/admin/(authed)/arsenale/

@@ -15,6 +15,7 @@ import ScrollField from "@/components/ui/ScrollField";
 import CardSpotlight from "@/components/ui/CardSpotlight";
 import LocaleCookieSync from "@/components/ui/LocaleCookieSync";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import SiteFooter from "@/components/layout/SiteFooter";
 import { Providers } from "../providers";
 
 const outfit = Outfit({
@@ -117,6 +118,7 @@ export default async function LocaleLayout({
           <div className="site-shell">
             <ScrollField />
             {children}
+            <SiteFooter locale={lang} />
           </div>
         </Providers>
         {/* Site-level structured data (Person + ProfessionalService) on every

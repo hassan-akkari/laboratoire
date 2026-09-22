@@ -193,9 +193,19 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
 
             <div className="cv-side__group">
               <p className="cv-side__label">{labels.cv.contact}</p>
-              <p>{content.contact.email}</p>
-              <p>{content.contact.linkedin}</p>
-              <p>{content.contact.github}</p>
+              <p>
+                <a href={`mailto:${content.contact.email}`}>{content.contact.email}</a>
+              </p>
+              <p>
+                <a href={content.contact.linkedin} target="_blank" rel="me noopener noreferrer">
+                  {content.contact.linkedin}
+                </a>
+              </p>
+              <p>
+                <a href={content.contact.github} target="_blank" rel="me noopener noreferrer">
+                  {content.contact.github}
+                </a>
+              </p>
             </div>
 
             <div className="cv-side__group">
