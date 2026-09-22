@@ -107,7 +107,7 @@ Route protection (three layers, defence in depth):
 ## Security & validation notes
 
 - **Passwords** are hashed with **bcrypt** (cost 12); the plaintext is never logged.
-- **Login** returns a single generic error for every failure mode (bad input, unknown email, wrong password), and when the email is unknown it still runs one `bcrypt.compare` against a fixed dummy hash, so both paths do the same amount of work. This narrows user enumeration by timing; it is not a formal constant-time guarantee.
+- **Login** returns a single generic error for every failure mode (bad input, unknown email, wrong password) and always calls `bcrypt.compare` — against the stored hash when the email exists, against a fixed placeholder hash otherwise. No claim is made about the two paths taking the same time.
 - **Sessions** are sealed, **httpOnly** cookies (iron-session); `secure` in production, `SameSite=lax`. The session secret is read from `ADMIN_SESSION_SECRET` (min 32 chars) and is never hardcoded, logged or sent to the client.
 - **Defence in depth** on every admin route: edge proxy + layout guard + per-action session re-check. No admin action trusts the middleware alone.
 - **Validation** uses **Zod schemas shared between the client form and the server action**, so the browser and the server enforce identical rules. Server actions always re-validate before any write.
