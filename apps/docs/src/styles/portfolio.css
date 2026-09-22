@@ -2763,6 +2763,9 @@ ul.cv-chips[data-category="exploring"] li::before {
 }
 
 .site-footer__name {
+  /* Shrink-wrap the brand link so the keyboard focus ring hugs the text
+   * instead of the stretched flex column. */
+  align-self: flex-start;
   font-size: 17px;
   font-weight: 700;
   letter-spacing: -0.02em;
