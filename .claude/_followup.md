@@ -470,7 +470,7 @@ should all fall out of that pass.
 
 ### F19 — Home (DE) overflows horizontally at 320 px — pre-existing, not the footer
 - **Found by**: independent review of `7a31f0a` (browser pass at 320/400/1440). The overflow persists with the footer hidden, so it comes from an existing section, not from `SiteFooter` (which passes its own size checks at 320).
-- **Where to look**: the DE home only — long compound words in a nowrap or fixed-width element (hero / stats / marquee are the usual suspects). Not reproduced in this repo yet; start at 320 px on `/de`.
+- **Where to look**: reproduced 2026-09-22 at 390 px on `/de` (scrollWidth 398): the four `ServicesSection` `<article>` cards report `right: 398` — they are 375 px wide inside a container that leaves them 8 px short of fitting. `#case-studies` is not involved (verified with a per-element overflow scan). Start at `ServicesSection` grid/padding at ≤ 390 px.
 - **Why not now**: outside the PR #11 package (footer + exposure). One-file fix expected once located.
 
 ### F18 — History still contains the removed personal files
