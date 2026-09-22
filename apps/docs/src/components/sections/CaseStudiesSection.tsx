@@ -121,17 +121,46 @@ export default function CaseStudiesSection({
                 </span>
               </div>
 
-              {study.liveUrl ? (
-                <div className="mt-4">
-                  <a
-                    href={study.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-(--app-accent) bg-(--app-accent) px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-                  >
-                    {content.labels.viewLive}
-                    <span aria-hidden="true">↗</span>
-                  </a>
+              {study.limits && study.limits.length > 0 ? (
+                <div className="mt-5">
+                  <h4 className="text-xs uppercase tracking-[0.18em] text-(--app-muted)">
+                    {content.labels.limits}
+                  </h4>
+                  <ul className="mt-2 grid gap-2 text-sm text-(--app-muted) md:grid-cols-2">
+                    {study.limits.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span aria-hidden="true">–</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {study.liveUrl || study.repoUrl ? (
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  {study.liveUrl ? (
+                    <a
+                      href={study.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cta-primary inline-flex items-center gap-2 rounded-full border border-(--app-accent) bg-(--app-accent) px-4 py-2 text-sm font-semibold text-white"
+                    >
+                      {content.labels.viewLive}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : null}
+                  {study.repoUrl ? (
+                    <a
+                      href={study.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cta-secondary inline-flex items-center gap-2 rounded-full border border-(--app-border) px-4 py-2 text-sm font-semibold"
+                    >
+                      {content.labels.viewCode}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : null}
                 </div>
               ) : null}
               </TiltCard>

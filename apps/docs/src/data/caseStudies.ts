@@ -16,6 +16,10 @@ export type CaseStudy = {
   proves: string;
   /** When set, the card renders a "Live" link to the deployed product. */
   liveUrl?: string;
+  /** When set, the card renders a "Code" link to the source (repo or folder). */
+  repoUrl?: string;
+  /** Plain statements about what the public demo does NOT do. */
+  limits?: string[];
   /** When set, the card renders the interactive style-switcher showcase. */
   variants?: CaseStudyVariant[];
 };
@@ -30,10 +34,33 @@ export type CaseStudiesContent = {
     result: string;
     stack: string;
     proves: string;
+    limits: string;
     viewLive: string;
+    viewCode: string;
   };
   caseStudies: CaseStudy[];
 };
+
+/** Source folder of Bookable inside the public monorepo. */
+export const BOOKABLE_REPO_URL =
+  "https://github.com/hassan-akkari/laboratoire/tree/main/apps/booking-service";
+
+export const BOOKABLE_LIVE_URL = "https://bookable.itshassan.it";
+
+const bookableVariants: CaseStudyVariant[] = [
+  { label: "Editorial", image: "image/bookable-variant-1.png" },
+  { label: "Warm", image: "image/bookable-variant-2.png" },
+  { label: "Bold", image: "image/bookable-variant-3.png" },
+];
+
+const bookableStack = [
+  "Next.js 16",
+  "React 19",
+  "Drizzle ORM",
+  "Neon Postgres",
+  "iron-session",
+  "Zod",
+];
 
 const it: CaseStudiesContent = {
   sectionLabel: "Progetti e case study",
@@ -43,12 +70,45 @@ const it: CaseStudiesContent = {
   labels: {
     problem: "Problema",
     solution: "Cosa ho fatto",
-    result: "Risultato",
+    result: "Cosa fa oggi",
     stack: "Stack",
     proves: "Cosa dimostra",
-    viewLive: "Vai al sito live",
+    limits: "Limiti della demo",
+    viewLive: "Prova la demo",
+    viewCode: "Codice e spiegazioni",
   },
   caseStudies: [
+    {
+      id: "booking-checkout",
+      title: "Bookable — Multi-Style Booking Platform",
+      context:
+        "Piattaforma di prenotazione full-stack per attività di servizi locali: catalogo pubblico, richiesta di prenotazione validata e dashboard admin. Progetto personale, online su bookable.itshassan.it, codice nel mio monorepo pubblico.",
+      problem:
+        "Un'attività locale vuole pubblicare i propri servizi e ricevere richieste online con un'identità visiva propria, non l'ennesimo template. E in fase di proposta, mostrare un solo design fisso è una posizione debole.",
+      solution: [
+        "Progetto realizzato da solo, end-to-end: schema e migrazioni, Server Actions, area admin, tre varianti grafiche e deploy",
+        "Un solo modello di contenuti reso in tre design system completi (Editorial / Warm / Bold), scelti da un cookie letto lato server",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM su Neon Postgres, con un repository layer che tiene le pagine leggere",
+        "Validazione Zod condivisa tra form e server; prezzi salvati in centesimi interi; errori generici verso il client",
+      ],
+      stack: bookableStack,
+      result: [
+        "Catalogo, pagina di dettaglio con galleria e form di richiesta prenotazione, in tre design commutabili live",
+        "Admin con login (cookie sigillato iron-session + bcrypt): gestione servizi, prezzi, immagini e stato delle richieste",
+        "Parte anche senza database (dati di esempio e banner demo); online su dominio custom con Vercel",
+      ],
+      limits: [
+        "È un sistema di richieste, non un motore di agenda: nessuna disponibilità a slot né prevenzione delle doppie prenotazioni",
+        "L'area admin non è pubblica: la demo mostra catalogo, dettaglio e form",
+        "Le richieste inviate dalla demo arrivano davvero nella dashboard del progetto: usa dati fittizi",
+        "Nessun rate limiting né token CSRF esplicito: postura MVP dichiarata nel README",
+      ],
+      proves:
+        "So progettare e portare in produzione un prodotto full-stack completo — data layer, auth, validazione e un design system distintivo — non solo siti vetrina.",
+      liveUrl: BOOKABLE_LIVE_URL,
+      repoUrl: BOOKABLE_REPO_URL,
+      variants: bookableVariants,
+    },
     {
       id: "hospitality-ecommerce",
       title: "Piattaforma e-commerce hospitality — UI standards e flussi core",
@@ -102,41 +162,6 @@ const it: CaseStudiesContent = {
       proves:
         "Posso modernizzare un sito esistente senza buttare via tutto il lavoro fatto prima.",
     },
-    {
-      id: "booking-checkout",
-      title: "Bookable — Multi-Style Booking Platform",
-      context:
-        "Una piattaforma di prenotazione full-stack in produzione per attività di servizi locali — catalogo pubblico, flusso di richiesta prenotazione validato e dashboard admin sicura. Online su bookable.itshassan.it.",
-      problem:
-        "Le attività vogliono un'identità propria, non l'ennesimo template identico — e proporre un solo design fisso è una posizione debole. Volevo mostrare un vero flusso backend e dimostrare che lo stesso contenuto può uscire in identità visive davvero diverse, all'istante.",
-      solution: [
-        "Un solo modello di contenuti reso in tre design system completi (Editorial / Warm / Bold), cambiati live da cookie lato server senza flicker",
-        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, con un repository layer che tiene le pagine leggere",
-        "Admin sicuro: iron-session + bcrypt, login timing- ed enumeration-safe, protezione delle route a tre livelli",
-        "Validazione Zod end-to-end condivisa tra client e server; prezzi salvati in cent interi",
-      ],
-      stack: [
-        "Next.js 16",
-        "React 19",
-        "Drizzle ORM",
-        "Neon Postgres",
-        "iron-session",
-        "Zod",
-      ],
-      result: [
-        "Online in produzione su dominio custom con SSL valido (Vercel + OVH)",
-        "Tre design system completi da un solo codebase — zero duplicazione di contenuti",
-        "Data layer build-safe: parte e fa demo senza database, poi passa al Neon live quando configurato",
-      ],
-      proves:
-        "So progettare e portare in produzione un vero prodotto full-stack end-to-end — data layer, auth, validazione e un design system distintivo — non solo siti vetrina.",
-      liveUrl: "https://bookable.itshassan.it",
-      variants: [
-        { label: "Editorial", image: "image/bookable-variant-1.png" },
-        { label: "Warm", image: "image/bookable-variant-2.png" },
-        { label: "Bold", image: "image/bookable-variant-3.png" },
-      ],
-    },
   ],
 };
 
@@ -148,12 +173,45 @@ const en: CaseStudiesContent = {
   labels: {
     problem: "Problem",
     solution: "What I did",
-    result: "Result",
+    result: "What it does today",
     stack: "Stack",
     proves: "What it proves",
-    viewLive: "Visit the live site",
+    limits: "Demo limits",
+    viewLive: "Try the demo",
+    viewCode: "Code and write-up",
   },
   caseStudies: [
+    {
+      id: "booking-checkout",
+      title: "Bookable — Multi-Style Booking Platform",
+      context:
+        "Full-stack booking platform for local service businesses: public catalogue, validated booking-request flow and an admin dashboard. Personal project, live at bookable.itshassan.it, source in my public monorepo.",
+      problem:
+        "A local business wants to publish its services and take requests online with its own look, not another identical template. And when pitching, showing a single fixed design is a weak position.",
+      solution: [
+        "Built solo, end to end: schema and migrations, Server Actions, admin area, three design variants and the deploy",
+        "One content model rendered in three complete design systems (Editorial / Warm / Bold), picked from a cookie read on the server",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM on Neon Postgres, with a repository layer keeping pages thin",
+        "Zod validation shared between the form and the server; prices stored as integer cents; generic errors to the client",
+      ],
+      stack: bookableStack,
+      result: [
+        "Catalogue, detail page with gallery and booking-request form, in three designs switchable live",
+        "Admin behind a login (sealed iron-session cookie + bcrypt): services, prices, images and request status",
+        "Boots without a database (sample data plus a demo banner); live on a custom domain on Vercel",
+      ],
+      limits: [
+        "A request system, not a scheduling engine: no slot availability and no double-booking prevention",
+        "The admin area is not public: the demo shows catalogue, detail and form",
+        "Requests sent from the demo really land in the project's dashboard: use made-up data",
+        "No rate limiting and no explicit CSRF token: MVP posture, stated in the README",
+      ],
+      proves:
+        "I can design and ship a complete full-stack product — data layer, auth, validation and a distinctive design system — not just brochure sites.",
+      liveUrl: BOOKABLE_LIVE_URL,
+      repoUrl: BOOKABLE_REPO_URL,
+      variants: bookableVariants,
+    },
     {
       id: "hospitality-ecommerce",
       title: "Hospitality e-commerce platform — UI standards and core flows",
@@ -207,41 +265,6 @@ const en: CaseStudiesContent = {
       proves:
         "I can modernise an existing site without throwing away the work already done.",
     },
-    {
-      id: "booking-checkout",
-      title: "Bookable — Multi-Style Booking Platform",
-      context:
-        "A deployed, full-stack booking platform for local service businesses — public catalogue, validated booking-request flow, and a secure admin dashboard. Live at bookable.itshassan.it.",
-      problem:
-        "Businesses want their own look, not another identical template — and pitching one fixed design is a weak position. I wanted to show a real backend flow and prove the same content can ship in genuinely different visual identities, instantly.",
-      solution: [
-        "One content model rendered in three full design systems (Editorial / Warm / Bold), switched live from a server-side cookie with no flicker",
-        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, with a repository layer keeping pages thin",
-        "Secure admin: iron-session + bcrypt, timing- and enumeration-safe login, three-layer route protection",
-        "End-to-end Zod validation shared between client and server; prices stored as integer cents",
-      ],
-      stack: [
-        "Next.js 16",
-        "React 19",
-        "Drizzle ORM",
-        "Neon Postgres",
-        "iron-session",
-        "Zod",
-      ],
-      result: [
-        "Live in production on a custom domain with valid SSL (Vercel + OVH)",
-        "Three complete design systems from one codebase — zero content duplication",
-        "Build-safe data layer: boots and demos with no database, then switches to live Neon when configured",
-      ],
-      proves:
-        "I can design and ship a real, deployed full-stack product end to end — data layer, auth, validation, and a distinctive design system — not just brochure sites.",
-      liveUrl: "https://bookable.itshassan.it",
-      variants: [
-        { label: "Editorial", image: "image/bookable-variant-1.png" },
-        { label: "Warm", image: "image/bookable-variant-2.png" },
-        { label: "Bold", image: "image/bookable-variant-3.png" },
-      ],
-    },
   ],
 };
 
@@ -253,12 +276,45 @@ const fr: CaseStudiesContent = {
   labels: {
     problem: "Problème",
     solution: "Ce que j'ai fait",
-    result: "Résultat",
+    result: "Ce que ça fait aujourd'hui",
     stack: "Stack",
     proves: "Ce que ça prouve",
-    viewLive: "Voir le site live",
+    limits: "Limites de la démo",
+    viewLive: "Essayer la démo",
+    viewCode: "Code et explications",
   },
   caseStudies: [
+    {
+      id: "booking-checkout",
+      title: "Bookable — Multi-Style Booking Platform",
+      context:
+        "Plateforme de réservation full-stack pour des activités de services locales : catalogue public, flux de demande de réservation validé et dashboard admin. Projet personnel, en ligne sur bookable.itshassan.it, code dans mon monorepo public.",
+      problem:
+        "Une activité locale veut publier ses services et recevoir des demandes en ligne avec sa propre identité visuelle, pas un énième template. Et en phase de proposition, montrer un seul design figé est une position faible.",
+      solution: [
+        "Réalisé seul, de bout en bout : schéma et migrations, Server Actions, espace admin, trois variantes graphiques et déploiement",
+        "Un seul modèle de contenu rendu dans trois design systems complets (Editorial / Warm / Bold), choisis via un cookie lu côté serveur",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM sur Neon Postgres, avec un repository layer qui garde les pages légères",
+        "Validation Zod partagée entre le formulaire et le serveur ; prix stockés en centimes entiers ; erreurs génériques côté client",
+      ],
+      stack: bookableStack,
+      result: [
+        "Catalogue, page de détail avec galerie et formulaire de demande de réservation, dans trois designs commutables en live",
+        "Admin derrière un login (cookie scellé iron-session + bcrypt) : services, prix, images et statut des demandes",
+        "Démarre sans base de données (données d'exemple et bannière démo) ; en ligne sur un domaine custom via Vercel",
+      ],
+      limits: [
+        "Un système de demandes, pas un moteur d'agenda : pas de créneaux disponibles ni de prévention des doubles réservations",
+        "L'espace admin n'est pas public : la démo montre le catalogue, le détail et le formulaire",
+        "Les demandes envoyées depuis la démo arrivent réellement dans le dashboard du projet : utilisez des données fictives",
+        "Pas de rate limiting ni de token CSRF explicite : posture MVP, indiquée dans le README",
+      ],
+      proves:
+        "Je sais concevoir et mettre en production un produit full-stack complet — data layer, auth, validation et un design system distinctif — pas juste des sites vitrine.",
+      liveUrl: BOOKABLE_LIVE_URL,
+      repoUrl: BOOKABLE_REPO_URL,
+      variants: bookableVariants,
+    },
     {
       id: "hospitality-ecommerce",
       title: "Plateforme e-commerce hospitality — standards UI et flux core",
@@ -312,41 +368,6 @@ const fr: CaseStudiesContent = {
       proves:
         "Je peux moderniser un site existant sans jeter le travail déjà fait.",
     },
-    {
-      id: "booking-checkout",
-      title: "Bookable — Multi-Style Booking Platform",
-      context:
-        "Une plateforme de réservation full-stack en production pour des activités de services locales — catalogue public, flux de demande de réservation validé et dashboard admin sécurisé. En ligne sur bookable.itshassan.it.",
-      problem:
-        "Les activités veulent leur propre identité, pas un énième template identique — et proposer un seul design figé est une position faible. Je voulais montrer un vrai flux backend et prouver que le même contenu peut sortir dans des identités visuelles vraiment différentes, instantanément.",
-      solution: [
-        "Un seul modèle de contenu rendu dans trois design systems complets (Editorial / Warm / Bold), changés en live via un cookie côté serveur sans flicker",
-        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, avec un repository layer qui garde les pages légères",
-        "Admin sécurisé : iron-session + bcrypt, login timing- et enumeration-safe, protection des routes à trois niveaux",
-        "Validation Zod end-to-end partagée entre client et serveur ; prix stockés en cents entiers",
-      ],
-      stack: [
-        "Next.js 16",
-        "React 19",
-        "Drizzle ORM",
-        "Neon Postgres",
-        "iron-session",
-        "Zod",
-      ],
-      result: [
-        "En ligne en production sur un domaine custom avec SSL valide (Vercel + OVH)",
-        "Trois design systems complets depuis un seul codebase — zéro duplication de contenu",
-        "Data layer build-safe : démarre et fait la démo sans base de données, puis bascule sur Neon live une fois configuré",
-      ],
-      proves:
-        "Je sais concevoir et mettre en production un vrai produit full-stack de bout en bout — data layer, auth, validation et un design system distinctif — pas juste des sites vitrine.",
-      liveUrl: "https://bookable.itshassan.it",
-      variants: [
-        { label: "Editorial", image: "image/bookable-variant-1.png" },
-        { label: "Warm", image: "image/bookable-variant-2.png" },
-        { label: "Bold", image: "image/bookable-variant-3.png" },
-      ],
-    },
   ],
 };
 
@@ -358,12 +379,45 @@ const de: CaseStudiesContent = {
   labels: {
     problem: "Problem",
     solution: "Was ich getan habe",
-    result: "Ergebnis",
+    result: "Was es heute kann",
     stack: "Stack",
     proves: "Was es zeigt",
-    viewLive: "Zur Live-Website",
+    limits: "Grenzen der Demo",
+    viewLive: "Demo ausprobieren",
+    viewCode: "Code und Erläuterungen",
   },
   caseStudies: [
+    {
+      id: "booking-checkout",
+      title: "Bookable — Multi-Style Booking Platform",
+      context:
+        "Full-Stack-Buchungsplattform für lokale Dienstleister: öffentlicher Katalog, validierter Buchungsanfrage-Fluss und ein Admin-Dashboard. Persönliches Projekt, live auf bookable.itshassan.it, Quellcode in meinem öffentlichen Monorepo.",
+      problem:
+        "Ein lokaler Betrieb möchte seine Leistungen veröffentlichen und Anfragen online erhalten — mit eigener Identität, nicht mit dem x-ten identischen Template. Und in der Offerte ist ein einziges fixes Design eine schwache Position.",
+      solution: [
+        "Allein umgesetzt, end-to-end: Schema und Migrationen, Server Actions, Admin-Bereich, drei Design-Varianten und Deployment",
+        "Ein Content-Modell, gerendert in drei kompletten Design-Systemen (Editorial / Warm / Bold), gewählt über ein serverseitig gelesenes Cookie",
+        "Next.js 16 App Router + Server Actions, Drizzle ORM auf Neon Postgres, mit einem Repository-Layer, der die Seiten schlank hält",
+        "Zod-Validierung, geteilt zwischen Formular und Server; Preise als ganzzahlige Cents gespeichert; generische Fehler zum Client",
+      ],
+      stack: bookableStack,
+      result: [
+        "Katalog, Detailseite mit Galerie und Buchungsanfrage-Formular, in drei live umschaltbaren Designs",
+        "Admin hinter einem Login (versiegeltes iron-session-Cookie + bcrypt): Leistungen, Preise, Bilder und Status der Anfragen",
+        "Startet auch ohne Datenbank (Beispieldaten plus Demo-Banner); live auf eigener Domain bei Vercel",
+      ],
+      limits: [
+        "Ein Anfrage-System, keine Terminplanung: keine Slot-Verfügbarkeit und kein Schutz vor Doppelbuchungen",
+        "Der Admin-Bereich ist nicht öffentlich: die Demo zeigt Katalog, Detailseite und Formular",
+        "Anfragen aus der Demo landen tatsächlich im Dashboard des Projekts: bitte fiktive Daten verwenden",
+        "Kein Rate-Limiting und kein explizites CSRF-Token: MVP-Stand, im README ausgewiesen",
+      ],
+      proves:
+        "Ich kann ein vollständiges Full-Stack-Produkt konzipieren und in Produktion bringen — Data-Layer, Auth, Validierung und ein unverwechselbares Design-System — nicht nur Visitenkarten-Websites.",
+      liveUrl: BOOKABLE_LIVE_URL,
+      repoUrl: BOOKABLE_REPO_URL,
+      variants: bookableVariants,
+    },
     {
       id: "hospitality-ecommerce",
       title: "Hospitality-E-Commerce-Plattform — UI-Standards und Kernflüsse",
@@ -416,41 +470,6 @@ const de: CaseStudiesContent = {
       ],
       proves:
         "Ich kann eine bestehende Website modernisieren, ohne die bereits geleistete Arbeit wegzuwerfen.",
-    },
-    {
-      id: "booking-checkout",
-      title: "Bookable — Multi-Style Booking Platform",
-      context:
-        "Eine produktive Full-Stack-Buchungsplattform für lokale Dienstleister — öffentlicher Katalog, validierter Buchungsanfrage-Fluss und ein abgesichertes Admin-Dashboard. Live auf bookable.itshassan.it.",
-      problem:
-        "Betriebe wollen eine eigene Identität, nicht das x-te identische Template — und ein einziges fixes Design anzubieten ist eine schwache Position. Ich wollte einen echten Backend-Fluss zeigen und beweisen, dass derselbe Inhalt sofort in wirklich unterschiedlichen visuellen Identitäten erscheinen kann.",
-      solution: [
-        "Ein Content-Modell, gerendert in drei kompletten Design-Systemen (Editorial / Warm / Bold), live umgeschaltet über ein server-seitiges Cookie ohne Flackern",
-        "Next.js 16 App Router + Server Actions, Drizzle ORM, Neon Postgres, mit einem Repository-Layer, der die Seiten schlank hält",
-        "Abgesichertes Admin: iron-session + bcrypt, timing- und enumeration-sicherer Login, dreistufiger Routenschutz",
-        "End-to-end Zod-Validierung, geteilt zwischen Client und Server; Preise als ganzzahlige Cents gespeichert",
-      ],
-      stack: [
-        "Next.js 16",
-        "React 19",
-        "Drizzle ORM",
-        "Neon Postgres",
-        "iron-session",
-        "Zod",
-      ],
-      result: [
-        "Live in Produktion auf eigener Domain mit gültigem SSL (Vercel + OVH)",
-        "Drei komplette Design-Systeme aus einer Codebasis — null Content-Duplikation",
-        "Build-sicherer Data-Layer: startet und demonstriert ohne Datenbank, wechselt dann auf das live Neon, sobald konfiguriert",
-      ],
-      proves:
-        "Ich kann ein echtes Full-Stack-Produkt end-to-end konzipieren und in Produktion bringen — Data-Layer, Auth, Validierung und ein unverwechselbares Design-System — nicht nur Visitenkarten-Websites.",
-      liveUrl: "https://bookable.itshassan.it",
-      variants: [
-        { label: "Editorial", image: "image/bookable-variant-1.png" },
-        { label: "Warm", image: "image/bookable-variant-2.png" },
-        { label: "Bold", image: "image/bookable-variant-3.png" },
-      ],
     },
   ],
 };

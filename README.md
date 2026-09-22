@@ -1,84 +1,92 @@
 # laboratoire
 
-Monorepo pnpm/turbo con tre app frontend: `docs`, `web-react`, `web-next`.
+Personal monorepo (pnpm + Turbo) by Hassan Akkari: a live portfolio, a live full-stack booking product, and a few framework labs that share one UI library.
 
-## Stato attuale
-- `apps/docs`: portfolio live — Vite + Tailwind v4 + HeroUI, hosting Vercel, dominio gestito su OVH (registrar/DNS).
-- `apps/web-react`: showcase prototype (Tailwind v4 + HeroUI v2 + Redux Toolkit/RTK Query + MSW). Solo locale.
-- `apps/web-next`: showcase prototype Next.js App Router con booking/checkout MVP (auth gate sentinel, pricing engine, in-memory orders). Solo locale.
-- Deploy: solo `apps/docs` è online. `web-react` e `web-next` sono vetrine framework non ancora collegate.
+## Start here
 
-## Struttura
-- `apps/docs` (sito/portfolio)
-- `apps/web-react` (app base con store + mock API)
-- `apps/web-next` (booking-checkout engine in Next.js)
-- `packages/ui` (libreria componenti + Storybook)
+| What | Where | Status |
+| --- | --- | --- |
+| **Portfolio** — who I am, case studies, CV, notes | https://itshassan.it · [`apps/docs`](apps/docs) | Live (Vercel) |
+| **Bookable** — booking platform with a runtime style switcher, the flagship project | https://bookable.itshassan.it · [`apps/booking-service`](apps/booking-service) · [README](apps/booking-service/README.md) · [case study](apps/booking-service/PORTFOLIO_CASE_STUDY.md) | Live (Vercel) |
+| Working notes for contributors and coding agents | [`AGENTS.md`](AGENTS.md) · [`docs/PROJECT_BRAIN.md`](docs/PROJECT_BRAIN.md) · [`docs/DECISIONS.md`](docs/DECISIONS.md) | — |
 
-## Requisiti
-- Node 24+
-- pnpm 10+
+If you only have five minutes: open the Bookable demo, switch the three designs with the pill in the top-right corner, then read its README for how it is built and what it deliberately does not do yet.
 
-## Note Windows (best practice)
-- Usa un volume **NTFS**. Su exFAT i symlink non sono supportati e pnpm/workspaces può fallire.
-- Se vedi `Debugger attached`, apri un terminale normale (non Debug Terminal) oppure rimuovi `NODE_OPTIONS=--inspect`.
+## Monorepo map
 
-## Installazione
+```
+apps/
+  docs/              Portfolio + digital garden. Next.js 16 App Router, SSG, locales en/it/fr/de.
+  booking-service/   Bookable. Next.js 16, Drizzle + Neon Postgres, iron-session, shadcn/ui.
+  web-next/          Admin / lead management behind itshassan.it (Next.js 16, Drizzle + Neon)
+                     plus a parked in-memory booking demo.
+  web-react/         Vite + React 19 + Redux Toolkit / RTK Query + MSW scaffold. Local only.
+  lab/               Playground for the shared UI library. Local only.
+  control-centre/    Local-only dashboard for personal workflows. No deploy by design.
+packages/
+  ui/                @laboratoire/ui — shared presentational components, Storybook.
+docs/                PROJECT_BRAIN (current snapshot), DECISIONS (why), handovers.
+```
+
+Deployed apps each have their own Vercel project; the domain is registered on OVH and points at Vercel (DNS only). CI runs `pnpm check` on every push and pull request ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+
+## Requirements
+
+- Node `>=24 <25` (see `.node-version`)
+- pnpm `10.0.0` (pinned in `package.json#packageManager`)
+- Windows: an **NTFS** volume — pnpm workspaces rely on symlinks, which exFAT does not support.
+
+## Install
+
 ```bash
-corepack enable
-corepack prepare pnpm@10.0.0 --activate
+corepack enable && corepack prepare pnpm@10.0.0 --activate
 pnpm -w install --frozen-lockfile
 ```
 
-## Avvio rapido
+## Run
+
 ```bash
-pnpm dev        # alias di docs
-pnpm dev:docs   # solo docs
-pnpm dev:react  # solo web-react
-pnpm dev:next   # solo web-next
-pnpm dev:all    # UI watch + Storybook + docs + web-react + web-next
+pnpm dev            # portfolio (apps/docs) → http://localhost:3000
+pnpm dev:booking    # Bookable (apps/booking-service) → http://localhost:3002
+pnpm dev:next       # web-next → http://localhost:3001
+pnpm dev:react      # web-react (Vite) → http://localhost:5173+
+pnpm dev:lab        # UI playground (Vite)
+pnpm dev:centre     # control-centre → http://localhost:3002 (same port as Bookable: run one or the other)
+pnpm dev:all        # UI watch + Storybook (6006) + every app
 ```
-Di default Vite parte su `http://localhost:5173` (se occupata usa la successiva).
 
-## UI (package-first) e Storybook
-- `packages/ui` è un pacchetto vero: builda in `dist/` e le app lo importano come dipendenza.
-- Storybook vive in `packages/ui`:
-  - `pnpm -F @laboratoire/ui storybook`
-  - `pnpm -F @laboratoire/ui build-storybook`
-
-### Soft-link in dev (per velocità)
-In sviluppo locale, le app possono risolvere `@laboratoire/ui` direttamente da `src` per avere HMR.
-Questo è automatico quando si avvia Vite in dev.
-
-Se vuoi forzarlo manualmente:
-```bash
-VITE_UI_SOURCE=1 pnpm dev:docs
-VITE_UI_SOURCE=1 pnpm dev:react
-```
-In produzione (`pnpm build`) si usa sempre `packages/ui/dist` (package-first).
-Se `dist` manca, Vite mostra un errore esplicito con il comando da eseguire.
+Bookable boots without a database (sample data + demo banner). To point it at a real Postgres, follow [its README](apps/booking-service/README.md#database--migrations) — migrations only, never `db:push`, because the database is shared between apps.
 
 ## Quality gates
+
 ```bash
-pnpm check      # lint + typecheck + test
+pnpm check          # lint + typecheck + test across all workspaces (same as CI)
 pnpm lint
 pnpm typecheck
 pnpm test
 ```
 
-## Build / Preview
-```bash
-pnpm build
-pnpm build:docs
-pnpm build:react
-pnpm build:next
+## Build
 
-pnpm preview
-pnpm preview:docs
-pnpm preview:react
-pnpm start:next
+```bash
+pnpm -F @laboratoire/ui build   # shared UI first (Next apps do this in their prebuild)
+pnpm build                       # turbo: every workspace
+pnpm build:docs | build:booking | build:next | build:react | build:lab
+pnpm start:docs | start:booking | start:next
 ```
 
-## Deploy
-- **`apps/docs`** → Vercel (config `vercel.json`: framework `vite`, build `pnpm -F docs build`, output `apps/docs/dist`). Push su `main` ⇒ deploy automatico. Il dominio è registrato su OVH e punta su Vercel via DNS — OVH non esegue codice.
-- **`apps/web-react` / `apps/web-next`** → nessun deploy. Sono showcase prototypes locali; un'eventuale futura messa online (subroute, subdomain o progetto Vercel separato) è ancora da decidere.
+## Shared UI library
 
+`packages/ui` is a real package: it builds to `dist/`, and the apps consume it as a dependency (`transpilePackages` in the Next apps, a dist alias in the Vite apps; `VITE_UI_SOURCE=1` switches Vite apps to source for HMR).
+
+```bash
+pnpm -F @laboratoire/ui storybook          # http://localhost:6006
+pnpm -F @laboratoire/ui build-storybook
+```
+
+## Where things are documented
+
+- [`AGENTS.md`](AGENTS.md) — how to work in this repo (commands, boundaries, editing rules).
+- [`docs/PROJECT_BRAIN.md`](docs/PROJECT_BRAIN.md) — current-state snapshot of apps, deploys and security boundaries.
+- [`docs/DECISIONS.md`](docs/DECISIONS.md) — why the architecture is the way it is (append-only).
+- [`apps/booking-service/README.md`](apps/booking-service/README.md) — Bookable: setup, environment variables, migrations, screenshots, limits.
