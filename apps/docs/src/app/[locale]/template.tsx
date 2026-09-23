@@ -27,7 +27,13 @@ export default function Template({ children }: { children: ReactNode }) {
     <motion.div
       variants={routeTransitionVariants}
       initial={animateEntry ? "hidden" : false}
-      animate="visible"
+      // Only broadcast the label while the entry animation actually plays.
+      // A permanent animate="visible" here is inherited as variant context by
+      // every descendant motion element: framer records them as already
+      // "visible" at mount, so a later animate="visible" on a section (the
+      // reduced-motion path in motionPresets) becomes a no-op and the
+      // server-rendered opacity:0 never clears (F24).
+      animate={animateEntry ? "visible" : undefined}
     >
       {children}
     </motion.div>

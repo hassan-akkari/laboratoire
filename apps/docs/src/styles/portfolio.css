@@ -1002,6 +1002,30 @@ section {
   text-decoration: underline;
 }
 
+/* Case-study links under an experience entry (/cv). --accent-ink, not
+ * --app-accent: the latter fails 4.5:1 on the dark card background (F22). */
+.cv-case-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 14px;
+}
+
+.cv-case-links__label {
+  color: var(--app-muted);
+}
+
+.cv-case-links a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-ink) 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.cv-case-links a:hover {
+  text-decoration-color: currentColor;
+}
+
 .cv-meta {
   color: color-mix(in srgb, var(--app-accent) 68%, var(--app-fg)) !important;
   font-size: 14px;
