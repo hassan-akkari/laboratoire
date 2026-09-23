@@ -506,3 +506,39 @@ should all fall out of that pass.
 - **Where to look**: `apps/docs/src/components/sections/CaseStudiesSection.tsx` — the article carries `fadeUpVariants` with `getInViewReveal(reduceMotion, …)`; when `reduceMotion` is true the reveal props apparently never move the element from its `hidden` state, so the card is rendered but invisible after scroll. `apps/docs/src/components/ui/motionPresets.ts` holds both helpers.
 - **Fix idea**: with reduced motion, render with `initial={false}` (or `animate="visible"` immediately) instead of relying on `whileInView`; add an e2e case with `contextOptions: { reducedMotion: "reduce" }` asserting the card's computed opacity is 1 after scrolling to `#case-studies`.
 - **Not fixed in PR #13** (tooling only).
+
+## 2026-09-23 — Parked backlog (resume point)
+
+> Branch `chore/followup-parking` off `0b2c302` (main after PR #14). Nothing below is fixed here; this section is the single list to reopen when the current priorities are done. Fix items in separate PRs, one concern each; strike them through here when merged.
+
+### Status of everything still open (as of 2026-09-23)
+
+| ID | Item | Class | Owner | Where to start |
+|---|---|---|---|---|
+| — | `ADMIN_SESSION_SECRET` scheduled rotation on Vercel `admin` + `bookable` (status tracked privately, see F17) | blocker | Hassan (manual) | Vercel env → new value → redeploy both |
+| F16 | GitHub Pages: HTTP now 404 on root / `docs/PROJECT_BRAIN.md`, but the API still reports `status: built`, source `main` `/` (last build on `4ff293b`) | blocker | Hassan (manual) | Settings → Pages → confirm Source = None |
+| F23 | Login placeholder hash is 58 chars → `bcryptjs.compare` short-circuits (doc side closed by PR #14; code fix pending) | blocker | separate auth PR | `apps/booking-service/app/admin/login/actions.ts:42` + unit test `length === 60` |
+| F24 | Case-study cards `opacity: 0` under `prefers-reduced-motion` (reproduced) | recommended | PR | `CaseStudiesSection.tsx` + `motionPresets.ts`, e2e with `reducedMotion: "reduce"` |
+| F20 | Bookable `/services/<unknown>` soft 404 (200) | recommended | PR | `app/services/[slug]/page.tsx` + `generateMetadata`; flip the `test.fixme` in `e2e/booking/public.spec.ts` |
+| F21 | Startup log says `db:push` | recommended | PR (one string) | `apps/booking-service/lib/db/client.ts` |
+| F22 | Contrast < 4.5:1 on three portfolio elements, rule advisory in `e2e/docs/a11y.spec.ts` | recommended | PR | tokens in `apps/docs/src/styles/portfolio.css`, then remove the `TEMPORARY_ADVISORY` entry |
+| F18 | Removed files remain reachable at old SHAs; history rewrite yes/no (A/B) | decision | Hassan | no action until decided; destructive if yes |
+| F19 | Home DE horizontal overflow ≤ 390 px (`ServicesSection` articles) | cosmetic | PR | `apps/docs/src/components/sections/ServicesSection.tsx` grid/padding |
+| F25 | Bookable warm style: back link and eyebrow render on one line (new, below) | cosmetic | PR (two classes) | `components/styles/warm/Book.tsx:31`, `Detail.tsx:41` |
+| F26 | Bookable bold style: style-switcher pill overlaps the "Salon." brand on `/book/*` header (new, below) | cosmetic | PR | `components/styles/bold/Book.tsx` header + the switcher component |
+| F27 | Unused Neon integration still attached to the `laboratoire` Vercel project (new, below) | hygiene | Hassan (manual) | Vercel → project → Integrations |
+
+Suggested order when resuming: F21 → F25 → F20 → F24 → F22 → F19 → F26 (all small, independent, each with an existing or cheap e2e check), then F23 as its own auth PR.
+
+### F25 — Bookable warm style: "← The Menu" and the "Booking request" eyebrow sit on the same line
+- **Seen**: screenshot of `/book/custom-haircut` (warm variant, 2026-09-23): `← The Menu♡ BOOKING REQUEST` rendered as one run of text, no gap, eyebrow not on its own line.
+- **Why** (from the markup, not re-rendered): in `apps/booking-service/components/styles/warm/Book.tsx:22-34` the back `Link` is `inline-flex` and the eyebrow `<p>` at `:31` is also `inline-flex`. Two atomic inline-level siblings share one line box, so `mt-6` cannot push the eyebrow down. Same pattern in `warm/Detail.tsx:41` (`On the menu` eyebrow on `/services/[slug]`). Editorial uses `flex` (block-level) on the same element and is fine; bold puts the eyebrow in a different container.
+- **Fix**: `inline-flex` → `flex w-fit` on both `<p>` elements (keeps the icon alignment, makes the paragraph block-level). Optional e2e: on `/book/<slug>` with `bs_style=warm`, assert the eyebrow's bounding box `y` is greater than the back link's bottom.
+
+### F26 — Bookable bold style: switcher pill over the brand on `/book/*`
+- **Seen**: 2026-09-22 screenshot 06 of the flagship pass (bold `/book/*`): the floating style-switcher pill overlaps the `Salon.` brand in the header (`components/styles/bold/Book.tsx:21-33`, right-aligned brand).
+- **Fix idea**: give the bold header right padding equal to the switcher width at the breakpoints where they collide, or move the switcher below the header on `/book/*`. Cosmetic; check the other two styles do not regress.
+
+### F27 — Neon integration leftover on the `laboratoire` Vercel project
+- **What**: the Vercel project that deploys `apps/docs` still carries a Neon integration from an earlier setup. The portfolio has no database; the booking apps read `DATABASE_URL` from the shared Vercel env var, not from this integration.
+- **Action** (manual, Hassan): remove the integration from the `laboratoire` project only. Verify `bookable` and `admin` keep the shared `DATABASE_URL` afterwards (no redeploy needed if the shared var is untouched).
