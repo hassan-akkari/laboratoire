@@ -13,6 +13,10 @@ import NotesTeaserSection from "@/components/sections/NotesTeaserSection";
 import FAQSection from "@/components/sections/FAQSection";
 import FinalCTASection from "@/components/sections/FinalCTASection";
 import { getSeoContent } from "@/data/seoContent";
+import {
+  getProfessionalCaseStudyCards,
+  getProfessionalCaseStudyLabels,
+} from "@/data/professionalCaseStudies";
 import { messages } from "@/i18n/messages";
 import { localeFromParams } from "@/i18n/server";
 import { buildPageMetadata } from "@/seo/pageMetadata";
@@ -46,7 +50,11 @@ export default async function HomePage({ params }: PageProps) {
       <ServicesSection locale={locale} />
       <TargetClientsSection locale={locale} />
       <ProcessSection locale={locale} />
-      <CaseStudiesSection locale={locale} />
+      <CaseStudiesSection
+        locale={locale}
+        professional={getProfessionalCaseStudyCards(locale)}
+        professionalLabels={getProfessionalCaseStudyLabels(locale)}
+      />
       <WhyMeSection locale={locale} />
       <TechStackSection locale={locale} />
       <NotesTeaserSection locale={locale} />

@@ -7,6 +7,12 @@ export type CaseStudyVariant = {
 
 export type CaseStudy = {
   id: string;
+  /**
+   * "personal": mine end to end, with demo and/or source (Bookable).
+   * "professional": anonymized employer work, told at card level here; the
+   * three deep-dive professional studies live in professionalCaseStudies.ts.
+   */
+  kind: "personal" | "professional";
   title: string;
   context: string;
   problem: string;
@@ -64,9 +70,9 @@ const bookableStack = [
 
 const it: CaseStudiesContent = {
   sectionLabel: "Progetti e case study",
-  title: "Case study reali e laboratori tecnici, separati con chiarezza.",
+  title: "Un prodotto personale e tre case study professionali, separati con chiarezza.",
   subtitle:
-    "I case study reali mostrano metodo e impatto. I lab tecnici mostrano profondità su flussi più complessi, senza confonderli con lavori cliente.",
+    "Bookable è mio end-to-end: online, con il codice. I case study professionali vengono da un prodotto multi-tenant in produzione, anonimizzato, con i numeri e i loro limiti.",
   labels: {
     problem: "Problema",
     solution: "Cosa ho fatto",
@@ -80,6 +86,7 @@ const it: CaseStudiesContent = {
   caseStudies: [
     {
       id: "booking-checkout",
+      kind: "personal",
       title: "Bookable — Multi-Style Booking Platform",
       context:
         "Piattaforma di prenotazione full-stack per attività di servizi locali: catalogo pubblico, richiesta di prenotazione validata e dashboard admin. Progetto personale, online su bookable.itshassan.it, codice nel mio monorepo pubblico.",
@@ -111,6 +118,7 @@ const it: CaseStudiesContent = {
     },
     {
       id: "hospitality-ecommerce",
+      kind: "professional",
       title: "Piattaforma e-commerce hospitality — UI standards e flussi core",
       context:
         "Prodotto enterprise complesso con team distribuito e moduli multipli. Codebase legacy con regole UI sparpagliate.",
@@ -138,6 +146,7 @@ const it: CaseStudiesContent = {
     },
     {
       id: "bootstrap-tailwind",
+      kind: "professional",
       title: "Migrazione Bootstrap → Tailwind",
       context:
         "Applicazione web costruita su Bootstrap + componenti vendor con anni di patch addosso. Layout incoerenti tra pagine simili.",
@@ -167,9 +176,9 @@ const it: CaseStudiesContent = {
 
 const en: CaseStudiesContent = {
   sectionLabel: "Projects & case studies",
-  title: "Real case studies and technical labs, clearly separated.",
+  title: "A personal product and three professional case studies, clearly separated.",
   subtitle:
-    "Real case studies show method and impact. Technical labs show depth on more complex flows without presenting them as client work.",
+    "Bookable is mine end to end: live, with source. The professional case studies come from a live multi-tenant product, anonymized, with their numbers and their limits.",
   labels: {
     problem: "Problem",
     solution: "What I did",
@@ -183,6 +192,7 @@ const en: CaseStudiesContent = {
   caseStudies: [
     {
       id: "booking-checkout",
+      kind: "personal",
       title: "Bookable — Multi-Style Booking Platform",
       context:
         "Full-stack booking platform for local service businesses: public catalogue, validated booking-request flow and an admin dashboard. Personal project, live at bookable.itshassan.it, source in my public monorepo.",
@@ -214,6 +224,7 @@ const en: CaseStudiesContent = {
     },
     {
       id: "hospitality-ecommerce",
+      kind: "professional",
       title: "Hospitality e-commerce platform — UI standards and core flows",
       context:
         "Complex enterprise product with a distributed team and multiple modules. Legacy codebase with scattered UI rules.",
@@ -241,6 +252,7 @@ const en: CaseStudiesContent = {
     },
     {
       id: "bootstrap-tailwind",
+      kind: "professional",
       title: "Bootstrap → Tailwind migration",
       context:
         "Web app built on Bootstrap + vendor components with years of patches on top. Inconsistent layouts across similar pages.",
@@ -270,9 +282,9 @@ const en: CaseStudiesContent = {
 
 const fr: CaseStudiesContent = {
   sectionLabel: "Projets & case studies",
-  title: "Case studies réels et labos techniques, clairement séparés.",
+  title: "Un produit personnel et trois case studies professionnels, clairement séparés.",
   subtitle:
-    "Les case studies réels montrent la méthode et l'impact. Les labos techniques montrent la profondeur sur des flux plus complexes, sans les présenter comme des projets client.",
+    "Bookable est à moi de bout en bout : en ligne, avec le code. Les case studies professionnels viennent d'un produit multi-tenant en production, anonymisé, avec leurs chiffres et leurs limites.",
   labels: {
     problem: "Problème",
     solution: "Ce que j'ai fait",
@@ -286,6 +298,7 @@ const fr: CaseStudiesContent = {
   caseStudies: [
     {
       id: "booking-checkout",
+      kind: "personal",
       title: "Bookable — Multi-Style Booking Platform",
       context:
         "Plateforme de réservation full-stack pour des activités de services locales : catalogue public, flux de demande de réservation validé et dashboard admin. Projet personnel, en ligne sur bookable.itshassan.it, code dans mon monorepo public.",
@@ -317,6 +330,7 @@ const fr: CaseStudiesContent = {
     },
     {
       id: "hospitality-ecommerce",
+      kind: "professional",
       title: "Plateforme e-commerce hospitality — standards UI et flux core",
       context:
         "Produit enterprise complexe avec équipe distribuée et modules multiples. Codebase legacy avec règles UI dispersées.",
@@ -344,6 +358,7 @@ const fr: CaseStudiesContent = {
     },
     {
       id: "bootstrap-tailwind",
+      kind: "professional",
       title: "Migration Bootstrap → Tailwind",
       context:
         "Application web construite sur Bootstrap + composants vendor avec des années de patches. Layouts incohérents entre pages similaires.",
@@ -373,9 +388,9 @@ const fr: CaseStudiesContent = {
 
 const de: CaseStudiesContent = {
   sectionLabel: "Projekte & Case Studies",
-  title: "Echte Case Studies und technische Labs, sauber getrennt.",
+  title: "Ein persönliches Produkt und drei berufliche Case Studies, sauber getrennt.",
   subtitle:
-    "Echte Case Studies zeigen Methode und Wirkung. Technische Labs zeigen Tiefe bei komplexeren Abläufen — ohne sie als Kundenprojekte auszugeben.",
+    "Bookable ist durchgehend meins: live, mit Quellcode. Die beruflichen Case Studies stammen aus einem produktiven mandantenfähigen Produkt, anonymisiert, mit ihren Zahlen und ihren Grenzen.",
   labels: {
     problem: "Problem",
     solution: "Was ich getan habe",
@@ -389,6 +404,7 @@ const de: CaseStudiesContent = {
   caseStudies: [
     {
       id: "booking-checkout",
+      kind: "personal",
       title: "Bookable — Multi-Style Booking Platform",
       context:
         "Full-Stack-Buchungsplattform für lokale Dienstleister: öffentlicher Katalog, validierter Buchungsanfrage-Fluss und ein Admin-Dashboard. Persönliches Projekt, live auf bookable.itshassan.it, Quellcode in meinem öffentlichen Monorepo.",
@@ -420,6 +436,7 @@ const de: CaseStudiesContent = {
     },
     {
       id: "hospitality-ecommerce",
+      kind: "professional",
       title: "Hospitality-E-Commerce-Plattform — UI-Standards und Kernflüsse",
       context:
         "Komplexes Enterprise-Produkt mit verteiltem Team und mehreren Modulen. Legacy-Codebasis mit verstreuten UI-Regeln.",
@@ -447,6 +464,7 @@ const de: CaseStudiesContent = {
     },
     {
       id: "bootstrap-tailwind",
+      kind: "professional",
       title: "Migration Bootstrap → Tailwind",
       context:
         "Web-Anwendung auf Bootstrap + Vendor-Komponenten mit jahrelangen Patches obendrauf. Inkonsistente Layouts zwischen ähnlichen Seiten.",

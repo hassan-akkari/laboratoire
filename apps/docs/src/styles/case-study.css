@@ -1,0 +1,380 @@
+/* Professional case-study detail pages (/{locale}/case-studies/[slug]).
+ * Reuses the site's --app-* and --accent-* tokens, so light/dark theming comes
+ * for free and no new palette drifts (CLAUDE.md gotcha #4). Text on cards uses
+ * --accent-ink, never --app-accent, which fails 4.5:1 on the dark theme (F22).
+ * The page is server-rendered with no motion: everything below is visible in
+ * the static HTML and under prefers-reduced-motion. */
+
+.cs-page {
+  max-width: 78ch;
+  margin: 0 auto;
+  padding: 40px 0 72px;
+}
+
+.cs-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin-bottom: 28px;
+}
+
+.cs-back {
+  margin: 0;
+}
+
+.cs-back a {
+  color: var(--app-muted);
+  text-decoration: none;
+}
+
+.cs-back a:hover {
+  color: var(--accent-ink);
+}
+
+/* ---- Header ------------------------------------------------------------ */
+
+.cs-header {
+  display: grid;
+  gap: 16px;
+}
+
+.cs-eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.cs-title {
+  margin: 0;
+  font-size: clamp(30px, 4.4vw, 50px);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.cs-lead {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--app-fg) 88%, var(--app-muted));
+}
+
+.cs-facts {
+  display: grid;
+  gap: 14px;
+  margin: 8px 0 0;
+  padding: 18px 20px;
+  border: 1px solid var(--app-border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--app-card) 85%, transparent);
+}
+
+.cs-facts > div {
+  min-width: 0;
+}
+
+.cs-facts dt {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--app-muted);
+}
+
+.cs-facts dd {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.cs-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cs-chips li {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--app-border);
+  background: var(--app-accent-soft);
+  color: var(--app-fg);
+}
+
+/* ---- Blocks ------------------------------------------------------------ */
+
+.cs-block {
+  /* Nested <section>s: cancel the global `section { padding: clamp(64px…) }`
+   * rule from portfolio.css, which is meant for top-level page bands. */
+  padding: 0;
+  margin-top: 44px;
+}
+
+.cs-block__title {
+  margin: 0 0 14px;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+}
+
+.cs-block p {
+  margin: 0 0 14px;
+  line-height: 1.65;
+}
+
+.cs-block p:last-child {
+  margin-bottom: 0;
+}
+
+.cs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.cs-list li {
+  display: flex;
+  gap: 10px;
+  line-height: 1.55;
+}
+
+.cs-list li::before {
+  content: "→";
+  flex: none;
+  color: var(--accent-ink);
+}
+
+.cs-list--check li::before {
+  content: "✓";
+}
+
+.cs-list--dash li::before {
+  content: "–";
+  color: var(--app-muted);
+}
+
+.cs-glance {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.cs-glance li {
+  padding: 14px 16px;
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+  background: var(--app-card);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cs-decisions {
+  display: grid;
+  gap: 12px;
+}
+
+.cs-decision {
+  padding: 16px 18px;
+  border: 1px solid var(--app-border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--app-card) 85%, transparent);
+}
+
+.cs-decision h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.cs-decision p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--app-fg) 82%, var(--app-muted));
+}
+
+.cs-subtitle {
+  margin: 26px 0 12px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--app-muted);
+}
+
+/* ---- Metrics ----------------------------------------------------------- */
+
+.cs-metrics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.cs-metric {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+  background: var(--app-card);
+}
+
+.cs-metric__label {
+  font-weight: 600;
+}
+
+.cs-metric__pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.cs-metric__cell {
+  display: grid;
+  min-width: 0;
+}
+
+.cs-metric__cell small {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--app-muted);
+}
+
+.cs-metric__cell strong,
+.cs-metric__value {
+  font-family: var(--font-space-grotesk), var(--font-outfit), sans-serif;
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+
+.cs-metric__arrow {
+  color: var(--accent-ink);
+}
+
+.cs-metric__note {
+  font-size: 0.85rem;
+  color: var(--app-muted);
+}
+
+/* ---- Limits / proof / attribution ------------------------------------- */
+
+.cs-block--limits {
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent-ink) 60%, transparent);
+}
+
+.cs-proves {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ---- CV pointer + pager ------------------------------------------------ */
+
+.cs-cv {
+  margin-top: 44px;
+  padding: 20px 22px;
+  border: 1px solid var(--app-border);
+  border-radius: 16px;
+  background: var(--app-accent-soft);
+}
+
+.cs-cv h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.cs-cv p {
+  margin: 0 0 14px;
+  line-height: 1.55;
+}
+
+.cs-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--app-border);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--app-fg);
+}
+
+.cs-pager {
+  margin-top: 36px;
+  display: grid;
+  gap: 12px;
+}
+
+.cs-pager__link {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+  color: var(--app-fg);
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+
+.cs-pager__link:hover {
+  border-color: var(--accent-ink);
+}
+
+.cs-pager__link small {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--app-muted);
+}
+
+.cs-pager__link--next {
+  text-align: right;
+}
+
+@media (min-width: 720px) {
+  .cs-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cs-glance {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cs-decisions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cs-metric {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 16px;
+  }
+
+  .cs-metric__note {
+    grid-column: 1 / -1;
+  }
+
+  .cs-pager {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media print {
+  .cs-topbar,
+  .cs-pager {
+    display: none;
+  }
+}
