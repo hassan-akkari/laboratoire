@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import CvPage from "@/components/pages/CvPage";
 import { getPortfolioContent } from "@/content/loader";
+import { getProfessionalCaseStudyTitles } from "@/data/professionalCaseStudies";
 import { messages } from "@/i18n/messages";
 import { localeFromParams } from "@/i18n/server";
 import { buildPageMetadata } from "@/seo/pageMetadata";
@@ -26,5 +27,12 @@ export default async function CvRoute({ params }: PageProps) {
   const labels = messages[locale];
   const content = getPortfolioContent(locale);
 
-  return <CvPage content={content} locale={locale} labels={labels} />;
+  return (
+    <CvPage
+      content={content}
+      locale={locale}
+      labels={labels}
+      caseStudyTitles={getProfessionalCaseStudyTitles(locale)}
+    />
+  );
 }

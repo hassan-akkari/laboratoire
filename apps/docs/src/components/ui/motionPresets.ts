@@ -58,9 +58,21 @@ export const routeTransitionVariants: Variants = {
   },
 };
 
+/**
+ * Reduced motion (F24): `initial: false` on its own left every element at
+ * the server-rendered `hidden` inline style (opacity 0, translateY) once a
+ * reduced-motion client re-synced after hydration, because no prop ever
+ * targeted a state — the case-study cards stayed invisible. Animating
+ * straight to "visible" resolves the whole variant chain (parents propagate
+ * the label to children) in one step; the variants' own transitions are the
+ * only motion left, and the CSS kill switch already zeroes CSS transitions.
+ * Requires the route template NOT to broadcast a permanent animate="visible"
+ * (see app/[locale]/template.tsx): an inherited label is recorded at mount
+ * and makes this later animate="visible" a no-op.
+ */
 export function getInViewReveal(disableMotion: boolean, amount = 0.2) {
   if (disableMotion) {
-    return { initial: false as const };
+    return { initial: false as const, animate: "visible" as const };
   }
 
   return {
@@ -72,7 +84,7 @@ export function getInViewReveal(disableMotion: boolean, amount = 0.2) {
 
 export function getMountReveal(disableMotion: boolean) {
   if (disableMotion) {
-    return { initial: false as const };
+    return { initial: false as const, animate: "visible" as const };
   }
 
   return {

@@ -83,6 +83,11 @@
       "company": "Sibylla S.r.l. — Portal",
       "location": "Roma, Italia",
       "role": "Software Engineer — Portal (SaaS gestionale multi-tenant) · React 19 · ASP.NET Core · BFF",
+      "caseStudySlugs": [
+        "http-client-concurrency",
+        "incremental-react-migration",
+        "bff-modularization"
+      ],
       "start": "Sep 2023",
       "end": "Present",
       "bullets": [

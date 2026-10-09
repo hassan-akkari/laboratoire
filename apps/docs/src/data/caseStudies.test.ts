@@ -29,6 +29,15 @@ describe("Bookable as the flagship project", () => {
     expect(ids).toEqual(["booking-checkout", "hospitality-ecommerce", "bootstrap-tailwind"]);
   });
 
+  it.each(LOCALES)("marks Bookable as the personal project and the rest as professional in %s", (locale) => {
+    const kinds = caseStudiesContent[locale].caseStudies.map((s) => [s.id, s.kind]);
+    expect(kinds).toEqual([
+      ["booking-checkout", "personal"],
+      ["hospitality-ecommerce", "professional"],
+      ["bootstrap-tailwind", "professional"],
+    ]);
+  });
+
   it("points the code link at the booking-service folder of the public repo", () => {
     expect(BOOKABLE_REPO_URL).toMatch(
       /^https:\/\/github\.com\/hassan-akkari\/laboratoire\/tree\/main\/apps\/booking-service$/,

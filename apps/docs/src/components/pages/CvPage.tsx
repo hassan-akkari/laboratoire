@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import { AppButton } from "@laboratoire/ui";
 import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "../../lib/useReducedMotionSafe";
@@ -8,6 +9,10 @@ import Container from "../layout/Container";
 import type { PortfolioContent } from "../../content/portfolioContent";
 import type { Locale } from "../../i18n/locale";
 import { localePath } from "../../i18n/routing";
+import {
+  caseStudyPath,
+  type ProfessionalCaseStudySlug,
+} from "../../data/professionalCaseStudies";
 import type { Messages } from "../../i18n/messages";
 import LocaleSwitcher from "../ui/LocaleSwitcher";
 import WordReveal from "../ui/WordReveal";
@@ -23,6 +28,8 @@ type CvPageProps = {
   content: PortfolioContent;
   locale: Locale;
   labels: Messages;
+  /** Titles of the professional case studies in this locale, by slug (resolved server-side). */
+  caseStudyTitles: Partial<Record<ProfessionalCaseStudySlug, string>>;
 };
 
 /**
@@ -111,7 +118,12 @@ function ResultCard({ text }: { text: string }) {
   );
 }
 
-export default function CvPage({ content, locale, labels }: CvPageProps) {
+export default function CvPage({
+  content,
+  locale,
+  labels,
+  caseStudyTitles,
+}: CvPageProps) {
   const reduceMotion = useReducedMotionSafe();
   const handlePrint = () => window.print();
   const resumeHref = content.contact.resumePath;
@@ -322,6 +334,18 @@ export default function CvPage({ content, locale, labels }: CvPageProps) {
                         ))}
                       </ul>
                     </CvDisclosure>
+                  ) : null}
+                  {item.caseStudySlugs && item.caseStudySlugs.length > 0 ? (
+                    <p className="cv-case-links">
+                      <span className="cv-case-links__label">
+                        {labels.cv.caseStudies}:
+                      </span>
+                      {item.caseStudySlugs.map((slug) => (
+                        <Link key={slug} href={localePath(locale, caseStudyPath(slug))}>
+                          {caseStudyTitles[slug] ?? slug}
+                        </Link>
+                      ))}
+                    </p>
                   ) : null}
                 </article>
               ))}

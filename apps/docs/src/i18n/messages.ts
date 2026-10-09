@@ -99,6 +99,8 @@ export type Messages = {
     contact: string;
     readMore: string;
     showLess: string;
+    /** Label before the case-study links under an experience entry. */
+    caseStudies: string;
   };
   privacy: {
     title: string;
@@ -240,6 +242,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contact",
       readMore: "Read more",
       showLess: "Show less",
+      caseStudies: "Case studies",
     },
     privacy: {
       title: "Privacy notice",
@@ -410,6 +413,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contatti",
       readMore: "Leggi tutto",
       showLess: "Mostra meno",
+      caseStudies: "Case study",
     },
     privacy: {
       title: "Informativa privacy",
@@ -581,6 +585,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Contact",
       readMore: "Lire la suite",
       showLess: "Réduire",
+      caseStudies: "Case studies",
     },
     privacy: {
       title: "Politique de confidentialité",
@@ -754,6 +759,7 @@ export const messages: Record<Locale, Messages> = {
       contact: "Kontakt",
       readMore: "Mehr anzeigen",
       showLess: "Weniger anzeigen",
+      caseStudies: "Case Studies",
     },
     privacy: {
       title: "Datenschutzerklärung",

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PROFESSIONAL_CASE_STUDY_SLUGS } from "../data/professionalCaseStudies";
 
 const projectLinkSchema = z.object({
   label: z.string().min(1),
@@ -42,6 +43,9 @@ const experienceSchema = z.object({
   start: z.string().min(1),
   end: z.string().min(1),
   bullets: z.array(z.string().min(1)).min(1).max(5),
+  // Professional case studies told from this role (/case-studies/<slug>),
+  // validated against the registry so a typo fails the build.
+  caseStudySlugs: z.array(z.enum(PROFESSIONAL_CASE_STUDY_SLUGS)).max(6).optional(),
 });
 
 const educationSchema = z.object({

@@ -6,7 +6,16 @@ import { expect, test } from "@playwright/test";
  * violations (WCAG 2.x A/AA rule tags); `moderate` and `minor` are printed
  * so they stay visible without blocking. Add a page here when you add a route.
  */
-const PAGES = ["/en", "/en/cv", "/en/notes", "/en/privacy", "/it", "/de"] as const;
+const PAGES = [
+  "/en",
+  "/en/cv",
+  "/en/notes",
+  "/en/privacy",
+  "/en/case-studies/incremental-react-migration",
+  "/it/case-studies/bff-modularization",
+  "/it",
+  "/de",
+] as const;
 
 /**
  * Rules downgraded to advisory until their debt is paid. Each entry must
