@@ -518,7 +518,7 @@ should all fall out of that pass.
 | — | `ADMIN_SESSION_SECRET` scheduled rotation on Vercel `admin` + `bookable` (status tracked privately, see F17) | blocker | Hassan (manual) | Vercel env → new value → redeploy both |
 | F16 | GitHub Pages: HTTP now 404 on root / `docs/PROJECT_BRAIN.md`, but the API still reports `status: built`, source `main` `/` (last build on `4ff293b`) | blocker | Hassan (manual) | Settings → Pages → confirm Source = None |
 | F23 | Login placeholder hash is 58 chars → `bcryptjs.compare` short-circuits (doc side closed by PR #14; code fix pending) | blocker | separate auth PR | `apps/booking-service/app/admin/login/actions.ts:42` + unit test `length === 60` |
-| F24 | Case-study cards `opacity: 0` under `prefers-reduced-motion` (reproduced) | recommended | PR | `CaseStudiesSection.tsx` + `motionPresets.ts`, e2e with `reducedMotion: "reduce"` |
+| ~~F24~~ | ~~Case-study cards `opacity: 0` under `prefers-reduced-motion`~~ — **DONE**, merged in PR #15 (`cbae8f6`, 2026-10-09); root cause was `app/[locale]/template.tsx` | ~~recommended~~ | done | — |
 | F20 | Bookable `/services/<unknown>` soft 404 (200) | recommended | PR | `app/services/[slug]/page.tsx` + `generateMetadata`; flip the `test.fixme` in `e2e/booking/public.spec.ts` |
 | F21 | Startup log says `db:push` | recommended | PR (one string) | `apps/booking-service/lib/db/client.ts` |
 | F22 | Contrast < 4.5:1 on three portfolio elements, rule advisory in `e2e/docs/a11y.spec.ts` | recommended | PR | tokens in `apps/docs/src/styles/portfolio.css`, then remove the `TEMPORARY_ADVISORY` entry |
@@ -528,7 +528,7 @@ should all fall out of that pass.
 | F26 | Bookable bold style: style-switcher pill overlaps the "Salon." brand on `/book/*` header (new, below) | cosmetic | PR | `components/styles/bold/Book.tsx` header + the switcher component |
 | F27 | Unused Neon integration still attached to the `laboratoire` Vercel project (new, below) | hygiene | Hassan (manual) | Vercel → project → Integrations |
 
-Suggested order when resuming: F21 → F25 → F20 → F24 → F22 → F19 → F26 (all small, independent, each with an existing or cheap e2e check), then F23 as its own auth PR.
+Suggested order when resuming: F21 → F25 → F20 → F22 → F19 → F26 (all small, independent, each with an existing or cheap e2e check), then F23 as its own auth PR.
 
 ### F25 — Bookable warm style: "← The Menu" and the "Booking request" eyebrow sit on the same line
 - **Seen**: screenshot of `/book/custom-haircut` (warm variant, 2026-09-23): `← The Menu♡ BOOKING REQUEST` rendered as one run of text, no gap, eyebrow not on its own line.
