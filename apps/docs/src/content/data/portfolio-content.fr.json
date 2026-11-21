@@ -2,29 +2,29 @@
   "profile": {
     "name": "Hassan Akkari",
     "role": "Software Engineer · Full-Stack, Frontend-led",
-    "focus": "Rebuilds greenfield, flux de paiement exactly-once, engineering AI-augmented.",
+    "focus": "Rebuilds greenfield, flux de paiement idempotents, engineering AI-augmented.",
     "location": "Rome, Italie",
-    "metric": "SaaS en production depuis 2023 · migration React 19 + flux de paiement exactly-once",
+    "metric": "SaaS en production depuis 2023 · migration React 19 + flux de paiement idempotent",
     "about": [
-      "Software engineer full-stack, plus fort sur le frontend, qui livre des systemes en production depuis 2023 pour une entreprise de logiciels hospitality. Je dirige la migration page-by-page d'un SaaS de gestion multi-tenant de Razor/jQuery legacy vers React 19, et je possede end-to-end les surfaces paiement, kiosque et marketplace d'une plateforme e-commerce — dont un flux de confirmation de paiement exactly-once.",
+      "Software engineer full-stack, plus fort sur le frontend, qui livre des systemes en production depuis 2023 pour une entreprise de logiciels hospitality. Je dirige la migration page-by-page d'un SaaS de gestion multi-tenant de Razor/jQuery legacy vers React 19, et je possede end-to-end les surfaces paiement, kiosque et marketplace d'une plateforme e-commerce — dont un flux de confirmation de paiement idempotent.",
       "J'ai architecture le frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query : une couche d'auth avec refresh 401 single-flight, une architecture de paiement ports-and-adapters (passerelle carte / wallet / remises derriere une seule interface provider), et react-hook-form + Zod sur des payloads legacy incoherents. J'ai aussi mene un audit de securite et de tenancy sur les surfaces multi-tenant ; les constats ont ete corriges avant la mise en production.",
       "J'ai construit le workflow d'engineering AI-augmented de l'equipe sur Claude Code — fichiers d'instructions par layer, subagents specialises a outils restreints, une skill d'orchestration qui injecte les bons invariants, et un processus plan-first ou un humain approuve avant toute modification ; les subagents de review ont fait emerger trois bugs latents du flux de paiement avant la mise en production.",
       "Je partage approche et impact ouvertement; certains détails internes restent hors scope."
     ],
-    "now": "Je dirige la migration React 19 du Portal, je possede les surfaces paiement, kiosque et marketplace de Network — dont le flux de confirmation de paiement exactly-once — et je fais tourner le workflow d'engineering AI-augmented de l'equipe sur Claude Code.",
+    "now": "Je dirige la migration React 19 du Portal, je possede les surfaces paiement, kiosque et marketplace de Network — dont le flux de confirmation de paiement idempotent — et je fais tourner le workflow d'engineering AI-augmented de l'equipe sur Claude Code.",
     "philosophy": "Résous le problème, puis rends-le difficile à répéter — avec standards, contrats typés et revue adversariale.",
     "githubUsername": "hassan-akkari"
   },
   "contact": {
     "email": "hassan.akkari01@gmail.com",
-    "resumePath": "pdf/CV-FRA-NET-07-2026.pdf",
+    "resumePath": "pdf/CV-ENG-FS-09-2026.pdf",
     "github": "https://github.com/hassan-akkari",
     "linkedin": "https://www.linkedin.com/in/hassan-akkari",
     "instagram": "https://instagram.com/its.hassan.main?igshid=OGQ5ZDc2ODk2ZA==",
     "facebook": "https://www.facebook.com/hassan.akkari.714"
   },
   "highlights": [
-    "Flux de confirmation de paiement exactly-once\nAvant: les callbacks d'une passerelle de paiement peuvent arriver plusieurs fois, et la confirmation doit etre enregistree exactement une fois.\nApres: payment-lock + machine a etats explicite (pending -> paid -> confirmed | failed) qui ne fait rien sur les replays et verifie le resultat downstream avant de confirmer.\nResultat: un paiement n'est confirme qu'une fois la reservation confirmee ; les callbacks rejoues sont ignores.",
+    "Flux de confirmation de paiement idempotent\nAvant: les callbacks d'une passerelle de paiement peuvent arriver plusieurs fois, et un callback rejoue ne doit pas confirmer deux fois la reservation.\nApres: finalisation a cle sur un code de transaction par tentative + machine a etats explicite (pending -> paid -> confirmed | failed) qui ne fait rien sur les replays sequentiels et verifie le resultat downstream avant de confirmer ; la confirmation server-to-server de la passerelle fait foi.\nResultat: un paiement n'est confirme qu'une fois la reservation confirmee, le statut paiement encaisse reste distinct du statut reservation confirmee, et les echecs remontent pour une reprise par un operateur.",
     "Frontend React 19 en trois SPA independantes\nAvant: une seule surface monolithique melait marketplace, kiosque et landing de devis sans frontiere claire.\nApres: trois SPA independantes (marketplace / kiosque / landing devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight, paiement ports-and-adapters et react-hook-form + Zod.\nResultat: contributeur principal et premier auteur par volume de commits, de zero a la production.",
     "Migration SaaS multi-tenant sans reecriture big-bang\nAvant: un SaaS de gestion legacy en ASP.NET MVC / Razor / jQuery impossible a moderniser d'un seul coup.\nApres: migration page-by-page vers React 19 derriere un backend-for-frontend, avec un route manifest qui decide SPA-navigate ou full-reload.\nResultat: migration incrementale sans big-bang, pipeline durcie contre les bundles obsoletes.",
     "Audit de securite et de tenancy\nAvant: l'isolation des donnees multi-tenant et la validation des requetes n'avaient jamais ete passees en revue de maniere adversariale.\nApres: audit de securite et de tenancy sur les surfaces multi-tenant, avec revue end-to-end de l'isolation des donnees et du chemin des requetes.\nResultat: constats corriges avant la mise en production ; isolation des donnees et validation des requetes durcies.",
@@ -73,7 +73,7 @@
       "start": "Mar 2025",
       "end": "Present",
       "bullets": [
-        "Confirmation du paiement des devis exactly-once : payment-lock + machine a etats explicite (pending -> paid -> confirmed | failed) qui ne fait rien sur les replays et verifie le resultat downstream avant de confirmer.",
+        "Finalisation idempotente du paiement des devis : cle sur un code de transaction par tentative + machine a etats explicite (pending -> paid -> confirmed | failed) qui ne fait rien sur les replays sequentiels et verifie le resultat downstream avant de confirmer ; la confirmation server-to-server de la passerelle fait foi.",
         "Architecture du frontend React 19 en trois SPA independantes (marketplace, kiosque, landing de devis) sur Redux Toolkit + RTK Query, avec refresh 401 single-flight et paiement ports-and-adapters (passerelle carte / wallet / remises derriere une seule interface provider).",
         "Formulaires en react-hook-form + Zod normalisant des payloads legacy incoherents au boundary ; contributeur principal et premier auteur par volume de commits, de zero a la production.",
         "Construction du workflow d'engineering AI-augmented de l'equipe sur Claude Code : instructions par layer, subagents a outils restreints et orchestration plan-first ; trois bugs de paiement latents trouves avant la release."
