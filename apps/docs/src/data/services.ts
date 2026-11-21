@@ -27,7 +27,7 @@ const it: ServicesContent = {
   sectionLabel: "Servizi e pacchetti",
   title: "Quattro modi concreti per migliorare la tua presenza online.",
   subtitle:
-    "Prezzi indicativi: dopo la prima call ricevi un preventivo scritto, fisso, senza sorprese.",
+    "Prezzi fissi per quello che vedi in ogni pacchetto. Gli extra hanno un listino, quindi sai prima quanto puoi arrivare a spendere.",
   services: [
     {
       id: "landing",
@@ -49,7 +49,7 @@ const it: ServicesContent = {
         "Area clienti / login",
         "E-commerce con catalogo",
       ],
-      priceLabel: "Da 600 €",
+      priceLabel: "600 € · prezzo fisso",
       timeline: "5-7 giorni lavorativi",
       ctaLabel: "Voglio una landing",
       ctaHref: whatsappLink(
@@ -65,7 +65,7 @@ const it: ServicesContent = {
       forWho:
         "Studi, professionisti e piccole aziende che hanno un sito vecchio o non ne hanno uno e vogliono apparire seri online.",
       includes: [
-        "Homepage, Chi siamo, Servizi, Contatti, FAQ",
+        "Fino a 5 pagine: Homepage, Chi siamo, Servizi, Contatti, FAQ",
         "Design coerente e responsive su ogni dispositivo",
         "SEO tecnico base + meta tag corretti",
         "Form contatti + WhatsApp + Google Maps",
@@ -77,7 +77,7 @@ const it: ServicesContent = {
         "Area clienti / login utente",
         "E-commerce avanzato",
       ],
-      priceLabel: "Da 1.500 €",
+      priceLabel: "1.500 € · prezzo fisso",
       timeline: "2-3 settimane",
       badge: "Più richiesto",
       ctaLabel: "Voglio un sito completo",
@@ -105,7 +105,7 @@ const it: ServicesContent = {
         "Manutenzione continuativa post-lancio (a parte, su contratto)",
         "App native iOS/Android (solo web app responsive)",
       ],
-      priceLabel: "Da 3.500 €",
+      priceLabel: "Da 3.500 € · preventivo fisso dopo l'analisi",
       timeline: "4-8 settimane",
       ctaLabel: "Parliamo del progetto",
       ctaHref: whatsappLink(
@@ -122,7 +122,7 @@ const it: ServicesContent = {
         "Chi ha già un sito (anche WordPress) ma sta perdendo contatti per design datato, performance basse o struttura confusa.",
       includes: [
         "Audit completo: design, UX, performance, SEO base",
-        "Rifacimento UI delle pagine principali",
+        "Rifacimento UI delle pagine principali (fino a 5)",
         "Miglioramento velocità e mobile experience",
         "Nuovi CTA e flussi di contatto",
         "Riscrittura sezioni con copy più chiaro",
@@ -132,7 +132,7 @@ const it: ServicesContent = {
         "Riscrittura completa da zero (è un altro pacchetto)",
         "Migrazione di e-commerce con migliaia di prodotti",
       ],
-      priceLabel: "Da 800 €",
+      priceLabel: "800 € · prezzo fisso",
       timeline: "1-2 settimane",
       ctaLabel: "Voglio sistemare il mio sito",
       ctaHref: whatsappLink(
@@ -154,7 +154,7 @@ const en: ServicesContent = {
   sectionLabel: "Services & packages",
   title: "Four concrete ways to upgrade your online presence.",
   subtitle:
-    "Indicative pricing — after our first call you get a written, fixed quote with no surprises.",
+    "Fixed prices for what each package lists. Extras have a price list, so you know your maximum before we start.",
   services: [
     {
       id: "landing",
@@ -176,7 +176,7 @@ const en: ServicesContent = {
         "Customer area / login",
         "Catalogue-based e-commerce",
       ],
-      priceLabel: "From €600",
+      priceLabel: "€600 · fixed price",
       timeline: "5-7 business days",
       ctaLabel: "I want a landing page",
       ctaHref: whatsappLink(
@@ -192,7 +192,7 @@ const en: ServicesContent = {
       forWho:
         "Studios, professionals, and small companies with an old site (or none) who want to look serious online.",
       includes: [
-        "Home, About, Services, Contact, FAQ",
+        "Up to 5 pages: Home, About, Services, Contact, FAQ",
         "Consistent, responsive design on any device",
         "Basic technical SEO + correct meta tags",
         "Contact form + WhatsApp + Google Maps",
@@ -204,7 +204,7 @@ const en: ServicesContent = {
         "User login / customer area",
         "Advanced e-commerce",
       ],
-      priceLabel: "From €1,500",
+      priceLabel: "€1,500 · fixed price",
       timeline: "2-3 weeks",
       badge: "Most requested",
       ctaLabel: "I want a full website",
@@ -232,7 +232,7 @@ const en: ServicesContent = {
         "Long-term maintenance (separate retainer)",
         "Native iOS/Android (responsive web only)",
       ],
-      priceLabel: "From €3,500",
+      priceLabel: "From €3,500 · fixed quote after scoping",
       timeline: "4-8 weeks",
       ctaLabel: "Let's talk about the project",
       ctaHref: whatsappLink(
@@ -249,7 +249,7 @@ const en: ServicesContent = {
         "People who already have a site (even WordPress) but are losing leads to dated design, poor performance, or confused structure.",
       includes: [
         "Full audit: design, UX, performance, basic SEO",
-        "UI rebuild on main pages",
+        "UI rebuild on main pages (up to 5)",
         "Speed and mobile experience improvements",
         "New CTAs and contact flows",
         "Section rewrites with clearer copy",
@@ -259,7 +259,7 @@ const en: ServicesContent = {
         "Full rebuild from scratch (different package)",
         "Migrating e-commerce with thousands of products",
       ],
-      priceLabel: "From €800",
+      priceLabel: "€800 · fixed price",
       timeline: "1-2 weeks",
       ctaLabel: "I want to fix my site",
       ctaHref: whatsappLink(
@@ -282,7 +282,7 @@ const fr: ServicesContent = {
   title:
     "Quatre façons concrètes d'améliorer votre présence en ligne.",
   subtitle:
-    "Tarifs indicatifs — après le premier échange vous recevez un devis écrit, fixe, sans surprise.",
+    "Prix fixes pour le contenu de chaque forfait. Les options ont un tarif affiché : vous connaissez votre maximum avant de commencer.",
   services: [
     {
       id: "landing",
@@ -304,7 +304,7 @@ const fr: ServicesContent = {
         "Espace client / login",
         "E-commerce avec catalogue",
       ],
-      priceLabel: "À partir de 600 €",
+      priceLabel: "600 € · prix fixe",
       timeline: "5-7 jours ouvrés",
       ctaLabel: "Je veux une landing",
       ctaHref: whatsappLink(
@@ -320,7 +320,7 @@ const fr: ServicesContent = {
       forWho:
         "Cabinets, professionnels et petites entreprises avec un site daté (ou sans site) qui veulent paraître sérieux en ligne.",
       includes: [
-        "Accueil, À propos, Services, Contact, FAQ",
+        "Jusqu'à 5 pages : Accueil, À propos, Services, Contact, FAQ",
         "Design cohérent et responsive sur tout appareil",
         "SEO technique de base + meta tags corrects",
         "Formulaire contact + WhatsApp + Google Maps",
@@ -332,7 +332,7 @@ const fr: ServicesContent = {
         "Espace client / login utilisateur",
         "E-commerce avancé",
       ],
-      priceLabel: "À partir de 1 500 €",
+      priceLabel: "1 500 € · prix fixe",
       timeline: "2-3 semaines",
       badge: "Le plus demandé",
       ctaLabel: "Je veux un site complet",
@@ -360,7 +360,7 @@ const fr: ServicesContent = {
         "Maintenance long terme (contrat séparé)",
         "Apps iOS/Android natives (web responsive uniquement)",
       ],
-      priceLabel: "À partir de 3 500 €",
+      priceLabel: "À partir de 3 500 € · devis fixe après analyse",
       timeline: "4-8 semaines",
       ctaLabel: "Parlons du projet",
       ctaHref: whatsappLink(
@@ -377,7 +377,7 @@ const fr: ServicesContent = {
         "Vous avez déjà un site (même WordPress) mais perdez des contacts à cause d'un design dépassé, de performances faibles ou d'une structure confuse.",
       includes: [
         "Audit complet : design, UX, performance, SEO de base",
-        "Refonte UI des pages principales",
+        "Refonte UI des pages principales (jusqu'à 5)",
         "Amélioration vitesse et expérience mobile",
         "Nouveaux CTA et parcours de contact",
         "Réécriture des sections avec un copy plus clair",
@@ -387,7 +387,7 @@ const fr: ServicesContent = {
         "Réécriture complète depuis zéro (autre forfait)",
         "Migration e-commerce avec des milliers de produits",
       ],
-      priceLabel: "À partir de 800 €",
+      priceLabel: "800 € · prix fixe",
       timeline: "1-2 semaines",
       ctaLabel: "Je veux remettre mon site à jour",
       ctaHref: whatsappLink(
@@ -409,7 +409,7 @@ const de: ServicesContent = {
   sectionLabel: "Leistungen & Pakete",
   title: "Vier konkrete Wege zu einem besseren Online-Auftritt.",
   subtitle:
-    "Richtpreise — nach dem Erstgespräch erhalten Sie eine schriftliche, fixe Offerte ohne Überraschungen.",
+    "Fixpreise für den Umfang jedes Pakets. Extras haben eine Preisliste: Sie kennen Ihr Maximum, bevor wir starten.",
   services: [
     {
       id: "landing",
@@ -431,7 +431,7 @@ const de: ServicesContent = {
         "Kundenbereich / Login",
         "E-Commerce mit Katalog",
       ],
-      priceLabel: "Ab 600 €",
+      priceLabel: "600 € · Fixpreis",
       timeline: "5-7 Arbeitstage",
       ctaLabel: "Ich möchte eine Landing Page",
       ctaHref: whatsappLink(
@@ -447,7 +447,7 @@ const de: ServicesContent = {
       forWho:
         "Praxen, Kanzleien, Selbstständige und kleine Unternehmen mit einer veralteten Website (oder ganz ohne), die online seriös auftreten wollen.",
       includes: [
-        "Startseite, Über uns, Leistungen, Kontakt, FAQ",
+        "Bis zu 5 Seiten: Startseite, Über uns, Leistungen, Kontakt, FAQ",
         "Konsistentes, responsives Design auf jedem Gerät",
         "Technisches Basis-SEO + korrekte Meta-Tags",
         "Kontaktformular + WhatsApp + Google Maps",
@@ -459,7 +459,7 @@ const de: ServicesContent = {
         "Kundenbereich / User-Login",
         "Fortgeschrittener E-Commerce",
       ],
-      priceLabel: "Ab 1'500 €",
+      priceLabel: "1'500 € · Fixpreis",
       timeline: "2-3 Wochen",
       badge: "Am meisten gefragt",
       ctaLabel: "Ich möchte eine komplette Website",
@@ -487,7 +487,7 @@ const de: ServicesContent = {
         "Laufende Wartung nach dem Launch (separat, per Vertrag)",
         "Native iOS/Android-Apps (nur responsive Web-Apps)",
       ],
-      priceLabel: "Ab 3'500 €",
+      priceLabel: "Ab 3'500 € · fixe Offerte nach der Analyse",
       timeline: "4-8 Wochen",
       ctaLabel: "Sprechen wir über das Projekt",
       ctaHref: whatsappLink(
@@ -504,7 +504,7 @@ const de: ServicesContent = {
         "Sie haben bereits eine Website (auch WordPress), verlieren aber Anfragen durch veraltetes Design, schwache Performance oder eine verwirrende Struktur.",
       includes: [
         "Vollständiges Audit: Design, UX, Performance, Basis-SEO",
-        "UI-Überarbeitung der wichtigsten Seiten",
+        "UI-Überarbeitung der wichtigsten Seiten (bis zu 5)",
         "Verbesserung von Geschwindigkeit und Mobile-Erlebnis",
         "Neue CTAs und Kontaktwege",
         "Überarbeitete Abschnitte mit klareren Texten",
@@ -514,7 +514,7 @@ const de: ServicesContent = {
         "Kompletter Neuaufbau von Grund auf (anderes Paket)",
         "Migration von E-Commerce mit tausenden Produkten",
       ],
-      priceLabel: "Ab 800 €",
+      priceLabel: "800 € · Fixpreis",
       timeline: "1-2 Wochen",
       ctaLabel: "Ich möchte meine Website in Ordnung bringen",
       ctaHref: whatsappLink(

@@ -40,7 +40,7 @@ const it: FaqsContent = {
       id: "price",
       question: "Quanto costa davvero un sito?",
       answer:
-        "Dipende dal tipo. Una landing parte da 600 €, un sito completo da 1.500 €, una web app/MVP da 3.500 €. Sono prezzi indicativi: dopo la prima call ti faccio un preventivo scritto, fisso, senza sorprese.",
+        "Landing 600 €, sito fino a 5 pagine 1.500 €, restyling 800 €: prezzi fissi per quello che è elencato nel pacchetto. Extra a listino: pagina in più 150 €, lingua in più 300 €. Qualsiasi altra richiesta riceve un prezzo scritto prima che io inizi, quindi il totale lo conosci sempre in anticipo. Solo la web app/MVP parte da 3.500 € e ha un preventivo fisso dopo l'analisi.",
     },
     {
       id: "timeline",
@@ -109,7 +109,7 @@ const en: FaqsContent = {
       id: "price",
       question: "How much does a site really cost?",
       answer:
-        "Depends on the type. A landing page starts at €600, a full site at €1,500, a web app/MVP at €3,500. These are indicative — after our first call I send you a written, fixed quote with no surprises.",
+        "Landing page €600, site up to 5 pages €1,500, restyling €800: fixed prices for what the package lists. Extras have a price list: extra page €150, extra language €300. Anything else gets a written price before I start, so you always know the total in advance. Only the web app/MVP starts at €3,500 and gets a fixed quote after scoping.",
     },
     {
       id: "timeline",
@@ -179,7 +179,7 @@ const fr: FaqsContent = {
       id: "price",
       question: "Combien coûte vraiment un site ?",
       answer:
-        "Ça dépend du type. Une landing à partir de 600 €, un site complet à partir de 1 500 €, une web app/MVP à partir de 3 500 €. Ce sont des prix indicatifs : après le premier appel je vous envoie un devis écrit, fixe, sans surprises.",
+        "Landing 600 €, site jusqu'à 5 pages 1 500 €, refonte 800 € : prix fixes pour ce que le forfait indique. Options au tarif affiché : page supplémentaire 150 €, langue supplémentaire 300 €. Toute autre demande reçoit un prix écrit avant que je commence, vous connaissez donc toujours le total à l'avance. Seule la web app/MVP démarre à 3 500 € et reçoit un devis fixe après analyse.",
     },
     {
       id: "timeline",
@@ -248,7 +248,7 @@ const de: FaqsContent = {
       id: "price",
       question: "Was kostet eine Website wirklich?",
       answer:
-        "Kommt auf den Typ an. Eine Landing Page ab 600 €, eine komplette Website ab 1'500 €, eine Web-App/ein MVP ab 3'500 €. Das sind Richtwerte: Nach dem Erstgespräch erhalten Sie eine schriftliche, fixe Offerte ohne Überraschungen.",
+        "Landing Page 600 €, Website bis zu 5 Seiten 1'500 €, Restyling 800 €: Fixpreise für den Umfang des Pakets. Extras nach Preisliste: zusätzliche Seite 150 €, zusätzliche Sprache 300 €. Alles Weitere erhält einen schriftlichen Preis, bevor ich beginne, Sie kennen das Total also immer im Voraus. Nur die Web-App/das MVP beginnt bei 3'500 € und erhält nach der Analyse eine fixe Offerte.",
     },
     {
       id: "timeline",
